@@ -38,7 +38,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		return sessionFactory.getCurrentSession();
 	}
 
-	public static void main(String args[]) throws ParseException {
+	public static void main(String args[]){
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		ActivityDAO dao = (ActivityDAOHibernate)context.getBean("activityDAOHibernate");
@@ -58,8 +58,12 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		
 		ActivityBean insert = new ActivityBean();
 		insert.setActivityno(3);
-		insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
-		insert.setEndtime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+		try {
+			insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+			insert.setEndtime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		insert.setActivityname("新莊桌遊團");
 		insert.setInterpretation("星蝕,馬尼拉,符文戰爭,blood bowl....等等"+"\n"+"由於本人自己也想玩沒玩過的桌遊"+"\n"+"所以歡迎參加者帶自己有的桌遊來交流");
 		insert.setPlace("輔大fun桌遊 桌遊店");
@@ -92,7 +96,11 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		}		
 		select.setBegintime(begin);
 		select.setEndtime(end);
-		beans = dao.selectByOthers(select , "begintime");
+		try {
+			beans = dao.selectByOthers(select , "begintime");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		System.out.println(beans);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
@@ -121,6 +129,11 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	public ActivityBean update(ActivityBean bean) {
 		ActivityBean select = this.select(bean);
 		if(select != null) {
+			select.setActivityname(bean.getActivityname());
+			select.setBegintime(bean.getBegintime());
+			select.setEndtime(bean.getEndtime());
+			select.setInterpretation(bean.getInterpretation());
+			select.setPlace(bean.getPlace());
 			select.setVisibility(bean.getVisibility());		
 			return select;
 		}
