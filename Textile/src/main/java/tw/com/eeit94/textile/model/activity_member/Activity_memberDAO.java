@@ -13,18 +13,18 @@ import java.util.List;
 public interface Activity_memberDAO {
 
 	public List<Activity_memberBean> select();
-
-//	public List<Activity_memberBean> selectByActivityno(Activity_memberBean bean);
-//	
-//	public List<Activity_memberBean> selectByMemberid(Activity_memberBean bean);
 	
-	public List<Activity_memberBean> select(Activity_memberBean bean);
+	public Activity_memberBean selectByPrimaryKey(Activity_memberBean bean);
+	
+	public List<Activity_memberBean> selectByOthers(Activity_memberBean bean);
 
 	public Activity_memberBean insert(Activity_memberBean bean);
 
 	public Activity_memberBean update(Activity_memberBean bean);
 
 	public boolean delete(Activity_memberBean bean);
+	
+	public List<Activity_memberBean> updatePosition(List<Activity_memberBean> beans);
 
 // 補充：因應企業邏輯可能要添加DAO的搜尋方式。
 //	public List<PhotoBean> selectByPriceLessThan(double price);

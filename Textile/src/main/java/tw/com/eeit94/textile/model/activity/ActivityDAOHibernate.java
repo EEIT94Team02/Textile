@@ -75,11 +75,10 @@ public class ActivityDAOHibernate implements ActivityDAO {
 //		boolean result = dao.delete(del);
 //		System.out.println(result);	
 		
-		ActivityBean select = new ActivityBean();
-		
-//		select.setActivityname("林口");
-//		select.setPlace("林口");
-//		select.setVisibility("公開");
+		ActivityBean select = new ActivityBean();		
+		select.setActivityname("林口");
+		select.setPlace("林口");
+		select.setVisibility("公開");
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Timestamp begin = null;
 		Timestamp end = null;
@@ -91,7 +90,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		}		
 		select.setBegintime(begin);
 		select.setEndtime(end);
-		List<ActivityBean> beans = dao.selectByOthers(select);
+		List<ActivityBean> beans = dao.selectByOthers(select , "begintime");
 		System.out.println(beans);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
@@ -137,7 +136,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	}
 	
 	@Override
-	public List<ActivityBean> selectByOthers(ActivityBean bean){
+	public List<ActivityBean> selectByOthers(ActivityBean bean, String string){
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();		
 		CriteriaQuery<ActivityBean> qry = cb.createQuery(ActivityBean.class);
 		Root<ActivityBean> root = qry.from(ActivityBean.class);
@@ -154,7 +153,12 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		}
 		Predicate p4 = cb.like(root.<String>get("place"),bean.getPlace()==null? "%":"%"+bean.getPlace()+"%");
 		Predicate p5 = cb.like(root.<String>get("visibility"),bean.getVisibility()==null? "%":"%"+bean.getVisibility()+"%");		
-		List<ActivityBean> results = getSession().createQuery(qry.where(p1,p2,p4,p5)).getResultList();	
+		Order order = cb.asc(root.get("activityno"));
+		if(string != null && string.length() != 0){
+			order = cb.asc(root.get(string));
+		}
+		
+		List<ActivityBean> results = getSession().createQuery(qry.where(p1,p2,p4,p5).orderBy(order)).getResultList();	
 		return results;
 	}
 	

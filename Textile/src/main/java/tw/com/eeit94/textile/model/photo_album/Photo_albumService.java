@@ -33,25 +33,41 @@ public class Photo_albumService {
 		return photo_albumDAO.select();
 	}
 	
+	@Transactional
+	public Photo_albumBean findPhotoAlbumByAlbumNo(Photo_albumBean bean) {
+		return photo_albumDAO.selectByAlbumNo(bean);		
+	}
+	
+	@Transactional
+	public List<Photo_albumBean> findPhotoAlbumByOthers(Photo_albumBean bean) {
+		return photo_albumDAO.selectByOthers(bean);		
+	}
+	
+	
+	
 	public Photo_albumBean createPhotoAlbum(Photo_albumBean bean) {
 		return photo_albumDAO.insert(bean);
 	}
 	
-	public Photo_albumBean ChangePhotoAlbumName(Photo_albumBean bean) {
-		Photo_albumBean search = this.searchByAlbumName(bean);
+	public Photo_albumBean ChangePhotoAlbumColumn(Photo_albumBean bean) {
+		Photo_albumBean search = this.findPhotoAlbumByAlbumNo(bean);
 		if(search == null){
 			return photo_albumDAO.update(bean);
 		}
 		return null;
 	}
 	
-	public Photo_albumBean searchByAlbumName(Photo_albumBean bean) {
-		return photo_albumDAO.selectByAlbumName(bean);		
+	public boolean deletePhotoAlbum(Photo_albumBean bean) {
+		Photo_albumBean search = this.findPhotoAlbumByAlbumNo(bean);
+		if(search == null){
+			return photo_albumDAO.delete(bean);
+		}
+		return false;
 	}
 	
-	public List<Photo_albumBean> searchByPhotoAlbumMemberId(Photo_albumBean bean) {
-		return photo_albumDAO.selectByMemberId(bean);		
-	}
+
+	
+
 	
 	
 }

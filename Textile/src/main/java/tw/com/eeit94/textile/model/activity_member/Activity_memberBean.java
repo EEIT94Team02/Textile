@@ -22,14 +22,15 @@ import javax.persistence.Table;
 	
 	@Override
 	public String toString() {
-		return "{" + getActivityno() + "," + getMemberid()+ "," + getPosition() + "}";
+		return "{" + getActivityno() + "," + getmId()+ "," + getPosition() + "}";
 	}
 	
 	@Id
 	private Integer activityno;
 	@Id
-	private Integer memberid;
+	private Integer mId;
 	private String position;
+
 
 	public Integer getActivityno() {
 		return activityno;
@@ -37,11 +38,11 @@ import javax.persistence.Table;
 	public void setActivityno(Integer activityno) {
 		this.activityno = activityno;
 	}
-	public Integer getMemberid() {
-		return memberid;
+	public Integer getmId() {
+		return mId;
 	}
-	public void setMemberid(Integer memberid) {
-		this.memberid = memberid;
+	public void setmId(Integer mId) {
+		this.mId = mId;
 	}
 	public String getPosition() {
 		return position;
@@ -49,6 +50,8 @@ import javax.persistence.Table;
 	public void setPosition(String position) {
 		this.position = position;
 	}
+
+
 
 
 
