@@ -44,39 +44,42 @@ public class ActivityService {
 		ActivityBean bean ;
 		List<ActivityBean> beans ;
 		
-		ActivityBean createNew = new ActivityBean();		
-		try {
-			createNew.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-			createNew.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		createNew.setActivityname("新莊桌遊團");
-		createNew.setInterpretation("星蝕,馬尼拉,符文戰爭,blood bowl....等等"+"\n"+"由於本人自己也想玩沒玩過的桌遊"+"\n"+"所以歡迎參加者帶自己有的桌遊來交流");
-		createNew.setPlace("輔大fun桌遊 桌遊店");
-		createNew.setVisibility("私人");
-		bean = service.createNewActivity(createNew);
-		System.out.println(bean);	
+		beans = service.selectAll();
+		System.out.println(beans);	
 		
-		ActivityBean update = new ActivityBean();
-		update.setActivityno(6);
-		update.setVisibility("好友");
-		update.setActivityname("");
-		update.setPlace("");
-		try {
-			update.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-			update.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		bean = service.updateActivity(update);
-		System.out.println(bean);
-		
+//		ActivityBean createNew = new ActivityBean();		
+//		try {
+//			createNew.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
+//			createNew.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
+//		} catch (ParseException e1) {
+//			e1.printStackTrace();
+//		}
+//		createNew.setActivityname("新莊桌遊團");
+//		createNew.setInterpretation("星蝕,馬尼拉,符文戰爭,blood bowl....等等"+"\n"+"由於本人自己也想玩沒玩過的桌遊"+"\n"+"所以歡迎參加者帶自己有的桌遊來交流");
+//		createNew.setPlace("輔大fun桌遊 桌遊店");
+//		createNew.setVisibility("私人");
+//		bean = service.createNewActivity(createNew);
+//		System.out.println(bean);	
+//		
+//		ActivityBean update = new ActivityBean();
+//		update.setActivityno(6);
+//		update.setVisibility("好友");
+//		update.setActivityname("");
+//		update.setPlace("");
+//		try {
+//			update.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
+//			update.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
+//		} catch (ParseException e1) {
+//			e1.printStackTrace();
+//		}
+//		bean = service.updateActivity(update);
+//		System.out.println(bean);
+//		
 //		ActivityBean del = new ActivityBean();
 //		del.setActivityno(6);
 //		boolean result = service.deleteActivity(del);
 //		System.out.println(result);	
-		
+//		
 //		ActivityBean anySelect = new ActivityBean();
 ////		anySelect.setActivityname("林口");
 ////		anySelect.setPlace("大安");
@@ -104,6 +107,11 @@ public class ActivityService {
 	/*
 	 * 實作企業邏輯
 	 */
+	@Transactional
+	public List<ActivityBean> selectAll() {
+		return activityDao.select();
+	}	
+	
 	@Transactional
 	public ActivityBean selectByActivityNO(ActivityBean bean) {
 		return activityDao.select(bean);
