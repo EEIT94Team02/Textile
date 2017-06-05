@@ -23,7 +23,7 @@ public interface ActivityDAO {
 
 	public boolean delete(ActivityBean bean);
 	
-	public List<ActivityBean> selectByOthers(ActivityBean bean) throws ParseException;
+	public List<ActivityBean> selectByOthers(ActivityBean bean, String string) throws ParseException;
 
 // 補充：因應企業邏輯可能要添加DAO的搜尋方式。
 //	public List<PhotoBean> selectByPriceLessThan(double price);

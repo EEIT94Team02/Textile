@@ -25,28 +25,28 @@ import javax.persistence.Table;
 	public String toString() {
 		return "{"+getAlbumno() + "," + getCreatetime()
 				+ "," + getAlbumname() + "," + getIntroduction()
-				+ "," + getVisibility() + "," + getMemberid()+"}";
+				+ "," + getVisibility() + "," + getmId()+"}";
 	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer albumno;
-	private java.util.Date createtime;
+	private java.sql.Timestamp createtime;
 	private String albumname;
 	private String introduction;
 	private String visibility;
-	private Integer memberid;	
-	
+	private Integer mId;
+
 	public Integer getAlbumno() {
 		return albumno;
 	}
 	public void setAlbumno(Integer albumno) {
 		this.albumno = albumno;
 	}
-	public java.util.Date getCreatetime() {
+	public java.sql.Timestamp getCreatetime() {
 		return createtime;
 	}
-	public void setCreatetime(java.util.Date createtime) {
+	public void setCreatetime(java.sql.Timestamp createtime) {
 		this.createtime = createtime;
 	}
 	public String getAlbumname() {
@@ -67,12 +67,13 @@ import javax.persistence.Table;
 	public void setVisibility(String visibility) {
 		this.visibility = visibility;
 	}
-	public Integer getMemberid() {
-		return memberid;
+	public Integer getmId() {
+		return mId;
 	}
-	public void setMemberid(Integer memberid) {
-		this.memberid = memberid;
-	}
+	public void setmId(Integer mId) {
+		this.mId = mId;
+	}	
+	
 
 	
 

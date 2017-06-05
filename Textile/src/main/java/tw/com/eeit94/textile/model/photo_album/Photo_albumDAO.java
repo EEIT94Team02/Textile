@@ -14,11 +14,9 @@ public interface Photo_albumDAO {
 
 	public List<Photo_albumBean> select();
 
-	public Photo_albumBean select(Photo_albumBean bean);
+	public Photo_albumBean selectByAlbumNo(Photo_albumBean bean);
 	
-	public Photo_albumBean selectByAlbumName(Photo_albumBean bean);
-	
-	public List<Photo_albumBean> selectByMemberId(Photo_albumBean bean);
+	public List<Photo_albumBean> selectByOthers(Photo_albumBean bean);	
 
 	public Photo_albumBean insert(Photo_albumBean bean);
 

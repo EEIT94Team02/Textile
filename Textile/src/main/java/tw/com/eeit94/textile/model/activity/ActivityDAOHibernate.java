@@ -39,48 +39,50 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	}
 
 	public static void main(String args[]) throws ParseException {
-//		ActivityDAO dao = new ActivityDAOHibernate();
+
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		ActivityDAO dao = (ActivityDAOHibernate)context.getBean("activityDAOHibernate");
 		sessionFactory.getCurrentSession().beginTransaction();
 		
-//		List<ActivityBean> beans = dao.select();
-//		System.out.println(beans);
+		ActivityBean bean;
+		List<ActivityBean> beans;
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-//		ActivityBean select = new ActivityBean();
-//		select.setActivityno(1);;
-//		ActivityBean bean= dao.select(select);
-//		System.out.println(bean);
-		
-//		ActivityBean insert = new ActivityBean();
-////		insert.setActivityno(3);
-//		insert.setBegintime(new java.util.Date());
-//		insert.setEndtime(new java.util.Date());
-//		insert.setActivityname("新莊桌遊團");
-//		insert.setInterpretation("星蝕,馬尼拉,符文戰爭,blood bowl....等等"+"\n"+"由於本人自己也想玩沒玩過的桌遊"+"\n"+"所以歡迎參加者帶自己有的桌遊來交流");
-//		insert.setPlace("輔大fun桌遊 桌遊店");
-//		insert.setVisibility("私人");
-//		ActivityBean bean = dao.insert(insert);
-//		System.out.println(bean);
-		
-//		ActivityBean update = new ActivityBean();
-//		update.setActivityno(2);
-//		update.setVisibility("公開");	
-//		ActivityBean bean = dao.update(update);
-//		System.out.println(bean);
-		
-//		ActivityBean del = new ActivityBean();
-//	    del.setActivityno(2);
-//		boolean result = dao.delete(del);
-//		System.out.println(result);	
+		beans = dao.select();
+		System.out.println(beans);
 		
 		ActivityBean select = new ActivityBean();
+		select.setActivityno(1);;
+		bean= dao.select(select);
+		System.out.println(bean);
 		
-//		select.setActivityname("林口");
-//		select.setPlace("林口");
-//		select.setVisibility("公開");
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ActivityBean insert = new ActivityBean();
+		insert.setActivityno(3);
+		insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+		insert.setEndtime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+		insert.setActivityname("新莊桌遊團");
+		insert.setInterpretation("星蝕,馬尼拉,符文戰爭,blood bowl....等等"+"\n"+"由於本人自己也想玩沒玩過的桌遊"+"\n"+"所以歡迎參加者帶自己有的桌遊來交流");
+		insert.setPlace("輔大fun桌遊 桌遊店");
+		insert.setVisibility("私人");
+		bean = dao.insert(insert);
+		System.out.println(bean);
+		
+		ActivityBean update = new ActivityBean();
+		update.setActivityno(2);
+		update.setVisibility("公開");	
+		bean = dao.update(update);
+		System.out.println(bean);
+		
+		ActivityBean del = new ActivityBean();
+	    del.setActivityno(2);
+		boolean result = dao.delete(del);
+		System.out.println(result);	
+		
+		select = new ActivityBean();		
+		select.setActivityname("林口");
+		select.setPlace("林口");
+		select.setVisibility("公開");
 		Timestamp begin = null;
 		Timestamp end = null;
 		try {
@@ -91,7 +93,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		}		
 		select.setBegintime(begin);
 		select.setEndtime(end);
-		List<ActivityBean> beans = dao.selectByOthers(select);
+		beans = dao.selectByOthers(select , "begintime");
 		System.out.println(beans);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
@@ -137,7 +139,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	}
 	
 	@Override
-	public List<ActivityBean> selectByOthers(ActivityBean bean){
+	public List<ActivityBean> selectByOthers(ActivityBean bean, String string){
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();		
 		CriteriaQuery<ActivityBean> qry = cb.createQuery(ActivityBean.class);
 		Root<ActivityBean> root = qry.from(ActivityBean.class);
@@ -154,7 +156,12 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		}
 		Predicate p4 = cb.like(root.<String>get("place"),bean.getPlace()==null? "%":"%"+bean.getPlace()+"%");
 		Predicate p5 = cb.like(root.<String>get("visibility"),bean.getVisibility()==null? "%":"%"+bean.getVisibility()+"%");		
-		List<ActivityBean> results = getSession().createQuery(qry.where(p1,p2,p4,p5)).getResultList();	
+		Order order = cb.asc(root.get("activityno"));
+		if(string != null && string.length() != 0){
+			order = cb.asc(root.get(string));
+		}
+		
+		List<ActivityBean> results = getSession().createQuery(qry.where(p1,p2,p4,p5).orderBy(order)).getResultList();	
 		return results;
 	}
 	

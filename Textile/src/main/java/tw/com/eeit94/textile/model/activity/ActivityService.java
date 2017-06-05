@@ -76,7 +76,7 @@ public class ActivityService {
 		}		
 		anySelect.setBegintime(begin);
 		anySelect.setEndtime(end);			
-		List<ActivityBean> beans = service.customeSelect(anySelect);
+		List<ActivityBean> beans = service.customeSelect(anySelect,null);
 		System.out.println(beans);		
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
@@ -90,27 +90,34 @@ public class ActivityService {
 	 * 實作企業邏輯
 	 */
 	@Transactional
-	public ActivityBean createNewActivity(ActivityBean bean) {
-		return activityDao.insert(bean);
-	}
-	@Transactional
-	public ActivityBean updateOrDeleteActivity(ActivityBean bean) {
-		return activityDao.update(bean); // 包括取消
-	}
-	
-	@Transactional
 	public ActivityBean selectByActivityNO(ActivityBean bean) {
 		return activityDao.select(bean);
 	}
 	@Transactional
-	public List<ActivityBean> customeSelect(ActivityBean bean) {
+	public List<ActivityBean> customeSelect(ActivityBean bean , String string) {
 		List<ActivityBean> result = null;		
 		try {
-			result = activityDao.selectByOthers(bean);
+			result = activityDao.selectByOthers(bean,string);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}		
 		return result;
 	}
+	
+	@Transactional
+	public ActivityBean createNewActivity(ActivityBean bean) {
+		return activityDao.insert(bean);
+	}
+	@Transactional
+	public ActivityBean updateActivity(ActivityBean bean) {
+		return activityDao.update(bean);
+	}
+	
+	@Transactional
+	public Boolean deleteActivity(ActivityBean bean) {
+		return activityDao.delete(bean);
+	}
+	
+
 
 }
