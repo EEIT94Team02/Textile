@@ -59,7 +59,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		ActivityBean insert = new ActivityBean();
 		insert.setActivityno(3);
 		try {
-			insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+			insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));			
 			insert.setEndtime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
 		} catch (ParseException e1) {
 			e1.printStackTrace();
@@ -169,6 +169,7 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		Predicate p4 = cb.like(root.<String>get("place"),bean.getPlace()==null? "%":"%"+bean.getPlace()+"%");
 		Predicate p5 = cb.like(root.<String>get("visibility"),bean.getVisibility()==null? "%":"%"+bean.getVisibility()+"%");		
 		Order order = cb.asc(root.get("activityno"));
+		
 		if(string != null && string.length() != 0){
 			order = cb.asc(root.get(string));
 		}

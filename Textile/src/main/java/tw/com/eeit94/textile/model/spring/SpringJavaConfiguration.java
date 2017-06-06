@@ -68,37 +68,6 @@ public class SpringJavaConfiguration {
 	}
 	
 	@Bean
-	public EntityManagerFactory entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean localEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		localEntityManagerFactoryBean.setDataSource(this.dataSource());
-		localEntityManagerFactoryBean.setPackagesToScan(new String[] { "*.model" });
-		localEntityManagerFactoryBean.setJpaVendorAdapter(this.jpaVendorAdapter());
-//		localEntityManagerFactoryBean.setPersistenceProviderClass(org.hibernate.jpa.HibernatePersistenceProvider.class);
-		localEntityManagerFactoryBean.setPersistenceXmlLocation("/META-INF/persistence.xml");
-//		localEntityManagerFactoryBean.setPersistenceUnitName("activityBeannn");
-//		java.util.Properties properties = new java.util.Properties();
-//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
-//		properties.setProperty("hibernate.show_sql", "true");
-//		properties.setProperty("hibernate.hbm2ddl.auto", "true");
-//		localEntityManagerFactoryBean.setJpaProperties(properties);
-//		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-//      <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-//      <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-//      <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-		return localEntityManagerFactoryBean.getObject();
-	}
-	
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(true);
-        hibernateJpaVendorAdapter.setGenerateDdl(false);
-        hibernateJpaVendorAdapter.setDatabase(Database.SQL_SERVER);
-        return hibernateJpaVendorAdapter;
-    }
-	
-
-	@Bean
 	public org.springframework.orm.hibernate5.HibernateTransactionManager transactionManager() {
 		org.springframework.orm.hibernate5.HibernateTransactionManager transactionManager = new org.springframework.orm.hibernate5.HibernateTransactionManager();
 		transactionManager.setSessionFactory(this.sessionFactory());
