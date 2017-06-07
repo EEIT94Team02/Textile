@@ -23,14 +23,11 @@ import javax.persistence.Table;
 
 	@Override
 	public String toString() {
-		return "{" + getPhotono() + "," + getmId() + ","
-				+ getRespath() + "," + getPhotoname() + "," + getInterpretation()
-				+ "," + getAlbumno() + "," + getPosition() + ","
-				+ getVisibility() + "}";
+		return "{" + getPhotono() + "," + getRespath() + "," + getPhotoname() + "," + getInterpretation()
+				+ "," + getAlbumno() + "," + getPosition() + ","+ getVisibility() + "}";
 	}
 	@Id
 	private String photono;
-	private Integer mId;
 	private String respath;
 	private String photoname;
 	private String interpretation;
@@ -45,12 +42,6 @@ import javax.persistence.Table;
 		this.photono = photono;
 	}
 
-	public Integer getmId() {
-		return mId;
-	}
-	public void setmId(Integer mId) {
-		this.mId = mId;
-	}
 	public String getRespath() {
 		return respath;
 	}

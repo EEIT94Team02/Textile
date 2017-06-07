@@ -16,6 +16,8 @@ public interface PhotoDAO {
 
 	public PhotoBean selectByPrimarykey(PhotoBean bean);
 	
+	public List<PhotoBean> selectByAlbumno(PhotoBean bean);
+	
 	public List<PhotoBean> selectByOthers(PhotoBean bean);
 
 	public PhotoBean insert(PhotoBean bean);

@@ -122,7 +122,6 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	public ActivityBean insert(ActivityBean bean) {		
 			getSession().save(bean);
 			return bean;
-
 	}
 
 	@Override
@@ -156,7 +155,6 @@ public class ActivityDAOHibernate implements ActivityDAO {
 		CriteriaQuery<ActivityBean> qry = cb.createQuery(ActivityBean.class);
 		Root<ActivityBean> root = qry.from(ActivityBean.class);
 		qry.select(root);
-//		qry.distinct(true);
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Predicate p1 = cb.like(root.<String>get("activityname"),bean.getActivityname() ==null? "%":"%"+bean.getActivityname()+"%");
 		Predicate p2 = null;

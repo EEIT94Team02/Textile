@@ -3,6 +3,8 @@
  */
 package tw.com.eeit94.textile.model.photo_album;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -100,6 +102,23 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<Photo_albumBean> query = cb.createQuery(Photo_albumBean.class);
 		Root<Photo_albumBean> root = query.from(Photo_albumBean.class);
+//		List<Predicate> coll = new ArrayList<Predicate>();
+//		if(bean.getAlbumname() != null){
+//			coll.add(cb.like(root.<String>get("albumname"),	"%" + bean.getAlbumname() + "%"));
+//		}
+//		if(bean.getIntroduction() != null){
+//			coll.add(cb.like(root.<String>get("albumname"),	"%" + bean.getAlbumname() + "%"));
+//		}
+//		if(bean.getVisibility() != null){
+//			coll.add(cb.like(root.<String>get("visibility"),"%" + bean.getVisibility() + "%"));
+//		}
+//		if(bean.getmId() != null){
+//			coll.add(cb.equal(root.<Integer>get("mId"), bean.getmId()));
+//		}
+//		
+//		coll.add(cb.like(root.<String>get("albumname"),
+//				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%"));
+		
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
@@ -112,7 +131,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}
-		return getSession().createQuery(query.where(p1, p2, p3, p4)).getResultList();
+		return getSession().createQuery(query.where(p1,p2,p3,p4)).getResultList();
 	}
 
 	@Override

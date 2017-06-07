@@ -5,6 +5,7 @@ package tw.com.eeit94.textile.model.photo_album;
 
 import java.util.List;
 
+
 /*
  * DAO產生步驟：
  * 1. DAO名稱為'"Table名稱" + "DAO"'。
