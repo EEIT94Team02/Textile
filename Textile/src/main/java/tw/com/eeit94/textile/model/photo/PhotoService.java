@@ -53,23 +53,23 @@ public class PhotoService {
 		beans = service.select();
 		System.out.println(beans);
 		
-//		PhotoBean select = new PhotoBean();
-//		select.setPhotono("20170527000000020001");
-//		bean = service.selectByphotono(select);
-//		System.out.println(bean);
-//		
-//		PhotoBean selectbyAlbum = new PhotoBean();
-//		selectbyAlbum.setAlbumno(1);
-//		beans = service.selectByAlbumno(selectbyAlbum);
-//		System.out.println(beans);
-//		
-//		//test uploadPhot
-//		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
-//		File target = new File("C:/Textile/repository/Textile/src/main/webapp/image/");
-////		"C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
-//		File result = service.uploadPhoto(file, target);
-//		System.out.println(result.getName());		
-//	
+		PhotoBean select = new PhotoBean();
+		select.setPhotono("20170527000000020001");
+		bean = service.selectByphotono(select);
+		System.out.println(bean);
+		
+		PhotoBean selectbyAlbum = new PhotoBean();
+		selectbyAlbum.setAlbumno(1);
+		beans = service.selectByAlbumno(selectbyAlbum);
+		System.out.println(beans);
+		
+		//test uploadPhot
+		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
+		File target = new File("C:/Textile/repository/Textile/src/main/webapp/image/");
+//		"C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
+		File result = service.uploadPhoto(file, target);
+		System.out.println(result.getName());		
+	
 		//test getTimeString , getMemberIdString , countphoto
 		PhotoBean insert = new PhotoBean();
 		String timeString = service.getTimeString();
@@ -80,16 +80,16 @@ public class PhotoService {
 		String beanPhotoNo = service.countphoto(insert);
 		System.out.println(beanPhotoNo);
 		
-//		//test insertDataToTable
-//		insert.setPhotono(beanPhotoNo);
-//		insert.setRespath(result.getPath());
-//		insert.setAlbumno(1);
-//		insert.setPhotoname("Nadal");
-//		insert.setPosition("大頭貼");
-//		insert.setVisibility("公開");
-//		insert.setInterpretation("US OPEN Champion");
-//		bean = service.insertDataToTable(insert);
-//		System.out.println(bean);
+		//test insertDataToTable
+		insert.setPhotono(beanPhotoNo);
+		insert.setRespath(result.getPath());
+		insert.setAlbumno(1);
+		insert.setPhotoname("Nadal");
+		insert.setPosition("大頭貼");
+		insert.setVisibility("公開");
+		insert.setInterpretation("US OPEN Champion");
+		bean = service.insertDataToTable(insert);
+		System.out.println(bean);
 		
 		PhotoBean update = new PhotoBean();
 		update.setAlbumno(2);
@@ -99,28 +99,16 @@ public class PhotoService {
 		update.setPosition("OOO");
 		update.setPhotoname("Nole");
 		bean = service.updatePhotoinfo(update);
-		System.out.println(bean);		
+		System.out.println(bean);
+		
+		PhotoBean removePhoto = new PhotoBean();
+		removePhoto.setPhotono("20170608000000010002");
+		boolean remove = service.removePhoto(removePhoto);
+		System.out.println(remove);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();
 		((ConfigurableApplicationContext) context).close();
-		
-//		Short a = 1;
-//		for (int idx = 0; idx < 10; ++idx) {
-//			UID userId = new UID();
-//			// userId.toString()
-//			System.out.println("User Id: " + userId.toString());
-//		}
-
-//		Calendar calendar = Calendar.getInstance();
-//		Date time = calendar.getTime();
-//		String day = ((Integer) (calendar.get(Calendar.DAY_OF_MONTH))).toString();
-//		String month = ((Integer) (calendar.get(Calendar.MONTH) + 1)).toString();
-//		String year = ((Integer) (calendar.get(Calendar.YEAR))).toString();
-
-//		String aaa = time.toString();
-//		System.out.println(year + month + day);
-//		System.out.println(aaa);
 
 	}
 
@@ -176,11 +164,13 @@ public class PhotoService {
 	@Transactional // import
 	// org.springframework.transaction.annotation.Transactional;
 	public String countphoto(PhotoBean bean) {
-		List<PhotoBean> result = photoDAO.selectByOthers(bean);
+		String temp = photoDAO.selectMax(bean);
+		temp = temp.substring(temp.length()-4,temp.length());
+		String max = String.valueOf(Integer.parseInt(temp)+1);
 		StringBuilder sb = new StringBuilder();
-		String uploadnumber =bean.getPhotono()+sb.append("0000").append(String.valueOf(result.size()+1))
-				.substring(sb.length()-4, sb.length());
-		return uploadnumber;
+		sb.append("0000").append(max).substring(sb.length()-4, sb.length());
+		String result = bean.getPhotono()+sb;
+		return result;
 	}
 	
 	@Transactional // import
@@ -196,10 +186,11 @@ public class PhotoService {
 //		"C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
 //		rootfolder+file.getName()+".jpg"
 		UID photo = new UID();		
-		File file2 = new File(rootfolder+"/"+photo.hashCode()+".jpg");
+		File file2 = new File(rootfolder+"/XXXX/"+photo.hashCode()+".jpg");
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		try {
+			file2.getParentFile().mkdir();
 			fis = new FileInputStream(file);
 			fos = new FileOutputStream(file2, true);
 			int data;
@@ -249,7 +240,7 @@ public class PhotoService {
 
 	@Transactional // import
 					// org.springframework.transaction.annotation.Transactional;
-	public boolean deletePhoto(PhotoBean bean) {
+	public boolean removePhoto(PhotoBean bean) {
 		boolean result = false;
 		PhotoBean phonebean = photoDAO.selectByPrimarykey(bean);
 		if (phonebean != null) {

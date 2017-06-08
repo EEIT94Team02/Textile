@@ -26,6 +26,8 @@ public interface PhotoDAO {
 
 	public boolean delete(PhotoBean bean);
 
+	public String selectMax(PhotoBean bean);
+
 // 補充：因應企業邏輯可能要添加DAO的搜尋方式。
 //	public List<PhotoBean> selectByPriceLessThan(double price);
 }

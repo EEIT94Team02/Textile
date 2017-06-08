@@ -3,6 +3,7 @@
  */
 package tw.com.eeit94.textile.model.photo_album;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,22 +51,22 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		List<Photo_albumBean> beans = null;
 		Photo_albumBean bean = null;
 
-		beans = dao.select();
-		System.out.println(beans);
+//		beans = dao.select();
+//		System.out.println(beans);
+//
+//		Photo_albumBean test = new Photo_albumBean();
+//		test.setAlbumno(1);
+//		bean = dao.selectByAlbumNo(test);
+//		System.out.println(bean);
 
-		Photo_albumBean test = new Photo_albumBean();
-		test.setAlbumno(1);
-		bean = dao.selectByAlbumNo(test);
-		System.out.println(bean);
-
-		Photo_albumBean insert = new Photo_albumBean();
-		insert.setAlbumname("大頭貼");
-		insert.setCreatetime(new java.sql.Timestamp(System.currentTimeMillis()));
-		insert.setIntroduction("大頭貼");
-		insert.setmId(00000005);
-		insert.setVisibility("公開");
-		bean = dao.insert(insert);
-		System.out.println(bean);
+//		Photo_albumBean insert = new Photo_albumBean();
+//		insert.setAlbumname("大頭貼");
+//		insert.setCreatetime(new java.sql.Timestamp(System.currentTimeMillis()));
+//		insert.setIntroduction("大頭貼");
+//		insert.setmId(00000005);
+//		insert.setVisibility("公開");
+//		bean = dao.insert(insert);
+//		System.out.println(bean);
 
 		Photo_albumBean update = new Photo_albumBean();
 		update.setAlbumno(6);
@@ -114,10 +115,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 //		}
 //		if(bean.getmId() != null){
 //			coll.add(cb.equal(root.<Integer>get("mId"), bean.getmId()));
-//		}
-//		
-//		coll.add(cb.like(root.<String>get("albumname"),
-//				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%"));
+//		}		
 		
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");

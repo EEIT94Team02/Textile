@@ -4,12 +4,14 @@
 package tw.com.eeit94.textile.model.photo;
 
 import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -51,7 +53,13 @@ public class PhotoDAOHibernate implements PhotoDAO {
 
 //		beans = dao.select();
 //		System.out.println(beans);
-//
+		
+		PhotoBean max = new PhotoBean();
+		max.setPhotono("2017060800000001");
+		String aaa = dao.selectMax(max);
+		System.out.println(aaa);
+		
+
 //		PhotoBean select = new PhotoBean();
 //		select.setPhotono("20170527000000010001");
 //		bean = dao.selectByPrimarykey(select);
@@ -61,13 +69,12 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		selectalbumno.setAlbumno(2);
 //		beans = dao.selectByAlbumno(selectalbumno);
 //		System.out.println(beans);
-		
-		PhotoBean selectPK = new PhotoBean();
-		selectPK.setPhotono("20170527000000020001");
-		bean = dao.selectByPrimarykey(selectPK);
-		System.out.println(bean);
-		
-//
+//		
+//		PhotoBean selectPK = new PhotoBean();
+//		selectPK.setPhotono("20170527000000020001");
+//		bean = dao.selectByPrimarykey(selectPK);
+//		System.out.println(bean);
+//		
 //		PhotoBean selectOther = new PhotoBean();
 //		selectOther.setPhotoname("Roger");
 //		selectOther.setInterpretation("tennis");
@@ -87,18 +94,18 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		insert.setVisibility("公開");
 //		bean = dao.insert(insert);
 //		System.out.println(bean);
-
-		PhotoBean update = new PhotoBean();
-		update.setPhotono("20170527000000010002");
-		update.setRespath("xxx");
-		update.setPhotoname("Roger");
-		update.setInterpretation("tennis");
-		update.setAlbumno(1);
-		update.setPosition("大頭貼");
-		update.setVisibility("私人");
-		bean = dao.update(update);
-		System.out.println(bean);
-
+//
+//		PhotoBean update = new PhotoBean();
+//		update.setPhotono("20170527000000010002");
+//		update.setRespath("xxx");
+//		update.setPhotoname("Roger");
+//		update.setInterpretation("tennis");
+//		update.setAlbumno(1);
+//		update.setPosition("大頭貼");
+//		update.setVisibility("私人");
+//		bean = dao.update(update);
+//		System.out.println(bean);
+//
 //		PhotoBean del = new PhotoBean();
 //		del.setPhotono("20170527000000010002");
 //		boolean result = dao.delete(del);
@@ -108,6 +115,18 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		sessionFactory.getCurrentSession().close();
 		((ConfigurableApplicationContext) context).close();
 	}
+	
+	@Override
+	public String selectMax(PhotoBean bean) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<PhotoBean> query = cb.createQuery(PhotoBean.class);
+		Root<PhotoBean> root = query.from(PhotoBean.class);
+		Predicate p1 = cb.like(root.<String>get("photono"), bean.getPhotono()+"%");
+		List<PhotoBean> temp = getSession().createQuery(query.where(p1)).getResultList();
+		String beanPhotono = temp.get(temp.size()-1).getPhotono();
+		return beanPhotono;
+	}
+	
 
 	@Override
 	public List<PhotoBean> select() {
@@ -171,7 +190,6 @@ public class PhotoDAOHibernate implements PhotoDAO {
 			select.setAlbumno(bean.getAlbumno());
 			select.setPosition(bean.getPosition());
 			select.setVisibility(bean.getVisibility());
-			return select;
 		}
 		return select;
 	}
