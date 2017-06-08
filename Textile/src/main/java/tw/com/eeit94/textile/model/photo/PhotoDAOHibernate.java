@@ -59,11 +59,11 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		String aaa = dao.selectMax(max);
 //		System.out.println(aaa);
 
-		PhotoBean select = new PhotoBean();
-		select.setPhotono("20170527000000010001");
-		bean = dao.selectByPrimarykey(select);
-		System.out.println(bean);		
-		System.out.println(select.getPhoto_albumBean());
+//		PhotoBean select = new PhotoBean();
+//		select.setPhotono("20170527000000010001");
+//		bean = dao.selectByPrimarykey(select);
+//		System.out.println(bean);		
+//		System.out.println(select.getPhoto_albumBean());
 		
 //		PhotoBean selectalbumno = new PhotoBean();
 //		selectalbumno.setAlbumno(2);

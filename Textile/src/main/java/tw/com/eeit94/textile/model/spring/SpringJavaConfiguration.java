@@ -50,7 +50,7 @@ public class SpringJavaConfiguration {
 	public org.hibernate.SessionFactory sessionFactory() {
 		org.springframework.orm.hibernate5.LocalSessionFactoryBean localSessionFactoryBean = new org.springframework.orm.hibernate5.LocalSessionFactoryBean();
 		localSessionFactoryBean.setDataSource(this.dataSource());
-		localSessionFactoryBean.setPackagesToScan(new String[] { "*.model" });
+		localSessionFactoryBean.setPackagesToScan(new String[] { "/*.model" });
 
 		java.util.Properties properties = new java.util.Properties();
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");

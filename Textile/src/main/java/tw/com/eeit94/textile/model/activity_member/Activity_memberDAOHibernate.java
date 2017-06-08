@@ -52,16 +52,16 @@ public class Activity_memberDAOHibernate implements Activity_memberDAO {
 		Activity_memberBean bean;
 		Activity_memberPK activity_memberPK;
 		
-//		beans = dao.select();
-//		System.out.println(beans);
+		beans = dao.select();
+		System.out.println(beans);
 		
-		Activity_memberBean select = new Activity_memberBean();
-		activity_memberPK = new Activity_memberPK();
-		activity_memberPK.setActivityno(1);
-		activity_memberPK.setmId(1);
-		select.setActivity_memberPK(activity_memberPK);
-		bean = dao.selectByPrimaryKey(select);
-		System.out.println(bean);
+//		Activity_memberBean select = new Activity_memberBean();
+//		activity_memberPK = new Activity_memberPK();
+//		activity_memberPK.setActivityno(1);
+//		activity_memberPK.setmId(1);
+//		select.setActivity_memberPK(activity_memberPK);
+//		bean = dao.selectByPrimaryKey(select);
+//		System.out.println(bean);
 //		
 //		Activity_memberBean selectother = new Activity_memberBean();
 //		activity_memberPK =  new Activity_memberPK();

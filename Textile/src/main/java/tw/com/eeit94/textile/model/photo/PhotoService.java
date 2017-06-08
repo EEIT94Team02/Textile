@@ -21,6 +21,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
 
@@ -31,6 +33,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 加入至少一個Bean元件並標記@Autowired。
  */
 @Service
+@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 public class PhotoService {
 	@Autowired
 	private PhotoDAO photoDAO;
@@ -115,26 +118,19 @@ public class PhotoService {
 	/*
 	 * 實作企業邏輯
 	 */
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
+	@Transactional(readOnly=false)
 	public List<PhotoBean> select() {
 		return photoDAO.select();
 	}
 
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
 	public List<PhotoBean> selectByAlbumno(PhotoBean bean) {
 		return photoDAO.selectByAlbumno(bean);
 	}
 
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
 	public PhotoBean selectByphotono(PhotoBean bean) {
 		return photoDAO.selectByPrimarykey(bean);
 	}
 
-	@Transactional // import
-	// org.springframework.transaction.annotation.Transactional;
 	public String getTimeString() {
 		Calendar today = Calendar.getInstance();
 		StringBuilder sb = new StringBuilder();		
@@ -152,8 +148,6 @@ public class PhotoService {
 		return sb.append(yy).append(month).append(date).toString();
 	}
 	
-	@Transactional // import
-	// org.springframework.transaction.annotation.Transactional;
 	public String getMemberIdString(int id) {
 		StringBuilder sb = new StringBuilder();	
 		sb.append("00000000").append(id);
@@ -161,8 +155,6 @@ public class PhotoService {
 		return memberIdString;
 	}
 	
-	@Transactional // import
-	// org.springframework.transaction.annotation.Transactional;
 	public String countphoto(PhotoBean bean) {
 		String temp = photoDAO.selectMax(bean);
 		temp = temp.substring(temp.length()-4,temp.length());
@@ -174,14 +166,10 @@ public class PhotoService {
 		return result;
 	}
 	
-	@Transactional // import
-	// org.springframework.transaction.annotation.Transactional;
 	public PhotoBean insertDataToTable(PhotoBean bean) {	
 		return photoDAO.insert(bean);
 	}
 
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
 	public File uploadPhoto(File file, File rootfolder) {
 		File result = null;
 //		"C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
@@ -222,8 +210,6 @@ public class PhotoService {
 		return result;
 	}
 
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
 	public PhotoBean updatePhotoinfo(PhotoBean bean) {
 		PhotoBean result = null;
 		PhotoBean phonebean = this.selectByphotono(bean);
@@ -239,8 +225,6 @@ public class PhotoService {
 		return result;
 	}
 
-	@Transactional // import
-					// org.springframework.transaction.annotation.Transactional;
 	public boolean removePhoto(PhotoBean bean) {
 		boolean result = false;
 		PhotoBean phonebean = photoDAO.selectByPrimarykey(bean);
