@@ -3,9 +3,6 @@
  */
 package tw.com.eeit94.textile.model.photo_album;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,7 +24,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
  * 4. 加入Bean元件並標記@Autowired。
  */
-@Repository
+@Repository(value = "photo_albumDAO")
 public class Photo_albumDAOHibernate implements Photo_albumDAO {
 	@Autowired
 	private SessionFactory sessionFacotry;
@@ -47,7 +44,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		SessionFactory sessionFacotry = (SessionFactory) context.getBean("sessionFactory");
 		sessionFacotry.getCurrentSession().beginTransaction();
 
-		Photo_albumDAO dao = (Photo_albumDAOHibernate) context.getBean("photo_albumDAOHibernate");
+		Photo_albumDAO dao = (Photo_albumDAOHibernate) context.getBean("photo_albumDAO");
 		List<Photo_albumBean> beans = null;
 		Photo_albumBean bean = null;
 

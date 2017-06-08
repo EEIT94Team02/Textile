@@ -32,7 +32,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
  * 4. 加入Bean元件並標記@Autowired。
  */
-@Repository
+@Repository(value="activity_memberDAO")
 public class Activity_memberDAOHibernate implements Activity_memberDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -50,7 +50,7 @@ public class Activity_memberDAOHibernate implements Activity_memberDAO {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");		
 		sessionFactory.getCurrentSession().beginTransaction();		
-		Activity_memberDAO dao = (Activity_memberDAOHibernate) context.getBean("activity_memberDAOHibernate");
+		Activity_memberDAO dao = (Activity_memberDAOHibernate) context.getBean("activity_memberDAO");
 		
 		List<Activity_memberBean> beans;
 		Activity_memberBean bean;

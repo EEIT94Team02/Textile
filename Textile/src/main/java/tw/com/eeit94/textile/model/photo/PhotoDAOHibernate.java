@@ -27,7 +27,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
  * 4. 加入Bean元件並標記@Autowired。
  */
-@Repository
+@Repository(value="photoDAO")
 public class PhotoDAOHibernate implements PhotoDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -46,7 +46,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		sessionFactory.getCurrentSession().beginTransaction();
 
-		PhotoDAO dao = (PhotoDAOHibernate) context.getBean("photoDAOHibernate");
+		PhotoDAO dao = (PhotoDAOHibernate) context.getBean("photoDAO");
 
 		PhotoBean bean;
 		List<PhotoBean> beans;
