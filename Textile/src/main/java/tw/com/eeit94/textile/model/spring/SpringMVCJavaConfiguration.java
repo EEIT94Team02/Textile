@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * DispatcherServlet的Bean Container，Controller或View元件宣告在此。
  */
 //@Configuration
-//@ComponentScan(basePackages = { "tw.com.eeit94.textile.controller" })
+//@ComponentScan(basePackages = { "/*.controller" })
 //@EnableWebMvc
 public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 

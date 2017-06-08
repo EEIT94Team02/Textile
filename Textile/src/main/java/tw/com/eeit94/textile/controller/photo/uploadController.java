@@ -13,7 +13,7 @@ import tw.com.eeit94.textile.model.example.ExampleBean;
 
 
 @Controller
-@RequestMapping(path = { "/upload.controller" }, produces = { "application/json; charset=UTF-8" })
+@RequestMapping(path = { "/photo/upload.controller" }, produces = { "application/json; charset=UTF-8" })
 public class uploadController {
 
 	@RequestMapping(method = { RequestMethod.POST })

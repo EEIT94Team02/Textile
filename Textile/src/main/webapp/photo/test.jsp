@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action="/upload.controller" enctype="multipart/form-data" method="post"> 
+<form action="upload.controller" enctype="multipart/form-data" method="post"> 
 <table>
 
 	<tr>			
