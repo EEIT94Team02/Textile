@@ -51,30 +51,29 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		PhotoBean bean;
 		List<PhotoBean> beans;
 
-//		beans = dao.select();
-//		System.out.println(beans);
+		beans = dao.select();
+		System.out.println(beans);
 		
-		PhotoBean max = new PhotoBean();
-		max.setPhotono("2017060800000001");
-		String aaa = dao.selectMax(max);
-		System.out.println(aaa);
-		
+//		PhotoBean max = new PhotoBean();
+//		max.setPhotono("20170527000000040005");
+//		String aaa = dao.selectMax(max);
+//		System.out.println(aaa);
 
 //		PhotoBean select = new PhotoBean();
 //		select.setPhotono("20170527000000010001");
 //		bean = dao.selectByPrimarykey(select);
 //		System.out.println(bean);
-//
+
 //		PhotoBean selectalbumno = new PhotoBean();
 //		selectalbumno.setAlbumno(2);
 //		beans = dao.selectByAlbumno(selectalbumno);
 //		System.out.println(beans);
-//		
+		
 //		PhotoBean selectPK = new PhotoBean();
 //		selectPK.setPhotono("20170527000000020001");
 //		bean = dao.selectByPrimarykey(selectPK);
 //		System.out.println(bean);
-//		
+		
 //		PhotoBean selectOther = new PhotoBean();
 //		selectOther.setPhotoname("Roger");
 //		selectOther.setInterpretation("tennis");
@@ -83,7 +82,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		selectOther.setVisibility("公開");
 //		beans = dao.selectByOthers(selectOther);
 //		System.out.println(beans);
-//
+
 //		PhotoBean insert = new PhotoBean();
 //		insert.setPhotono("20170527000000010002");
 //		insert.setRespath("xxx");
@@ -94,7 +93,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		insert.setVisibility("公開");
 //		bean = dao.insert(insert);
 //		System.out.println(bean);
-//
+
 //		PhotoBean update = new PhotoBean();
 //		update.setPhotono("20170527000000010002");
 //		update.setRespath("xxx");
@@ -105,7 +104,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 //		update.setVisibility("私人");
 //		bean = dao.update(update);
 //		System.out.println(bean);
-//
+
 //		PhotoBean del = new PhotoBean();
 //		del.setPhotono("20170527000000010002");
 //		boolean result = dao.delete(del);
@@ -123,6 +122,9 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		Root<PhotoBean> root = query.from(PhotoBean.class);
 		Predicate p1 = cb.like(root.<String>get("photono"), bean.getPhotono()+"%");
 		List<PhotoBean> temp = getSession().createQuery(query.where(p1)).getResultList();
+		if(temp.isEmpty()){
+			return "00000000000000000000";
+		}
 		String beanPhotono = temp.get(temp.size()-1).getPhotono();
 		return beanPhotono;
 	}

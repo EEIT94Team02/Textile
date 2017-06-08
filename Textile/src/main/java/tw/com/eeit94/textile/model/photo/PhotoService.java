@@ -50,22 +50,22 @@ public class PhotoService {
 		PhotoBean bean = null;
 		List<PhotoBean>  beans = null;
 		
-		beans = service.select();
-		System.out.println(beans);
-		
-		PhotoBean select = new PhotoBean();
-		select.setPhotono("20170527000000020001");
-		bean = service.selectByphotono(select);
-		System.out.println(bean);
-		
-		PhotoBean selectbyAlbum = new PhotoBean();
-		selectbyAlbum.setAlbumno(1);
-		beans = service.selectByAlbumno(selectbyAlbum);
-		System.out.println(beans);
+//		beans = service.select();
+//		System.out.println(beans);
+//		
+//		PhotoBean select = new PhotoBean();
+//		select.setPhotono("20170527000000020001");
+//		bean = service.selectByphotono(select);
+//		System.out.println(bean);
+//		
+//		PhotoBean selectbyAlbum = new PhotoBean();
+//		selectbyAlbum.setAlbumno(1);
+//		beans = service.selectByAlbumno(selectbyAlbum);
+//		System.out.println(beans);
 		
 		//test uploadPhot
 		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
-		File target = new File("C:/Textile/repository/Textile/src/main/webapp/image/");
+		File target = new File("C:/Textile/repository/Textile/src/main/webapp/photos/");
 //		"C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
 		File result = service.uploadPhoto(file, target);
 		System.out.println(result.getName());		
@@ -102,7 +102,7 @@ public class PhotoService {
 		System.out.println(bean);
 		
 		PhotoBean removePhoto = new PhotoBean();
-		removePhoto.setPhotono("20170608000000010002");
+		removePhoto.setPhotono("20170608000000010003");
 		boolean remove = service.removePhoto(removePhoto);
 		System.out.println(remove);
 		
@@ -168,8 +168,9 @@ public class PhotoService {
 		temp = temp.substring(temp.length()-4,temp.length());
 		String max = String.valueOf(Integer.parseInt(temp)+1);
 		StringBuilder sb = new StringBuilder();
-		sb.append("0000").append(max).substring(sb.length()-4, sb.length());
-		String result = bean.getPhotono()+sb;
+		
+		String sb1 = sb.append("0000").append(max).substring(sb.length()-4, sb.length());
+		String result = bean.getPhotono()+sb1;
 		return result;
 	}
 	

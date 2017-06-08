@@ -1,6 +1,8 @@
 package tw.com.eeit94.textile.model.spring;
 
 import java.io.IOException;
+
+import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  * 最底層的Bean Container，Service、DAO或與「Servlet無關」的Bean宣告在此。
  */
 @Configuration
-@ComponentScan(basePackages = { "tw.com.eeit94.textile.model" })
+@ComponentScan(basePackages = { "tw.com.eeit94.textile.model"})
 public class SpringJavaConfiguration {
 
 	/*
@@ -28,10 +30,12 @@ public class SpringJavaConfiguration {
 //		  jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB"); 
 //		  try {
 //		  jndiObjectFactoryBean.afterPropertiesSet(); 
-//		  } catch (IllegalArgumentException | NamingException e) {
+//		  } catch (IllegalArgumentException e) {
 //			  throw new RuntimeException(); 
-//		  } return (javax.sql.DataSource)
-//		  jndiObjectFactoryBean.getObject();		 
+//		  } catch (NamingException e) {
+//			  throw new RuntimeException(); 
+//		  }
+//		  return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();		 
 
 		org.springframework.jdbc.datasource.DriverManagerDataSource driverManagerDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

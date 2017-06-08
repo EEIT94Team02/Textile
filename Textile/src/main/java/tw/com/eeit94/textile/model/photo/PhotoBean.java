@@ -4,8 +4,15 @@
 package tw.com.eeit94.textile.model.photo;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import tw.com.eeit94.textile.model.activity.ActivityBean;
+import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 
 /*
  * Java Bean產生步驟：
@@ -35,6 +42,17 @@ import javax.persistence.Table;
 	private String position;
 	private String visibility;	
 	
+	@MapsId(value="albumno")
+	@JoinColumn(name="albumno")
+	@OneToOne(fetch=FetchType.EAGER)
+	private Photo_albumBean photo_albumBean;	
+	
+	public Photo_albumBean getPhoto_albumBean() {
+		return photo_albumBean;
+	}
+	public void setPhoto_albumBean(Photo_albumBean photo_albumBean) {
+		this.photo_albumBean = photo_albumBean;
+	}
 	public String getPhotono() {
 		return photono;
 	}
