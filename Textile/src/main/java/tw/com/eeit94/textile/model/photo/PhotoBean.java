@@ -31,7 +31,8 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 	@Override
 	public String toString() {
 		return "{" + getPhotono() + "," + getRespath() + "," + getPhotoname() + "," + getInterpretation()
-				+ "," + getAlbumno() + "," + getPosition() + ","+ getVisibility() + "}";
+				+ "," + getAlbumno() + "," + getPosition() + ","+ getVisibility() 
+				+ "," + getPhoto_albumBean() + "}";
 	}
 	@Id
 	private String photono;
