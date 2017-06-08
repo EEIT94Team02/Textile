@@ -14,13 +14,19 @@ public interface PhotoDAO {
 
 	public List<PhotoBean> select();
 
-	public PhotoBean select(PhotoBean bean);
+	public PhotoBean selectByPrimarykey(PhotoBean bean);
+	
+	public List<PhotoBean> selectByAlbumno(PhotoBean bean);
+	
+	public List<PhotoBean> selectByOthers(PhotoBean bean);
 
 	public PhotoBean insert(PhotoBean bean);
 
 	public PhotoBean update(PhotoBean bean);
 
 	public boolean delete(PhotoBean bean);
+
+	public String selectMax(PhotoBean bean);
 
 // 補充：因應企業邏輯可能要添加DAO的搜尋方式。
 //	public List<PhotoBean> selectByPriceLessThan(double price);

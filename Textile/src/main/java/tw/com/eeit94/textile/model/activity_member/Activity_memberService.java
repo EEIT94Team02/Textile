@@ -71,10 +71,10 @@ public class Activity_memberService {
 //		List<Activity_memberBean> result = service.commitAllActivity(com);
 //		System.out.println(result);
 		
-		Activity_memberBean del = new Activity_memberBean();
-		del.setActivityno(1);
-		boolean result = service.deleteByActivityNo(del);
-		System.out.println(result);
+//		Activity_memberBean del = new Activity_memberBean();
+//		del.setActivityno(1);
+//		boolean result = service.deleteByActivityNo(del);
+//		System.out.println(result);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();
@@ -105,9 +105,9 @@ public class Activity_memberService {
 	}	
 	
 	public Activity_memberBean changePosition(Activity_memberBean bean){
-		if(bean.getActivityno() != null && bean.getmId() != null){
-			return activityMemberDAO.update(bean);
-		}
+//		if(bean.getActivityno() != null && bean.getmId() != null){
+//			return activityMemberDAO.update(bean);
+//		}
 		return null;
 	}
 	

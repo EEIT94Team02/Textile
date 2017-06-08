@@ -1,6 +1,8 @@
 package tw.com.eeit94.textile.model.spring;
 
 import java.io.IOException;
+
+import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  * 最底層的Bean Container，Service、DAO或與「Servlet無關」的Bean宣告在此。
  */
 @Configuration
-@ComponentScan(basePackages = { "tw.com.eeit94.textile.model" })
+@ComponentScan(basePackages = { "tw.com.eeit94.textile.model"})
 public class SpringJavaConfiguration {
 
 	/*
@@ -28,10 +30,12 @@ public class SpringJavaConfiguration {
 //		  jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB"); 
 //		  try {
 //		  jndiObjectFactoryBean.afterPropertiesSet(); 
-//		  } catch (IllegalArgumentException | NamingException e) {
+//		  } catch (IllegalArgumentException e) {
 //			  throw new RuntimeException(); 
-//		  } return (javax.sql.DataSource)
-//		  jndiObjectFactoryBean.getObject();		 
+//		  } catch (NamingException e) {
+//			  throw new RuntimeException(); 
+//		  }
+//		  return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();		 
 
 		org.springframework.jdbc.datasource.DriverManagerDataSource driverManagerDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -67,37 +71,6 @@ public class SpringJavaConfiguration {
 		return localSessionFactoryBean.getObject();
 	}
 	
-	@Bean
-	public EntityManagerFactory entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean localEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		localEntityManagerFactoryBean.setDataSource(this.dataSource());
-		localEntityManagerFactoryBean.setPackagesToScan(new String[] { "*.model" });
-		localEntityManagerFactoryBean.setJpaVendorAdapter(this.jpaVendorAdapter());
-//		localEntityManagerFactoryBean.setPersistenceProviderClass(org.hibernate.jpa.HibernatePersistenceProvider.class);
-		localEntityManagerFactoryBean.setPersistenceXmlLocation("/META-INF/persistence.xml");
-//		localEntityManagerFactoryBean.setPersistenceUnitName("activityBeannn");
-//		java.util.Properties properties = new java.util.Properties();
-//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
-//		properties.setProperty("hibernate.show_sql", "true");
-//		properties.setProperty("hibernate.hbm2ddl.auto", "true");
-//		localEntityManagerFactoryBean.setJpaProperties(properties);
-//		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-//      <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-//      <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-//      <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-		return localEntityManagerFactoryBean.getObject();
-	}
-	
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(true);
-        hibernateJpaVendorAdapter.setGenerateDdl(false);
-        hibernateJpaVendorAdapter.setDatabase(Database.SQL_SERVER);
-        return hibernateJpaVendorAdapter;
-    }
-	
-
 	@Bean
 	public org.springframework.orm.hibernate5.HibernateTransactionManager transactionManager() {
 		org.springframework.orm.hibernate5.HibernateTransactionManager transactionManager = new org.springframework.orm.hibernate5.HibernateTransactionManager();

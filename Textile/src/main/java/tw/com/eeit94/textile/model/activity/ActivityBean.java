@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 /*
  * Java Bean產生步驟：
  * 1. Java Bean名稱為'"Table名稱" + "Bean"'。
@@ -18,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "activity")
+@Component
 	public class ActivityBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	

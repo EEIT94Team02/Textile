@@ -3,9 +3,17 @@
  */
 package tw.com.eeit94.textile.model.activity_member;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.springframework.stereotype.Component;
+
+import tw.com.eeit94.textile.model.activity.ActivityBean;
 
 /*
  * Java Bean產生步驟：
@@ -18,32 +26,35 @@ import javax.persistence.Table;
 @Table(name = "activity_member")
 	public class Activity_memberBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;	
-	
-	
 	@Override
 	public String toString() {
-		return "{" + getActivityno() + "," + getmId()+ "," + getPosition() + "}";
+		return "{" + activity_memberPK.getmId() + "," + activity_memberPK.getActivityno() + "," + getPosition()+ "," + activityBean +"}";
 	}
+
+	@EmbeddedId
+	private Activity_memberPK activity_memberPK ;
 	
-	@Id
-	private Integer activityno;
-	@Id
-	private Integer mId;
+	@MapsId(value="activityno")
+	@JoinColumn(name="activityno")
+	@OneToOne(fetch=FetchType.EAGER)
+	private ActivityBean activityBean;	
+
+	public void setActivityBean(ActivityBean activityBean) {
+		this.activityBean = activityBean;
+	}
+	public ActivityBean getActivityBean() {
+		return activityBean;
+	}
+
 	private String position;
+	
+	public Activity_memberPK getActivity_memberPK() {
+		return activity_memberPK;
+	}
+	public void setActivity_memberPK(Activity_memberPK activity_memberPK) {
+		this.activity_memberPK = activity_memberPK;
+	}
 
-
-	public Integer getActivityno() {
-		return activityno;
-	}
-	public void setActivityno(Integer activityno) {
-		this.activityno = activityno;
-	}
-	public Integer getmId() {
-		return mId;
-	}
-	public void setmId(Integer mId) {
-		this.mId = mId;
-	}
 	public String getPosition() {
 		return position;
 	}

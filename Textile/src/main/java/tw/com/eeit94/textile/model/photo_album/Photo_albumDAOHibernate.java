@@ -24,7 +24,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
  * 4. 加入Bean元件並標記@Autowired。
  */
-@Repository
+@Repository(value = "photo_albumDAO")
 public class Photo_albumDAOHibernate implements Photo_albumDAO {
 	@Autowired
 	private SessionFactory sessionFacotry;
@@ -44,26 +44,26 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		SessionFactory sessionFacotry = (SessionFactory) context.getBean("sessionFactory");
 		sessionFacotry.getCurrentSession().beginTransaction();
 
-		Photo_albumDAO dao = (Photo_albumDAOHibernate) context.getBean("photo_albumDAOHibernate");
+		Photo_albumDAO dao = (Photo_albumDAOHibernate) context.getBean("photo_albumDAO");
 		List<Photo_albumBean> beans = null;
 		Photo_albumBean bean = null;
 
-		beans = dao.select();
-		System.out.println(beans);
+//		beans = dao.select();
+//		System.out.println(beans);
+//
+//		Photo_albumBean test = new Photo_albumBean();
+//		test.setAlbumno(1);
+//		bean = dao.selectByAlbumNo(test);
+//		System.out.println(bean);
 
-		Photo_albumBean test = new Photo_albumBean();
-		test.setAlbumno(1);
-		bean = dao.selectByAlbumNo(test);
-		System.out.println(bean);
-
-		Photo_albumBean insert = new Photo_albumBean();
-		insert.setAlbumname("大頭貼");
-		insert.setCreatetime(new java.sql.Timestamp(System.currentTimeMillis()));
-		insert.setIntroduction("大頭貼");
-		insert.setmId(00000005);
-		insert.setVisibility("公開");
-		bean = dao.insert(insert);
-		System.out.println(bean);
+//		Photo_albumBean insert = new Photo_albumBean();
+//		insert.setAlbumname("大頭貼");
+//		insert.setCreatetime(new java.sql.Timestamp(System.currentTimeMillis()));
+//		insert.setIntroduction("大頭貼");
+//		insert.setmId(00000005);
+//		insert.setVisibility("公開");
+//		bean = dao.insert(insert);
+//		System.out.println(bean);
 
 		Photo_albumBean update = new Photo_albumBean();
 		update.setAlbumno(6);
@@ -100,6 +100,20 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<Photo_albumBean> query = cb.createQuery(Photo_albumBean.class);
 		Root<Photo_albumBean> root = query.from(Photo_albumBean.class);
+//		List<Predicate> coll = new ArrayList<Predicate>();
+//		if(bean.getAlbumname() != null){
+//			coll.add(cb.like(root.<String>get("albumname"),	"%" + bean.getAlbumname() + "%"));
+//		}
+//		if(bean.getIntroduction() != null){
+//			coll.add(cb.like(root.<String>get("albumname"),	"%" + bean.getAlbumname() + "%"));
+//		}
+//		if(bean.getVisibility() != null){
+//			coll.add(cb.like(root.<String>get("visibility"),"%" + bean.getVisibility() + "%"));
+//		}
+//		if(bean.getmId() != null){
+//			coll.add(cb.equal(root.<Integer>get("mId"), bean.getmId()));
+//		}		
+		
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
@@ -112,7 +126,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}
-		return getSession().createQuery(query.where(p1, p2, p3, p4)).getResultList();
+		return getSession().createQuery(query.where(p1,p2,p3,p4)).getResultList();
 	}
 
 	@Override

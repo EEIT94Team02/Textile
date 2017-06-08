@@ -28,8 +28,7 @@ import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
  * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
  * 4. 加入Bean元件並標記@Autowired。
  */
-
-@Repository
+@Repository(value="activity_memberDAO")
 public class Activity_memberDAOHibernate implements Activity_memberDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -47,52 +46,66 @@ public class Activity_memberDAOHibernate implements Activity_memberDAO {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");		
 		sessionFactory.getCurrentSession().beginTransaction();		
-		Activity_memberDAO dao = (Activity_memberDAOHibernate) context.getBean("activity_memberDAOHibernate");
+		Activity_memberDAO dao = (Activity_memberDAOHibernate) context.getBean("activity_memberDAO");
 		
-//		List<Activity_memberBean> beans = dao.select();
+		List<Activity_memberBean> beans;
+		Activity_memberBean bean;
+		Activity_memberPK activity_memberPK;
+		
+//		beans = dao.select();
 //		System.out.println(beans);
 		
-//		Activity_memberBean test = new Activity_memberBean();
-//		test.setActivityno(1);
-//		test.setmId(1);
-//		Activity_memberBean bean = dao.selectByPrimaryKey(test);
-//		System.out.println(bean);
-		
-		Activity_memberBean test = new Activity_memberBean();
-		test.setActivityno(4);
-		test.setmId(1);
-		test.setPosition("參與者");
-		List<Activity_memberBean> beans= dao.selectByOthers(test);		
-		System.out.println(beans);
+		Activity_memberBean select = new Activity_memberBean();
+		activity_memberPK = new Activity_memberPK();
+		activity_memberPK.setActivityno(1);
+		activity_memberPK.setmId(1);
+		select.setActivity_memberPK(activity_memberPK);
+		bean = dao.selectByPrimaryKey(select);
+		System.out.println(bean);
+//		
+//		Activity_memberBean selectother = new Activity_memberBean();
+//		activity_memberPK =  new Activity_memberPK();
+//		activity_memberPK.setActivityno(3);
+//		activity_memberPK.setmId(5);
+//		selectother.setActivity_memberPK(activity_memberPK);		
+//		selectother.setPosition("");
+//		beans= dao.selectByOthers(selectother);		
+//		System.out.println(beans);
 		
 //		Activity_memberBean insert = new Activity_memberBean();
-//	    insert.setActivityno(3);
-//		insert.setmId(5);
+//		activity_memberPK =  new Activity_memberPK();
+//		activity_memberPK.setActivityno(3);
+//		activity_memberPK.setmId(5);		
+//		insert.setActivity_memberPK(activity_memberPK);
+//		insert.setActivityBean(sessionFactory.getCurrentSession().get(ActivityBean.class, activity_memberPK.getActivityno()));
 //		insert.setPosition("參與者");	
-//		Activity_memberBean bean = dao.insert(insert);
+//		bean = dao.insert(insert);
 //		System.out.println(bean);
 		
 //		Activity_memberBean update = new Activity_memberBean();
-//		update.setActivityno(3);
-//		update.setmId(5);
+//		activity_memberPK =  new Activity_memberPK(3,5);
+//		update.setActivity_memberPK(activity_memberPK);
 //		update.setPosition("發起人");	
-//		Activity_memberBean bean = dao.update(update);
+//		bean = dao.update(update);
 //		System.out.println(bean);
 		
-//		Activity_memberBean test = new Activity_memberBean();
+		Activity_memberBean test = new Activity_memberBean();
+		activity_memberPK =  new Activity_memberPK();
+		activity_memberPK.setActivityno(1);
+		test.setActivity_memberPK(activity_memberPK);
 //		test.setActivityno(1);
-//		List<Activity_memberBean> beans= dao.selectByOthers(test);
-//		for(int i = 0; i< beans.size();i++){
-//			beans.get(i).setPosition("取消");
-//		}
-//		dao.updatePosition(beans);
-//		System.out.println(beans);
+		beans= dao.selectByOthers(test);
+		for(int i = 0; i< beans.size();i++){
+			beans.get(i).setPosition("取消");
+		}
+		dao.updatePosition(beans);
+		System.out.println(beans);
 		
-//		Activity_memberBean del = new Activity_memberBean();
-//	    del.setActivityno(3);
-//		del.setmId(5);
-//		boolean result = dao.delete(del);
-//		System.out.println(result);		
+		Activity_memberBean del = new Activity_memberBean();
+		activity_memberPK =  new Activity_memberPK(3,5);
+		del.setActivity_memberPK(activity_memberPK);
+		boolean result = dao.delete(del);
+		System.out.println(result);		
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();
@@ -106,14 +119,7 @@ public class Activity_memberDAOHibernate implements Activity_memberDAO {
 	
 	@Override
 	public Activity_memberBean selectByPrimaryKey(Activity_memberBean bean) {
-		CriteriaBuilder cb = getSession().getCriteriaBuilder();
-		CriteriaQuery<Activity_memberBean> query = cb.createQuery(Activity_memberBean.class);
-		Root<Activity_memberBean> root = query.from(Activity_memberBean.class);
-		query.select(root);
-		Predicate p1 = cb.equal(root.<Integer>get("activityno"), bean.getActivityno());
-		Predicate p2 = cb.equal(root.<Integer>get("mId"), bean.getmId());		
-		
-		return getSession().createQuery(query.where(p1,p2)).getSingleResult();
+		return getSession().get(Activity_memberBean.class, bean.getActivity_memberPK());
 	}
 	
 	@Override
@@ -124,15 +130,15 @@ public class Activity_memberDAOHibernate implements Activity_memberDAO {
 		query.select(root);
 		Predicate p1 ;
 		Predicate p2 ;
-		if(bean.getActivityno() != null){
-			p1 = cb.equal(root.<Integer>get("activityno"), bean.getActivityno());
+		if(bean.getActivity_memberPK().getActivityno() != null){
+			p1 = cb.equal(root.<Integer>get("activity_memberPK").get("activityno"), bean.getActivity_memberPK().getActivityno());
 		} else{
-			p1 = cb.ge(root.<Integer>get("activityno"), 0);
+			p1 = cb.ge(root.<Integer>get("activity_memberPK").get("activityno"), 0);
 		}
-		if(bean.getmId() != null){
-			p2 = cb.equal(root.<Integer>get("mId"), bean.getmId());
+		if(bean.getActivity_memberPK().getmId() != null){
+			p2 = cb.equal(root.<Integer>get("activity_memberPK").get("mId"), bean.getActivity_memberPK().getmId());
 		} else{
-			p2 = cb.ge(root.<Integer>get("mId"), 0);
+			p2 = cb.ge(root.<Integer>get("activity_memberPK").get("mId"), 0);
 		}		
 		Predicate p3 = cb.like(root.<String>get("position"), bean.getPosition()== null ? "%" : "%"+bean.getPosition()+"%");
 		
