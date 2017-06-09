@@ -24,18 +24,18 @@ public class TestPhotoService {
 		PhotoBean bean = null;
 		List<PhotoBean>  beans = null;
 		
-		beans = service.select();
-		System.out.println(beans);
-		
-		PhotoBean select = new PhotoBean();
-		select.setPhotono("20170527000000020001");
-		bean = service.selectByphotono(select);
-		System.out.println(bean);
-		
-		PhotoBean selectbyAlbum = new PhotoBean();
-		selectbyAlbum.setAlbumno(1);
-		beans = service.selectByAlbumno(selectbyAlbum);
-		System.out.println(beans);
+//		beans = service.select();
+//		System.out.println(beans);
+//		
+//		PhotoBean select = new PhotoBean();
+//		select.setPhotono("20170527000000020001");
+//		bean = service.selectByphotono(select);
+//		System.out.println(bean);
+//		
+//		PhotoBean selectbyAlbum = new PhotoBean();
+//		selectbyAlbum.setAlbumno(1);
+//		beans = service.selectByAlbumno(selectbyAlbum);
+//		System.out.println(beans);
 		
 		//test uploadPhot
 		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
@@ -65,20 +65,20 @@ public class TestPhotoService {
 		bean = service.insertDataToTable(insert);
 		System.out.println(bean);
 		
-		PhotoBean update = new PhotoBean();
-		update.setAlbumno(2);
-		update.setPhotono(beanPhotoNo);
-		update.setInterpretation("XXX");
-		update.setVisibility("私人");
-		update.setPosition("OOO");
-		update.setPhotoname("Nole");
-		bean = service.updatePhotoinfo(update);
-		System.out.println(bean);
-		
-		PhotoBean removePhoto = new PhotoBean();
-		removePhoto.setPhotono("20170608000000010003");
-		boolean remove = service.removePhoto(removePhoto);
-		System.out.println(remove);
+//		PhotoBean update = new PhotoBean();
+//		update.setAlbumno(2);
+//		update.setPhotono(beanPhotoNo);
+//		update.setInterpretation("XXX");
+//		update.setVisibility("私人");
+//		update.setPosition("OOO");
+//		update.setPhotoname("Nole");
+//		bean = service.updatePhotoinfo(update);
+//		System.out.println(bean);
+//		
+//		PhotoBean removePhoto = new PhotoBean();
+//		removePhoto.setPhotono("20170608000000010003");
+//		boolean remove = service.removePhoto(removePhoto);
+//		System.out.println(remove);
 		
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();
