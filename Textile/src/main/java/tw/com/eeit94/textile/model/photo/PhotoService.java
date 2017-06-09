@@ -17,12 +17,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
- * Service產生步驟：
- * 1. Service名稱為'"Table名稱" + "Service"'。
- * 2. 標記@Service。
- * 3. 加入至少一個Bean元件並標記@Autowired。
- */
 @Service
 @Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 public class PhotoService {
@@ -38,10 +32,12 @@ public class PhotoService {
 		return photoDAO.select();
 	}
 
+	@Transactional(readOnly=true)
 	public List<PhotoBean> selectByAlbumno(PhotoBean bean) {
 		return photoDAO.selectByAlbumno(bean);
 	}
 
+	@Transactional(readOnly=true)
 	public PhotoBean selectByphotono(PhotoBean bean) {
 		return photoDAO.selectByPrimarykey(bean);
 	}

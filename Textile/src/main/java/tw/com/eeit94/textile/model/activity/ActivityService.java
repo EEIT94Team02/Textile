@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 
 /*
  * Service產生步驟：
@@ -16,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 3. 加入至少一個Bean元件並標記@Autowired。
  */
 @Service
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 public class ActivityService {
 	@Autowired
 	private ActivityDAO activityDao;
@@ -24,20 +26,19 @@ public class ActivityService {
 	public ActivityService(ActivityDAO activityDao) {
 		this.activityDao = activityDao;
 	}
-
-	/*
-	 * 實作企業邏輯
-	 */
-	@Transactional
+		
+	
+	@Transactional(readOnly=true)
 	public List<ActivityBean> selectAll() {
 		return activityDao.select();
 	}	
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public ActivityBean selectByActivityNO(ActivityBean bean) {
 		return activityDao.select(bean);
 	}
-	@Transactional
+
+	@Transactional(readOnly=true)
 	public List<ActivityBean> customeSelect(ActivityBean bean , String string) {
 		List<ActivityBean> result = null;		
 		try {
@@ -46,13 +47,12 @@ public class ActivityService {
 			e.printStackTrace();
 		}		
 		return result;
-	}
-	
-	@Transactional
+	}	
+
 	public ActivityBean createNewActivity(ActivityBean bean) {
 		return activityDao.insert(bean);
 	}
-	@Transactional
+
 	public ActivityBean updateActivity(ActivityBean bean) {
 		ActivityBean result = this.selectByActivityNO(bean);
 		if(result != null){
@@ -67,7 +67,6 @@ public class ActivityService {
 		return null;
 	}
 	
-	@Transactional
 	public Boolean deleteActivity(ActivityBean bean) {
 		return activityDao.delete(bean);
 	}

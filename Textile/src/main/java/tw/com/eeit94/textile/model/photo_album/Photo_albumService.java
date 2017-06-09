@@ -6,6 +6,8 @@ package tw.com.eeit94.textile.model.photo_album;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /*
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 3. 加入至少一個Bean元件並標記@Autowired。
  */
 @Service
+@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 public class Photo_albumService {
 	@Autowired
 	private Photo_albumDAO photo_albumDAO;
@@ -22,37 +25,25 @@ public class Photo_albumService {
 		this.photo_albumDAO = photo_albumDAO;
 	}
 
-	// 測試程式
-	public static void main(String args[]) {
-
-	}
-
-
-	/*
-	 * 實作企業邏輯
-	 */
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Photo_albumBean> select() {
 		return photo_albumDAO.select();
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Photo_albumBean findPhotoAlbumByAlbumNo(Photo_albumBean bean) {
 		return photo_albumDAO.selectByAlbumNo(bean);		
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Photo_albumBean> findPhotoAlbumByOthers(Photo_albumBean bean) {
 		return photo_albumDAO.selectByOthers(bean);		
 	}
 	
-	
-	@Transactional
 	public Photo_albumBean createPhotoAlbum(Photo_albumBean bean) {
 		return photo_albumDAO.insert(bean);
 	}
 	
-	@Transactional
 	public Photo_albumBean ChangePhotoAlbumColumn(Photo_albumBean bean) {
 		Photo_albumBean search = this.findPhotoAlbumByAlbumNo(bean);
 		if(search != null){
@@ -64,7 +55,6 @@ public class Photo_albumService {
 		return null;
 	}
 	
-	@Transactional
 	public boolean deletePhotoAlbum(Photo_albumBean bean) {
 		Photo_albumBean search = this.findPhotoAlbumByAlbumNo(bean);
 		if(search != null){

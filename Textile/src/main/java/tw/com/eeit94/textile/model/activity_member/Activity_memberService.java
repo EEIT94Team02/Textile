@@ -8,15 +8,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
- * Service產生步驟：
- * 1. Service名稱為'"Table名稱" + "Service"'。
- * 2. 標記@Service。
- * 3. 加入至少一個Bean元件並標記@Autowired。
- */
 @Service
+@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 public class Activity_memberService {
 
 	@Autowired
@@ -25,21 +22,18 @@ public class Activity_memberService {
 	public Activity_memberService(Activity_memberDAO activityMemberDAO) {
 		this.activityMemberDAO = activityMemberDAO;
 	}
-
-	/*
-	 * 實作企業邏輯
-	 */
-	@Transactional // import org.springframework.transaction.annotation.Transactional;
+	
+	@Transactional(readOnly=true)
 	public List<Activity_memberBean> findAll() {
 		return activityMemberDAO.select();
 	}	
 	
-	@Transactional // import org.springframework.transaction.annotation.Transactional;
+	@Transactional(readOnly=true)
 	public List<Activity_memberBean> findActivityMemberByActivityNo(Activity_memberBean bean) {
 		return activityMemberDAO.selectByOthers(bean);
 	}
 	
-	@Transactional // import org.springframework.transaction.annotation.Transactional;
+	@Transactional(readOnly=true)
 	public List<Activity_memberBean> findActivityNoByMemberId(Activity_memberBean bean) {
 		return activityMemberDAO.selectByOthers(bean);
 	}
@@ -49,10 +43,11 @@ public class Activity_memberService {
 	}	
 	
 	public Activity_memberBean changePosition(Activity_memberBean bean){
-//		if(bean.getActivityno() != null && bean.getmId() != null){
-//			return activityMemberDAO.update(bean);
-//		}
-		return null;
+		Activity_memberBean result= activityMemberDAO.selectByPrimaryKey(bean);
+		if(result != null){
+			result.setPosition(bean.getPosition());
+		}
+		return result;
 	}
 	
 	public List<Activity_memberBean> commitAllActivity(Activity_memberBean bean){
