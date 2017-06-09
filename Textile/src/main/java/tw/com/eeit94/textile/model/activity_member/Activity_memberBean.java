@@ -11,6 +11,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import tw.com.eeit94.textile.model.activity.ActivityBean;
 
 /*
@@ -22,33 +24,38 @@ import tw.com.eeit94.textile.model.activity.ActivityBean;
  */
 @Entity
 @Table(name = "activity_member")
-	public class Activity_memberBean implements java.io.Serializable {
-	private static final long serialVersionUID = 1L;	
+@Component
+public class Activity_memberBean implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
-		return "{" + activity_memberPK.getmId() + "," + activity_memberPK.getActivityno() + "," + getPosition()+ "," + activityBean +"}";
+		return "{" + activity_memberPK.getmId() + "," + activity_memberPK.getActivityno() + "," + getPosition() + ","
+				+ activityBean + "}";
 	}
 
 	@EmbeddedId
-	private Activity_memberPK activity_memberPK ;
-	
-	@MapsId(value="activityno")
-	@JoinColumn(name="activityno")
-	@OneToOne(fetch=FetchType.EAGER)
+	private Activity_memberPK activity_memberPK;
+
+	@MapsId(value = "activityno")
+	@JoinColumn(name = "activityno")
+	@OneToOne(fetch = FetchType.EAGER)
 	private ActivityBean activityBean;
 
 	public ActivityBean getActivityBean() {
 		return activityBean;
 	}
+
 	public void setActivityBean(ActivityBean activityBean) {
 		this.activityBean = activityBean;
 	}
 
 	private String position;
-	
+
 	public Activity_memberPK getActivity_memberPK() {
 		return activity_memberPK;
 	}
+
 	public void setActivity_memberPK(Activity_memberPK activity_memberPK) {
 		this.activity_memberPK = activity_memberPK;
 	}
@@ -56,13 +63,9 @@ import tw.com.eeit94.textile.model.activity.ActivityBean;
 	public String getPosition() {
 		return position;
 	}
+
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
-
-
-
-
 
 }

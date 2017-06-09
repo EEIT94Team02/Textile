@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 /*
  * Java Bean產生步驟：
  * 1. Java Bean名稱為'"Table名稱" + "Bean"'。
@@ -18,18 +20,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "photo_album")
-	public class Photo_albumBean implements java.io.Serializable {
+@Component
+public class Photo_albumBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
-		return "{"+getAlbumno() + "," + getCreatetime()
-				+ "," + getAlbumname() + "," + getIntroduction()
-				+ "," + getVisibility() + "," + getmId()+"}";
+		return "{" + getAlbumno() + "," + getCreatetime() + "," + getAlbumname() + "," + getIntroduction() + ","
+				+ getVisibility() + "," + getmId() + "}";
 	}
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer albumno;
 	private java.sql.Timestamp createtime;
 	private String albumname;
@@ -40,45 +42,49 @@ import javax.persistence.Table;
 	public Integer getAlbumno() {
 		return albumno;
 	}
+
 	public void setAlbumno(Integer albumno) {
 		this.albumno = albumno;
 	}
+
 	public java.sql.Timestamp getCreatetime() {
 		return createtime;
 	}
+
 	public void setCreatetime(java.sql.Timestamp createtime) {
 		this.createtime = createtime;
 	}
+
 	public String getAlbumname() {
 		return albumname;
 	}
+
 	public void setAlbumname(String albumname) {
 		this.albumname = albumname;
 	}
+
 	public String getIntroduction() {
 		return introduction;
 	}
+
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+
 	public String getVisibility() {
 		return visibility;
 	}
+
 	public void setVisibility(String visibility) {
 		this.visibility = visibility;
 	}
+
 	public Integer getmId() {
 		return mId;
 	}
+
 	public void setmId(Integer mId) {
 		this.mId = mId;
-	}	
-	
-
-	
-
-
-
-
+	}
 
 }

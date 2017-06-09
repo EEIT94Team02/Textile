@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 3. 加入至少一個Bean元件並標記@Autowired。
  */
 @Service
+@Transactional
 public class ActivityService {
 	@Autowired
 	private ActivityDAO activityDao;

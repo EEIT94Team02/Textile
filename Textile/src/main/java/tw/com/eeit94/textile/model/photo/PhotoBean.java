@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 
 /*
@@ -21,17 +24,16 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
  */
 @Entity
 @Table(name = "photo")
-	public class PhotoBean implements java.io.Serializable {
+@Component
+public class PhotoBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	
 
 	@Override
 	public String toString() {
-		return "{" + getPhotono() + "," + getRespath() + "," + getPhotoname() + "," + getInterpretation()
-				+ "," + getAlbumno() + "," + getPosition() + ","+ getVisibility() 
-				+ "," + getPhoto_albumBean() + "}";
+		return "{" + getPhotono() + "," + getRespath() + "," + getPhotoname() + "," + getInterpretation() + ","
+				+ getAlbumno() + "," + getPosition() + "," + getVisibility() + "," + getPhoto_albumBean() + "}";
 	}
+
 	@Id
 	private String photono;
 	private String respath;
@@ -39,22 +41,25 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 	private String interpretation;
 	private Integer albumno;
 	private String position;
-	private String visibility;	
-	
-	@MapsId(value="albumno")
-	@JoinColumn(name="albumno")
-	@OneToOne(fetch=FetchType.EAGER)
-	private Photo_albumBean photo_albumBean;	
-	
+	private String visibility;
+
+	@MapsId(value = "albumno")
+	@JoinColumn(name = "albumno")
+	@OneToOne(fetch = FetchType.EAGER)
+	private Photo_albumBean photo_albumBean;
+
 	public Photo_albumBean getPhoto_albumBean() {
 		return photo_albumBean;
 	}
+
 	public void setPhoto_albumBean(Photo_albumBean photo_albumBean) {
 		this.photo_albumBean = photo_albumBean;
 	}
+
 	public String getPhotono() {
 		return photono;
 	}
+
 	public void setPhotono(String photono) {
 		this.photono = photono;
 	}
@@ -62,41 +67,49 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 	public String getRespath() {
 		return respath;
 	}
+
 	public void setRespath(String respath) {
 		this.respath = respath;
 	}
+
 	public String getPhotoname() {
 		return photoname;
 	}
+
 	public void setPhotoname(String photoname) {
 		this.photoname = photoname;
 	}
+
 	public String getInterpretation() {
 		return interpretation;
 	}
+
 	public void setInterpretation(String interpretation) {
 		this.interpretation = interpretation;
 	}
+
 	public Integer getAlbumno() {
 		return albumno;
 	}
+
 	public void setAlbumno(Integer albumno) {
 		this.albumno = albumno;
 	}
+
 	public String getPosition() {
 		return position;
 	}
+
 	public void setPosition(String position) {
 		this.position = position;
 	}
+
 	public String getVisibility() {
 		return visibility;
 	}
+
 	public void setVisibility(String visibility) {
 		this.visibility = visibility;
 	}
-
-
-
 
 }
