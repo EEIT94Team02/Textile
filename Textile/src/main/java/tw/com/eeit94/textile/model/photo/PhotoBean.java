@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import tw.com.eeit94.textile.model.activity.ActivityBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 
 /*

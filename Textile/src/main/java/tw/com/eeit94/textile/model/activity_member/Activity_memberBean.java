@@ -7,11 +7,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.springframework.stereotype.Component;
 
 import tw.com.eeit94.textile.model.activity.ActivityBean;
 
@@ -37,13 +35,13 @@ import tw.com.eeit94.textile.model.activity.ActivityBean;
 	@MapsId(value="activityno")
 	@JoinColumn(name="activityno")
 	@OneToOne(fetch=FetchType.EAGER)
-	private ActivityBean activityBean;	
+	private ActivityBean activityBean;
 
-	public void setActivityBean(ActivityBean activityBean) {
-		this.activityBean = activityBean;
-	}
 	public ActivityBean getActivityBean() {
 		return activityBean;
+	}
+	public void setActivityBean(ActivityBean activityBean) {
+		this.activityBean = activityBean;
 	}
 
 	private String position;

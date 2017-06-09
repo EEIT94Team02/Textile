@@ -6,15 +6,9 @@ package tw.com.eeit94.textile.model.activity_member;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import tw.com.eeit94.textile.model.spring.SpringJavaConfiguration;
 
 /*
  * Service產生步驟：
@@ -30,56 +24,6 @@ public class Activity_memberService {
 	
 	public Activity_memberService(Activity_memberDAO activityMemberDAO) {
 		this.activityMemberDAO = activityMemberDAO;
-	}
-
-	// 測試程式
-	public static void main(String args[]) {
-		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
-		Activity_memberService service = (Activity_memberService) context.getBean("activity_memberService");
-		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
-		sessionFactory.getCurrentSession().beginTransaction();
-		
-//		List<Activity_memberBean> beans = service.findAll();
-//		System.out.println(beans);
-		
-//		Activity_memberBean select = new Activity_memberBean();
-//		select.setActivityno(1);
-//		List<Activity_memberBean> beans = service.findActivityMemberByActivityNo(select);
-//		System.out.println(beans);
-		
-//		Activity_memberBean select = new Activity_memberBean();
-//		select.setmId(1);
-//		List<Activity_memberBean> beans = service.findActivityNoByMemberId(select);
-//		System.out.println(beans);
-		
-//		Activity_memberBean add = new Activity_memberBean();
-//		add.setActivityno(2);
-//		add.setmId(5);
-//		add.setPosition("待回覆");
-//		Activity_memberBean bean = service.addNewActivityMember(add);
-//		System.out.println(bean);
-		
-//		Activity_memberBean change = new Activity_memberBean();
-//		change.setActivityno(2);
-//		change.setmId(5);
-//		change.setPosition("參與者");
-//		Activity_memberBean bean = service.changePosition(change);
-//		System.out.println(bean);
-		
-//		Activity_memberBean com = new Activity_memberBean();
-//		com.setmId(1);
-//		List<Activity_memberBean> result = service.commitAllActivity(com);
-//		System.out.println(result);
-		
-//		Activity_memberBean del = new Activity_memberBean();
-//		del.setActivityno(1);
-//		boolean result = service.deleteByActivityNo(del);
-//		System.out.println(result);
-		
-		sessionFactory.getCurrentSession().getTransaction().commit();
-		sessionFactory.getCurrentSession().close();
-		((ConfigurableApplicationContext) context).close();
-		
 	}
 
 	/*
