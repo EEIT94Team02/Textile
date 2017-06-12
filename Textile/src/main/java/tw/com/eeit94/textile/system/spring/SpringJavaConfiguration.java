@@ -39,11 +39,11 @@ public class SpringJavaConfiguration {
 
 		org.springframework.jdbc.datasource.DriverManagerDataSource driverManagerDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		// driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
-		driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.1.146:1433;DatabaseName=textile");
+		 driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
+//		driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.1.146:1433;DatabaseName=textile");
 		driverManagerDataSource.setUsername("sa");
-		// driverManagerDataSource.setPassword("sa123456");
-		driverManagerDataSource.setPassword("P@ssw0rd");
+		 driverManagerDataSource.setPassword("sa123456");
+//		driverManagerDataSource.setPassword("P@ssw0rd");
 		return driverManagerDataSource;
 	}
 
