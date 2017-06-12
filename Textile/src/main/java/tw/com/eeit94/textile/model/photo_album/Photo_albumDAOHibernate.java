@@ -1,6 +1,3 @@
-/*
- * 假設"Table名稱"為"example"，套件名稱用tw.com.eeit94.textile.model."Table名稱"。
- */
 package tw.com.eeit94.textile.model.photo_album;
 
 import java.util.List;
@@ -13,12 +10,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-/*
- * Hibernate DAO產生步驟：
- * 1. Hibernate DAO名稱為'"Table名稱" + "DAOHibernate"'。
- * 2. 實作'"Table名稱" + "DAO"'介面，並覆寫方法。
- * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
- * 4. 加入Bean元件並標記@Autowired。
+/**
+ * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 
+ * @author 陳
+ * @version 2017/06/12
  */
 @Repository(value = "photo_albumDAO")
 public class Photo_albumDAOHibernate implements Photo_albumDAO {
@@ -31,11 +27,6 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 
 	private Session getSession() {
 		return sessionFacotry.getCurrentSession();
-	}
-
-	// 測試程式
-	public static void main(String args[]) {
-
 	}
 
 	@Override
@@ -65,8 +56,8 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 //		}
 //		if(bean.getmId() != null){
 //			coll.add(cb.equal(root.<Integer>get("mId"), bean.getmId()));
-//		}		
-		
+//		}	
+
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
@@ -79,7 +70,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}
-		return getSession().createQuery(query.where(p1,p2,p3,p4)).getResultList();
+		return getSession().createQuery(query.where(p1, p2, p3, p4)).getResultList();
 	}
 
 	@Override
@@ -112,5 +103,4 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		}
 		return false;
 	}
-
 }

@@ -9,10 +9,18 @@ import java.util.List;
  * DAO產生步驟：
  * 1. DAO名稱為'"Table名稱" + "DAO"'。
  * 2. Service需要任何DAO時，先在介面定義方法。
+ * 3. 加上javadoc的註解，在Spring或Hibernate的Annotation上方，@author和@version必寫，@version為日期。
+ */
+/**
+ * [空行] 
+ * 本欄未必須由Shift+Alt+J產生，複製貼上也可(要改內容)，這裡簡單敘述這個元件的功能或地位，上面的註解不用留著，example的套件留著就好。
+ * [空行]
+ * @author 賴
+ * @version 2017/06/10
  */
 public interface ExampleDAO {
 
-	public List<ExampleBean> select();
+	public List<ExampleBean> selectAll();
 
 	public ExampleBean select(ExampleBean bean);
 

@@ -1,23 +1,21 @@
-/*
- * 假設"Table名稱"為"example"，套件名稱用tw.com.eeit94.textile.model."Table名稱"。
- */
 package tw.com.eeit94.textile.model.photo;
 
 import java.util.List;
 
-/*
- * DAO產生步驟：
- * 1. DAO名稱為'"Table名稱" + "DAO"'。
- * 2. Service需要任何DAO時，先在介面定義方法。
+/**
+ * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 
+ * @author 陳
+ * @version 2017/06/12
  */
 public interface PhotoDAO {
 
 	public List<PhotoBean> select();
 
 	public PhotoBean selectByPrimarykey(PhotoBean bean);
-	
+
 	public List<PhotoBean> selectByAlbumno(PhotoBean bean);
-	
+
 	public List<PhotoBean> selectByOthers(PhotoBean bean);
 
 	public PhotoBean insert(PhotoBean bean);
@@ -27,7 +25,4 @@ public interface PhotoDAO {
 	public boolean delete(PhotoBean bean);
 
 	public String selectMax(PhotoBean bean);
-
-// 補充：因應企業邏輯可能要添加DAO的搜尋方式。
-//	public List<PhotoBean> selectByPriceLessThan(double price);
 }

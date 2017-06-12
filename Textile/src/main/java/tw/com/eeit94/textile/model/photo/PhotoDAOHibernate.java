@@ -1,6 +1,3 @@
-/*
- * 假設"Table名稱"為"example"，套件名稱用tw.com.eeit94.textile.model."Table名稱"。
- */
 package tw.com.eeit94.textile.model.photo;
 
 import java.util.List;
@@ -14,15 +11,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-/*
- * Hibernate DAO產生步驟：
- * 1. Hibernate DAO名稱為'"Table名稱" + "DAOHibernate"'。
- * 2. 實作'"Table名稱" + "DAO"'介面，並覆寫方法。
- * 3. 標記@Repository(value = '"Table名稱(第一個字母小寫)" + "DAO"')。
- * 4. 加入Bean元件並標記@Autowired。
+/**
+ * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 
+ * @author 陳
+ * @version 2017/06/12
  */
-@Repository(value="photoDAO")
+@Repository(value = "photoDAO")
 public class PhotoDAOHibernate implements PhotoDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -35,25 +30,19 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
-	// 測試程式
-	public static void main(String args[]) {
-
-	}
-	
 	@Override
 	public String selectMax(PhotoBean bean) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<PhotoBean> query = cb.createQuery(PhotoBean.class);
 		Root<PhotoBean> root = query.from(PhotoBean.class);
-		Predicate p1 = cb.like(root.<String>get("photono"), bean.getPhotono()+"%");
+		Predicate p1 = cb.like(root.<String>get("photono"), bean.getPhotono() + "%");
 		List<PhotoBean> temp = getSession().createQuery(query.where(p1)).getResultList();
-		if(temp.isEmpty()){
+		if (temp.isEmpty()) {
 			return "00000000000000000000";
 		}
-		String beanPhotono = temp.get(temp.size()-1).getPhotono();
+		String beanPhotono = temp.get(temp.size() - 1).getPhotono();
 		return beanPhotono;
 	}
-	
 
 	@Override
 	public List<PhotoBean> select() {
@@ -131,5 +120,4 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		}
 		return false;
 	}
-
 }

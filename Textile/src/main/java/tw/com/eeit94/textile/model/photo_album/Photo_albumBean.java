@@ -1,6 +1,3 @@
-/*
- * 假設"Table名稱"為"example"，套件名稱用tw.com.eeit94.textile.model."Table名稱"。
- */
 package tw.com.eeit94.textile.model.photo_album;
 
 import javax.persistence.Entity;
@@ -11,12 +8,11 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-/*
- * Java Bean產生步驟：
- * 1. Java Bean名稱為'"Table名稱" + "Bean"'。
- * 2. 將屬性打好，屬性名稱即Table的欄位名稱，全宣告為private，全使用包裹類別，用Eclipse產生getter和setter。
- * 3. 使用JPA只需在類別、屬性上方標annotation，不需要表格映射檔。
- * 4. 使用JPA要實作介面Serializable。
+/**
+ * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 
+ * @author 陳
+ * @version 2017/06/12
  */
 @Entity
 @Table(name = "photo_album")
@@ -86,5 +82,4 @@ public class Photo_albumBean implements java.io.Serializable {
 	public void setmId(Integer mId) {
 		this.mId = mId;
 	}
-
 }
