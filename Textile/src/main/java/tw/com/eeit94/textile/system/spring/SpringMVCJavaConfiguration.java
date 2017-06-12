@@ -14,9 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author 賴
  * @version 2017/06/10
  */
-// @Configuration
-// @ComponentScan(basePackages = { "*.do" })
-// @EnableWebMvc
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "tw.com.eeit94.textile.controller" })
 public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	/*
@@ -26,7 +26,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * 
 	 * 2. 方法名稱就是Bean的真實ID(變數名稱)，謹慎取名。 範例如下：
 	 */
-	/*
+
 	@Bean(name = { "login.success" })
 	public org.springframework.web.servlet.view.RedirectView login_success() {
 		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
@@ -41,7 +41,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/user/login.jsp");
 		return internalResourceView;
 	}
-	*/
+
 
 	/**
 	 * ****** View Resolver ****** View的ID和name如果打好，這個View Resolver就很夠用了。

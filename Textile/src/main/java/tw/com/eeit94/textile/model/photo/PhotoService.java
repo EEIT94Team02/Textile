@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -21,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2017/06/12
  */
 @Service
-@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, timeout = -1)
 public class PhotoService {
 	@Autowired
 	private PhotoDAO photoDAO;
@@ -69,7 +71,9 @@ public class PhotoService {
 		return memberIdString;
 	}
 
-	public String countphoto(PhotoBean bean) {
+	public String countphoto(String beanno) {
+		PhotoBean bean = null;
+		bean.setPhotono(beanno);
 		String temp = photoDAO.selectMax(bean);
 		temp = temp.substring(temp.length() - 4, temp.length());
 		String max = String.valueOf(Integer.parseInt(temp) + 1);
@@ -80,27 +84,38 @@ public class PhotoService {
 		return result;
 	}
 
-	public PhotoBean insertDataToTable(PhotoBean bean) {
-		return photoDAO.insert(bean);
-	}
+	@Transactional
+	public List<PhotoBean> uploadPhoto(MultipartFile[] files, File rootfolder, PhotoBean bean) {
+		List<PhotoBean> result = new ArrayList<PhotoBean>();
+		MultipartFile file = null;
+		PhotoBean insertBean = null;
+		if (!rootfolder.exists()) {
+			rootfolder.mkdirs();
+		}
 
-	public File uploadPhoto(File file, File rootfolder) {
-		File result = null;
-		// "C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
-		// rootfolder+file.getName()+".jpg"
-		UID photo = new UID();
-		File file2 = new File(rootfolder + "/XXXX/" + photo.hashCode() + ".jpg");
-		FileInputStream fis = null;
+		InputStream fis = null;
 		FileOutputStream fos = null;
 		try {
-			file2.getParentFile().mkdir();
-			fis = new FileInputStream(file);
-			fos = new FileOutputStream(file2, true);
-			int data;
-			while ((data = fis.read()) != -1) {
-				fos.write(data);
+			for (int i = 0; i < files.length; i++) {
+				file = files[i];
+				UID photo = new UID();
+				File file2 = new File("" + rootfolder + photo.hashCode());
+
+				fis = file.getInputStream();
+				fos = new FileOutputStream(file2, true);
+				int data;
+				while ((data = fis.read()) != -1) {
+					fos.write(data);
+				}
+				bean.setRespath(file2.getPath());
+				String time = this.getTimeString();
+				String memberIdString = this.getMemberIdString(bean.getAlbumno());
+				bean.setPhotono(this.countphoto(time + memberIdString));
+				insertBean = photoDAO.insert(bean);
+				if (insertBean != null) {
+					result.add(insertBean);
+				}
 			}
-			result = file2;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -124,6 +139,7 @@ public class PhotoService {
 		return result;
 	}
 
+	@Transactional
 	public PhotoBean updatePhotoinfo(PhotoBean bean) {
 		PhotoBean result = null;
 		PhotoBean phonebean = this.selectByphotono(bean);
@@ -139,6 +155,7 @@ public class PhotoService {
 		return result;
 	}
 
+	@Transactional
 	public boolean removePhoto(PhotoBean bean) {
 		boolean result = false;
 		PhotoBean phonebean = photoDAO.selectByPrimarykey(bean);

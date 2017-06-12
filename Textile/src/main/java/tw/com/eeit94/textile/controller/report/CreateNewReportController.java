@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.controller.news;
+package tw.com.eeit94.textile.controller.report;
 
 import java.io.IOException;
 import java.io.Writer;

@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.model.log;
+package tw.com.eeit94.textile.model.logs;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
