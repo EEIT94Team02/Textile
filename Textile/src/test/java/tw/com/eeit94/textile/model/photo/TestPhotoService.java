@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
 import tw.com.eeit94.textile.model.photo.PhotoBean;
 import tw.com.eeit94.textile.model.photo.PhotoService;
@@ -29,25 +30,18 @@ public class TestPhotoService {
 		PhotoBean bean = null;
 		List<PhotoBean> beans = null;
 
-		// beans = service.select();
-		// System.out.println(beans);
-		//
-		// PhotoBean select = new PhotoBean();
-		// select.setPhotono("20170527000000020001");
-		// bean = service.selectByphotono(select);
-		// System.out.println(bean);
-		//
-		// PhotoBean selectbyAlbum = new PhotoBean();
-		// selectbyAlbum.setAlbumno(1);
-		// beans = service.selectByAlbumno(selectbyAlbum);
-		// System.out.println(beans);
-
-		// test uploadPhot
-		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
-		File target = new File("C:/Textile/repository/Textile/src/main/webapp/photos/");
-		// "C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
-		File result = service.uploadPhoto(file, target);
-		System.out.println(result.getName());
+//		 beans = service.select();
+//		 System.out.println(beans);
+//		
+		 PhotoBean select = new PhotoBean();
+		 select.setPhotono("20170527000000020001");
+		 bean = service.selectByphotono(select);
+		 System.out.println(bean);
+		
+//		 PhotoBean selectbyAlbum = new PhotoBean();
+//		 selectbyAlbum.setAlbumno(1);
+//		 beans = service.selectByAlbumno(selectbyAlbum);
+//		 System.out.println(beans);
 
 		// test getTimeString , getMemberIdString , countphoto
 		PhotoBean insert = new PhotoBean();
@@ -55,19 +49,22 @@ public class TestPhotoService {
 		System.out.println(timeString);
 		String memberIdString = service.getMemberIdString(1);
 		System.out.println(memberIdString);
-		insert.setPhotono(timeString + memberIdString);
-		String beanPhotoNo = service.countphoto(insert);
+		int beanPhotoNo = service.countphoto(timeString + memberIdString);
 		System.out.println(beanPhotoNo);
-
+		StringBuilder sb = new StringBuilder();
+		String tempno = sb.append("0000").append(beanPhotoNo).substring(sb.length() - 4, sb.length());
+		String newphotono = timeString + memberIdString + tempno;
+		bean.setPhotono(newphotono);
+		
 		// test insertDataToTable
-		insert.setPhotono(beanPhotoNo);
-		insert.setRespath(result.getPath());
+		insert.setPhotono(newphotono);
 		insert.setAlbumno(1);
 		insert.setPhotoname("Nadal");
 		insert.setPosition("大頭貼");
 		insert.setVisibility("公開");
 		insert.setInterpretation("US OPEN Champion");
-		bean = service.insertDataToTable(insert);
+		insert.setPhoto_albumBean(bean.getPhoto_albumBean());
+		bean = service.insertDataToPhoto(insert);
 		System.out.println(bean);
 
 		// PhotoBean update = new PhotoBean();

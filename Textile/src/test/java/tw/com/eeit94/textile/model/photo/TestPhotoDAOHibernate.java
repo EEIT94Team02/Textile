@@ -64,7 +64,7 @@ public class TestPhotoDAOHibernate {
 		System.out.println(beans);
 
 		PhotoBean insert = new PhotoBean();
-		insert.setPhotono("20170527000000010002");
+		insert.setPhotono("20170527000000010004");
 		insert.setRespath("xxx");
 		insert.setPhotoname("Roger");
 		insert.setInterpretation("tennis");

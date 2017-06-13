@@ -7,6 +7,7 @@ import javax.naming.NamingException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsFileUploadSupport;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
  */
 @Configuration
 @ComponentScan(basePackages = { "tw.com.eeit94.textile.model" })
+@EnableTransactionManagement
 public class SpringJavaConfiguration {
 
 	/**
@@ -30,25 +32,24 @@ public class SpringJavaConfiguration {
 	@Bean
 	public javax.sql.DataSource dataSource() {
 
-		org.springframework.jndi.JndiObjectFactoryBean jndiObjectFactoryBean = new org.springframework.jndi.JndiObjectFactoryBean();
-		jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB");
-		try {
-			jndiObjectFactoryBean.afterPropertiesSet();
-		} catch (IllegalArgumentException | NamingException e) {
-			throw new RuntimeException();
-		}
-		return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
+		 org.springframework.jndi.JndiObjectFactoryBean jndiObjectFactoryBean
+		 = new org.springframework.jndi.JndiObjectFactoryBean();
+		 jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB");
+		 try {
+		 jndiObjectFactoryBean.afterPropertiesSet();
+		 } catch (IllegalArgumentException | NamingException e) {
+		 throw new RuntimeException();
+		 }
+		 return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
 
-		// org.springframework.jdbc.datasource.DriverManagerDataSource
-		// driverManagerDataSource = new
-		// org.springframework.jdbc.datasource.DriverManagerDataSource();
-		// driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		// driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
-		//// driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.1.146:1433;DatabaseName=textile");
-		// driverManagerDataSource.setUsername("sa");
-		// driverManagerDataSource.setPassword("sa123456");
-		//// driverManagerDataSource.setPassword("P@ssw0rd");
-		// return driverManagerDataSource;
+//		org.springframework.jdbc.datasource.DriverManagerDataSource driverManagerDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();
+//		driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//		driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
+//		// driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.1.146:1433;DatabaseName=textile");
+//		driverManagerDataSource.setUsername("sa");
+//		driverManagerDataSource.setPassword("sa123456");
+//		// driverManagerDataSource.setPassword("P@ssw0rd");
+//		return driverManagerDataSource;
 	}
 
 	/**
@@ -70,8 +71,7 @@ public class SpringJavaConfiguration {
 		properties.setProperty("hibernate.transaction.coordinator_class",
 				"org.hibernate.transaction.JDBCTransactionFactory");
 		// 上線使用Spring的交易管理時，下一行要註解掉！
-		// properties.setProperty("hibernate.current_session_context_class",
-		// "thread");
+//		properties.setProperty("hibernate.current_session_context_class", "thread");
 		localSessionFactoryBean.setHibernateProperties(properties);
 
 		try {
@@ -120,15 +120,15 @@ public class SpringJavaConfiguration {
 		java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat;
 	}
-	
+
 	/**
 	 * 上傳照片用。
 	 * 
 	 * @author 共同
 	 * @version 2017/06/12
-	 */		
+	 */
 	@Bean
-	public org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver(){
+	public org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver() {
 		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(50000000);
 		multipartResolver.setMaxInMemorySize(10000000);

@@ -16,38 +16,39 @@
 </div>
 <div>			
 		<input type="text" name="photoname" value="${param.photoname}">
-		<span>${errors.xxx}</span>
+		<span>${errors.photoname}</span>
 </div>
 <div>
 		<label>類別:</label>
 </div>
 <div>
-		<input type="radio" name="position"/>大頭貼
-		<input type="radio" name="position">封面
-		<input type="radio" name="position">一般
-		<input type="radio" name="position">背景
-		<span>${errors.ooo}</span>
+		<input type="radio" name="position" value="a">大頭貼
+		<input type="radio" name="position" value="b">封面
+		<input type="radio" name="position" value="c">一般
+		<input type="radio" name="position" value="d">背景
+		<span></span>
 </div>
 <div>
 <label>隱私設定 :</label>
 </div>
 <div>
-		<input type="radio" name="visibility">公開
-		<input type="radio" name="visibility">好友
-		<input type="radio" name="visibility">隱藏
-		<span>${errors.ooo}</span>
+		<input type="radio" name="visibility" value="A">公開
+		<input type="radio" name="visibility" value="B">好友
+		<input type="radio" name="visibility" value="C">隱藏
+		<span></span>
 </div>
 <div>
 		<label>上傳檔案 :</label>
 </div>
 <div>
 		<input type="file" name="file"  multiple accept="image/*">
+		<span>${errors.file}</span>
 </div>
 <div>
 		<label>照片敘述 :</label>
+		<textarea name="interpretation"></textarea>
 </div>
-<div>
-		<textarea></textarea>
+<div>		
 		<input type="submit" value="upload" >
 </div>
 </div>

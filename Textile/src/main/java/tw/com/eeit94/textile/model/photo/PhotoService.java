@@ -10,6 +10,9 @@ import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.naming.Context;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -53,14 +56,14 @@ public class PhotoService {
 		Integer yy = today.get(Calendar.YEAR);
 		Integer mm = today.get(Calendar.MONTH) + 1;
 		Integer dd = today.get(Calendar.DATE);
-		String month = "";
-		String date = "";
-		if (mm.toString().length() == 1) {
-			month = "0" + mm;
-		}
-		if (dd.toString().length() == 1) {
-			date = "0" + dd;
-		}
+		String month = mm.toString();
+		String date = dd.toString();
+		if (month.length() == 1) {
+			month = "0" + month;
+		}		
+		if (date.length() == 1) {
+			date = "0" + date;
+		}	
 		return sb.append(yy).append(month).append(date).toString();
 	}
 
@@ -71,72 +74,18 @@ public class PhotoService {
 		return memberIdString;
 	}
 
-	public String countphoto(String beanno) {
-		PhotoBean bean = null;
+	public int countphoto(String beanno) {
+		PhotoBean bean = new PhotoBean();
 		bean.setPhotono(beanno);
 		String temp = photoDAO.selectMax(bean);
 		temp = temp.substring(temp.length() - 4, temp.length());
-		String max = String.valueOf(Integer.parseInt(temp) + 1);
-		StringBuilder sb = new StringBuilder();
-
-		String sb1 = sb.append("0000").append(max).substring(sb.length() - 4, sb.length());
-		String result = bean.getPhotono() + sb1;
-		return result;
+		int max = Integer.parseInt(temp) + 1;
+		return max;
 	}
-
+	
 	@Transactional
-	public List<PhotoBean> uploadPhoto(MultipartFile[] files, File rootfolder, PhotoBean bean) {
-		List<PhotoBean> result = new ArrayList<PhotoBean>();
-		MultipartFile file = null;
-		PhotoBean insertBean = null;
-		if (!rootfolder.exists()) {
-			rootfolder.mkdirs();
-		}
-
-		InputStream fis = null;
-		FileOutputStream fos = null;
-		try {
-			for (int i = 0; i < files.length; i++) {
-				file = files[i];
-				UID photo = new UID();
-				File file2 = new File("" + rootfolder + photo.hashCode());
-
-				fis = file.getInputStream();
-				fos = new FileOutputStream(file2, true);
-				int data;
-				while ((data = fis.read()) != -1) {
-					fos.write(data);
-				}
-				bean.setRespath(file2.getPath());
-				String time = this.getTimeString();
-				String memberIdString = this.getMemberIdString(bean.getAlbumno());
-				bean.setPhotono(this.countphoto(time + memberIdString));
-				insertBean = photoDAO.insert(bean);
-				if (insertBean != null) {
-					result.add(insertBean);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return result;
+	public PhotoBean insertDataToPhoto(PhotoBean bean) {
+		return photoDAO.insert(bean);
 	}
 
 	@Transactional
