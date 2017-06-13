@@ -132,6 +132,7 @@ public class SpringJavaConfiguration {
 		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(50000000);
 		multipartResolver.setMaxInMemorySize(10000000);
+		multipartResolver.setDefaultEncoding("UTF-8");
 		return multipartResolver;
 	}
 }

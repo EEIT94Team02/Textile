@@ -61,16 +61,16 @@ public class UploadController {
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/upload.do" }, consumes = {
-			"multipart/form-data; charset=UTF-8" })
+			"multipart/form-data;charset=UTF-8" })
 	@ResponseBody
 	public String process(@RequestParam("file") MultipartFile[] files, HttpServletRequest request, Model model)
-			throws IOException {
+			throws IOException {		
 
 		// 接收資料
 		String photoname = request.getParameter("photoname");
 		String interpretation = request.getParameter("interpretation");
 		String position = request.getParameter("position");
-		String visibility = request.getParameter("visibility");
+		String visibility = request.getParameter("visibility");		
 		HttpSession session = request.getSession();
 		MemberBean user = (MemberBean) session.getAttribute("user");
 		// int id = user.getmId();

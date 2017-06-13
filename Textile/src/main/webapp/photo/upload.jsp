@@ -22,19 +22,19 @@
 		<label>類別:</label>
 </div>
 <div>
-		<input type="radio" name="position" value="a">大頭貼
-		<input type="radio" name="position" value="b">封面
-		<input type="radio" name="position" value="c">一般
-		<input type="radio" name="position" value="d">背景
+		<input type="radio" name="position" value="大頭貼">大頭貼
+		<input type="radio" name="position" value="封面">封面
+		<input type="radio" name="position" value="一般">一般
+		<input type="radio" name="position" value="背景">背景
 		<span></span>
 </div>
 <div>
 <label>隱私設定 :</label>
 </div>
 <div>
-		<input type="radio" name="visibility" value="A">公開
-		<input type="radio" name="visibility" value="B">好友
-		<input type="radio" name="visibility" value="C">隱藏
+		<input type="radio" name="visibility" value="公開">公開
+		<input type="radio" name="visibility" value="好友">好友
+		<input type="radio" name="visibility" value="隱藏">隱藏
 		<span></span>
 </div>
 <div>
