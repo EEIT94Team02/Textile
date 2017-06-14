@@ -1,4 +1,6 @@
-package tw.com.eeit94.textile.model.interest;
+package tw.com.eeit94.textile.model.logs;
+
+import java.sql.Timestamp;
 
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
@@ -9,56 +11,56 @@ import tw.com.eeit94.textile.model.test.TestUtils;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
- * 測試InterestDAOHibernate的程式。
+ * 測試LogsDAOHibernateTest的程式。
  * 
  * @author 賴
- * @version 2017/06/08
+ * @version 2017/06/12
  */
-public class InterestDAOHibernateTest {
+public class LogsDAOHibernateTest {
 
 	public static void main(String args[]) throws Exception {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
-		InterestDAO interestDAO = (InterestDAO) context.getBean("interestDAO");
+		LogsDAO logsDAO = (LogsDAO) context.getBean("LogsDAO");
 
-		TestUtils.printResult("列出所有interest的資料");
+		TestUtils.printResult("列出所有logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		TestUtils.printResult(interestDAO.selectAll());
+		TestUtils.printResult(logsDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		InterestBean ibean = new InterestBean();
-		ibean.setiClass(3);
-		ibean.setiName("義式");
+		LogsBean lbean = new LogsBean();
+		lbean.setlCreateTime(new Timestamp(System.currentTimeMillis()));
+		lbean.setlLog("系統新增記錄訊息測試");
 
-		TestUtils.printResult("新增一筆interest的資料");
+		TestUtils.printResult("新增一筆logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		interestDAO.insert(ibean);
+		logsDAO.insert(lbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		TestUtils.printResult("列出一筆interest的資料");
+		TestUtils.printResult("列出一筆logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		TestUtils.printResult(interestDAO.select(ibean));
+		TestUtils.printResult(logsDAO.select(lbean));
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		TestUtils.printResult("修改一筆interest的資料");
-		ibean.setiName("法式");
+		TestUtils.printResult("修改一筆logs的資料");
+		lbean.setlLog("系統修改記錄訊息測試");
 		sessionFactory.getCurrentSession().beginTransaction();
-		interestDAO.update(ibean);
+		logsDAO.update(lbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		TestUtils.printResult("列出一筆interest的資料");
+		TestUtils.printResult("列出一筆logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		TestUtils.printResult(interestDAO.select(ibean));
+		TestUtils.printResult(logsDAO.select(lbean));
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		TestUtils.printResult("刪除一筆interest的資料");
+		TestUtils.printResult("刪除一筆logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		interestDAO.delete(ibean);
+		logsDAO.delete(lbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
-		TestUtils.printResult("重新列出所有interest的資料");
+		TestUtils.printResult("重新列出所有logs的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
-		TestUtils.printResult(interestDAO.selectAll());
+		TestUtils.printResult(logsDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
 		((ConfigurableApplicationContext) context).close();

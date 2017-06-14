@@ -25,15 +25,18 @@ public class Interest_DetailDAOHibernateTest {
 		Interest_DetailDAO interest_DetailDAO = (Interest_DetailDAO) context.getBean("interest_DetailDAO");
 		
 		// 必須先在會員主表新增一筆資料，再取得此主鍵。
+		TestUtils.printResult("新增一筆member的資料");
 		MemberBean mbean = TestUtils.getNewMemberBean();
 		sessionFactory.getCurrentSession().beginTransaction();
 		memberDAO.insert(mbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出所有interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interest_DetailDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("新增一筆interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		Interest_DetailBean i_dbean = new Interest_DetailBean();
 		i_dbean.setmId(mbean.getmId());
@@ -58,10 +61,12 @@ public class Interest_DetailDAOHibernateTest {
 		interest_DetailDAO.insert(i_dbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出所有interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interest_DetailDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("修改一筆interest_detail的資料");
 		i_dbean.setI_dMain(149);
 		i_dbean.setI_dMusic(57);
 		i_dbean.setI_dOther("{'key',[2,5,87,296,3842]}");
@@ -69,14 +74,17 @@ public class Interest_DetailDAOHibernateTest {
 		interest_DetailDAO.update(i_dbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出所有interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interest_DetailDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("刪除一筆interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		interest_DetailDAO.delete(i_dbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出所有interest_detail的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interest_DetailDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();

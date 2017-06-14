@@ -12,7 +12,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import tw.com.eeit94.textile.model.activity.ActivityBean;
-import tw.com.eeit94.textile.model.activity.ActivityService;
+import tw.com.eeit94.textile.model.activity.ActivityDAO;
+import tw.com.eeit94.textile.model.activity.ActivityDAOHibernate;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
@@ -21,59 +22,58 @@ import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
  * @author 陳
  * @version 2017/06/12
  */
-public class TestActivityService {
+public class ActivityDAOHibernateTest {
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
-		ActivityService service = (ActivityService) context.getBean("activityService");
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
+		ActivityDAO dao = (ActivityDAOHibernate) context.getBean("activityDAO");
 		sessionFactory.getCurrentSession().beginTransaction();
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		ActivityBean bean;
 		List<ActivityBean> beans;
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		beans = service.selectAll();
+		beans = dao.select();
 		System.out.println(beans);
 
-		ActivityBean createNew = new ActivityBean();
+		ActivityBean select = new ActivityBean();
+		select.setActivityno(1);
+		;
+		bean = dao.select(select);
+		System.out.println(bean);
+
+		ActivityBean insert = new ActivityBean();
+		insert.setActivityno(3);
 		try {
-			createNew.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-			createNew.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
+			insert.setBegintime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
+			insert.setEndtime(new java.sql.Timestamp(sdf.parse("2017-10-20 00:00:00").getTime()));
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
-		createNew.setActivityname("新莊桌遊團");
-		createNew.setInterpretation(
+		insert.setActivityname("新莊桌遊團");
+		insert.setInterpretation(
 				"星蝕,馬尼拉,符文戰爭,blood bowl....等等" + "\n" + "由於本人自己也想玩沒玩過的桌遊" + "\n" + "所以歡迎參加者帶自己有的桌遊來交流");
-		createNew.setPlace("輔大fun桌遊 桌遊店");
-		createNew.setVisibility("私人");
-		bean = service.createNewActivity(createNew);
+		insert.setPlace("輔大fun桌遊 桌遊店");
+		insert.setVisibility("私人");
+		bean = dao.insert(insert);
 		System.out.println(bean);
 
 		ActivityBean update = new ActivityBean();
-		update.setActivityno(6);
-		update.setVisibility("好友");
-		update.setActivityname("");
-		update.setPlace("");
-		try {
-			update.setBegintime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-			update.setEndtime(new java.sql.Timestamp(sdf.parse("2017-09-20 00:00:00").getTime()));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		bean = service.updateActivity(update);
+		update.setActivityno(2);
+		update.setVisibility("公開");
+		bean = dao.update(update);
 		System.out.println(bean);
 
 		ActivityBean del = new ActivityBean();
 		del.setActivityno(6);
-		boolean result = service.deleteActivity(del);
+		boolean result = dao.delete(del);
 		System.out.println(result);
 
-		ActivityBean anySelect = new ActivityBean();
-		anySelect.setActivityname("林口");
-		anySelect.setPlace("大安");
-		anySelect.setVisibility("取消");
+		select = new ActivityBean();
+		select.setActivityname("林口");
+		select.setPlace("林口");
+		select.setVisibility("公開");
 		Timestamp begin = null;
 		Timestamp end = null;
 		try {
@@ -82,9 +82,13 @@ public class TestActivityService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		anySelect.setBegintime(begin);
-		anySelect.setEndtime(end);
-		beans = service.customeSelect(anySelect, null);
+		select.setBegintime(begin);
+		select.setEndtime(end);
+		try {
+			beans = dao.selectByOthers(select, "begintime");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		System.out.println(beans);
 
 		sessionFactory.getCurrentSession().getTransaction().commit();

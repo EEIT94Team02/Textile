@@ -19,7 +19,7 @@ import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
  * @author 陳
  * @version 2017/06/12
  */
-public class TestActivity_memberService {
+public class Activity_memberServiceTest {
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);

@@ -31,6 +31,7 @@ public class MemberBean implements java.io.Serializable {
 	private java.sql.Timestamp mCreateTime;
 	private String mEmailValid;
 	private String mPhoneValid;
+	private String mKeepLogin;
 	private String mEmail; // 唯一
 	private String mPassword;
 	private String mName; // 唯一
@@ -43,7 +44,12 @@ public class MemberBean implements java.io.Serializable {
 	private String mHintAnswer;
 	private Integer mScores;
 	private Integer mPoints;
-	// Java沒有unsigned byte，所以使用範圍稍大的Integer。
+	/**
+	 * Java沒有unsigned byte，所以使用範圍稍大的Integer。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private Integer mCareer;
 	private Integer mEducation;
 	private Integer mEconomy;
@@ -53,7 +59,7 @@ public class MemberBean implements java.io.Serializable {
 	private Integer mConstellation;
 	private Integer mReligion;
 	private String mSelfIntroduction;
-	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "mId")
 	private Interest_DetailBean interest_DetailBean;
 
@@ -91,6 +97,14 @@ public class MemberBean implements java.io.Serializable {
 
 	public void setmPhoneValid(String mPhoneValid) {
 		this.mPhoneValid = mPhoneValid;
+	}
+
+	public String getmKeepLogin() {
+		return mKeepLogin;
+	}
+
+	public void setmKeepLogin(String mKeepLogin) {
+		this.mKeepLogin = mKeepLogin;
 	}
 
 	public void setmEmail(String mEmail) {
@@ -272,6 +286,7 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("mCreateTime", this.getmCreateTime().toString());
 		linkedHashMap.put("mEmailValid", this.getmEmailValid().toString());
 		linkedHashMap.put("mPhoneValid", this.getmPhoneValid().toString());
+		linkedHashMap.put("mKeepLogin", this.getmKeepLogin().toString());
 		linkedHashMap.put("mEmail", this.getmEmail());
 		linkedHashMap.put("mPassword", this.getmPassword());
 		linkedHashMap.put("mName", this.getmName());

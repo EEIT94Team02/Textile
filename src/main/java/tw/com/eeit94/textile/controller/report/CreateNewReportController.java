@@ -29,7 +29,7 @@ import tw.com.eeit94.textile.model.reportimage.ReportImgService;
  * @version 2017/06/12
  */
 @Controller
-@RequestMapping(path = { "/createNewReport.do" }, produces = { "application/json; charset=UTF-8" })
+@RequestMapping(path = { "/news/createNewReport.do" }, produces = { "application/json; charset=UTF-8" })
 public class CreateNewReportController {
 	@Autowired
 	private ReportService reportService;

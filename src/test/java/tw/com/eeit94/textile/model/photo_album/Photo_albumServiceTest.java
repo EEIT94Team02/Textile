@@ -16,7 +16,7 @@ import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
  * @author 陳
  * @version 2017/06/12
  */
-public class TestPhoto_albumService {
+public class Photo_albumServiceTest {
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);

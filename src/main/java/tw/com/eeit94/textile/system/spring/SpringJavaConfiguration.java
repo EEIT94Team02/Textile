@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.multipart.commons.CommonsFileUploadSupport;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  * Spring Java 組態設定檔。 最底層的Bean Container，Service、DAO或與「Servlet無關」的Bean宣告在此。
@@ -31,25 +29,27 @@ public class SpringJavaConfiguration {
 	 */
 	@Bean
 	public javax.sql.DataSource dataSource() {
+		org.springframework.jndi.JndiObjectFactoryBean jndiObjectFactoryBean = new org.springframework.jndi.JndiObjectFactoryBean();
+		jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB");
+		try {
+			jndiObjectFactoryBean.afterPropertiesSet();
+		} catch (IllegalArgumentException | NamingException e) {
+			throw new RuntimeException();
+		}
+		return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
 
-		 org.springframework.jndi.JndiObjectFactoryBean jndiObjectFactoryBean
-		 = new org.springframework.jndi.JndiObjectFactoryBean();
-		 jndiObjectFactoryBean.setJndiName("java:comp/env/jdbc/SQLSDB");
-		 try {
-		 jndiObjectFactoryBean.afterPropertiesSet();
-		 } catch (IllegalArgumentException | NamingException e) {
-		 throw new RuntimeException();
-		 }
-		 return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
-
-//		org.springframework.jdbc.datasource.DriverManagerDataSource driverManagerDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();
-//		driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//		driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
-//		// driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.1.146:1433;DatabaseName=textile");
-//		driverManagerDataSource.setUsername("sa");
-//		driverManagerDataSource.setPassword("sa123456");
-//		// driverManagerDataSource.setPassword("P@ssw0rd");
-//		return driverManagerDataSource;
+		// org.springframework.jdbc.datasource.DriverManagerDataSource
+		// driverManagerDataSource = new
+		// org.springframework.jdbc.datasource.DriverManagerDataSource();
+		// driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		//
+		// //
+		// driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
+		// driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.43.17:1433;DatabaseName=textile");
+		// driverManagerDataSource.setUsername("sa");
+		// // driverManagerDataSource.setPassword("sa123456");
+		// driverManagerDataSource.setPassword("P@ssw0rd");
+		// return driverManagerDataSource;
 	}
 
 	/**
@@ -71,7 +71,8 @@ public class SpringJavaConfiguration {
 		properties.setProperty("hibernate.transaction.coordinator_class",
 				"org.hibernate.transaction.JDBCTransactionFactory");
 		// 上線使用Spring的交易管理時，下一行要註解掉！
-//		properties.setProperty("hibernate.current_session_context_class", "thread");
+		// properties.setProperty("hibernate.current_session_context_class",
+		// "thread");
 		localSessionFactoryBean.setHibernateProperties(properties);
 
 		try {

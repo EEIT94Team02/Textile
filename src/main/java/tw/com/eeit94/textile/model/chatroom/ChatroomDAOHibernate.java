@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class ChatroomDAOHibernate implements ChatroomDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<ChatroomBean> result;
+	private List<ChatroomBean> results;
 	
 	public ChatroomDAOHibernate(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -39,28 +39,25 @@ public class ChatroomDAOHibernate implements ChatroomDAO {
 
 	@Override
 	public List<ChatroomBean> select(ChatroomBean cbean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(ChatroomBean.class, cbean.getcId()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(ChatroomBean.class, cbean.getcId()));
+		return this.results;
 	}
 
 	@Override
 	public List<ChatroomBean> insert(ChatroomBean cbean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(cbean);
 		return this.select(cbean);
 	}
 
 	@Override
 	public List<ChatroomBean> update(ChatroomBean cbean) {
-		this.result = new ArrayList<>();
 		this.getSession().update(cbean);
 		return this.select(cbean);
 	}
 
 	@Override
 	public List<ChatroomBean> delete(ChatroomBean cbean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(cbean);
 		return this.select(cbean);
 	}

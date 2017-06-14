@@ -27,7 +27,7 @@ import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
 public class MemberDAOHibernate implements MemberDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<MemberBean> result;
+	private List<MemberBean> results;
 
 	private Session getSession() {
 		return this.sessionFactory.getCurrentSession();
@@ -43,28 +43,25 @@ public class MemberDAOHibernate implements MemberDAO {
 
 	@Override
 	public List<MemberBean> select(MemberBean mbean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(MemberBean.class, mbean.getmId()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(MemberBean.class, mbean.getmId()));
+		return this.results;
 	}
 
 	@Override
 	public List<MemberBean> insert(MemberBean mbean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(mbean);
 		return this.select(mbean);
 	}
 
 	@Override
 	public List<MemberBean> update(MemberBean mbean) {
-		this.result = new ArrayList<>();
 		this.getSession().update(mbean);
 		return this.select(mbean);
 	}
 
 	@Override
 	public List<MemberBean> delete(MemberBean mbean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(mbean);
 		return this.select(mbean);
 	}
@@ -79,7 +76,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	@Override
 	public List<MemberBean> selectByKeyWords(MemberKeyWordsBean mkwbean) {
 		// CriteriaBuilder專門建立查詢的邏輯條件，例如：like、equal、or、between......等。
-		CriteriaBuilder cBuilder = getSession().getCriteriaBuilder();
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
 		// CriteriaQuery專門物件導向化SQL的關鍵字，例如：SELECT、FROM、WHERE、ORDERBY......等。
 		CriteriaQuery<MemberBean> query = cBuilder.createQuery(MemberBean.class);
 		Root<MemberBean> root = query.from(MemberBean.class);
@@ -193,8 +190,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		// 以物件導向的形式完成查詢並回傳List<MemberBean>的結果。
 		Order order = cBuilder.asc(root.<Integer>get("mId"));
 		query = query.select(root).where(pArray).orderBy(order);
-		List<MemberBean> results = this.getSession().createQuery(query).getResultList();
-		return results;
+		return this.getSession().createQuery(query).getResultList();
 		/*
 		 * 有關個人喜好的查詢會在回傳後List<MemberBean>， 再逐一利用位元比對，由呼叫本方法的Service來繼續處理。
 		 */
@@ -208,7 +204,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	 */
 	@Override
 	public List<MemberBean> selectByName(MemberKeyWordsBean mkwbean) {
-		CriteriaBuilder cBuilder = getSession().getCriteriaBuilder();
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
 		CriteriaQuery<MemberBean> query = cBuilder.createQuery(MemberBean.class);
 		Root<MemberBean> root = query.from(MemberBean.class);
 		Predicate pName = null;
@@ -227,7 +223,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	 */
 	@Override
 	public List<MemberBean> selectBySimilarName(MemberKeyWordsBean mkwbean) {
-		CriteriaBuilder cBuilder = getSession().getCriteriaBuilder();
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
 		CriteriaQuery<MemberBean> query = cBuilder.createQuery(MemberBean.class);
 		Root<MemberBean> root = query.from(MemberBean.class);
 		Predicate pName = null;
@@ -247,7 +243,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	 */
 	@Override
 	public List<MemberBean> selectByEmail(MemberKeyWordsBean mkwbean) {
-		CriteriaBuilder cBuilder = getSession().getCriteriaBuilder();
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
 		CriteriaQuery<MemberBean> query = cBuilder.createQuery(MemberBean.class);
 		Root<MemberBean> root = query.from(MemberBean.class);
 		Predicate pEmail = null;

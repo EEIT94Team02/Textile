@@ -1,6 +1,4 @@
-package tw.com.eeit94.textile.system.common;
-
-import tw.com.eeit94.textile.model.member.MemberService;
+package tw.com.eeit94.textile.controller.logs;
 
 /**
  * 定義輔助搜尋request.getParameter()和Map<String, String>參數的Key常數，
@@ -8,15 +6,14 @@ import tw.com.eeit94.textile.model.member.MemberService;
  * 方便封裝或得到對應的Bean屬性成員或值。
  * 
  * @author 賴
- * @version 2017/06/10
- * @see {@link MemberService}
+ * @version 2017/06/12
  */
-public enum ConstHelperKey {
-	KEY("KEY");
+public enum ConstLogsKey {
+	LOGS("logs");
 
 	private final String key;
 
-	private ConstHelperKey(String key) {
+	private ConstLogsKey(String key) {
 		this.key = key;
 	}
 

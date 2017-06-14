@@ -27,7 +27,9 @@ public class MemberServiceTest {
 		MemberService memberService = (MemberService) context.getBean("memberService");
 
 		Map<String, String> dataAndErrorsMap = new LinkedHashMap<>();
+		
 		// 信箱測試
+		TestUtils.printResult("驗證信箱格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Email.key());
 		// error
 		// dataAndErrorsMap.put(FormDataKey.Email.key(), "1@2.3");
@@ -39,6 +41,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 密碼測試：特殊符號 → !%()*-.[]^`{|}~
+		TestUtils.printResult("驗證密碼格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Password.key());
 		// error
 		// dataAndErrorsMap.put(FormDataKey.Password.key(), "");
@@ -57,6 +60,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 姓名測試：不含非法字元，且特殊符號只有 → .-_~
+		TestUtils.printResult("驗證姓名格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Name.key());
 		// error
 		// dataAndErrorsMap.put(FormDataKey.Name.key(), "");
@@ -77,6 +81,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 生日測試：符合「yyyy-MM-dd」
+		TestUtils.printResult("驗證生日格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Birthday.key());
 		// error
 		// dataAndErrorsMap.put(FormDataKey.Birthday.key(), "");
@@ -100,6 +105,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 身分證字號測試
+		TestUtils.printResult("驗證身分證字號格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.IdentityCardNumber.key());
 		// correct
 		// dataAndErrorsMap.put(ConstFormDataKey.IdentityCardNumber.key(),"A167193516");
@@ -113,6 +119,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 地址測試
+		TestUtils.printResult("驗證地址格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Address.key());
 		// 字數太長, error
 		// dataAndErrorsMap.put(ConstFormDataKey.Address.key(), "Hello, my name
@@ -123,6 +130,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 手機號碼測試
+		TestUtils.printResult("驗證手機格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.PhoneNumber.key());
 		// error
 		// dataAndErrorsMap.put(ConstFormDataKey.PhoneNumber.key(),
@@ -136,6 +144,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 密碼提示問題測試
+		TestUtils.printResult("驗證密碼提示問題格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.HintPassword.key());
 		// error
 		// dataAndErrorsMap.put(ConstFormDataKey.HintPassword.key(),
@@ -146,6 +155,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 密碼提示答案測試
+		TestUtils.printResult("驗證密碼提示答案格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.HintAnswer.key());
 		// error
 		dataAndErrorsMap.put(ConstMemberKey.HintAnswer.key(), "當然是榴槤囉！榴槤超好吃的啦！");
@@ -155,6 +165,7 @@ public class MemberServiceTest {
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 
 		// 自我介紹測試
+		TestUtils.printResult("驗證自我介紹格式是否正確");
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.SelfIntroduction.key());
 		// error
 		// dataAndErrorsMap.put(ConstFormDataKey.SelfIntroduction.key(),
@@ -164,7 +175,8 @@ public class MemberServiceTest {
 		TestUtils.printResult(memberService.checkFormData(dataAndErrorsMap));
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
 		
-		// 一次測是所有資料
+		// 一次測試所有資料
+		TestUtils.printResult("驗證一次測試所有資料的功能是否正確");
 		dataAndErrorsMap = TestUtils.getNewMemberMap();
 		TestUtils.printResult(memberService.checkAllData(dataAndErrorsMap));
 

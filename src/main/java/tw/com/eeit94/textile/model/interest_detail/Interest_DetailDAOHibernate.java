@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class Interest_DetailDAOHibernate implements Interest_DetailDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<Interest_DetailBean> result;
+	private List<Interest_DetailBean> results;
 
 	private Session getSession() {
 		return this.sessionFactory.getCurrentSession();
@@ -35,28 +35,25 @@ public class Interest_DetailDAOHibernate implements Interest_DetailDAO {
 
 	@Override
 	public List<Interest_DetailBean> select(Interest_DetailBean i_dbean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(Interest_DetailBean.class, i_dbean.getmId()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(Interest_DetailBean.class, i_dbean.getmId()));
+		return this.results;
 	}
 
 	@Override
 	public List<Interest_DetailBean> insert(Interest_DetailBean i_dbean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(i_dbean);
 		return this.select(i_dbean);
 	}
 
 	@Override
 	public List<Interest_DetailBean> update(Interest_DetailBean i_dbean) {
-		this.result = new ArrayList<>();
 		this.getSession().update(i_dbean);
 		return this.select(i_dbean);
 	}
 
 	@Override
 	public List<Interest_DetailBean> delete(Interest_DetailBean i_dbean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(i_dbean);
 		return this.select(i_dbean);
 	}

@@ -9,18 +9,33 @@ import java.util.LinkedHashMap;
  * @version 2017/06/08
  */
 public class MemberKeyWordsBean {
-	// 依照基本資料作查詢關鍵字
+	/**
+	 * 依照基本資料作查詢關鍵字。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private String mEmail;
 	private String mName;
 	private String mGender;
 	private java.util.Date mBirthdayBegin;
 	private java.util.Date mBirthdayEnd;
 	private java.util.List<String> mAddress;
-	// 依照論壇經歷作查詢關鍵字
+	/**
+	 * 依照論壇經歷作查詢關鍵字。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private Integer mScores;
 	private java.sql.Timestamp mCreateTimeBegin;
 	private java.sql.Timestamp mCreateTimeEnd;
-	// 依照個人狀況作查詢關鍵字
+	/**
+	 * 依照個人狀況作查詢關鍵字。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private Integer mCareer;
 	private Integer mEducation;
 	private Integer mEconomy;
@@ -29,7 +44,12 @@ public class MemberKeyWordsBean {
 	private Integer mBloodType;
 	private Integer mConstellation;
 	private Integer mReligion;
-	// 依照個人喜好作查詢關鍵字
+	/**
+	 * 依照個人喜好作查詢關鍵字。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private Integer i_dMain;
 	private String i_dOther;
 	private Integer i_dRecreation;
