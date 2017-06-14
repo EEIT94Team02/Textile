@@ -51,6 +51,7 @@ public class TestUtils {
 		mbean.setmCreateTime(new Timestamp(System.currentTimeMillis()));
 		mbean.setmEmailValid("N");
 		mbean.setmPhoneValid("N");
+		mbean.setmKeepLogin("N");
 		mbean.setmEmail("Dodge3218452@gmail.com");
 		mbean.setmPassword("O4iF036PE3TjpWwHPPCSSQ=="); // Aa_12345
 		mbean.setmName("Dodge Dodge");

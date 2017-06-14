@@ -17,6 +17,7 @@ public enum ConstMemberKey {
 	CreateTime("mCreateTime", false, false),
 	EmailValid("mEmailValid", false, false),
 	PhoneValid("mPhoneValid", false, false),
+	KeepLogin("mKeepLogin", false, false),
 	Email("mEmail", true, true),
 	Password("mPassword", true, true),
 	Name("mName", true, true),

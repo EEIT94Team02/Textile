@@ -31,6 +31,7 @@ public class MemberBean implements java.io.Serializable {
 	private java.sql.Timestamp mCreateTime;
 	private String mEmailValid;
 	private String mPhoneValid;
+	private String mKeepLogin;
 	private String mEmail; // 唯一
 	private String mPassword;
 	private String mName; // 唯一
@@ -43,7 +44,12 @@ public class MemberBean implements java.io.Serializable {
 	private String mHintAnswer;
 	private Integer mScores;
 	private Integer mPoints;
-	// Java沒有unsigned byte，所以使用範圍稍大的Integer。
+	/**
+	 * Java沒有unsigned byte，所以使用範圍稍大的Integer。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	private Integer mCareer;
 	private Integer mEducation;
 	private Integer mEconomy;
@@ -53,9 +59,9 @@ public class MemberBean implements java.io.Serializable {
 	private Integer mConstellation;
 	private Integer mReligion;
 	private String mSelfIntroduction;
-//	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-//	@JoinColumn(name = "mId")
-//	private Interest_DetailBean interest_DetailBean;
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "mId")
+	private Interest_DetailBean interest_DetailBean;
 
 	public Integer getmId() {
 		return mId;
@@ -91,6 +97,14 @@ public class MemberBean implements java.io.Serializable {
 
 	public void setmPhoneValid(String mPhoneValid) {
 		this.mPhoneValid = mPhoneValid;
+	}
+
+	public String getmKeepLogin() {
+		return mKeepLogin;
+	}
+
+	public void setmKeepLogin(String mKeepLogin) {
+		this.mKeepLogin = mKeepLogin;
 	}
 
 	public void setmEmail(String mEmail) {
@@ -257,44 +271,45 @@ public class MemberBean implements java.io.Serializable {
 		this.mSelfIntroduction = mSelfIntroduction;
 	}
 
-//	public Interest_DetailBean getInterest_DetailBean() {
-//		return interest_DetailBean;
-//	}
-//
-//	public void setInterest_DetailBean(Interest_DetailBean interest_DetailBean) {
-//		this.interest_DetailBean = interest_DetailBean;
-//	}
-//
-//	@Override
-//	public String toString() {
-//		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-//		linkedHashMap.put("mId", this.getmId().toString());
-//		linkedHashMap.put("mCreateTime", this.getmCreateTime().toString());
-//		linkedHashMap.put("mEmailValid", this.getmEmailValid().toString());
-//		linkedHashMap.put("mPhoneValid", this.getmPhoneValid().toString());
-//		linkedHashMap.put("mEmail", this.getmEmail());
-//		linkedHashMap.put("mPassword", this.getmPassword());
-//		linkedHashMap.put("mName", this.getmName());
-//		linkedHashMap.put("mBirthday", this.getmBirthday().toString());
-//		linkedHashMap.put("mIdentityCardNumber", this.getmIdentityCardNumber());
-//		linkedHashMap.put("mGender", this.getmGender());
-//		linkedHashMap.put("mAddress", this.getmAddress());
-//		linkedHashMap.put("mPhoneNumber", this.getmPhoneNumber());
-//		linkedHashMap.put("mHintPassword", this.getmHintPassword());
-//		linkedHashMap.put("mHintAnswer", this.getmHintAnswer());
-//		linkedHashMap.put("mScores", this.getmScores().toString());
-//		linkedHashMap.put("mPoints", this.getmPoints().toString());
-//		linkedHashMap.put("mCareer", this.getmCareer().toString());
-//		linkedHashMap.put("mEducation", this.getmEducation().toString());
-//		linkedHashMap.put("mEconomy", this.getmEconomy().toString());
-//		linkedHashMap.put("mMarriage", this.getmMarriage().toString());
-//		linkedHashMap.put("mFamily", this.getmFamily().toString());
-//		linkedHashMap.put("mBloodType", this.getmBloodType().toString());
-//		linkedHashMap.put("mConstellation", this.getmConstellation().toString());
-//		linkedHashMap.put("mReligion", this.getmReligion().toString());
-//		linkedHashMap.put("mselfIntroduction", this.getmSelfIntroduction());
-//		linkedHashMap.put("interest_DetailBean",
-//				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
-//		return linkedHashMap.toString();
-//	}
+	public Interest_DetailBean getInterest_DetailBean() {
+		return interest_DetailBean;
+	}
+
+	public void setInterest_DetailBean(Interest_DetailBean interest_DetailBean) {
+		this.interest_DetailBean = interest_DetailBean;
+	}
+
+	@Override
+	public String toString() {
+		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+		linkedHashMap.put("mId", this.getmId().toString());
+		linkedHashMap.put("mCreateTime", this.getmCreateTime().toString());
+		linkedHashMap.put("mEmailValid", this.getmEmailValid().toString());
+		linkedHashMap.put("mPhoneValid", this.getmPhoneValid().toString());
+		linkedHashMap.put("mKeepLogin", this.getmKeepLogin().toString());
+		linkedHashMap.put("mEmail", this.getmEmail());
+		linkedHashMap.put("mPassword", this.getmPassword());
+		linkedHashMap.put("mName", this.getmName());
+		linkedHashMap.put("mBirthday", this.getmBirthday().toString());
+		linkedHashMap.put("mIdentityCardNumber", this.getmIdentityCardNumber());
+		linkedHashMap.put("mGender", this.getmGender());
+		linkedHashMap.put("mAddress", this.getmAddress());
+		linkedHashMap.put("mPhoneNumber", this.getmPhoneNumber());
+		linkedHashMap.put("mHintPassword", this.getmHintPassword());
+		linkedHashMap.put("mHintAnswer", this.getmHintAnswer());
+		linkedHashMap.put("mScores", this.getmScores().toString());
+		linkedHashMap.put("mPoints", this.getmPoints().toString());
+		linkedHashMap.put("mCareer", this.getmCareer().toString());
+		linkedHashMap.put("mEducation", this.getmEducation().toString());
+		linkedHashMap.put("mEconomy", this.getmEconomy().toString());
+		linkedHashMap.put("mMarriage", this.getmMarriage().toString());
+		linkedHashMap.put("mFamily", this.getmFamily().toString());
+		linkedHashMap.put("mBloodType", this.getmBloodType().toString());
+		linkedHashMap.put("mConstellation", this.getmConstellation().toString());
+		linkedHashMap.put("mReligion", this.getmReligion().toString());
+		linkedHashMap.put("mselfIntroduction", this.getmSelfIntroduction());
+		linkedHashMap.put("interest_DetailBean",
+				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
+		return linkedHashMap.toString();
+	}
 }

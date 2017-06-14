@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,45 +9,46 @@
 </head>
 <body>
 
-<form action="/photo/load.controller" enctype="multipart/form-data" method="post"> 
+<form action='<c:url value="upload.do"/>' enctype="multipart/form-data" method="post"> 
 <div>
 <div>
 <label>照片名稱 :</label>
 </div>
 <div>			
 		<input type="text" name="photoname" value="${param.photoname}">
-		<span>${errors.xxx}</span>
+		<span>${errors.photoname}</span>
 </div>
 <div>
 		<label>類別:</label>
 </div>
 <div>
-		<input type="radio" name="position"/>大頭貼
-		<input type="radio" name="position">封面
-		<input type="radio" name="position">一般
-		<input type="radio" name="position">背景
-		<span>${errors.ooo}</span>
+		<input type="radio" name="position" value="大頭貼">大頭貼
+		<input type="radio" name="position" value="封面">封面
+		<input type="radio" name="position" value="一般">一般
+		<input type="radio" name="position" value="背景">背景
+		<span></span>
 </div>
 <div>
 <label>隱私設定 :</label>
 </div>
 <div>
-		<input type="radio" name="visibility">公開
-		<input type="radio" name="visibility">好友
-		<input type="radio" name="visibility">隱藏
-		<span>${errors.ooo}</span>
+		<input type="radio" name="visibility" value="公開">公開
+		<input type="radio" name="visibility" value="好友">好友
+		<input type="radio" name="visibility" value="隱藏">隱藏
+		<span></span>
 </div>
 <div>
 		<label>上傳檔案 :</label>
 </div>
 <div>
-		<input type="file" name="file">
+		<input type="file" name="file"  multiple accept="image/*">
+		<span>${errors.file}</span>
 </div>
 <div>
 		<label>照片敘述 :</label>
+		<textarea name="interpretation"></textarea>
 </div>
-<div>
-		<textarea></textarea>
+<div>		
 		<input type="submit" value="upload" >
 </div>
 </div>

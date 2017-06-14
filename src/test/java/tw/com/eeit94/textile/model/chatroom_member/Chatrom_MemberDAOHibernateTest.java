@@ -30,6 +30,7 @@ public class Chatrom_MemberDAOHibernateTest {
 		Chatroom_MemberDAO chatroom_MemberDAO = (Chatroom_MemberDAO) context.getBean("chatroom_MemberDAO");
 
 		// 必須先在會員主表新增一筆資料，再取得此主鍵。
+		TestUtils.printResult("新增一筆member和chatroom的資料");
 		MemberBean mbean = TestUtils.getNewMemberBean();
 		sessionFactory.getCurrentSession().beginTransaction();
 		memberDAO.insert(mbean);
@@ -43,11 +44,14 @@ public class Chatrom_MemberDAOHibernateTest {
 		chatroomDAO.insert(cbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出所有member和chatroom的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
+		TestUtils.printResult(chatroomDAO.selectAll());
 		TestUtils.printResult(chatroom_MemberDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
 		// 模擬同一聊天室中有兩個人，所以各新增一次。
+		TestUtils.printResult("新增兩筆chatroom_member資料");
 		Chatroom_MemberBean c_mbean1 = new Chatroom_MemberBean();
 		Chatroom_MemberPK chatroom_MemberPK1 = new Chatroom_MemberPK();
 		chatroom_MemberPK1.setcId(cbean.getcId());
@@ -63,16 +67,19 @@ public class Chatrom_MemberDAOHibernateTest {
 		chatroom_MemberDAO.insert(c_mbean2);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出兩筆chatroom_member資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(chatroom_MemberDAO.select(c_mbean1));
 		TestUtils.printResult(chatroom_MemberDAO.select(c_mbean2));
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("藉由刪除一筆刪除chatroom的資料來刪除兩筆chatroom_member的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		cbean = chatroomDAO.select(cbean).get(0);
 		chatroomDAO.delete(cbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("重新列出所有chatroom和chatroom_member的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(chatroomDAO.selectAll());
 		TestUtils.printResult(chatroom_MemberDAO.selectAll());
