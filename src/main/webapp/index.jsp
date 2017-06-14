@@ -7,10 +7,11 @@
 <title>Welcome, Textile.</title>
 </head>
 <body>
+<a href="report/"></a>
 	<h1>Textile</h1>
 	<c:if test="${empty user}">
 		<c:out escapeXml="false" value="&nbsp;&nbsp;&nbsp;&nbsp;" />
-		<c:out escapeXml="false" value="<a href='check/login.jsp'>(登入)</a>" />
+		<c:out escapeXml="false" value="<a href='check/login.v'>(登入)</a>" />
 	</c:if>
 	<c:if test="${not empty user}">
 		<c:out value="${user.mName}" />

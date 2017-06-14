@@ -16,13 +16,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import tw.com.eeit94.textile.model.example.ExampleBean;
 
 /*
- * 1. ！重要：看最上方套件名稱的說明！
+ * 一、命名規則：
  * 
- * 2. ！重要：套件名稱*.controller."example"，這個"example"是Url Pattern的開頭，也是放JSP網頁的資料夾名稱！
+ *    ！重要：看最上方套件名稱的說明！
  * 
- * 3. Url Pattern儘量不要用Table名稱，以會員資料member和聊天室資料chatroom為範例：
+ *    ！重要：套件名稱*.controller."example"，這個"example"是Url Pattern的開頭，也是放JSP網頁的資料夾名稱！
+ * 
+ *    Url Pattern儘量不要用Table名稱。
+ *    
+ * 二、請求路徑規則(Controller)：
  * 
  *    (*.do是為了配合Filter和Interceptor，不用再用*.controller了)
+ *    
+ *    RequestMethod不要都用GET，傳送隱密的資料如密碼則用POST，新增資料都用POST，修改資料用PUT或PATCH。
+ *    
+ *    consumes或produces若串流是檔案則用multipart/form-data，是JOSN資料則用application/json，純文字則用application/x-www-form-urlencoded。
+ *    
+ *    轉往其它網頁不用加上@ResponseBody，加上@ResponseBody是為了網頁部分更新(AJAX)，且可以自動帶入Writer。
+ *    
+ *    以會員資料member和聊天室資料chatroom為範例：
  *    
  *    登入(POST)：/user/login.do
  *    
@@ -37,14 +49,22 @@ import tw.com.eeit94.textile.model.example.ExampleBean;
  *    開聊天室(GET)：/chat.do?q=ZA8kzXc0U0LmXLLJeajdZA== // 因為用primary key，所以要轉換，網址不要直接用primary key！
  *    
  *    發聊天訊息(POST)：/ajax/messaging.do
- * 
- * 4. RequestMethod不要都用GET，傳送隱密的資料如密碼則用POST，新增資料都用POST，修改資料用PUT或PATCH。
- * 
- * 5. consumes或produces若串流是檔案則用multipart/form-data，是JOSN資料則用application/json，純文字則用application/x-www-form-urlencoded。
- * 
- * 6. 轉往其它網頁不用加上@ResponseBody，加上@ResponseBody是為了網頁部分更新(AJAX)，且可以自動帶入Writer。
- * 
- * 7. 加上javadoc的註解，在Spring或Hibernate的Annotation上方，@author和@version必寫，@version為日期。
+ *    
+ * 三、請求路徑規則(View)：
+ *    
+ *    (*.v是讀取jsp檔，不要使用*.jsp，每個目錄的根目錄「/」的請求會自動導向該目錄的「/index.jsp」)
+ *    
+ *    讀取各目錄下的首頁(GET)：/user/ → 自動轉成 /user/index.jsp → 再自動轉成 /user/index.v
+ *    
+ *    讀取各目錄下的頁面(GET)：/user/modify.v
+ *    
+ *    讀取各目錄下的頁面(GET)：/user/modify.jsp → /error/404.v
+ *    
+ *    將頁面自動重新導向(GET)：/user/modify.r → 自動轉成/user/modify.v(附加redirect的功能)
+ *
+ * 四、其它：
+ *    
+ *    加上javadoc的註解，在Spring或Hibernate的Annotation上方，@author和@version必寫，@version為日期。
  * 
  */
 /**

@@ -28,23 +28,27 @@ import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
+import tw.com.eeit94.textile.system.common.ConstMapping;
 
 /**
  * 驗證是否登入的過濾器，並記錄每個使用者的請求與回應路徑，如果使用者關閉Cookie，則會因找不到存在Cookie的JSESSIONID而導向登入網頁。
  * 
- * 映射：/activity/*、/album/*、/log/*、/photo/*、/report/*、/theme/*、/user/*。
+ * 映射：/activity/*、/album/*、/log/*、/photo/*、/report/*、/theme/*、/user/*；
  * 
- * 其中，/log/*需要管理員帳號才能瀏覽。
+ * 其中，/album/*內的資料夾還要驗證是否與會員主鍵相符才能看到；
+ * 
+ * 其中，/log/*等後臺管理頁面需要管理員帳號才能瀏覽。
+ * 
+ * 這個過濾器藉由檢驗Cookie和資料庫會員資料的保持登入欄位來決定是否要「自動登入」！
  * 
  * @author 賴
- * @version 2017/06/13
+ * @version 2017/06/14
  */
 @Component
-@WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "u_activity", value = "/activity/*"),
-		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "u_photo", value = "/photo/*"),
-		@WebInitParam(name = "m_manager", value = "/manager/*"), @WebInitParam(name = "u_report", value = "/report/*"),
-		@WebInitParam(name = "u_theme", value = "/theme/*"),
-		@WebInitParam(name = "u_user", value = "/user/*") }, asyncSupported = true)
+@WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "activity", value = "/activity/*"),
+		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "photo", value = "/photo/*"),
+		@WebInitParam(name = "m_manager", value = "/manager/*"), @WebInitParam(name = "report", value = "/report/*"),
+		@WebInitParam(name = "theme", value = "/theme/*"), @WebInitParam(name = "user", value = "/user/*") })
 public class LoginFilter implements Filter {
 	/**
 	 * 存放多個映射的網址。
@@ -55,7 +59,15 @@ public class LoginFilter implements Filter {
 	private List<String> urlList = new ArrayList<>();
 
 	/**
-	 * 存放多個映射只有管理員能夠查看的網址。
+	 * 存放多個映射只有會員主鍵相符才能夠查看的網址，其參數名稱為「u_」開頭。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/15
+	 */
+	private List<String> mIdComparedUrlList = new ArrayList<>();
+
+	/**
+	 * 存放多個映射只有管理員能夠查看的網址，其參數名稱為「m_」開頭。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/13
@@ -96,8 +108,6 @@ public class LoginFilter implements Filter {
 	 */
 	@Autowired
 	private MemberService memberService;
-	private final String LOGIN_PAGE = "/check/login.jsp";
-	private final String ERROR_PAGE = "/error/404.jsp";
 
 	/**
 	 * 過濾器啟動時，將要映射的網址、管理員才能查看的網址和所有管理員分別加入過濾器的各個屬性成員變數，同時注入LogsService。
@@ -112,6 +122,9 @@ public class LoginFilter implements Filter {
 			String urlName = e.nextElement();
 			this.urlList.add(filterConfig.getInitParameter(urlName));
 
+			if (urlName.startsWith("u_")) {
+				this.mIdComparedUrlList.add(filterConfig.getInitParameter(urlName));
+			}
 			if (urlName.startsWith("m_")) {
 				this.managedUrlList.add(filterConfig.getInitParameter(urlName));
 			}
@@ -130,7 +143,7 @@ public class LoginFilter implements Filter {
 	}
 
 	/**
-	 * 檢驗是否登入，方法為查看Session Scope有無「user」的Key。
+	 * 檢驗是否登入、是否為管理員、是否在請求需會員主鍵相符的路徑時能合格。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/12
@@ -138,67 +151,88 @@ public class LoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		StringBuffer sBuffer = new StringBuffer().append("過濾器接收");
-
 		if (req instanceof HttpServletRequest && resp instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) resp;
 			String contextPath = request.getContextPath();
 			String servletPath = request.getServletPath();
 
-			// 設定所有的請求內容編碼為UTF-8。
-			request.setCharacterEncoding(ConstLoginFilterParameter.UTF_8.param());
+			StringBuffer sBuffer = new StringBuffer().append("過濾器接收");
+
+			/*
+			 * 讀取客戶端的Cookie並檢驗是否能自動登入(如果之前有勾選保持登入且Cookie kl值存在。)
+			 */
+			this.checkCookieToKeepLogin(request);
 
 			// 讀取使用者的姓名，得知使用者的身份。
 			HttpSession session = request.getSession();
-			if (session.getAttribute(ConstLoginFilterKey.USER.key()) != null) {
-				sBuffer.append("「")
-						.append(((MemberBean) session.getAttribute(ConstLoginFilterKey.USER.key())).getmName())
+			if (session.getAttribute(ConstFilterKey.USER.key()) != null) {
+				sBuffer.append("「").append(((MemberBean) session.getAttribute(ConstFilterKey.USER.key())).getmName())
 						.append("」的請求，");
 			} else {
 				sBuffer.append("「訪客」的請求，");
 			}
 
-			sBuffer.append("路徑為：「").append(servletPath).append("」").append("，<br />是否需要登入：");
-			if (this.needToLogin(servletPath)) {
+			sBuffer.append("路徑為：「").append(servletPath).append("」").append("，是否需要登入：");
+			if (this.checkNeedTo("Login", servletPath)) {
 				sBuffer.append("「是」，是否已登入：");
-
-				// 讀取客戶端的Cookie並檢驗是否有必要登入。
-				this.checkCookieToKeepLogin(request);
 
 				// 判斷是否有無登入，是否為管理員等。
 				if (this.isLogin(request)) {
-					sBuffer.append("「是」，是否需要管理員才能查看：");
-					if (this.needToManage(servletPath)) {
-						sBuffer.append("「是」，是否為管理員：");
-						if (this.isManager(request)) {
+					sBuffer.append("「是」，<br />是否需要會員主鍵相符才能查看：");
+
+					if (this.checkNeedTo("CompareMId", servletPath)) {
+						sBuffer.append("「是」，是否主鍵相符：");
+
+						// 若servletPath為「/album/30/20170615.jpg」，則去掉第一個斜線。
+						String tempPath = servletPath.substring(1, servletPath.length());
+						// 此時tempPath為「album/30/20170615.jpg」，則取中間兩個斜線內側的序數。
+						int frontSlashIndex = tempPath.indexOf('/') + 1;
+						int behindSlashIndex = tempPath.lastIndexOf('/');
+						String tempMId = tempPath.substring(frontSlashIndex, behindSlashIndex);
+						request.setAttribute("tempMId", tempMId);
+
+						// 用mId比較會員的mId是否相同
+						if (this.isTheSameAsPrimaryKey(request)) {
 							sBuffer.append("「是」，狀態為：轉向目標路徑。");
 							this.logsService.insertNewLog(sBuffer.toString());
 							chain.doFilter(request, response);
 						} else {
 							sBuffer.append("「否」，狀態為：轉向錯誤網頁。");
 							this.logsService.insertNewLog(sBuffer.toString());
-							response.sendRedirect(contextPath + this.ERROR_PAGE);
+							response.sendRedirect(contextPath + ConstMapping.ERROR_PAGE.path());
 						}
 					} else {
-						sBuffer.append("「否」，狀態為：轉向目標路徑。");
-						this.logsService.insertNewLog(sBuffer.toString());
-						chain.doFilter(request, response);
+						sBuffer.append("「否」，是否需要管理員才能查看：");
+
+						if (this.checkNeedTo("Manage", servletPath)) {
+							sBuffer.append("「是」，是否為管理員：");
+							if (this.isManager(request)) {
+								sBuffer.append("「是」，狀態為：轉向目標路徑。");
+								this.logsService.insertNewLog(sBuffer.toString());
+								chain.doFilter(request, response);
+							} else {
+								sBuffer.append("「否」，狀態為：轉向錯誤網頁。");
+								this.logsService.insertNewLog(sBuffer.toString());
+								response.sendRedirect(contextPath + ConstMapping.ERROR_PAGE.path());
+							}
+						} else {
+							sBuffer.append("「否」，狀態為：轉向目標路徑。");
+							this.logsService.insertNewLog(sBuffer.toString());
+							chain.doFilter(request, response);
+						}
 					}
 				} else {
-					session.setAttribute(ConstLoginFilterKey.TARGET.key(), servletPath);
+					session.setAttribute(ConstFilterKey.TARGET.key(), servletPath);
 					sBuffer.append("「否」，狀態為：轉向登入網頁。");
 					this.logsService.insertNewLog(sBuffer.toString());
-					response.sendRedirect(contextPath + this.LOGIN_PAGE);
+					response.sendRedirect(contextPath + ConstMapping.LOGIN_PAGE.path());
 				}
 			} else {
 				sBuffer.append("「否」，狀態為：轉向目標路徑。");
 				this.logsService.insertNewLog(sBuffer.toString());
 				chain.doFilter(request, response);
 			}
-		} else {
-			sBuffer.append("未知的請求而發生錯誤。");
-			this.logsService.insertNewLog(sBuffer.toString());
 		}
 	}
 
@@ -207,53 +241,47 @@ public class LoginFilter implements Filter {
 	}
 
 	/**
+	 * 利用servletPath來判斷以下三件事情：
+	 * 
 	 * 判斷目前的請求路徑是否需要登入。
 	 * 
-	 * @author 賴
-	 * @version 2017/06/12
-	 */
-	private boolean needToLogin(String servletPath) {
-		boolean needToLogin = false;
-		for (String url : this.urlList) {
-			if (url.endsWith("*")) {
-				url = url.substring(0, url.length() - 1);
-				if (servletPath.startsWith(url)) {
-					needToLogin = true;
-					break;
-				}
-			} else {
-				if (servletPath.equals(url)) {
-					needToLogin = true;
-					break;
-				}
-			}
-		}
-		return needToLogin;
-	}
-
-	/**
+	 * 判斷目前的請求路徑是否為必須相符會員主鍵的。
+	 * 
 	 * 判斷目前的請求路徑是否為管理員才能查看的網址。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/13
+	 * @version 2017/06/15
 	 */
-	private boolean needToManage(String servletPath) {
-		boolean needToManage = false;
-		for (String url : this.managedUrlList) {
+	private boolean checkNeedTo(String doSomething, String servletPath) {
+		List<String> list = new ArrayList<>();
+		switch (doSomething) {
+		case "Login":
+			list = this.urlList;
+			break;
+		case "CompareMId":
+			list = this.mIdComparedUrlList;
+			break;
+		case "Manage":
+			list = this.managedUrlList;
+			break;
+		}
+
+		boolean isTheNeedNecessary = false;
+		for (String url : list) {
 			if (url.endsWith("*")) {
 				url = url.substring(0, url.length() - 1);
 				if (servletPath.startsWith(url)) {
-					needToManage = true;
+					isTheNeedNecessary = true;
 					break;
 				}
 			} else {
 				if (servletPath.equals(url)) {
-					needToManage = true;
+					isTheNeedNecessary = true;
 					break;
 				}
 			}
 		}
-		return needToManage;
+		return isTheNeedNecessary;
 	}
 
 	/**
@@ -264,23 +292,42 @@ public class LoginFilter implements Filter {
 	 */
 	private boolean isLogin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		MemberBean mbean = (MemberBean) session.getAttribute(ConstLoginFilterKey.USER.key());
-		if (mbean == null) {
-			return false;
-		} else {
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		if (mbean != null) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
 	/**
-	 * 檢驗是否為超級管理員，方法為驗證Session Scope找到的Memberbean內的帳號是否為超級管理員清單之一。
+	 * 檢驗資料夾內的數字是否與會員的主鍵相同。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/15
+	 */
+	private boolean isTheSameAsPrimaryKey(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		String tempMId = (String) request.getAttribute("tempMId");
+		int mId = Integer.parseInt(tempMId);
+
+		if (mId == mbean.getmId()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 檢驗是否為管理員，方法為驗證Session Scope找到的Memberbean內的帳號是否為管理員清單之一。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/13
 	 */
 	private boolean isManager(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		MemberBean mbean = (MemberBean) session.getAttribute(ConstLoginFilterKey.USER.key());
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 		for (int i = 0; i < this.managerList.size(); i++) {
 			if (mbean.getmEmail().equals(this.managerList.get(i))) {
 				return true;
@@ -301,13 +348,13 @@ public class LoginFilter implements Filter {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(ConstLoginFilterKey.COOKIE_KL.key())) {
+				if (cookie.getName().equals(ConstFilterKey.COOKIE_KL.key())) {
 					try {
 						String mEmail = this.secureService.getDecryptedText(cookie.getValue(),
 								ConstSecureParameter.KEEPLOGIN.param());
 						MemberBean mbean = this.memberService.selectByEmail(mEmail);
 						if (mbean.getmKeepLogin().equals(ConstLoginParameter.KEEPLOGIN_YES.param())) {
-							session.setAttribute(ConstLoginFilterKey.USER.key(), mbean);
+							session.setAttribute(ConstFilterKey.USER.key(), mbean);
 						}
 					} catch (Exception e) {
 						this.logsService.insertNewLog("該會員帳號不存在或讀取並解密客戶端Cookie kl的值失敗而拋出例外。<br />" + e.getMessage());

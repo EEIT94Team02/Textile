@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import tw.com.eeit94.textile.system.common.ConstCookieParameter;
 import tw.com.eeit94.textile.system.common.ConstMapping;
-import tw.com.eeit94.textile.system.supervisor.ConstLoginFilterKey;
+import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
  * 登出的控制元件，目標是將MemberBean從Session Scope刪除，以及將與保持登入有關的Cookie清除。
@@ -26,13 +26,13 @@ public class LogoutController {
 	@RequestMapping(method = { RequestMethod.GET })
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
-		session.removeAttribute(ConstLoginFilterKey.USER.key());
+		session.removeAttribute(ConstFilterKey.USER.key());
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			// 清除Cookie kl的資料，所有設定要和加入Cookie kl的設定一模一樣。
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(ConstLoginFilterKey.COOKIE_KL.key())) {
+				if (cookie.getName().equals(ConstFilterKey.COOKIE_KL.key())) {
 					cookie.setDomain(ConstCookieParameter.DOMAIN.param());
 					cookie.setPath(ConstCookieParameter.PATH.param());
 					cookie.setMaxAge(Integer.parseInt(ConstCookieParameter.VALUEOFRIGHTAWAY.param()));

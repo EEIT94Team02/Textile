@@ -42,8 +42,6 @@ public class SpringJavaConfiguration {
 		// driverManagerDataSource = new
 		// org.springframework.jdbc.datasource.DriverManagerDataSource();
 		// driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		//
-		// //
 		// driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
 		// driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.43.17:1433;DatabaseName=textile");
 		// driverManagerDataSource.setUsername("sa");

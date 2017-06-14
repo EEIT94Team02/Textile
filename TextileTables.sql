@@ -5,7 +5,7 @@
   2. PRIMARY KEY預設就是NOT NULL，不用加NOT NULL；
      FOREIGN KEY會檢查是不是別人的PRIMARY KEY，也不用加NOT NULL。
 
-  3. 改表格結構要先知會大家，新增資料列則不用。
+  3. 改表格結構要先知會大家，新增資料列則不用，但要注意Foreign Key存不存在。
 */
 USE textile
 GO
