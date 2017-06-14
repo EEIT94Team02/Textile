@@ -1,14 +1,23 @@
 package tw.com.eeit94.textile.model.deposit;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import tw.com.eeit94.textile.model.member.MemberBean;
+
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * deposit表格資料的CRUD，以hibernate實作。
  * 
  * @author 李
  * @version 2017/06/12
@@ -25,19 +34,40 @@ public class DepositDAOHibernate implements DepositDAO {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	
+	
+	// deposit表格的查詢
+	// 以使用者會員Id為主，時間區間為輔做條件查詢。
 	@Override
-	public DepositBean select(int depositId) {
-		return getSession().get(DepositBean.class, depositId);
+	public List<DepositBean> selectConditional(DepositConditionUtil queryCondition) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<DepositBean> cq = cb.createQuery(DepositBean.class);
+		Root<DepositBean> depositBean = cq.from(DepositBean.class);
+		List<Predicate> pList = new ArrayList<Predicate>();
+		Predicate byName = null;
+		Predicate byDate = null;
+		if (queryCondition.getMemberId() != null) {
+			byName = cb.equal(depositBean.<MemberBean>get("memberBean").<Integer>get("mId"), 
+					queryCondition.getMemberId());
+			pList.add(byName);
+			if (queryCondition.getDepositDateAfter() != null || queryCondition.getDepositDateBefore() != null) {
+				if (queryCondition.getDepositDateAfter() == null) {
+					byDate = cb.between(depositBean.<Timestamp>get("depositDate"), 
+							new java.util.Date(0), queryCondition.getDepositDateBefore());
+				} else if (queryCondition.getDepositDateBefore() == null) {
+					byDate = cb.between(depositBean.<Timestamp>get("depositDate"), 
+							queryCondition.getDepositDateAfter(), new java.util.Date(System.currentTimeMillis()));
+				} else {
+					byDate = cb.between(depositBean.<Timestamp>get("depositDate"), 
+							queryCondition.getDepositDateAfter(), queryCondition.getDepositDateBefore());
+				}
+				pList.add(byDate);
+			}
+		}
+		Predicate[] pArray = pList.toArray(new Predicate[pList.size()]);
+		return getSession().createQuery(cq.where(pArray)).getResultList();
 	}
-
-	private static final String SELECT_ALL = "from tw.com.eeit94.textile.model.deposit.DepositBean";
-
-	@Override
-	public List<DepositBean> select() {
-		return getSession().createQuery(SELECT_ALL, DepositBean.class).getResultList();
-	}
-
+	
 	@Override
 	public DepositBean insert(DepositBean bean) {
 		DepositBean result = null;

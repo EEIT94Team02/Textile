@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * item表格CRUD的service元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -21,27 +21,20 @@ public class ItemService {
 	@Autowired
 	private ItemDAO itemDAO;
 
-	public ItemService(ItemDAO itemDAO) {
-		this.itemDAO = itemDAO;
-	}
-
 	public ItemDAO getItemDAO() {
 		return itemDAO;
 	}
 
 	@Transactional(readOnly = true)
-	public List<ItemBean> select(ItemBean bean) {
+	public List<ItemBean> select(ItemConditionUtil queryCondition) {
 		List<ItemBean> result = null;
-		if (bean != null && bean.getItemPK() != null) {
-			bean = getItemDAO().select(bean.getItemPK());
-			if (bean != null) {
+		if (queryCondition != null) {
+			if (queryCondition.getItemId() != null) {
 				result = new ArrayList<ItemBean>();
-				result.add(bean);
+				result.add(getItemDAO().select(new ItemPK(queryCondition.getItemId(), queryCondition.getMemberId())));
 			} else {
-				result = getItemDAO().select();
+				result = getItemDAO().select(queryCondition);
 			}
-		} else {
-			result = getItemDAO().select();
 		}
 		return result;
 	}

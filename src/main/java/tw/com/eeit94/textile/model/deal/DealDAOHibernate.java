@@ -1,6 +1,13 @@
 package tw.com.eeit94.textile.model.deal;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * deal表格的CRUD及條件查詢，以Hibernate實作。
  * 
  * @author 李
  * @version 2017/06/12
@@ -18,24 +25,43 @@ public class DealDAOHibernate implements DealDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public DealDAOHibernate(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	
 	@Override
 	public DealBean select(int dealId) {
 		return getSession().get(DealBean.class, dealId);
 	}
-
-	private static final String SELECT_ALL = "from tw.com.eeit94.textile.model.deal.DealBean";
-
-	@Override
-	public List<DealBean> select() {
-		return getSession().createQuery(SELECT_ALL, DealBean.class).getResultList();
+	
+	// deal表格的條件查詢
+	// 以使用者的會員Id查詢其所有交易紀錄，輔以時間區間查詢交易時間。
+	public List<DealBean> selectConditional(DealConditionUtil queryCondition) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<DealBean> cq = cb.createQuery(DealBean.class);
+		Root<DealBean> dealBean = cq.from(DealBean.class);
+		List<Predicate> pList = new ArrayList<Predicate>();
+		Predicate byId = null;
+		Predicate byDate = null;
+		if (queryCondition.getMemberId() != null) {
+			byId = cb.equal(dealBean.<Integer>get("memberId"), queryCondition.getMemberId());
+			if (queryCondition.getDealDateAfter() != null || queryCondition.getDealDateBefore() != null) {
+				if (queryCondition.getDealDateBefore() == null) {
+					byDate = cb.between(dealBean.<Timestamp>get("dealDate"), 
+							queryCondition.getDealDateAfter(), new java.util.Date());
+				} else if (queryCondition.getDealDateAfter() == null) {
+					byDate = cb.between(dealBean.<Timestamp>get("dealDate"), 
+							new java.util.Date(0), queryCondition.getDealDateBefore());
+				} else {
+					byDate = cb.between(dealBean.<Timestamp>get("dealDate"), 
+							queryCondition.getDealDateAfter(), queryCondition.getDealDateBefore());
+				}
+			}
+			pList.add(byId);
+			pList.add(byDate);
+		}
+		Predicate[] pArray = pList.toArray(new Predicate[pList.size()]);
+		return getSession().createQuery(cq.where(pArray)).getResultList();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * Spring MVC Java 組態設定檔。 DispatcherServlet的Bean
@@ -82,6 +83,24 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		redirectView.setUrl("/user/profile.jsp");
 		redirectView.setContextRelative(true);
 		return redirectView;
+	}
+
+	// 商品總表
+	@Bean(name = { "pList.show" })
+	public RedirectView productList() {
+		RedirectView rView = new RedirectView();
+		rView.setUrl("/store/pList.jsp");
+		rView.setContextRelative(true);
+		return rView;
+	}
+	
+	// 個別商品
+	@Bean(name = { "pSingle.show" })
+	public RedirectView productSingle() {
+		RedirectView rView = new RedirectView();
+		rView.setUrl("/store/pSingle.jsp");
+		rView.setContextRelative(true);
+		return rView;
 	}
 
 	/**
