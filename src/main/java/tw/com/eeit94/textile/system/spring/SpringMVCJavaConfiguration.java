@@ -48,7 +48,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/check/login.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 登出畫面。
 	@Bean(name = { "logout.success" })
 	public org.springframework.web.servlet.view.RedirectView logout_success() {
@@ -74,7 +74,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/manager/logs.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 個人資訊的頁面。
 	@Bean(name = { "/user/profile.jsp" })
 	public org.springframework.web.servlet.view.RedirectView profile_page() {
@@ -82,6 +82,28 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		redirectView.setUrl("/user/profile.jsp");
 		redirectView.setContextRelative(true);
 		return redirectView;
+	}
+
+	/**
+	 * ****** View ******
+	 * 
+	 * @author 陳
+	 * @version 2017/06/14
+	 */
+	// 創建相簿失敗，轉回同一畫面。
+	@Bean(name = { "album.error" })
+	public org.springframework.web.servlet.view.InternalResourceView albumcreate_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/album.jsp");
+		return internalResourceView;
+	}
+
+	// 創建相簿成功，轉向相簿首頁。
+	@Bean(name = { "album.create" , "album.default"})
+	public org.springframework.web.servlet.view.InternalResourceView albumcreate_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/allalbum.jsp");
+		return internalResourceView;
 	}
 
 	/**

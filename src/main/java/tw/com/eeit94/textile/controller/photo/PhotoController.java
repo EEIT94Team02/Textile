@@ -39,21 +39,22 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
 @Controller
 @EnableWebMvc
 @RequestMapping(path = { "/photo" })
-public class UploadController {
+public class PhotoController {
 
 	@Autowired
 	private PhotoService photoService;
+	public PhotoService getPhotoService() {
+		return photoService;
+	}	
 
 	@Autowired
 	private Photo_albumService photo_albumService;
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
+	public Photo_albumService getPhoto_albumService() {
+		return photo_albumService;
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/upload.do" }, consumes = {
 			"multipart/form-data;charset=UTF-8" })
-	@ResponseBody
 	public String process(@RequestParam("file") MultipartFile[] files, HttpServletRequest request, Model model)
 			throws IOException {
 
@@ -64,11 +65,10 @@ public class UploadController {
 		String visibility = request.getParameter("visibility");
 		HttpSession session = request.getSession();
 		MemberBean user = (MemberBean) session.getAttribute("user");
-		// int id = user.getmId();
-		int id = 1;
+		int id = user.getmId();
 		Photo_albumBean photo_albumbean = new Photo_albumBean();
 		photo_albumbean.setAlbumno(1);
-		Photo_albumBean albumbean = photo_albumService.findPhotoAlbumByAlbumNo(photo_albumbean);
+		Photo_albumBean albumbean = getPhoto_albumService().findPhotoAlbumByAlbumNo(photo_albumbean);
 
 		// 轉換資料
 		// 驗證資料，給預設值
@@ -90,8 +90,11 @@ public class UploadController {
 			return "photo.error";
 		}
 
+		String realpath = "/workspace/Textile/src/main/webapp/album/";
 		ServletContext context = request.getServletContext();
-		String temdir = context.getRealPath("/album") + "/" + java.lang.String.valueOf(id);
+		String temdir = context.getContextPath() + realpath + java.lang.String.valueOf(id);
+		System.out.println(temdir);
+		System.out.println(context.getRealPath("/album"));
 		MultipartFile file = null;
 		PhotoBean bean = new PhotoBean();
 		bean.setAlbumno(id);
@@ -105,12 +108,14 @@ public class UploadController {
 		// 呼叫Model
 		InputStream fis = null;
 		FileOutputStream fos = null;
-		String time = photoService.getTimeString();
-		String memberIdString = photoService.getMemberIdString(id);
-		int photos = photoService.countphoto(time + memberIdString);
+		String time = getPhotoService().getTimeString();
+		String memberIdString = getPhotoService().getMemberIdString(id);
+		int photos = getPhotoService().countphoto(time + memberIdString);
 		System.out.println(photos);
 		StringBuilder sb = new StringBuilder();
 		String tempno = "";
+		String fullname ="";
+		String name = "";
 		PhotoBean insertBean = new PhotoBean();
 		UID photo = null;
 		File file2 = null;
@@ -118,10 +123,10 @@ public class UploadController {
 			for (int i = 0; i < files.length; i++) {
 				file = files[i];
 				photo = new UID();
-				String name = file.getOriginalFilename();
-				int a = name.lastIndexOf(".");
-				name = name.substring(a, name.length());
-				file2 = new File("" + temdir + "/" + photo.hashCode() + "." + name);
+				fullname = file.getOriginalFilename();
+				int a = fullname.lastIndexOf(".");
+				name = fullname.substring(a, fullname.length());
+				file2 = new File("" + temdir + "/" + photo.hashCode() + name);
 
 				if (!file2.getParentFile().exists()) {
 					file2.getParentFile().mkdirs();
@@ -133,12 +138,12 @@ public class UploadController {
 				while ((data = fis.read()) != -1) {
 					fos.write(data);
 				}
-				String path = "/" + java.lang.String.valueOf(id) + "/" + photo.hashCode() + file.getOriginalFilename();
+				String path = "/" + java.lang.String.valueOf(id) + "/" + photo.hashCode() + name;
 				bean.setRespath(path);
 				tempno = sb.append("0000").append(photos).substring(sb.length() - 4, sb.length());
 				String newphotono = time + memberIdString + tempno;
 				bean.setPhotono(newphotono);
-				insertBean = photoService.insertDataToPhoto(bean);
+				insertBean = getPhotoService().insertDataToPhoto(bean);
 				if (insertBean != null) {
 					result.add(insertBean);
 					photos++;
@@ -172,7 +177,6 @@ public class UploadController {
 		} else {
 			return "photo.back";
 		}
-
 		// 要產生View元件則要return "Url Pattern"的相對或絕對路徑。
 	}
 }

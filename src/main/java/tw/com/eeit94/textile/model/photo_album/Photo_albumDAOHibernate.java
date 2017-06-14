@@ -38,6 +38,11 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 	public Photo_albumBean selectByAlbumNo(Photo_albumBean bean) {
 		return getSession().get(Photo_albumBean.class, bean.getAlbumno());
 	}
+	
+	@Override
+	public List<Photo_albumBean> selectBymId(Photo_albumBean bean) {
+		return getSession().createQuery("FROM Photo_albumBean where mId ="+bean.getmId(), Photo_albumBean.class).getResultList();
+	}
 
 	@Override
 	public List<Photo_albumBean> selectByOthers(Photo_albumBean bean) {

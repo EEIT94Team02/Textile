@@ -1,28 +1,16 @@
 package tw.com.eeit94.textile.controller.photo;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import tw.com.eeit94.textile.model.member.MemberBean;
-import tw.com.eeit94.textile.model.photo.PhotoBean;
-import tw.com.eeit94.textile.model.photo.PhotoService;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
 
@@ -33,30 +21,29 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
  * @version 2017/06/12
  */
 @Controller
-@RequestMapping(path = { "/album/create.do" }, produces = { "application/json; charset=UTF-8" })
+@RequestMapping(path = { "/photo/album" })
 public class AlbumController {
 	@Autowired
 	private Photo_albumService photo_albumService;
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-
+	public Photo_albumService getPhoto_albumService() {
+		return photo_albumService;
 	}
 
-	@RequestMapping(method = { RequestMethod.POST })
-	@ResponseBody
-	public String process(HttpServletRequest request){
-		// 接收資料
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/create.do" }, consumes = {
+			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	public String createprocess(HttpServletRequest request, Model model) {
 
+		// 接收資料
 		Map<String, String> errors = new HashMap<String, String>();
-		request.setAttribute("errors",errors);		
-		
+		model.addAttribute("albumInsertErrors", errors);
+
 		String albumname = request.getParameter("albumname");
 		String introduction = request.getParameter("introduction");
 		String visibility = request.getParameter("visibility");
 		HttpSession session = request.getSession();
-		Object member = session.getAttribute("user");
-		
+		MemberBean user = (MemberBean) session.getAttribute("user");
+
 		// 轉換資料
 		// 驗證資料
 		if (albumname == null || albumname == "") {
@@ -66,28 +53,72 @@ public class AlbumController {
 			errors.put("introduction", "請簡述相簿用途或向其他人介紹您的相簿");
 		}
 		if (errors != null && !errors.isEmpty()) {
-			return "product.error";
+			return "album.error";
 		}
 
 		// 呼叫Model
-		int id = ((MemberBean) member).getmId();
+		int id = user.getmId();
 		Photo_albumBean bean = new Photo_albumBean();
 		bean.setCreatetime(new java.sql.Timestamp(System.currentTimeMillis()));
 		bean.setAlbumname(albumname);
 		bean.setIntroduction(introduction);
 		bean.setVisibility(visibility);
-		bean.setmId(id);		
-		Photo_albumBean result = photo_albumService.createPhotoAlbum(bean);		
-		if(result ==null){
-			errors.put("create", "創建相簿失敗");
-		}
+		bean.setmId(id);
+		Photo_albumBean result = getPhoto_albumService().createPhotoAlbum(bean);
+		System.out.println(result);
+
 		// 根據Model執行結果呼叫View
-		
-		
+		if (result == null) {
+			errors.put("create", "創建相簿失敗");
+			return "album.error";
+		} else {
+			model.addAttribute("albumbean", getPhoto_albumService().findPhotoAlbumBymId(bean));
+			return "album.create";
+		}
+
+	}
+
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/default.do" }, consumes = {
+			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	public String seclectprocess(HttpServletRequest request, Model model) {
+
+		// 接收資料
+		HttpSession session = request.getSession();
+		MemberBean user = (MemberBean) session.getAttribute("user");
+		String idString = request.getParameter("mId");
+		int memberId = user.getmId();
+
+		// 轉換資料
+		// 驗證資料
+		if (idString != null && idString.length() != 0) {
+			memberId = Integer.parseInt(idString);
+		}
+
+		// 呼叫Model
+		Photo_albumBean bean = new Photo_albumBean();
+		bean.setmId(memberId);
+		List<Photo_albumBean> photo_albumBeans = getPhoto_albumService().findPhotoAlbumBymId(bean);
+
+		// 根據Model執行結果呼叫View
+		model.addAttribute("albumbean", photo_albumBeans);
+		return "album.default";
+	}
+
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/update.do" }, consumes = {
+			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	public String updateprocess(HttpServletRequest request, Model model) {
 		
 		
 
+		// 根據Model執行結果呼叫View
+//		if (result == null) {
+//			errors.put("create", "更新資訊失敗");
+//			return "album.error";
+//		} else {
+//			model.addAttribute("albumbean", getPhoto_albumService().findPhotoAlbumBymId(bean));
+//			return "album.update";
+//		}
 		return "";
-		// 要產生View元件則要return "Url Pattern"的相對或絕對路徑。
 	}
+
 }
