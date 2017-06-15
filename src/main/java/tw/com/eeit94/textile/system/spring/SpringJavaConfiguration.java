@@ -69,7 +69,8 @@ public class SpringJavaConfiguration {
 		properties.setProperty("hibernate.transaction.coordinator_class",
 				"org.hibernate.transaction.JDBCTransactionFactory");
 		// 上線使用Spring的交易管理時，下一行要註解掉！
-		// properties.setProperty("hibernate.current_session_context_class", "thread");
+		// properties.setProperty("hibernate.current_session_context_class",
+		// "thread");
 		localSessionFactoryBean.setHibernateProperties(properties);
 
 		try {

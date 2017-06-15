@@ -40,12 +40,13 @@ public class PathInterceptor implements HandlerInterceptor {
 		String temp = handler.toString();
 		if (temp.indexOf('@') != -1) {
 			// 去除"@"後方的所有字元。
-//			controller = temp.substring(0, temp.indexOf('@'));
+			controller = temp.substring(0, temp.indexOf('@'));
 		} else {
-			// 去除開頭的"public java.lang.String "及"Controller"後方的所有字元。
-//			controller = temp.substring(temp.lastIndexOf("tw"), temp.lastIndexOf(controller) + 10);
+			String[] temps = temp.split(" ");
+			// 去除開頭如"public java.lang.String "和"Controller"後方的所有字元。
+			controller = temps[2].substring(0, temps[2].indexOf(controller) + 10);
 		}
-//		sBuffer.append("並即將被「").append(controller).append("」處理。");
+		sBuffer.append("即將被「").append(controller).append("」處理。");
 		this.logsService.insertNewLog(sBuffer.toString());
 		return true;
 	}
@@ -68,6 +69,7 @@ public class PathInterceptor implements HandlerInterceptor {
 			 * debug用，上線要刪除。
 			 */
 			ex.printStackTrace();
+			System.out.println(ex.getMessage());
 		}
 	}
 }

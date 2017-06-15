@@ -79,6 +79,7 @@ public class ErrorFilter implements Filter {
 				 * debug用，上線要刪除。
 				 */
 				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		} else {
 			sBuffer.append("過濾器接收未知的請求而發生錯誤。");

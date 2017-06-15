@@ -6,6 +6,8 @@
      FOREIGN KEY會檢查是不是別人的PRIMARY KEY，也不用加NOT NULL。
 
   3. 改表格結構要先知會大家，新增資料列則不用，但要注意Foreign Key存不存在。
+
+  -- 商品的圖片Git好像都沒更新到，還是Null。Q_Q
 */
 USE textile
 GO
