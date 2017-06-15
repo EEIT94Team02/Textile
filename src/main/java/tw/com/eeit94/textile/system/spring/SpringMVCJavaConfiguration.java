@@ -25,7 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * 
  * 3. Controller回傳的頁面如果是相同的頁面必用InternalResourceView，
  * 
- * 如果是jsp轉到jsp或Controller回傳新的jsp，則儘量用RedirectView。
+ * 如果是Controller回傳新的jsp，只有該目錄下的index.jsp可以使用RedirectView。
  * 
  * (注意request scope的問題，有些東西可能要放在session scope)
  * 
@@ -68,6 +68,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 */
 		registry.addViewController("/index.v").setViewName("/index.v");
 		registry.addViewController("/error/404.v").setViewName("/error/404.v");
+		registry.addViewController("/check/register.v").setViewName("/check/register.v");
 		registry.addViewController("/check/login.v").setViewName("/check/login.v");
 		registry.addViewController("/check/index.v").setViewName("/check/index.v");
 		registry.addViewController("/manager/index.v").setViewName("/manager/index.v");
@@ -159,6 +160,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
+	// 註冊會員頁面。
+	@Bean(name = { "/check/register.v" })
+	public org.springframework.web.servlet.view.InternalResourceView register_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/register.jsp");
+		return internalResourceView;
+	}
+
 	// 登入成功，導向首頁。
 	@Bean(name = { "login.success" })
 	public org.springframework.web.servlet.view.RedirectView login_success() {
@@ -227,7 +236,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/store/index.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 商品總表
 	@Bean(name = { "pList.v" })
 	public InternalResourceView productList() {
@@ -235,7 +244,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		rView.setUrl("/store/pList.jsp");
 		return rView;
 	}
-	
+
 	// 個別商品
 	@Bean(name = { "pSingle.v" })
 	public InternalResourceView productSingle() {

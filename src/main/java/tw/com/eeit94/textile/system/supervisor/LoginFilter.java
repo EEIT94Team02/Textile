@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
 	 * @author 賴
 	 * @version 2017/06/12
 	 */
-	private List<String> urlList = new ArrayList<>();
+	private List<String> loginUrlList = new ArrayList<>();
 
 	/**
 	 * 存放多個映射只有會員主鍵相符才能夠查看的網址，其參數名稱為「u_」開頭。
@@ -121,7 +121,7 @@ public class LoginFilter implements Filter {
 		Enumeration<String> e = filterConfig.getInitParameterNames();
 		while (e.hasMoreElements()) {
 			String urlName = e.nextElement();
-			this.urlList.add(filterConfig.getInitParameter(urlName));
+			this.loginUrlList.add(filterConfig.getInitParameter(urlName));
 
 			if (urlName.startsWith("u_")) {
 				this.mIdComparedUrlList.add(filterConfig.getInitParameter(urlName));
@@ -257,7 +257,7 @@ public class LoginFilter implements Filter {
 		List<String> list = new ArrayList<>();
 		switch (doSomething) {
 		case "Login":
-			list = this.urlList;
+			list = this.loginUrlList;
 			break;
 		case "CompareMId":
 			list = this.mIdComparedUrlList;
