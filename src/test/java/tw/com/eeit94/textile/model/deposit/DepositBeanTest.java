@@ -35,12 +35,12 @@ public class DepositBeanTest {
 		// System.out.println(resultAll);
 
 		// Insert
-		DepositBean resultInsert = new DepositBean();
-		resultInsert.setMemberId(3);
-		resultInsert.setDepositDate(new Timestamp(System.currentTimeMillis()));
-		resultInsert.setDepositAmount(150);
-		resultInsert.setVirtualPoints((int) (150 * 1.4));
-		session.save(resultInsert);
+//		DepositBean resultInsert = new DepositBean();
+//		resultInsert.setMemberId(3);
+//		resultInsert.setDepositDate(new Timestamp(System.currentTimeMillis()));
+//		resultInsert.setDepositAmount(150);
+//		resultInsert.setVirtualPoints((int) (150 * 1.4));
+//		session.save(resultInsert);
 
 		session.getTransaction().commit();
 		session.close();
