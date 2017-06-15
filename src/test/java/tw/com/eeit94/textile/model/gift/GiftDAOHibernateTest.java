@@ -1,26 +1,21 @@
 package tw.com.eeit94.textile.model.gift;
 
-import java.sql.Timestamp;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import tw.com.eeit94.textile.model.gift.GiftBean;
-import tw.com.eeit94.textile.model.gift.GiftDAO;
-import tw.com.eeit94.textile.model.gift.GiftDAOHibernate;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * gift dao的測試程式。
  * 
  * @author 李
  * @version 2017/06/12
  */
 public class GiftDAOHibernateTest {
-	
+
 	public static void main(String[] args) {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
@@ -28,11 +23,18 @@ public class GiftDAOHibernateTest {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 
-		// Select by id
-		// System.out.println(giftDao.select(1));
+		// Select by giftId getGiftDetailBeans
+		// GiftBean bean = giftDao.select(1);
+		// System.out.println(bean.getGiftDetailBeans());
 
-		// Select all
-		// System.out.println(giftDao.select());
+		// Select all by memberId
+		// System.out.println(giftDao.selectAll(5));
+
+		// Select by recipient name
+		// GiftQueryConditionUtil queryCondition = new GiftQueryConditionUtil();
+		// queryCondition.setRecipientName("eva");
+		// queryCondition.setGiveDateBefore(new java.util.Date());
+		// System.out.println(giftDao.selectConditional(queryCondition));
 
 		// Insert
 		// GiftBean bean = new GiftBean();
@@ -47,8 +49,8 @@ public class GiftDAOHibernateTest {
 		// System.out.println(giftDao.update(bean));
 
 		// Delete
-		GiftBean bean = giftDao.select(4);
-		System.out.println(giftDao.delete(bean));
+		// GiftBean bean = giftDao.select(4);
+		// System.out.println(giftDao.delete(bean));
 
 		session.getTransaction().commit();
 		session.close();

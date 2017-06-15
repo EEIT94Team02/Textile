@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 封裝product表格資料的bean元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -37,7 +37,7 @@ public class ProductBean implements Serializable {
 	}
 
 	// productId getter setter
-	public void setProductId(int productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 
@@ -55,7 +55,7 @@ public class ProductBean implements Serializable {
 	}
 
 	// unitPrice getter setter
-	public void setUnitPrice(int unitPrice) {
+	public void setUnitPrice(Integer unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
@@ -100,7 +100,7 @@ public class ProductBean implements Serializable {
 	}
 
 	// rewardPoints getter setter
-	public void setRewardPoints(int rewardPoints) {
+	public void setRewardPoints(Integer rewardPoints) {
 		this.rewardPoints = rewardPoints;
 	}
 

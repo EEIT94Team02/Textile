@@ -69,8 +69,7 @@ public class SpringJavaConfiguration {
 		properties.setProperty("hibernate.transaction.coordinator_class",
 				"org.hibernate.transaction.JDBCTransactionFactory");
 		// 上線使用Spring的交易管理時，下一行要註解掉！
-		// properties.setProperty("hibernate.current_session_context_class",
-		// "thread");
+		// properties.setProperty("hibernate.current_session_context_class", "thread");
 		localSessionFactoryBean.setHibernateProperties(properties);
 
 		try {
@@ -118,20 +117,5 @@ public class SpringJavaConfiguration {
 	public java.text.SimpleDateFormat simpleDateFormat() {
 		java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat;
-	}
-
-	/**
-	 * 上傳照片用。
-	 * 
-	 * @author 共同
-	 * @version 2017/06/12
-	 */
-	@Bean
-	public org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver() {
-		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(50000000);
-		multipartResolver.setMaxInMemorySize(10000000);
-		multipartResolver.setDefaultEncoding("UTF-8");
-		return multipartResolver;
 	}
 }

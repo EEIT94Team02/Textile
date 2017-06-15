@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * gift表格CRUD的Service元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -21,27 +21,26 @@ public class GiftService {
 	@Autowired
 	private GiftDAO giftDAO;
 
-	public GiftService(GiftDAO giftDAO) {
-		this.giftDAO = giftDAO;
-	}
-
 	public GiftDAO getGiftDAO() {
 		return giftDAO;
 	}
 
 	@Transactional(readOnly = true)
-	public List<GiftBean> select(GiftBean bean) {
+	public List<GiftBean> select(GiftConditionUtil queryCondition) {
 		List<GiftBean> result = null;
-		if (bean != null && bean.getGiftId() != null && !Integer.valueOf(0).equals(bean.getGiftId())) {
-			bean = getGiftDAO().select(bean.getGiftId());
-			if (bean != null) {
+		if (queryCondition != null) {
+			if (queryCondition.getGiftId() != null && !Integer.valueOf(0).equals(queryCondition.getGiftId())) {
 				result = new ArrayList<GiftBean>();
-				result.add(bean);
-			} else {
-				result = getGiftDAO().select();
+				result.add(getGiftDAO().select(queryCondition.getGiftId()));
+			} else if (queryCondition.getGiverId() != null || queryCondition.getRecipientId() != null) {
+				if (queryCondition.getGiverName() != null || queryCondition.getRecipientName() != null
+						|| queryCondition.getGiveDateAfter() != null || queryCondition.getGiveDateBefore() != null) {
+					result = getGiftDAO().selectConditional(queryCondition);
+				} else {
+					result = getGiftDAO().selectAll(queryCondition.getGiverId() == null
+							? queryCondition.getRecipientId() : queryCondition.getGiverId());
+				}
 			}
-		} else {
-			result = getGiftDAO().select();
 		}
 		return result;
 	}

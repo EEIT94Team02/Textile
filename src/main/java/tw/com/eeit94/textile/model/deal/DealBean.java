@@ -2,17 +2,23 @@ package tw.com.eeit94.textile.model.deal;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import tw.com.eeit94.textile.model.dealDetail.DealDetailBean;
+
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 封裝deal表格資料的bean元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -29,6 +35,10 @@ public class DealBean implements Serializable {
 	private Integer memberId;
 	private Timestamp dealDate;
 	private Integer totalCost;
+	
+	@JoinColumn(name = "dealId")
+	@OneToMany(fetch = FetchType.LAZY)
+	private Set<DealDetailBean> dealDetailBeans;
 
 	@Override
 	public String toString() {
@@ -36,19 +46,17 @@ public class DealBean implements Serializable {
 	}
 
 	// dealId getter setter
-	public void setDealId(int dealId) {
+	public void setDealId(Integer dealId) {
 		this.dealId = dealId;
 	}
-
 	public Integer getDealId() {
 		return this.dealId;
 	}
 
 	// memberId getter setter
-	public void setMemberId(int memberId) {
+	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
-
 	public Integer getMemberId() {
 		return memberId;
 	}
@@ -57,17 +65,22 @@ public class DealBean implements Serializable {
 	public void setDealDate(Timestamp dealDate) {
 		this.dealDate = dealDate;
 	}
-
 	public Timestamp getDealDate() {
 		return dealDate;
 	}
 
 	// totalCost getter setter
-	public void setTotalCost(int totalCost) {
+	public void setTotalCost(Integer totalCost) {
 		this.totalCost = totalCost;
 	}
-
 	public Integer getTotalCost() {
 		return totalCost;
+	}
+
+	public void setDealDetailBeans(Set<DealDetailBean> dealDetailBeans) {
+		this.dealDetailBeans = dealDetailBeans;
+	}
+	public Set<DealDetailBean> getDealDetailBeans() {
+		return dealDetailBeans;
 	}
 }

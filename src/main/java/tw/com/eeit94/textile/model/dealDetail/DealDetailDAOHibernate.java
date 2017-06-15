@@ -2,6 +2,11 @@ package tw.com.eeit94.textile.model.dealDetail;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,34 +16,28 @@ import tw.com.eeit94.textile.model.deal.DealBean;
 import tw.com.eeit94.textile.model.product.ProductBean;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * deal_detail表格的CRUD，以hibernate實作。
  * 
  * @author 李
- * @version 2017/06/12
+ * @version 2017/06/13
  */
 @Repository(value = "dealDetailDAO")
 public class DealDetailDAOHibernate implements DealDetailDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public DealDetailDAOHibernate(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	
+	// 取得dealId的情況下，方能查詢明細，故select方法只有一個。
 	@Override
-	public DealDetailBean select(DealDetailPK dealDetailPK) {
-		return getSession().get(DealDetailBean.class, dealDetailPK);
-	}
-
-	private static final String SELECT_ALL = "from tw.com.eeit94.textile.model.dealDetail.DealDetailBean";
-
-	@Override
-	public List<DealDetailBean> select() {
-		return getSession().createQuery(SELECT_ALL, DealDetailBean.class).getResultList();
+	public List<DealDetailBean> select(int dealId) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<DealDetailBean> cq = cb.createQuery(DealDetailBean.class);
+		Root<DealDetailBean> dealDetailBean = cq.from(DealDetailBean.class);
+		Predicate p = cb.equal(dealDetailBean.<DealDetailPK>get("dealDetailPK").<Integer>get("dealId"), dealId);
+		return getSession().createQuery(cq.where(p)).getResultList();
 	}
 
 	@Override

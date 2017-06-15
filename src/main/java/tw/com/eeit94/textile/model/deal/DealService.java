@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * deal表格CRUD的service元件。
  * 
  * @author 李
- * @version 2017/06/12
+ * @version 2017/06/13
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, timeout = -1)
@@ -21,27 +21,21 @@ public class DealService {
 	@Autowired
 	private DealDAO dealDAO;
 
-	public DealService(DealDAO dealDAO) {
-		this.dealDAO = dealDAO;
-	}
-
 	public DealDAO getDealDAO() {
 		return dealDAO;
 	}
 
 	@Transactional(readOnly = true)
-	public List<DealBean> select(DealBean bean) {
+	public List<DealBean> select(DealConditionUtil queryCondition) {
 		List<DealBean> result = null;
-		if (bean != null && bean.getDealId() != null && !Integer.valueOf(0).equals(bean.getDealId())) {
-			bean = getDealDAO().select(bean.getDealId());
-			if (bean != null) {
+		if (queryCondition != null) {
+			if (queryCondition.getDealId() != null && !Integer.valueOf(0).equals(queryCondition.getDealId())) {
 				result = new ArrayList<DealBean>();
-				result.add(bean);
-			} else {
-				result = getDealDAO().select();
+				result.add(getDealDAO().select(queryCondition.getDealId()));
+			} else if (queryCondition.getMemberId() != null || queryCondition.getDealDateAfter() != null
+					|| queryCondition.getDealDateBefore() != null) {
+				result = getDealDAO().selectConditional(queryCondition);
 			}
-		} else {
-			result = getDealDAO().select();
 		}
 		return result;
 	}

@@ -8,10 +8,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import tw.com.eeit94.textile.model.gift.GiftDAO;
 import tw.com.eeit94.textile.model.gift.GiftDAOHibernate;
-import tw.com.eeit94.textile.model.giftDetail.GiftDetailBean;
-import tw.com.eeit94.textile.model.giftDetail.GiftDetailDAO;
-import tw.com.eeit94.textile.model.giftDetail.GiftDetailDAOHibernate;
-import tw.com.eeit94.textile.model.giftDetail.GiftDetailPK;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
@@ -24,17 +20,13 @@ public class GiftDetailDAOHibernateTest {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
-		SessionFactory sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
 		GiftDetailDAO giftDetailDao = (GiftDetailDAOHibernate) ctx.getBean("giftDetailDAO");
 		GiftDAO giftDao = (GiftDAOHibernate) ctx.getBean("giftDAO");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = ((SessionFactory) ctx.getBean("sessionFactory")).getCurrentSession();
 		session.beginTransaction();
 
-		// Select by id
-		// System.out.println(giftDetailDao.select(new GiftDetailPK(2, 1)));
-
-		// Select all
-		// System.out.println(giftDetailDao.select());
+		// Select by giftId
+		// System.out.println(giftDetailDao.select(2));
 
 		// Insert
 		// GiftBean giftBean = new GiftBean();
@@ -57,8 +49,8 @@ public class GiftDetailDAOHibernateTest {
 		// System.out.println(giftDetailDao.update(bean));
 
 		// Delete
-		GiftDetailBean bean = giftDetailDao.select(new GiftDetailPK(4, 3));
-		System.out.println(giftDetailDao.delete(bean));
+		// GiftDetailBean bean = giftDetailDao.select(new GiftDetailPK(4, 3));
+		// System.out.println(giftDetailDao.delete(bean));
 
 		session.getTransaction().commit();
 		session.close();

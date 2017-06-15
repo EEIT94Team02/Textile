@@ -14,7 +14,7 @@ import tw.com.eeit94.textile.model.product.ProductDAOHibernate;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * product dao的測試程式。
  * 
  * @author 李
  * @version 2017/06/12
@@ -32,8 +32,8 @@ public class ProductDAOHibernateTest {
 		// System.out.println(resultById);
 
 		// Select all
-		List<ProductBean> resultAll = productDao.select();
-		System.out.println(resultAll);
+		// List<ProductBean> resultAll = productDao.select();
+		// System.out.println(resultAll);
 
 		// Insert
 		// ProductBean beanInsert = new ProductBean();

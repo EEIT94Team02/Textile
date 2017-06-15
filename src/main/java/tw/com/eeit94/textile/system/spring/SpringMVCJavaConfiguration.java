@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * Spring MVC Java 組態設定檔。 DispatcherServlet的Bean
@@ -201,6 +202,24 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/index.jsp");
 		return internalResourceView;
+	}
+
+	// 商品總表
+	@Bean(name = { "pList.show" })
+	public RedirectView productList() {
+		RedirectView rView = new RedirectView();
+		rView.setUrl("/store/pList.jsp");
+		rView.setContextRelative(true);
+		return rView;
+	}
+	
+	// 個別商品
+	@Bean(name = { "pSingle.show" })
+	public RedirectView productSingle() {
+		RedirectView rView = new RedirectView();
+		rView.setUrl("/store/pSingle.jsp");
+		rView.setContextRelative(true);
+		return rView;
 	}
 
 	/**
