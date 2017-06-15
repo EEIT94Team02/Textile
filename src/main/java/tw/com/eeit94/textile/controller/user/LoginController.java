@@ -20,7 +20,7 @@ import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.common.ConstCookieParameter;
 import tw.com.eeit94.textile.system.common.ConstMapping;
-import tw.com.eeit94.textile.system.supervisor.ConstLoginFilterKey;
+import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
  * 登入系統驗證的Controller：要檢查登入是否成功，只要檢查Map物件有無「login_error」的Key或有無增加一筆鍵值。
@@ -70,18 +70,20 @@ public class LoginController {
 			// 在Session Scope放入該使用者的MemberBean資料。
 			MemberBean mbean = this.memberService.selectByEmail(request.getParameter(ConstMemberKey.Email.key()));
 			HttpSession session = request.getSession();
-			session.setAttribute(ConstLoginFilterKey.USER.key(), mbean);
+			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 
-			this.checkKeepLogin(request, response, dataAndErrorsMap, mbean);
+			this.checkKeepLogin(request, response, dataAndErrorsMap);
 
-			String target = (String) session.getAttribute(ConstLoginFilterKey.TARGET.key());
+			String target = (String) session.getAttribute(ConstFilterKey.TARGET.key());
 			if (target == null) {
 				// 轉向首頁
 				return ConstMapping.LOGIN_SUCCESS.path();
 			} else {
 				// 轉向原本欲導向的頁面，Session Scope的target已無用需移除。
 				session.removeAttribute(target);
-				return target;
+				// 因應本專案的設計，這裡不能直接回傳路徑。
+				response.sendRedirect(request.getContextPath() + target);
+				return null;
 			}
 		}
 	}
@@ -94,13 +96,14 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	private void checkKeepLogin(HttpServletRequest request, HttpServletResponse response,
-			Map<String, String> dataAndErrorsMap, MemberBean mbean) throws Exception {
+			Map<String, String> dataAndErrorsMap) throws Exception {
 		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 
 		// 依照是否有勾選保持登入來設定Cookie和修改資料庫中會員與保持登入相關的欄位。
 		if ((ConstLoginParameter.KEEPLOGIN.param()).equals(request.getParameter(ConstLoginKey.KEEPLOGIN.key()))) {
 			// 設定新的Cookie kl和其內容。
-			Cookie cookie = new Cookie(ConstLoginFilterKey.COOKIE_KL.key(), this.secureService.getEncryptedText(
+			Cookie cookie = new Cookie(ConstFilterKey.COOKIE_KL.key(), this.secureService.getEncryptedText(
 					dataAndErrorsMap.get(ConstMemberKey.Email.key()), ConstSecureParameter.KEEPLOGIN.param()));
 			cookie.setDomain(ConstCookieParameter.DOMAIN.param());
 			cookie.setPath(ConstCookieParameter.PATH.param());
@@ -111,12 +114,12 @@ public class LoginController {
 			// 將資料庫中的會員資料保持登入的欄位設為「是」，並重新加入Session Scope。
 			mbean.setmKeepLogin(ConstLoginParameter.KEEPLOGIN_YES.param());
 			this.memberService.update(mbean);
-			session.setAttribute(ConstLoginFilterKey.USER.key(), mbean);
+			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 		} else {
 			// 將資料庫中的會員資料保持登入的欄位設為「否」，並重新加入Session Scope。
 			mbean.setmKeepLogin(ConstLoginParameter.KEEPLOGIN_NO.param());
 			this.memberService.update(mbean);
-			session.setAttribute(ConstLoginFilterKey.USER.key(), mbean);
+			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 		}
 	}
 }

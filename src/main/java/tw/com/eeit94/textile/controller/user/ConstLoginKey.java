@@ -7,7 +7,7 @@ package tw.com.eeit94.textile.controller.user;
  * 
  * @author 賴
  * @version 2017/06/13
- * @see {@link ConstLoginFilterKey}
+ * @see {@link ConstFilterKey}
  */
 public enum ConstLoginKey {
 	KEEPLOGIN("keepLogin"), DATAANDERRORSMAP("dataAndErrorsMap");

@@ -1,6 +1,7 @@
 package tw.com.eeit94.textile.model.member;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberBean;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailBean;
+import tw.com.eeit94.textile.model.item.ItemBean;
 
 /**
  * 封裝會員基本資料的VO，子表為興趣明細資料。
@@ -62,6 +66,12 @@ public class MemberBean implements java.io.Serializable {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "mId")
 	private Interest_DetailBean interest_DetailBean;
+	@OneToMany(cascade = {
+			CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "chatroom_MemberPK.mId", targetEntity = Chatroom_MemberBean.class)
+	private List<Chatroom_MemberBean> chatroom_MemberBean;
+	@OneToMany(cascade = {
+			CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "itemPK.memberId", targetEntity = ItemBean.class)
+	private List<ItemBean> itemBean;
 
 	public Integer getmId() {
 		return mId;
@@ -279,6 +289,22 @@ public class MemberBean implements java.io.Serializable {
 		this.interest_DetailBean = interest_DetailBean;
 	}
 
+	public List<Chatroom_MemberBean> getChatroom_MemberBean() {
+		return chatroom_MemberBean;
+	}
+
+	public void setChatroom_MemberBean(List<Chatroom_MemberBean> chatroom_MemberBean) {
+		this.chatroom_MemberBean = chatroom_MemberBean;
+	}
+
+	public List<ItemBean> getItemBean() {
+		return itemBean;
+	}
+
+	public void setItemBean(List<ItemBean> itemBean) {
+		this.itemBean = itemBean;
+	}
+
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -310,6 +336,9 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("mselfIntroduction", this.getmSelfIntroduction());
 		linkedHashMap.put("interest_DetailBean",
 				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
+		linkedHashMap.put("chatroom_MemberBean",
+				this.chatroom_MemberBean != null ? this.chatroom_MemberBean.toString() : null);
+		linkedHashMap.put("itemBean", this.itemBean != null ? this.itemBean.toString() : null);
 		return linkedHashMap.toString();
 	}
 }

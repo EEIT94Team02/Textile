@@ -10,12 +10,12 @@ import tw.com.eeit94.textile.controller.user.ConstLoginKey;
  * @see {@link LoginFilter}
  * @see {@link ConstLoginKey}
  */
-public enum ConstLoginFilterKey {
-	USER("user"), TARGET("target"), COOKIE_KL("kl");
+public enum ConstFilterKey {
+	USER("user"), TARGET("target"), COOKIE_KL("kl"), ExceptionFromControllerOrView("exceptionFromControllerOrView");
 
 	private final String key;
 
-	private ConstLoginFilterKey(String key) {
+	private ConstFilterKey(String key) {
 		this.key = key;
 	}
 

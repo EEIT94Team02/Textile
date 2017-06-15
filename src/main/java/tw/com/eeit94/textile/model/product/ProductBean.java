@@ -26,7 +26,7 @@ public class ProductBean implements Serializable {
 	private Integer unitPrice;
 	private String category;
 	private String intro;
-	private String status;
+	private boolean status;
 	private byte[] img;
 	private Integer rewardPoints;
 
@@ -82,11 +82,11 @@ public class ProductBean implements Serializable {
 	}
 
 	// status getter setter
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return this.status;
 	}
 

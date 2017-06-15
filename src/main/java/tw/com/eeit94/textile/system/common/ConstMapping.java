@@ -14,8 +14,9 @@ import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
  * @see {@link LogsController}
  */
 public enum ConstMapping {
-	LOGIN_ERROR("login.error"), LOGIN_SUCCESS("login.success"), LOGOUT_SUCCESS("logout.success"), LOGS_SUCCESS(
-			"logs.success");
+	ERROR_PAGE("/error/404.v"), FALSE_MAIN_PAGE("/index.jsp"), TRUE_MAIN_PAGE("/index.v"), LOGIN_PAGE(
+			"/check/login.v"), LOGIN_ERROR("login.error"), LOGIN_SUCCESS(
+					"login.success"), LOGOUT_SUCCESS("logout.success"), LOGS_SUCCESS("logs.success");
 
 	private final String path;
 
