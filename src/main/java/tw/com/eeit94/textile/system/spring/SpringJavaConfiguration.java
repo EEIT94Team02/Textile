@@ -119,7 +119,7 @@ public class SpringJavaConfiguration {
 	}
 	
 	/**
-	 * 驗證日期專用，形式為「yyyy-MM-dd」。
+	 * 上傳多個檔案專用。
 	 * 
 	 * @author 陳
 	 * @version 2017/06/12

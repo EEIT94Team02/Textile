@@ -109,21 +109,30 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 陳
 	 * @version 2017/06/14
 	 */
-	// 創建相簿失敗，轉回同一畫面。
-	@Bean(name = { "album.error" })
+	// 執行失敗，轉回同一畫面。
+	@Bean(name = { "insert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumcreate_error() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/album.jsp");
+		internalResourceView.setUrl("/photo/insert.jsp");
+		return internalResourceView;
+	}
+	
+	@Bean(name = { "update.error" })
+	public org.springframework.web.servlet.view.InternalResourceView albumupdate_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/update.jsp");
 		return internalResourceView;
 	}
 
 	// 創建相簿成功，轉向相簿首頁。
-	@Bean(name = { "album.create" , "album.default"})
-	public org.springframework.web.servlet.view.InternalResourceView albumcreate_success() {
+	@Bean(name = { "album.default" })
+	public org.springframework.web.servlet.view.InternalResourceView showAlbum() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/allalbum.jsp");
 		return internalResourceView;
 	}
+	
+	
 
 	/**
 	 * ****** View Resolver ******
