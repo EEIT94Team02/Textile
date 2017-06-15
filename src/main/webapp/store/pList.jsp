@@ -31,8 +31,10 @@
 						<c:param name="category" value="${pBean.category}"/>
 						<c:param name="intro" value="${pBean.intro}"/>
 						<c:param name="status" value="${pBean.status}"/>
-						<c:param name="img" value="${pBean.img}"/>
 						<c:param name="rewardPoints" value="${pBean.rewardPoints}"/>
+					</c:url>
+					<c:url value="/product/showImg.do" var="showImg" scope="page">
+						<c:param name="productId" value="${pBean.productId}"/>
 					</c:url>
 					<tr>
 						<td><a href="${link}">${pBean.productId}</a></td>
@@ -41,7 +43,7 @@
 						<td>${pBean.category}</td>
 						<td>${pBean.intro}</td>
 						<td>${pBean.status}</td>
-						<td>${pBean.img}</td>
+						<td><img src="${showImg}"/></td>
 						<td>${pBean.rewardPoints}</td>
 					</tr>
 				</c:forEach>

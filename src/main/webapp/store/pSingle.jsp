@@ -9,6 +9,9 @@
 </head>
 <body>
 	<c:if test="${not empty particular}">
+		<c:url value="/product/showImg.do" var="link" scope="page">
+			<c:param name="productId" value="${particular.productId}"/>
+		</c:url>
 		<table>
 			<thead>
 				<tr>
@@ -30,7 +33,7 @@
 					<td>${particular.category}</td>
 					<td>${particular.intro}</td>
 					<td>${particular.status}</td>
-					<td>${particular.img}</td>
+					<td><img src="${link}" /></td>
 					<td>${particular.rewardPoints}</td>
 				</tr>
 			</tbody>

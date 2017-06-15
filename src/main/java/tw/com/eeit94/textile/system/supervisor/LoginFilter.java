@@ -39,12 +39,12 @@ import tw.com.eeit94.textile.model.secure.SecureService;
  * @author 賴
  * @version 2017/06/13
  */
-@Component
-@WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "u_activity", value = "/activity/*"),
-		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "u_photo", value = "/photo/*"),
-		@WebInitParam(name = "m_manager", value = "/manager/*"), @WebInitParam(name = "u_report", value = "/report/*"),
-		@WebInitParam(name = "u_theme", value = "/theme/*"),
-		@WebInitParam(name = "u_user", value = "/user/*") }, asyncSupported = true)
+//@Component
+//@WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "u_activity", value = "/activity/*"),
+//		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "u_photo", value = "/photo/*"),
+//		@WebInitParam(name = "m_manager", value = "/manager/*"), @WebInitParam(name = "u_report", value = "/report/*"),
+//		@WebInitParam(name = "u_theme", value = "/theme/*"),
+//		@WebInitParam(name = "u_user", value = "/user/*") }, asyncSupported = true)
 public class LoginFilter implements Filter {
 	/**
 	 * 存放多個映射的網址。

@@ -43,32 +43,34 @@ public class TestPhotoService {
 		// System.out.println(beans);
 
 		// test uploadPhot
-		File file = new File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
-		File target = new File("C:/Textile/repository/Textile/src/main/webapp/photos/");
-		// "C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
-		File result = service.uploadPhoto(file, target);
-		System.out.println(result.getName());
-
-		// test getTimeString , getMemberIdString , countphoto
-		PhotoBean insert = new PhotoBean();
-		String timeString = service.getTimeString();
-		System.out.println(timeString);
-		String memberIdString = service.getMemberIdString(1);
-		System.out.println(memberIdString);
-		insert.setPhotono(timeString + memberIdString);
-		String beanPhotoNo = service.countphoto(insert);
-		System.out.println(beanPhotoNo);
-
-		// test insertDataToTable
-		insert.setPhotono(beanPhotoNo);
-		insert.setRespath(result.getPath());
-		insert.setAlbumno(1);
-		insert.setPhotoname("Nadal");
-		insert.setPosition("大頭貼");
-		insert.setVisibility("公開");
-		insert.setInterpretation("US OPEN Champion");
-		bean = service.insertDataToTable(insert);
-		System.out.println(bean);
+		// File file = new
+		// File("C:/Users/Student/Desktop/Textile-etc/photo/nadal.jpg");
+		// File target = new
+		// File("C:/Textile/repository/Textile/src/main/webapp/photos/");
+		// // "C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
+		// File result = service.uploadPhoto(file, target);
+		// System.out.println(result.getName());
+		//
+		// // test getTimeString , getMemberIdString , countphoto
+		// PhotoBean insert = new PhotoBean();
+		// String timeString = service.getTimeString();
+		// System.out.println(timeString);
+		// String memberIdString = service.getMemberIdString(1);
+		// System.out.println(memberIdString);
+		// insert.setPhotono(timeString + memberIdString);
+		// String beanPhotoNo = service.countphoto(insert);
+		// System.out.println(beanPhotoNo);
+		//
+		// // test insertDataToTable
+		// insert.setPhotono(beanPhotoNo);
+		// insert.setRespath(result.getPath());
+		// insert.setAlbumno(1);
+		// insert.setPhotoname("Nadal");
+		// insert.setPosition("大頭貼");
+		// insert.setVisibility("公開");
+		// insert.setInterpretation("US OPEN Champion");
+		// bean = service.insertDataToTable(insert);
+		// System.out.println(bean);
 
 		// PhotoBean update = new PhotoBean();
 		// update.setAlbumno(2);

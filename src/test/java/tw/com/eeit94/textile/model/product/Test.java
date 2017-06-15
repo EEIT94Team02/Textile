@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Base64;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -30,7 +31,7 @@ public class Test {
 			while ((data = bis.read(temp)) != -1) {
 				bos.write(temp);
 			}
-			System.out.println(baos.toByteArray());
+			System.out.println(Base64.getEncoder().encodeToString(baos.toByteArray()));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
