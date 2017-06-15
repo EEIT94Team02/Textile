@@ -32,7 +32,7 @@ public class ProductController {
 	public String productList(Model model) {
 		List<ProductBean> pList = getProductService().select(null);
 		model.addAttribute("pList", pList);
-		return "pList.v";
+		return "pList.show";
 	}
 
 	@RequestMapping(path = { "/single.do" }, method = { RequestMethod.GET })
@@ -40,7 +40,7 @@ public class ProductController {
 		List<ProductBean> beans = getProductService().select(bean);
 		ProductBean particular = beans.get(0);
 		model.addAttribute("particular", particular);
-		return "pSingle.v";
+		return "pSingle.show";
 	}
 	
 	@RequestMapping(path = { "/showImg.do" }, method = { RequestMethod.GET })

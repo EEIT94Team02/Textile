@@ -229,7 +229,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 	
 	// 商品總表
-	@Bean(name = { "pList.v" })
+	@Bean(name = { "pList.show" })
 	public InternalResourceView productList() {
 		InternalResourceView rView = new InternalResourceView();
 		rView.setUrl("/store/pList.jsp");
@@ -237,10 +237,18 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 	
 	// 個別商品
-	@Bean(name = { "pSingle.v" })
+	@Bean(name = { "/store/pSingle.v" })
 	public InternalResourceView productSingle() {
 		InternalResourceView rView = new InternalResourceView();
 		rView.setUrl("/store/pSingle.jsp");
+		return rView;
+	}
+	
+	@Bean(name = { "pSingle.show" })
+	public RedirectView productSingleR() {
+		RedirectView rView = new RedirectView();
+		rView.setUrl("/store/pSingle.v");
+		rView.setContextRelative(true);
 		return rView;
 	}
 

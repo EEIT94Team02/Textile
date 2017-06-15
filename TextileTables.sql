@@ -351,16 +351,17 @@ CREATE TABLE product(
 	unitPrice int NOT NULL,
 	category Nvarchar(20) NULL,
 	intro Nvarchar(20) NULL,
-	status Nvarchar(2) NULL,
+	status BIT NOT NULL,
 	img varbinary(max) NULL,
 	rewardPoints int NOT NULL
 )
 GO
 
 INSERT INTO product (productName, unitPrice, category, intro, status, img, rewardPoints) VALUES
-('Heart', 20, '送禮用', '美美的愛心，隨時表達情意。', '上架', NULL, 35),
-('Crystal', 10, '送禮用', '展現支持與鼓勵的最佳首選。', '上架', NULL, 15),
-('WaterDrop', 5, '送禮用', '想關心朋友，卻缺一個起手式嗎？', '上架', NULL, 7)
+('Heart', 20, '送禮用', '美美的愛心，隨時表達情意。', 1, (SELECT BulkColumn FROM OPENROWSET(BULK 'C:\Textile\workspace\Textile\src\main\webapp\image\product\heart.jpg', SINGLE_BLOB) AS x), 35),
+('Crystal', 10, '送禮用', '展現支持與鼓勵的最佳首選。', 1, (SELECT BulkColumn FROM OPENROWSET(BULK 'C:\Textile\workspace\Textile\src\main\webapp\image\product\crystal.png', SINGLE_BLOB) AS x), 15),
+('WaterDrop', 5, '送禮用', '想關心朋友，卻缺一個起手式嗎？', 1, (SELECT BulkColumn FROM OPENROWSET(BUlK 'C:\Textile\workspace\Textile\src\main\webapp\image\product\waterdrop.png', SINGLE_BLOB) AS x), 7),
+('LonerHeart', 5, '自用', '邊緣人自給自足', 0, (SELECT BulkColumn FROM OPENROWSET(BUlK 'C:\Textile\workspace\Textile\src\main\webapp\image\product\heartForLoner.jpg', SINGLE_BLOB) AS x), 7)
 GO
 
 --=-=-=-=-=-=-=-=-=-=-=- 李 道具資料 -=-=-=-=-=-=-=-=-=-=-=--
