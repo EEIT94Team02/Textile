@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
@@ -77,6 +78,9 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 李
 		 */
+		registry.addViewController("/store/index.v").setViewName("/store/index.v");
+		registry.addViewController("/store/pList.v").setViewName("/store/pList.v");
+		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
 		/*
 		 * 黃
 		 */
@@ -204,24 +208,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 商品總表
-	@Bean(name = { "pList.show" })
-	public RedirectView productList() {
-		RedirectView rView = new RedirectView();
-		rView.setUrl("/store/pList.jsp");
-		rView.setContextRelative(true);
-		return rView;
-	}
-	
-	// 個別商品
-	@Bean(name = { "pSingle.show" })
-	public RedirectView productSingle() {
-		RedirectView rView = new RedirectView();
-		rView.setUrl("/store/pSingle.jsp");
-		rView.setContextRelative(true);
-		return rView;
-	}
-
 	/**
 	 * ****** View ******
 	 * 
@@ -235,6 +221,28 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 李
 	 * @version 2017/06/14
 	 */
+	@Bean(name = { "/store/index.v" })
+	public org.springframework.web.servlet.view.InternalResourceView productIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/store/index.jsp");
+		return internalResourceView;
+	}
+	
+	// 商品總表
+	@Bean(name = { "pList.v" })
+	public InternalResourceView productList() {
+		InternalResourceView rView = new InternalResourceView();
+		rView.setUrl("/store/pList.jsp");
+		return rView;
+	}
+	
+	// 個別商品
+	@Bean(name = { "pSingle.v" })
+	public InternalResourceView productSingle() {
+		InternalResourceView rView = new InternalResourceView();
+		rView.setUrl("/store/pSingle.jsp");
+		return rView;
+	}
 
 	/**
 	 * ****** View ******

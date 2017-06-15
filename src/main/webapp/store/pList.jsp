@@ -24,7 +24,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${sessionScope.pList}" var="pBean" varStatus="pStatus">
-					<c:url value="/product/single.do" var="link" scope="page">
+					<c:url value="/store/single.do" var="link" scope="page">
 						<c:param name="productId" value="${pBean.productId}"/>
 						<c:param name="productName" value="${pBean.productName}"/>
 						<c:param name="unitPrice" value="${pBean.unitPrice}"/>
@@ -33,7 +33,7 @@
 						<c:param name="status" value="${pBean.status}"/>
 						<c:param name="rewardPoints" value="${pBean.rewardPoints}"/>
 					</c:url>
-					<c:url value="/product/showImg.do" var="showImg" scope="page">
+					<c:url value="/store/showImg.do" var="showImg" scope="page">
 						<c:param name="productId" value="${pBean.productId}"/>
 					</c:url>
 					<tr>

@@ -18,7 +18,7 @@ import tw.com.eeit94.textile.model.product.ProductBean;
 import tw.com.eeit94.textile.model.product.ProductService;
 
 @Controller
-@RequestMapping
+@RequestMapping(path = { "/store" })
 @SessionAttributes(names = { "pList", "particular"})
 public class ProductController {
 	@Autowired
@@ -28,22 +28,22 @@ public class ProductController {
 		return productService;
 	}
 
-	@RequestMapping(path = { "/product/list.do" })
+	@RequestMapping(path = { "/list.do" })
 	public String productList(Model model) {
 		List<ProductBean> pList = getProductService().select(null);
 		model.addAttribute("pList", pList);
-		return "pList.show";
+		return "pList.v";
 	}
 
-	@RequestMapping(path = { "/product/single.do" }, method = { RequestMethod.GET })
+	@RequestMapping(path = { "/single.do" }, method = { RequestMethod.GET })
 	public String productSingle(ProductBean bean, BindingResult bindingResult, Model model) throws IOException {
 		List<ProductBean> beans = getProductService().select(bean);
 		ProductBean particular = beans.get(0);
 		model.addAttribute("particular", particular);
-		return "pSingle.show";
+		return "pSingle.v";
 	}
 	
-	@RequestMapping(path = { "/product/showImg.do" }, method = { RequestMethod.GET })
+	@RequestMapping(path = { "/showImg.do" }, method = { RequestMethod.GET })
 	public void productShowImg(ProductBean bean, BindingResult bindingResult, HttpServletResponse response) throws IOException {
 		ProductBean temp = getProductService().select(bean).get(0);
 		OutputStream ops = response.getOutputStream();
