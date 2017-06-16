@@ -25,7 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * 
  * 3. Controller回傳的頁面如果是相同的頁面必用InternalResourceView，
  * 
- * 如果是Controller回傳新的jsp，只有該目錄下的index.jsp可以使用RedirectView。
+ * 如果是Controller回傳新的jsp，只有該目錄下的index.jsp可以直接使用RedirectView。
  * 
  * (注意request scope的問題，有些東西可能要放在session scope)
  * 
@@ -71,7 +71,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/check/register.v").setViewName("/check/register.v");
 		registry.addViewController("/check/login.v").setViewName("/check/login.v");
 		registry.addViewController("/check/index.v").setViewName("/check/index.v");
-		registry.addViewController("/manager/index.v").setViewName("/manager/index.v");
+		registry.addViewController("/manager/logs.v").setViewName("/manager/logs.v");
 		registry.addViewController("/user/index.v").setViewName("/user/index.v");
 		/*
 		 * 陳
@@ -96,6 +96,9 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 黃
 		 */
+		registry.addViewController("/report/index.v").setViewName("/report/index.v");
+		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
+		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");
 		/*
 		 * 周
 		 */
@@ -205,19 +208,20 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 系統記錄畫面，只有管理員可以使用。
-	@Bean(name = { "/manager/index.v" })
+	@Bean(name = { "/manager/logs.v" })
 	public org.springframework.web.servlet.view.InternalResourceView logs_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/manager/index.jsp");
+		internalResourceView.setUrl("/manager/logs.jsp");
 		return internalResourceView;
 	}
 
 	// 列出或刪除系統紀錄成功，轉向同一系統記錄畫面，只有管理員可以使用。
-	@Bean(name = { "logs.success", })
-	public org.springframework.web.servlet.view.InternalResourceView logs_success() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/manager/index.jsp");
-		return internalResourceView;
+	@Bean(name = { "logs.success" })
+	public org.springframework.web.servlet.view.RedirectView logs_success() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/manager/logs.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
 	}
 
 	// 個人資訊的頁面。
@@ -241,7 +245,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/photo/allalbum.jsp");
 		return internalResourceView;
 	} 
-	
+
 	// 相簿搜尋頁面。
 	@Bean(name = { "/photo/select.v" })
 	public org.springframework.web.servlet.view.InternalResourceView albumSelect() {
@@ -307,7 +311,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		rView.setUrl("/store/pSingle.jsp");
 		return rView;
 	}
-	
+
 	@Bean(name = { "pSingle.show" })
 	public RedirectView productSingleR() {
 		RedirectView rView = new RedirectView();
@@ -322,6 +326,29 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 黃
 	 * @version 2017/06/14
 	 */
+	// 回報首頁
+	@Bean(name = { "/report/index.v" })
+	public org.springframework.web.servlet.view.InternalResourceView reportIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/index.jsp");
+		return internalResourceView;
+	}
+
+	// 回報失敗，轉向回報頁面。
+	@Bean(name = { "report.error", "/report/createreport.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/createreport.jsp");
+		return internalResourceView;
+	}
+
+	// 新增回報成功，轉向到回報結果頁面。
+	@Bean(name = { "report.success", "/report/reportsuccess.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportsuccess.jsp");
+		return internalResourceView;
+	}
 
 	/**
 	 * ****** View ******

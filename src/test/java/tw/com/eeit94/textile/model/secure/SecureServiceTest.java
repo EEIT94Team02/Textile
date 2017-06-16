@@ -50,8 +50,8 @@ public class SecureServiceTest {
 
 		// 測試加密與解密是否正常
 		sessionFactory.getCurrentSession().beginTransaction();
-		String sTarget = ConstSecureParameter.KEEPLOGIN.param();
-		String plainText = "juan336830@outlook.com";
+		String sTarget = ConstSecureParameter.MEMBERID.param();
+		String plainText = "1";
 		TestUtils.printResult("欲加密的字串為" + plainText);
 		String encryptedText = secureService.getEncryptedText(plainText, sTarget);
 		TestUtils.printResult("加密後的字串為" + encryptedText);
@@ -68,6 +68,7 @@ public class SecureServiceTest {
 	 * @version 2017/06/11
 	 */
 	public static void storeOriginalKeys(SecureService secureService) {
+		secureService.insertNewSecureKey(ConstSecureParameter.MEMBERID.param());
 		secureService.insertNewSecureKey(ConstSecureParameter.KEEPLOGIN.param());
 		secureService.insertNewSecureKey(ConstSecureParameter.EMAIL.param());
 		secureService.insertNewSecureKey(ConstSecureParameter.PASSWORD.param());

@@ -22,6 +22,9 @@ public class ReportServiceTest {
 		ReportService service = (ReportService) context.getBean("reportService");
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		sessionFactory.getCurrentSession().beginTransaction();
+		//查詢會員最新回報
+		Integer no = service.selectReptByMidTop(24);
+		System.out.println("最新回報="+no);
 		// 測試會員新增
 		ReportBean NewRepor = new ReportBean();
 		NewRepor.setmId(24);

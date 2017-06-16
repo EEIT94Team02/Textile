@@ -40,10 +40,10 @@ public class ReportImgService {
 	// 新增圖片
 	public ReportImgBean InsertNewImg(ReportImgBean bean) {
 		ReportImgBean result = null;
-		result = reportImgDAO.select(bean.getReptNo());
-		if (result != null) {
+//		result = reportImgDAO.select(bean.getReptNo());
+//		if (result != null) {
 			result = reportImgDAO.insertImg(bean);
-		}
+//		}
 		return result;
 	}
 
