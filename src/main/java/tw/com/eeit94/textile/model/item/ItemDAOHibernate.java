@@ -2,15 +2,21 @@ package tw.com.eeit94.textile.model.item;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.product.ProductBean;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * item表格資料的CRUD，以hibernate實作。
  * 
  * @author 李
  * @version 2017/06/12
@@ -19,10 +25,6 @@ import tw.com.eeit94.textile.model.product.ProductBean;
 public class ItemDAOHibernate implements ItemDAO {
 	@Autowired
 	private SessionFactory sessionFactory = null;
-
-	public ItemDAOHibernate(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
@@ -33,11 +35,13 @@ public class ItemDAOHibernate implements ItemDAO {
 		return getSession().get(ItemBean.class, itemPK);
 	}
 
-	private static final String SELECT_ALL = "from tw.com.eeit94.textile.model.item.ItemBean";
-
 	@Override
-	public List<ItemBean> select() {
-		return getSession().createQuery(SELECT_ALL, ItemBean.class).getResultList();
+	public List<ItemBean> select(ItemConditionUtil queryCondition) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<ItemBean> cq = cb.createQuery(ItemBean.class);
+		Root<ItemBean> itemBean = cq.from(ItemBean.class);
+		Predicate byId = cb.equal(itemBean.<MemberBean>get("memberBean"), queryCondition.getMemberId());
+		return getSession().createQuery(cq.where(byId)).getResultList();
 	}
 
 	@Override

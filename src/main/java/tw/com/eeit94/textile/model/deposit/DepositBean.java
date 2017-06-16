@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import tw.com.eeit94.textile.model.member.MemberBean;
+
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 封裝deposit表格資料的bean元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -26,14 +31,18 @@ public class DepositBean implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer depositId;
-	private Integer memberId;
+	
+	@JoinColumn(name="memberId")
+	@OneToOne(fetch=FetchType.EAGER)
+	private MemberBean memberBean;
+	
 	private Timestamp depositDate;
 	private Integer depositAmount;
 	private Integer virtualPoints;
 
 	@Override
 	public String toString() {
-		return "DepositBean=[" + depositId + ", " + memberId + ", " + depositDate + ", " + depositAmount + ", "
+		return "DepositBean=[" + depositId + ", " + memberBean.getmName() + ", " + depositDate + ", " + depositAmount + ", "
 				+ virtualPoints + "]";
 	}
 
@@ -47,12 +56,12 @@ public class DepositBean implements Serializable {
 	}
 
 	// memberId getter setter
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
+	public void setMemberBean(MemberBean memberBean) {
+		this.memberBean = memberBean;
 	}
 
-	public Integer getMemberId() {
-		return memberId;
+	public MemberBean getMemberBean() {
+		return memberBean;
 	}
 
 	// depositDate getter setter
@@ -65,7 +74,7 @@ public class DepositBean implements Serializable {
 	}
 
 	// depositAmount getter setter
-	public void setDepositAmount(int depositAmount) {
+	public void setDepositAmount(Integer depositAmount) {
 		this.depositAmount = depositAmount;
 	}
 
@@ -74,7 +83,7 @@ public class DepositBean implements Serializable {
 	}
 
 	// virtualPoints getter setter
-	public void setVirtualPoints(int virtualPoints) {
+	public void setVirtualPoints(Integer virtualPoints) {
 		this.virtualPoints = virtualPoints;
 	}
 

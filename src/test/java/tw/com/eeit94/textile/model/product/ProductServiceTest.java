@@ -18,7 +18,7 @@ import tw.com.eeit94.textile.model.product.ProductService;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * product service 的測試程式。
  * 
  * @author 李
  * @version 2017/06/12
@@ -33,9 +33,9 @@ public class ProductServiceTest {
 
 		// Select by id & all
 		// ProductBean bean = null;
-		ProductBean bean = new ProductBean();
-		bean.setProductId(1);
-		System.out.println(ps.select(bean));
+		// ProductBean bean = new ProductBean();
+		// bean.setProductId(1);
+		// System.out.println(ps.select(bean));
 		// List<ProductBean> productBeans = ps.select(bean);
 		// BufferedOutputStream bos = null;
 		// try {

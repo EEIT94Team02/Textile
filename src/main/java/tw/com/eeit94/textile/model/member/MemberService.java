@@ -52,11 +52,22 @@ public class MemberService {
 	 * @author 賴
 	 * @version 2017/06/11
 	 */
-	@Transactional
+	@Transactional(readOnly = true)
 	public MemberBean selectByEmail(String mEmail) {
 		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
 		mkwbean.setmEmail(mEmail);
 		return memberDAO.selectByEmail(mkwbean).get(0);
+	}
+
+	/**
+	 * 修改會員的基本資料。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	@Transactional
+	public MemberBean update(MemberBean mbean) {
+		return this.memberDAO.update(mbean).get(0);
 	}
 
 	/**
@@ -70,7 +81,7 @@ public class MemberService {
 	 * @version 2017/06/11
 	 * @throws Exception
 	 */
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<String, String> checkLogin(Map<String, String> dataAndErrorsMap) throws Exception {
 		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Email.key());
 

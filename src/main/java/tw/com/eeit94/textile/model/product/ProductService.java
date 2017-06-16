@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * product表格CRUD的Service。
  * 
  * @author 李
  * @version 2017/06/12
@@ -20,10 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 	@Autowired
 	private ProductDAO productDAO = null;
-
-	public ProductService(ProductDAO productDAO) {
-		this.productDAO = productDAO;
-	}
 
 	public ProductDAO getProductDAO() {
 		return productDAO;

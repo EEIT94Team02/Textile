@@ -27,13 +27,15 @@ public class Chatrom_LogDAOHibernateTest {
 		Chatroom_LogDAO chatroom_LogDAO = (Chatroom_LogDAO) context.getBean("chatroom_LogDAO");
 
 		// 必須先在聊天室主表新增一筆資料，再取得此主鍵。
+		TestUtils.printResult("新增一筆chatroom的資料");
 		ChatroomBean cbean = new ChatroomBean();
 		cbean.setcCreateTime(new Timestamp(System.currentTimeMillis()));
 		cbean.setcClass("個人");
 		sessionFactory.getCurrentSession().beginTransaction();
 		chatroomDAO.insert(cbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
-		
+
+		TestUtils.printResult("列出所有chatroom和chatroom_log的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(chatroomDAO.selectAll());
 		TestUtils.printResult(chatroom_LogDAO.selectAll());
@@ -54,6 +56,7 @@ public class Chatrom_LogDAOHibernateTest {
 		c_lbean2.setChatroom_LogPK(chatroom_LogPK2);
 		c_lbean2.setcContent("好啊！");
 
+		TestUtils.printResult("新增兩筆chatroom_log的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		chatroom_LogDAO.insert(c_lbean1);
 		chatroom_LogDAO.insert(c_lbean2);
@@ -62,11 +65,13 @@ public class Chatrom_LogDAOHibernateTest {
 		TestUtils.printResult(c_lbean2);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("藉由刪除一筆刪除chatroom的資料來刪除兩筆chatroom_log的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		cbean = chatroomDAO.select(cbean).get(0);
 		chatroomDAO.delete(cbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("重新列出所有chatroom和chatroom_log的資料。");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(chatroomDAO.selectAll());
 		TestUtils.printResult(chatroom_LogDAO.selectAll());

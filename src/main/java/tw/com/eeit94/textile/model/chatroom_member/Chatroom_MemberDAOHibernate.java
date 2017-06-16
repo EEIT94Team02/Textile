@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class Chatroom_MemberDAOHibernate implements Chatroom_MemberDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<Chatroom_MemberBean> result;
+	private List<Chatroom_MemberBean> results;
 	
 	private Session getSession() {
 		return this.sessionFactory.getCurrentSession();
@@ -35,29 +35,30 @@ public class Chatroom_MemberDAOHibernate implements Chatroom_MemberDAO {
 
 	@Override
 	public List<Chatroom_MemberBean> select(Chatroom_MemberBean c_mbean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
+		return this.results;
 	}
 
 	@Override
 	public List<Chatroom_MemberBean> insert(Chatroom_MemberBean c_mbean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(c_mbean);
 		return this.select(c_mbean);
 	}
 
+	/**
+	 * Chatroom_MemberBean對應到的表格內容只有複合主鍵的兩欄，因無法修改，此方法並不需要。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
 	@Override
 	public List<Chatroom_MemberBean> update(Chatroom_MemberBean c_mbean) {
-		/*
-		 * Chatroom_MemberBean對應到的表格內容只有複合主鍵的兩欄，因無法修改，此方法並不需要。
-		 */
 		return null;
 	}
 	
 	@Override
 	public List<Chatroom_MemberBean> delete(Chatroom_MemberBean c_mbean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(c_mbean);
 		return this.select(c_mbean);
 	}

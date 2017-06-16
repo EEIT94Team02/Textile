@@ -30,9 +30,8 @@ public class ItemDAOHibernateTest {
 		session.beginTransaction();
 
 		// Select by primary key
-		ItemPK itemPK = new ItemPK(0, 0);
-		ItemBean resultById = itemDao.select(itemPK);
-		System.out.println(resultById);
+		ItemPK itemPK = new ItemPK(1, 1);
+		System.out.println(itemDao.select(itemPK));
 
 		// Select all
 		// List<ItemBean> resultAll = itemDao.select();
