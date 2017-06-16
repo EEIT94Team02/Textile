@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action='<c:url value="album/delete.do"/>' method="post">
+	<form action='<c:url value="/photo/album/delete.do"/>' method="post">
 		<table>
 			<tr>
 				<td>相簿編號：</td>

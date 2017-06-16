@@ -54,7 +54,7 @@ public class CUDAlbumController {
 			errors.put("introduction", "請簡述相簿用途或向其他人介紹您的相簿");
 		}
 		if (errors != null && !errors.isEmpty()) {
-			return "album.error";
+			return "insert.error";
 		}
 
 		// 呼叫Model

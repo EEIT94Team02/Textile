@@ -11,17 +11,17 @@
 	<img src ="">
 	<c:if test="${not empty user}">
 		<c:out value="${user.mName} 的相簿" />
-		<form action='<c:url value="album/create.do"/>' method="post">
+		<form action='<c:url value="/photo/album/create.do"/>' method="post">
 			<table>
 				<tr>
 					<td>相簿名稱：</td>
 					<td><input type="text" name="albumname" value="${param.albumname}" /></td>
-					<td>${albumInsertErrors.albumname}</td>
+					<td>${albumCRDErrors.albumname}</td>
 				</tr>
 				<tr>
 					<td>相簿簡介：</td>
 					<td><input type="text" name="introduction" value="${param.introduction}" /></td>
-					<td>${albumInsertErrors.introduction}</td>
+					<td>${albumCRDErrors.introduction}</td>
 				</tr>
 				<tr>
 					<td>隱私設定：</td>
@@ -34,7 +34,7 @@
 				<tr>
 					<td></td>
 					<td><input type="submit" value="建立"></td>
-					<td>${albumInsertErrors.create}</td>
+					<td>${albumCRDErrors.create}</td>
 				</tr>
 			</table>
 		</form>

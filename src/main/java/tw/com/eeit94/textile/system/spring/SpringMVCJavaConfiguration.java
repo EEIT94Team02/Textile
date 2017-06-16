@@ -76,6 +76,12 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 陳
 		 */
+		registry.addViewController("/photo/index.v").setViewName("/photo/index.v");
+		registry.addViewController("/activity/index.v").setViewName("/activity/index.v");
+		registry.addViewController("/photo/select.v").setViewName("/photo/select.v");
+		registry.addViewController("/photo/insert.v").setViewName("/photo/insert.v");
+		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
+		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
 		/*
 		 * 李
 		 */
@@ -230,26 +236,48 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 陳
 	 * @version 2017/06/14
 	 */
-	// 執行失敗，轉回同一畫面。
-	@Bean(name = { "insert.error" })
-	public org.springframework.web.servlet.view.InternalResourceView albumcreate_error() {
+	// 創建相簿成功，轉向相簿首頁。
+	@Bean(name = { "/photo/index.v" , "album.default"})
+	public org.springframework.web.servlet.view.InternalResourceView albumIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/insert.jsp");
+		internalResourceView.setUrl("/photo/allalbum.jsp");
+		return internalResourceView;
+	} 
+
+	// 相簿搜尋頁面。
+	@Bean(name = { "/photo/select.v" })
+	public org.springframework.web.servlet.view.InternalResourceView albumSelect() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/select.jsp");
 		return internalResourceView;
 	}
-	
-	@Bean(name = { "update.error" })
-	public org.springframework.web.servlet.view.InternalResourceView albumupdate_error() {
+	// 相簿搜尋頁面。
+	@Bean(name = { "/photo/update.v" , "update.error"})
+	public org.springframework.web.servlet.view.InternalResourceView albumUpdate() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/update.jsp");
 		return internalResourceView;
 	}
-
-	// 創建相簿成功，轉向相簿首頁。
-	@Bean(name = { "album.default" })
-	public org.springframework.web.servlet.view.InternalResourceView showAlbum() {
+	// 相簿搜尋頁面。
+	@Bean(name = { "/photo/insert.v" , "insert.error"})
+	public org.springframework.web.servlet.view.InternalResourceView albumInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/allalbum.jsp");
+		internalResourceView.setUrl("/photo/insert.jsp");
+		return internalResourceView;
+	}
+	// 相簿搜尋頁面。
+	@Bean(name = { "/photo/delete.v" , "delete.error"})
+	public org.springframework.web.servlet.view.InternalResourceView albumDelete() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/delete.jsp");
+		return internalResourceView;
+	}
+	
+	// 活動首頁。
+	@Bean(name = { "/activity/index.v" })
+	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/index.jsp");
 		return internalResourceView;
 	}
 

@@ -8,12 +8,51 @@
 </head>
 <body>
 	<h1>Textile</h1>
-	<c:if test="${not empty AlbumList}">	
-		<c:out value="${AlbumList}"/>
+
+	<c:if test="${not empty AlbumList}">
+		<table>
+			<thead>
+				<tr>
+					<th>Albumno</th>
+					<th>Createtime</th>
+					<th>Albumname</th>
+					<th>introduction</th>
+					<th>visibility</th>
+					<th>mId</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="row" items="${AlbumList}">
+					<tr>
+						<td>${row.albumno}</td>
+						<td>${row.createtime}</td>
+						<td>${row.albumname}</td>
+						<td>${row.introduction}</td>
+						<td>${row.visibility}</td>
+						<td>${row.mId}</td>
+					</tr>
+				</c:forEach>						
+			</tbody>
+		</table>
 	</c:if>
-		<c:if test="${empty AlbumList}">	
-		<c:out value="目前無相簿資訊"/>
+	<c:if test="${empty AlbumList}">
+		${selectAlbumErrors.selecterror}
+		${albumCRDErrors.update}
 	</c:if>
-	
+
+	<p>
+		<a href='<c:url value="/photo/select.v"/>'>查詢相簿(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/insert.v"/>'>創建相簿(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/update.v"/>'>更新相簿(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/delete.v"/>'>刪除相簿(要登入)</a>
+	</p>
+
+
 </body>
 </html>
