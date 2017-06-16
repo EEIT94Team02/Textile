@@ -7,7 +7,7 @@
 
   3. 改表格結構要先知會大家，新增資料列則不用，但要注意Foreign Key存不存在。
 
-  -- 商品的圖片Git好像都沒更新到，還是Null。Q_Q
+  -- 這個檔案Git好像常常沒更新到，要注意= =。
 */
 USE textile
 GO
@@ -353,7 +353,7 @@ CREATE TABLE product(
 	unitPrice int NOT NULL,
 	category Nvarchar(20) NULL,
 	intro Nvarchar(20) NULL,
-	status Nvarchar(2) NULL,
+	status BIT NOT NULL,
 	img varbinary(max) NULL,
 	rewardPoints int NOT NULL
 )
