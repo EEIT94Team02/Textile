@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidatorContext;
  * 實作驗證信箱格式的Annotation。
  * 
  * @author 賴
- * @version 2017/06/09
+ * @version 2017/06/16
  */
 public class CheckEmailValidator implements ConstraintValidator<CheckEmail, String> {
 	private String regex;

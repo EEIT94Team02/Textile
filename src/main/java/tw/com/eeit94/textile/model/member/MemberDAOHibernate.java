@@ -44,7 +44,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	@Override
 	public List<MemberBean> select(MemberBean mbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(MemberBean.class, mbean.getmId()));
+		this.results.add(this.getSession().load(MemberBean.class, mbean.getmId()));
 		return this.results;
 	}
 

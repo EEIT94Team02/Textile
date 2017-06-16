@@ -36,7 +36,7 @@ public class InterestDAOHibernate implements InterestDAO {
 	@Override
 	public List<InterestBean> select(InterestBean ibean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(InterestBean.class, ibean.getiId()));
+		this.results.add(this.getSession().load(InterestBean.class, ibean.getiId()));
 		return this.results;
 	}
 

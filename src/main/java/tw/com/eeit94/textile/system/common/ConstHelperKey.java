@@ -12,7 +12,7 @@ import tw.com.eeit94.textile.model.member.MemberService;
  * @see {@link MemberService}
  */
 public enum ConstHelperKey {
-	KEY("KEY");
+	KEY("KEY"), SPACE(""), QUERY("q"), METHOD("m");
 
 	private final String key;
 

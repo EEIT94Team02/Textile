@@ -8,9 +8,10 @@
 </head>
 <body>
 	<h1>Textile</h1>
+	<p>(管理員帳號textile@gmail.com，密碼Aa!12345)</p>
 	<p>
-		<a href="logs.do">系統記錄(管理員帳號textile@gmail.com，密碼Aa!12345，要搬到後臺)</a>
-	</p>	
+		<a href="logs.do">系統記錄</a>
+	</p>
 	<p>
 		<a href="../report/situationlist.do">查詢所有未回覆的回報記錄</a>
 	</p>
