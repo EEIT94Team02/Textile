@@ -20,26 +20,17 @@ public class AnnouncementBean implements Serializable {
 	@Id
 	private Integer a_id;
 	private String a_type;
-	private String fre;
 	private String gist;
 	private String msg;
-	private java.util.Date nextTime;
 	private java.util.Date relTime;
 	private java.util.Date startTime;
 	private java.util.Date endTime;
 
 	public String toString() {
-		return "AnnouncementBean[" + a_id + "," + a_type + "," + fre + "," + gist + "," + msg + "," + nextTime + ","
-				+ relTime + "," + startTime + "," + endTime + "]" + "\n";
+		return "AnnouncementBean[" + a_id + "," + a_type + ","  + gist + "," + msg + "," + relTime + "," + startTime + "," + endTime + "]" + "\n";
 	}
 
-	public java.util.Date getNextTime() {
-		return nextTime;
-	}
-
-	public void setNextTime(java.util.Date nextTime) {
-		this.nextTime = nextTime;
-	}
+	
 
 	public java.util.Date getStartTime() {
 		return startTime;
@@ -97,11 +88,5 @@ public class AnnouncementBean implements Serializable {
 		this.relTime = relTime;
 	}
 
-	public String getFre() {
-		return fre;
-	}
-
-	public void setFre(String fre) {
-		this.fre = fre;
-	}
+	
 }

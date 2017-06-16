@@ -7,6 +7,7 @@
 <title>Welcome, Textile.</title>
 </head>
 <body>
+	<a href="report/"></a>
 	<h1>Textile</h1>
 	<c:if test="${empty user}">
 		<c:out escapeXml="false" value="&nbsp;&nbsp;&nbsp;&nbsp;" />
@@ -37,6 +38,9 @@
 	</p>
 	<p>
 		<a href="theme/">主題(要登入)</a>
+	</p>
+		<p>
+		<a href="socail/">社交名單(要登入)</a>
 	</p>
 	<p>
 		<a href="manager/logs.do">系統記錄(管理員帳號textile@gmail.com，密碼Aa!12345，要搬到後臺)</a>

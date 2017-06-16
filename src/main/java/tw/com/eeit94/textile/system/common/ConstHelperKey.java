@@ -7,15 +7,12 @@ import tw.com.eeit94.textile.model.member.MemberService;
  * 
  * 方便封裝或得到對應的Bean屬性成員或值。
  * 
- * 這些常數專門用在AJAX技術所對應的Controller居多。
- * 
  * @author 賴
  * @version 2017/06/10
  * @see {@link MemberService}
- * @see {@link InspectController}
  */
 public enum ConstHelperKey {
-	KEY("KEY"), SPACE(""), QUERY("q"), METHOD("m");
+	KEY("KEY");
 
 	private final String key;
 
