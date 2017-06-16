@@ -23,4 +23,11 @@ public interface SocailListDAO {
 	public boolean delete(SocailListBean bean);
 
 	List<SocailListBean> selectByFriend(SocailListBean bean, Timestamp date) throws ParseException;
+
+	
+
+	
+	
 }
+
+	

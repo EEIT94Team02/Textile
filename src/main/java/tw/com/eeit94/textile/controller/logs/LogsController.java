@@ -1,8 +1,10 @@
 package tw.com.eeit94.textile.controller.logs;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,8 +35,9 @@ public class LogsController {
 	 * @version 2017/06/12
 	 */
 	@RequestMapping(value = { "/logs.do" }, method = { RequestMethod.GET })
-	public String showLogs(Model model) {
-		model.addAttribute(ConstLogsKey.LOGS.key(), this.logsService.selectAll());
+	public String showLogs(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute(ConstLogsKey.LOGS.key(), this.logsService.selectAll());
 		return ConstMapping.LOGS_SUCCESS.path();
 	}
 
@@ -45,9 +48,10 @@ public class LogsController {
 	 * @version 2017/06/12
 	 */
 	@RequestMapping(value = { "/delogs.do" }, method = { RequestMethod.GET })
-	public String clearLogs(Model model) {
+	public String clearLogs(HttpServletRequest request) {
 		this.logsService.clearAll();
-		model.addAttribute(ConstLogsKey.LOGS.key(), logsService.selectAll());
+		HttpSession session = request.getSession();
+		session.setAttribute(ConstLogsKey.LOGS.key(), this.logsService.selectAll());
 		return ConstMapping.LOGS_SUCCESS.path();
 	}
 }

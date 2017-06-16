@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
  * 
@@ -15,6 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sociallist")
+@DynamicInsert
 public class SocailListBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +38,7 @@ public class SocailListBean implements Serializable {
 	public void setS_type(String s_type) {
 		this.s_type = s_type;
 	}
-
+	
 	public String getS_group() {
 		return s_group;
 	}

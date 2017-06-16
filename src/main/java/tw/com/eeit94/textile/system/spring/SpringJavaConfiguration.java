@@ -119,6 +119,7 @@ public class SpringJavaConfiguration {
 		java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat;
 	}
+
 	/**
 	 * 上傳多個檔案專用。
 	 * 
