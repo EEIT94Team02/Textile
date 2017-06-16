@@ -4,14 +4,19 @@
 package tw.com.eeit94.textile.controller.report;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import tw.com.eeit94.textile.model.member.MemberBean;
+import tw.com.eeit94.textile.model.report.ReportBean;
+import tw.com.eeit94.textile.model.report.ReportService;
 
 /*
  * 一、命名規則：
@@ -74,11 +79,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version 2017/06/16
  */
 @Controller
-@RequestMapping(path = { "/report/function.do" })
+@RequestMapping(path = { "/report" })
 public class ReportController {
-
-	@RequestMapping(method = { RequestMethod.POST })
-	public void process(HttpServletRequest request, Model model) throws IOException {
-
+	@Autowired
+	private ReportService reportService;
+	
+	//會員查詢自己所有回報記錄
+	@RequestMapping(path = {"/reportlist.do"})
+	public String reptList(HttpServletRequest request, Model model) throws IOException {
+		HttpSession session = request.getSession();
+		MemberBean memberBean = (MemberBean) session.getAttribute("user");
+		ReportBean bean = new ReportBean();
+		//設定會員ID
+		bean.setmId(memberBean.getmId());
+		List<ReportBean> reportList = reportService.selectReptByMId(bean);
+		model.addAttribute("reportList",reportList);
+		return "reportList.show";
+	}
+	
+	//管理員查詢所有未回覆紀錄
+	@RequestMapping(path = {"/situationlist.do"})
+	public String situationList(Model model) throws IOException {
+		List<ReportBean> beans = reportService.selectReptBySituation(false);
+		for(ReportBean bean:beans){
+			System.out.println(bean+"//////////");
+		}
+		model.addAttribute("situationList",beans);
+		return "situationList.show";
 	}
 }
