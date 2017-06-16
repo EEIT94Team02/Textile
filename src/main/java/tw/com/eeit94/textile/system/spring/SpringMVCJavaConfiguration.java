@@ -85,6 +85,9 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 黃
 		 */
+		registry.addViewController("/report/index.v").setViewName("/report/index.v");
+		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
+		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");		
 		/*
 		 * 周
 		 */
@@ -289,6 +292,29 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 黃
 	 * @version 2017/06/14
 	 */
+	//回報首頁
+	@Bean(name = { "/report/index.v" })
+	public org.springframework.web.servlet.view.InternalResourceView reportIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/index.jsp");
+		return internalResourceView;
+	}
+	
+	//回報失敗，轉向回報頁面。
+	@Bean(name = { "report.error","/report/createreport.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/createreport.jsp");
+		return internalResourceView;
+	}
+	
+	//新增回報成功，轉向到回報結果頁面。
+	@Bean(name = { "report.success","/report/reportsuccess.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportsuccess.jsp");
+		return internalResourceView;
+	}
 
 	/**
 	 * ****** View ******
