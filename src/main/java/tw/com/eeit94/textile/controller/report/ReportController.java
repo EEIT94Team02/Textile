@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.report.ReportBean;
 import tw.com.eeit94.textile.model.report.ReportService;
+import tw.com.eeit94.textile.model.reportimage.ReportImgBean;
+import tw.com.eeit94.textile.model.reportimage.ReportImgService;
 
 /*
  * 一、命名規則：
@@ -83,6 +85,8 @@ import tw.com.eeit94.textile.model.report.ReportService;
 public class ReportController {
 	@Autowired
 	private ReportService reportService;
+	@Autowired
+	private ReportImgService reportImgService;
 	
 	//會員查詢自己所有回報記錄
 	@RequestMapping(path = {"/reportlist.do"})
@@ -101,9 +105,13 @@ public class ReportController {
 	@RequestMapping(path = {"/situationlist.do"})
 	public String situationList(Model model) throws IOException {
 		List<ReportBean> beans = reportService.selectReptBySituation(false);
+		List<ReportImgBean> imgBeans = null;
 		for(ReportBean bean:beans){
-			System.out.println(bean+"//////////");
+			ReportImgBean imgBean = new ReportImgBean();
+			imgBean.setReptNo(bean.getReptNo());
+			imgBeans = reportImgService.selectRrptImg(imgBean);
 		}
+		model.addAttribute("reportimg",imgBeans);
 		model.addAttribute("situationList",beans);
 		return "situationList.show";
 	}

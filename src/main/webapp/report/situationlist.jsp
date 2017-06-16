@@ -30,6 +30,7 @@
 			<td>${sList.reptDetail}</td>
 			<td>${sList.replyDetail}</td>
 			<td>${sList.situation?'已回覆':'未回覆'}</td>
+<%-- 			<td>${reportimg.imgPath}</td> --%>
 			</tr>
 			</c:forEach>
 			</tbody>
