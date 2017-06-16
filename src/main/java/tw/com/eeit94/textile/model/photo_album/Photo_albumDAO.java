@@ -21,4 +21,6 @@ public interface Photo_albumDAO {
 	public Photo_albumBean update(Photo_albumBean bean);
 
 	public boolean delete(Photo_albumBean bean);
+
+	public List<Photo_albumBean> selectBymId(Photo_albumBean bean);
 }

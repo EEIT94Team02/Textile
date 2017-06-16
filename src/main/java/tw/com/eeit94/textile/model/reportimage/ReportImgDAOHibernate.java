@@ -43,6 +43,8 @@ public class ReportImgDAOHibernate implements ReportImgDAO {
 	@Override // 新增圖片
 	public ReportImgBean insertImg(ReportImgBean imgBean) {
 		if (imgBean != null) {
+			//驗證是否有開啟交易true是有false是沒
+			//System.out.println(getSession().isJoinedToTransaction());
 			this.getSession().save(imgBean);
 			return imgBean;
 		}

@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.model.socaillist;
+package tw.com.eeit94.textile.model.social;
 
 import java.io.Serializable;
 
@@ -11,16 +11,16 @@ import javax.persistence.Embeddable;
  * @version 2017/06/12
  */
 @Embeddable
-public class SocailListPK implements Serializable {
+public class SocialListPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer userId;
 	private Integer acquaintenceId;
 
-	public SocailListPK() {
+	public SocialListPK() {
 
 	}
 
-	public SocailListPK(Integer userId, Integer acquaintenceId) {
+	public SocialListPK(Integer userId, Integer acquaintenceId) {
 		this.userId = userId;
 		this.acquaintenceId = acquaintenceId;
 	}

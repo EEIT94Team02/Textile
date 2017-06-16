@@ -36,6 +36,11 @@ public class Photo_albumDAOHibernateTest {
 		test.setAlbumno(1);
 		bean = dao.selectByAlbumNo(test);
 		System.out.println(bean);
+		
+		Photo_albumBean test2 = new Photo_albumBean();
+		test2.setmId(1);
+		beans = dao.selectBymId(test2);
+		System.out.println(bean);
 
 		Photo_albumBean insert = new Photo_albumBean();
 		insert.setAlbumname("大頭貼");

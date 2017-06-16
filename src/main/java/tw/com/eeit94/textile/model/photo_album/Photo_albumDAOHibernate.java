@@ -1,5 +1,6 @@
 package tw.com.eeit94.textile.model.photo_album;
 
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,6 +39,11 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 	public Photo_albumBean selectByAlbumNo(Photo_albumBean bean) {
 		return getSession().get(Photo_albumBean.class, bean.getAlbumno());
 	}
+	
+	@Override
+	public List<Photo_albumBean> selectBymId(Photo_albumBean bean) {
+		return getSession().createQuery("FROM Photo_albumBean where mId ="+bean.getmId(), Photo_albumBean.class).getResultList();
+	}
 
 	@Override
 	public List<Photo_albumBean> selectByOthers(Photo_albumBean bean) {
@@ -70,7 +76,17 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}
-		return getSession().createQuery(query.where(p1, p2, p3, p4)).getResultList();
+		
+		Predicate p5;
+		if (bean.getCreatetime() != null) {
+			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), bean.getCreatetime());
+		} else {
+			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), new java.sql.Timestamp(0));
+		}
+		
+		
+		
+		return getSession().createQuery(query.where(p1, p2, p3, p4, p5)).getResultList();
 	}
 
 	@Override

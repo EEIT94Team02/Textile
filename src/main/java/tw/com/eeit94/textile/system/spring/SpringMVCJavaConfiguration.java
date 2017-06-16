@@ -86,9 +86,15 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 黃
 		 */
+		registry.addViewController("/report/index.v").setViewName("/report/index.v");
+		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
+		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");		
+		registry.addViewController("/manager/index.v").setViewName("/manager/index.v");		
 		/*
 		 * 周
 		 */
+		registry.addViewController("/social/index.v").setViewName("/social/index.v");
+		
 		super.addViewControllers(registry);
 	}
 
@@ -224,6 +230,28 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 陳
 	 * @version 2017/06/14
 	 */
+	// 執行失敗，轉回同一畫面。
+	@Bean(name = { "insert.error" })
+	public org.springframework.web.servlet.view.InternalResourceView albumcreate_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/insert.jsp");
+		return internalResourceView;
+	}
+	
+	@Bean(name = { "update.error" })
+	public org.springframework.web.servlet.view.InternalResourceView albumupdate_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/update.jsp");
+		return internalResourceView;
+	}
+
+	// 創建相簿成功，轉向相簿首頁。
+	@Bean(name = { "album.default" })
+	public org.springframework.web.servlet.view.InternalResourceView showAlbum() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/allalbum.jsp");
+		return internalResourceView;
+	}
 
 	/**
 	 * ****** View ******
@@ -279,6 +307,37 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 黃
 	 * @version 2017/06/14
 	 */
+	//回報首頁
+	@Bean(name = { "/report/index.v" })
+	public org.springframework.web.servlet.view.InternalResourceView reportIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/index.jsp");
+		return internalResourceView;
+	}
+	
+	//回報失敗，轉向回報頁面。
+	@Bean(name = { "report.error","/report/createreport.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/createreport.jsp");
+		return internalResourceView;
+	}
+	
+	//新增回報成功，轉向到回報結果頁面。
+	@Bean(name = { "report.success","/report/reportsuccess.v" })
+	public org.springframework.web.servlet.view.InternalResourceView report_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportsuccess.jsp");
+		return internalResourceView;
+	}
+	
+	//管理員view
+	@Bean(name = { "/manager/index.v" })
+	public InternalResourceView managerIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/manager/index.jsp");
+		return internalResourceView;
+	}
 
 	/**
 	 * ****** View ******
@@ -286,4 +345,18 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 周
 	 * @version 2017/06/14
 	 */
+	 //公告首頁
+	 @Bean(name={"/announcement.v"})
+	 public InternalResourceView announcement(){
+		 InternalResourceView internalResourceView = new InternalResourceView();
+		 internalResourceView.setUrl("/announcement/announcement.jsp");
+			return internalResourceView; 
+	 }
+	 //社交名單首頁
+	 @Bean(name={"/social/index.v"})
+	 public InternalResourceView socialList(){
+		 InternalResourceView internalResourceView = new InternalResourceView();
+		 internalResourceView.setUrl("/social/index.jsp");
+			return internalResourceView; 
+	 }
 }

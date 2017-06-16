@@ -4,25 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Logs, Textile.</title>
+<title>Welcome, Textile.</title>
 </head>
 <body>
-	<p>補充：網址結尾改成/logs.do可以列出記錄，改成/delogs.do可以刪除所有記錄。</p>
-	<table>
-		<thead>
-			<tr>
-				<th>紀錄編號</th>
-				<th>紀錄時間</th>
-				<th>紀錄內容</th>
-			</tr>
-		</thead>
-		<c:forEach var="lBean" items="${logs}">
-			<tr>
-				<td>${lBean.lId}</td>
-				<td>${lBean.lCreateTime}</td>
-				<td>${lBean.lLog}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<h1>Textile</h1>
+	<p>
+		<a href="logs.do">系統記錄(管理員帳號textile@gmail.com，密碼Aa!12345，要搬到後臺)</a>
+	</p>	
+	<p>
+		<a href="../report/situationlist.do">查詢所有未回覆的回報記錄</a>
+	</p>
 </body>
 </html>

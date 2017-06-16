@@ -24,7 +24,7 @@ public class ReportImgDAOHibernateTest {
 		// 新增測試
 		// ReportImgDAOHibernate imgDAOHibernate = new
 		// ReportImgDAOHibernate(sessionFactory);
-		ReportImgDAOHibernate imgDAOHibernate = (ReportImgDAOHibernate) context.getBean("reportImgDAOHibernate");
+		ReportImgDAOHibernate imgDAOHibernate = (ReportImgDAOHibernate) context.getBean("reportImgDAO");
 		ReportImgBean imgBean = new ReportImgBean();
 		imgBean.setImgPath("/images/snoopy.jpg");
 		imgBean.setReptNo(2);

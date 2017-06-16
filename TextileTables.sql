@@ -7,7 +7,7 @@
 
   3. 改表格結構要先知會大家，新增資料列則不用，但要注意Foreign Key存不存在。
 
-  -- 商品的圖片Git好像都沒更新到，還是Null。Q_Q
+  -- 這個檔案Git好像常常沒更新到，要注意= =。
 */
 USE textile
 GO
@@ -332,6 +332,7 @@ CREATE TABLE secure(
 GO
 
 INSERT INTO secure VALUES
+('M1jJfFc6H82TruU4',0x168CDF17D1E44748ADB710ABD4091C05,'mId'),
 ('BvSeoHWujR6bvc3w',0x2877D6C619544BDE2698C9935A65AE0A,'mEmail'),
 ('9Rhf5nb2r1tgVPrH',0xC690A5691C71EA446CBC2393CF8A5079,'mPassword'),
 ('rDVi5G8DEK2j71va',0xEEC0B2CAB3CA1A4A2DB8FAE58F748BEC,'mKeepLogin'),
@@ -632,9 +633,9 @@ CREATE TABLE report(
 	reptNo int IDENTITY(1,1) PRIMARY KEY, --使用流水號方式產生回報編號
 	mId int FOREIGN KEY REFERENCES member(mId),	--會員編號
 	reptDate datetime NOT NULL,					--回報日期
-	reptType Nvarchar(6) NOT NULL,				--回報類別
+	reptType Nvarchar(20) NOT NULL,				--回報類別
 	reptDetail Nvarchar(max) NOT NULL,			--回報內容
-	replyDetail Nvarchar(max) NOT NULL,			--管理員回覆內容
+	replyDetail Nvarchar(max),			        --管理員回覆內容
 	situation bit NOT NULL --目前回覆狀態，已回覆or未回覆。
 )
 GO

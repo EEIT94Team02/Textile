@@ -29,7 +29,7 @@ public class ReportDAOHibernateTest {
 
 		// ReportDAOHibernate daoHibernate = new
 		// ReportDAOHibernate(sessionFactory);
-		ReportDAOHibernate daoHibernate = (ReportDAOHibernate) context.getBean("reportDAOHibernate");
+		ReportDAOHibernate daoHibernate = (ReportDAOHibernate) context.getBean("reportDAO");
 		// 查詢單筆測
 		ReportBean select = daoHibernate.select(1);
 		System.out.println("select" + select);
@@ -59,7 +59,16 @@ public class ReportDAOHibernateTest {
 		// 更新管理員回報測試
 		daoHibernate.mgrUpdate("管理員回覆", 5);
 		daoHibernate.delete(9);
-
+		
+		// 測試查詢會員最新回報
+		List<ReportBean> listNo = daoHibernate.selectReptByMidTop(12);
+		for(ReportBean topReport1:listNo ){
+			System.out.print("測試查詢會員最新回報"+topReport1.getReptNo() + "," + topReport1.getmId() + "," + topReport1.getReptDetail() + ","
+					+ topReport1.getReplyDetail() + "," + topReport1.getReptType() + "," + topReport1.getSituation());
+			System.out.println();
+		}
+		
+		
 		// 查詢時間測試
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ReportBean SBOBeam = new ReportBean();

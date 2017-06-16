@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.model.socaillist;
+package tw.com.eeit94.textile.model.social;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
  * @version 2017/06/12
  */
 @Repository
-public class SocailListDAOHibernate implements SocailListDAO {
+public class SocialListDAOHibernate implements SocialListDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -30,19 +30,19 @@ public class SocailListDAOHibernate implements SocailListDAO {
 	}
 
 	@Override
-	public List<SocailListBean> select() {
-		return this.getSession().createQuery("From SocailListBean", SocailListBean.class).getResultList();
+	public List<SocialListBean> select() {
+		return this.getSession().createQuery("From SocialListBean", SocialListBean.class).getResultList();
 	}
 
 	@Override
-	public SocailListBean select(SocailListPK pk) {
-		return this.getSession().get(SocailListBean.class, pk);
+	public SocialListBean select(SocialListPK pk) {
+		return this.getSession().get(SocialListBean.class, pk);
 	}
 
 	@Override
-	public SocailListBean insert(SocailListBean bean) {
+	public SocialListBean insert(SocialListBean bean) {
 		if (bean != null) {
-			SocailListBean select = this.select(bean.getSocailListPK());
+			SocialListBean select = this.select(bean.getSocialListPK());
 			if (select == null) {
 				this.getSession().save(bean);
 				return bean;
@@ -52,19 +52,18 @@ public class SocailListDAOHibernate implements SocailListDAO {
 	}
 
 	@Override
-	public SocailListBean update(SocailListBean bean) {
-		SocailListBean kappa = this.select(bean.getSocailListPK());
+	public SocialListBean update(SocialListBean bean) {
+		SocialListBean kappa = this.select(bean.getSocialListPK());
 		if (kappa != null) {
 			kappa.setS_type(bean.getS_type());
-			kappa.setLog_in(bean.getLog_in());
 			kappa.setS_group(bean.getS_group());
 		}
 		return kappa;
 	}
 
 	@Override
-	public boolean delete(SocailListBean del) {
-		SocailListBean bean = this.select(del.getSocailListPK());
+	public boolean delete(SocialListBean del) {
+		SocialListBean bean = this.select(del.getSocialListPK());
 		if (bean != null) {
 			this.getSession().delete(bean);
 			return true;
@@ -72,12 +71,14 @@ public class SocailListDAOHibernate implements SocailListDAO {
 		return false;
 	}
 
+	
+
 	@Override
-	public List<SocailListBean> selectByFriend(SocailListBean bean, Timestamp date) throws ParseException {
+	public List<SocialListBean> selectByFriend(SocialListBean bean, Timestamp date) throws ParseException {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
-		CriteriaQuery<SocailListBean> qry = cb.createQuery(SocailListBean.class);
+		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
 		// DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Root<SocailListBean> root = qry.from(SocailListBean.class);
+		Root<SocialListBean> root = qry.from(SocialListBean.class);
 		qry.select(root);
 		Predicate p1;
 		Predicate p3;
@@ -86,17 +87,23 @@ public class SocailListDAOHibernate implements SocailListDAO {
 		} else {
 			p1 = cb.greaterThan(root.<Timestamp>get("log_in"), new Timestamp(0));
 		}
-		if (bean.getSocailListPK().getUserId() != null && bean.getSocailListPK() != null) {
-			p3 = cb.equal(root.<Integer>get("socailListPK").get("userId"), bean.getSocailListPK().getUserId());
+		if (bean.getSocialListPK().getUserId() != null && bean.getSocialListPK() != null) {
+			p3 = cb.equal(root.<Integer>get("socialListPK").get("userId"), bean.getSocialListPK().getUserId());
 		} else {
-			p3 = cb.ge(root.<Integer>get("socailListPK").get("userId"), 0);
+			p3 = cb.ge(root.<Integer>get("socialListPK").get("userId"), 0);
 		}
 		Predicate p2 = cb.like(root.<String>get("s_group"),
 				bean.getS_group() == null ? "%" : "%" + bean.getS_group() + "%");
 		Predicate p4 = cb.like(root.<String>get("s_type"),
 				bean.getS_type() == null ? "%" : "%" + bean.getS_type() + "%");
 
-		List<SocailListBean> result = getSession().createQuery(qry.where(p1, p2, p3, p4)).getResultList();
+		List<SocialListBean> result = getSession().createQuery(qry.where(p1, p2, p3, p4)).getResultList();
 		return result;
 	}
+
+	
+
+	
+
+	
 }

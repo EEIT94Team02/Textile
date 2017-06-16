@@ -20,6 +20,9 @@ public interface ReportDAO {
 
 	// 尋找全部
 	List<ReportBean> selectByOthers(ReportBean bean);
+	
+	// 尋找會員最新回報
+	List<ReportBean> selectReptByMidTop(Integer mId);
 
 	// 新增回報 接收ReportBean
 	public ReportBean insert(ReportBean bean);

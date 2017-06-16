@@ -33,6 +33,11 @@ public class Photo_albumServiceTest {
 		select.setAlbumno(1);
 		bean = service.findPhotoAlbumByAlbumNo(select);
 		System.out.println(bean);
+		
+		Photo_albumBean select2 = new Photo_albumBean();
+		select2.setmId(1);
+		beans = service.findPhotoAlbumBymId(select2);
+		System.out.println(beans);
 
 		Photo_albumBean selects = new Photo_albumBean();
 		selects.setAlbumname("大頭貼");

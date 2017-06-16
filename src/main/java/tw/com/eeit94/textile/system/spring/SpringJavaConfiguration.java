@@ -119,4 +119,18 @@ public class SpringJavaConfiguration {
 		java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat;
 	}
+	/**
+	 * 上傳多個檔案專用。
+	 * 
+	 * @author 陳
+	 * @version 2017/06/12
+	 */
+	@Bean
+	public org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver() {
+		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(50000000);
+		multipartResolver.setMaxInMemorySize(10000000);
+		multipartResolver.setDefaultEncoding("UTF-8");
+		return multipartResolver;
+	}
 }
