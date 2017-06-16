@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="list.do">product</a>
-	<a href="../">home</a>
+	<h3><a href="list.do">product</a></h3><hr/>
+	<h3><a href="../">home</a></h3>
 </body>
 </html>

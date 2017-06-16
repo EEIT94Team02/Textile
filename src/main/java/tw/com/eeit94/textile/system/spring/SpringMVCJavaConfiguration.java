@@ -80,8 +80,9 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 * 李
 		 */
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
-		registry.addViewController("/store/pList.v").setViewName("/store/pList.v");
-		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
+		// registry.addViewController("/store/pList.v").setViewName("/store/pList.v");
+		// registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
+		// registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		/*
 		 * 黃
 		 */
@@ -230,6 +231,8 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 李
 	 * @version 2017/06/14
 	 */
+	
+	// 商店首頁
 	@Bean(name = { "/store/index.v" })
 	public org.springframework.web.servlet.view.InternalResourceView productIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -237,7 +240,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 商品總表
+	// 商品總表頁面
 	@Bean(name = { "pList.show" })
 	public InternalResourceView productList() {
 		InternalResourceView rView = new InternalResourceView();
@@ -245,7 +248,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return rView;
 	}
 
-	// 個別商品
+	// 個別商品頁面
 	@Bean(name = { "/store/pSingle.v" })
 	public InternalResourceView productSingle() {
 		InternalResourceView rView = new InternalResourceView();
@@ -253,6 +256,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return rView;
 	}
 	
+	// 使用RedirectView導向個別商品頁面
 	@Bean(name = { "pSingle.show" })
 	public RedirectView productSingleR() {
 		RedirectView rView = new RedirectView();
@@ -261,6 +265,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return rView;
 	}
 
+	// 商品維護頁面
+	@Bean(name = { "pMaintenance.show" })
+	public InternalResourceView productMaintain() {
+		InternalResourceView rView = new InternalResourceView();
+		rView.setUrl("/store/pMaintenance.jsp");
+		return rView;
+	}
+	
 	/**
 	 * ****** View ******
 	 * 

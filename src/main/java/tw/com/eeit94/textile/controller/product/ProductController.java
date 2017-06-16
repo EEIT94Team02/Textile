@@ -50,4 +50,9 @@ public class ProductController {
 		ops.write(temp.getImg());
 		ops.close();
 	}
+	
+	@RequestMapping(path = { "/maintain.do" })
+	public String productMaintain(Model model) {
+		return "pMaintenance.show";
+	}
 }
