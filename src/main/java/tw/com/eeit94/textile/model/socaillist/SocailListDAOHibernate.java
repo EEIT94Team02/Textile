@@ -56,7 +56,6 @@ public class SocailListDAOHibernate implements SocailListDAO {
 		SocailListBean kappa = this.select(bean.getSocailListPK());
 		if (kappa != null) {
 			kappa.setS_type(bean.getS_type());
-			kappa.setLog_in(bean.getLog_in());
 			kappa.setS_group(bean.getS_group());
 		}
 		return kappa;
@@ -71,6 +70,8 @@ public class SocailListDAOHibernate implements SocailListDAO {
 		}
 		return false;
 	}
+
+	
 
 	@Override
 	public List<SocailListBean> selectByFriend(SocailListBean bean, Timestamp date) throws ParseException {
@@ -99,4 +100,10 @@ public class SocailListDAOHibernate implements SocailListDAO {
 		List<SocailListBean> result = getSession().createQuery(qry.where(p1, p2, p3, p4)).getResultList();
 		return result;
 	}
+
+	
+
+	
+
+	
 }
