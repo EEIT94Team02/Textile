@@ -88,6 +88,8 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/report/index.v").setViewName("/report/index.v");
 		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
 		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");		
+		registry.addViewController("/report/reportList.v").setViewName("/report/reportList.v");		
+		registry.addViewController("/report/situationList.v").setViewName("/report/situationList.v");		
 		/*
 		 * 周
 		 */
@@ -313,6 +315,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView report_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/reportsuccess.jsp");
+		return internalResourceView;
+	}
+	
+	//會員查詢自己回報紀錄，轉向到回報列表頁面。
+	@Bean(name = { "reportList.show","/report/reportList.v"  })
+	public InternalResourceView reportList() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportlist.jsp");
+		return internalResourceView;
+	}
+	
+	//管理員查詢所有未回覆的回報
+	@Bean(name = { "situationList.show","/report/situationList.v"  })
+	public InternalResourceView situationList() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/situationlist.jsp");
 		return internalResourceView;
 	}
 
