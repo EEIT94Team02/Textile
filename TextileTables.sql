@@ -353,7 +353,7 @@ CREATE TABLE product(
 	unitPrice int NOT NULL,
 	category Nvarchar(20) NULL,
 	intro Nvarchar(20) NULL,
-	status BIT NOT NULL,
+	status Nvarchar(2) NULL,
 	img varbinary(max) NULL,
 	rewardPoints int NOT NULL
 )
