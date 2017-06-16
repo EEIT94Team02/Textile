@@ -39,7 +39,7 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
 @Controller
 @EnableWebMvc
 @RequestMapping(path = { "/photo" })
-public class PhotoController {
+public class ReadPhotoController {
 
 	@Autowired
 	private PhotoService photoService;
