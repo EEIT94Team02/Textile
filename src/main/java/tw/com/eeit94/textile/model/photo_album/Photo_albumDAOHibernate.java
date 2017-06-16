@@ -67,15 +67,9 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
-				bean.getIntroduction() == null ? "%" : "%" + bean.getIntroduction() + "%");		
-		
-		Predicate p3;		
-		if(bean.getVisibility() == null || !"好友".equals(bean.getVisibility())){
-			p3 = cb.equal(root.<String>get("visibility"),"公開");							
-		}else {
-			p3 = cb.notEqual(root.<String>get("visibility"),"私人");
-		}	
-		
+				bean.getIntroduction() == null ? "%" : "%" + bean.getIntroduction() + "%");
+		Predicate p3 = cb.like(root.<String>get("visibility"),
+				bean.getVisibility() == null ? "%" : "%" + bean.getVisibility() + "%");
 		Predicate p4;
 		if (bean.getmId() != null) {
 			p4 = cb.equal(root.<Integer>get("mId"), bean.getmId());

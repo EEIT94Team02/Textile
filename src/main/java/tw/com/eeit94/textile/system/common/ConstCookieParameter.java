@@ -6,8 +6,7 @@ import tw.com.eeit94.textile.controller.user.LoginController;
  * 定義LoginController需要使用到的常數。
  * 
  * @author 賴
- * @version 2017/06/13
- * @see {@link LoginController}
+ * @version 2017/06/13 {@link LoginController}
  */
 public enum ConstCookieParameter {
 	/*

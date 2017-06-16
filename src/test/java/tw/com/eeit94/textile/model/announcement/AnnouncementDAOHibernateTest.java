@@ -1,5 +1,9 @@
 package tw.com.eeit94.textile.model.announcement;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,17 +41,15 @@ public class AnnouncementDAOHibernateTest {
 		// int day= 37;
 		// cal.add(Calendar.DAY_OF_MONTH, day);
 		// System.out.println(sdf.format(cal.getTime()));
-
 		// date.setTime();
-		// bean.setNextTime(date);
 		// bean.setA_id(10);
 		// AnnouncementBean update =dao.update(bean);
 		// System.out.println("update="+update);
-		// System.out.println("目前日曆時戳: "+sdf.format(date));
+
 
 		// AnnouncementBean bean=new AnnouncementBean();
 		// bean.setA_id(12);
-		// bean.setFre("四天一次");
+		
 		// AnnouncementBean insert =dao.insert(bean);
 		// System.out.println("insert="+insert);
 
@@ -66,18 +68,30 @@ public class AnnouncementDAOHibernateTest {
 		// System.out.println(result);
 
 		// 查詢公告開始區間
-		// AnnouncementBean select=new AnnouncementBean();
-		// DateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-		// java.util.Date begin=null;
-		// try {
-		// begin = sdf.parse("2017-05-30");
-		// select.setStartTime(begin);
-		// List<AnnouncementBean> beans = dao.selectByBginTime(select);
-		// System.out.println(beans);
-		// } catch (Exception e) {
-		//
-		// }
-
+//		 AnnouncementBean select=new AnnouncementBean();
+//		 DateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+//		 java.util.Date begin=null;
+//		 try {
+//		 begin = sdf.parse("2017-05-30");
+//		 select.setStartTime(begin);
+//		 List<AnnouncementBean> beans = dao.selectByBginTime(select);
+//		 System.out.println(beans);
+//		 } catch (Exception e) {
+//		System.out.println(e.getMessage()+"error by selectByBginTime");
+//		 }
+		//查詢已結束公告
+		AnnouncementBean select=new AnnouncementBean();
+		DateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date end=null;
+		try {
+			end = sdf.parse("2017-06-02");
+			select.setEndTime(end);
+			List<AnnouncementBean> beans = dao.selectByEndAnnouncement(select);
+			System.out.println("beans" + beans);
+		} catch (Exception e) {
+			System.out.println(e.getMessage()+"error by selectByEndAnnouncement");
+		}
+		
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();
 		((ConfigurableApplicationContext) context).close();

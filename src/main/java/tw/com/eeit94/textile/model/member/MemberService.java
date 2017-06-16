@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.com.eeit94.textile.model.member.util.CheckAddress;
 import tw.com.eeit94.textile.model.member.util.CheckBirthday;
 import tw.com.eeit94.textile.model.member.util.CheckEmail;
-import tw.com.eeit94.textile.model.member.util.CheckEmailExist;
 import tw.com.eeit94.textile.model.member.util.CheckHintAnswer;
 import tw.com.eeit94.textile.model.member.util.CheckHintPassword;
 import tw.com.eeit94.textile.model.member.util.CheckIdentityCardNumber;
@@ -48,17 +47,6 @@ public class MemberService {
 	private ExecutableValidator executableValidator;
 
 	/**
-	 * 修改會員的基本資料。
-	 * 
-	 * @author 賴
-	 * @version 2017/06/13
-	 */
-	@Transactional
-	public MemberBean update(MemberBean mbean) {
-		return this.memberDAO.update(mbean).get(0);
-	}
-
-	/**
 	 * 特殊查詢：利用帳號搜尋。
 	 * 
 	 * @author 賴
@@ -68,12 +56,18 @@ public class MemberService {
 	public MemberBean selectByEmail(String mEmail) {
 		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
 		mkwbean.setmEmail(mEmail);
-		List<MemberBean> list = memberDAO.selectByEmail(mkwbean);
-		MemberBean mbean = null;
-		if (list.size() > 0) {
-			mbean = list.get(0);
-		}
-		return mbean;
+		return memberDAO.selectByEmail(mkwbean).get(0);
+	}
+
+	/**
+	 * 修改會員的基本資料。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	@Transactional
+	public MemberBean update(MemberBean mbean) {
+		return this.memberDAO.update(mbean).get(0);
 	}
 
 	/**
@@ -236,11 +230,6 @@ public class MemberService {
 	@CheckEmail(column = "信箱")
 	public String checkEmail(String email) {
 		return email;
-	}
-
-	@CheckEmailExist(column = "信箱")
-	public String checkEmailExist(String nonexistEmail) {
-		return nonexistEmail;
 	}
 
 	@CheckPassword(column = "密碼")

@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="createreport.v">回報頁面(要登入)</a>
+<center>
+<h3>管理員回覆</h3>
+<form action="" method="post">
+	<textarea name="replyDetail" rows="10" cols="50">test</textarea>
+	<br>
+	<input type="submit" value="upload" name="送出">
+</form>
+</center>
 </body>
 </html>
