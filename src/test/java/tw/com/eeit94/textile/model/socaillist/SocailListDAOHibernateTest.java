@@ -10,10 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import tw.com.eeit94.textile.model.socail.SocailListBean;
-import tw.com.eeit94.textile.model.socail.SocailListDAO;
-import tw.com.eeit94.textile.model.socail.SocailListDAOHibernate;
-import tw.com.eeit94.textile.model.socail.SocailListPK;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
 /**
@@ -42,15 +38,15 @@ public class SocailListDAOHibernateTest {
 		//
 		// System.out.println("select="+select);
 
-		 SocailListBean bean =new SocailListBean();
-		 SocailListPK pk=new SocailListPK(99, 97);
-		 bean.setSocailListPK(pk);
-		 bean.setS_type("女友");
-		 bean.setLog_in(new Timestamp(System.currentTimeMillis()));
-//		 bean.setS_group("DEFAULT");
-		
-		 SocailListBean insert =dao.insert(bean);
-		 System.out.println("insert="+insert);
+		// SocailListBean bean =new SocailListBean();
+		// SocailListPK pk=new SocailListPK(99, 97);
+		// bean.setSocailListPK(pk);
+		// bean.setS_type("女友");
+		// bean.setLog_in(new java.util.Date());
+		// bean.setS_group("eeit94");
+		//
+		// SocailListBean insert =dao.insert(bean);
+		// System.out.println("insert="+insert);
 
 		// SocailListBean bean=new SocailListBean();
 		// SocailListPK pk=new SocailListPK(11,22);
@@ -71,27 +67,27 @@ public class SocailListDAOHibernateTest {
 		//
 		// System.out.println("delete"+result);
 
-//		SocailListBean select = new SocailListBean();
-//		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SocailListBean select = new SocailListBean();
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// java.util.Date now =new java.util.Date();
-//		int year = 2015;
-//		String group = null;
-//		String type = null;
-//		SocailListPK pk = new SocailListPK(null, null);
-//		try {
-//			// Timestamp begin = new Timestamp(sdf.parse((year +
-//			// "-12-31")).getTime());
-//			Timestamp begin = null;
-//			// group = "五五";
-//			// type ="追蹤";
-//			select.setS_group(group);
-//			select.setS_type(type);
-//			select.setSocailListPK(pk);
-//			List<SocailListBean> beans = dao.selectByFriend(select, begin);
-//			System.out.println("beans=" + beans);
-//		} catch (Exception e) {
-//
-//		}
+		int year = 2015;
+		String group = null;
+		String type = null;
+		SocailListPK pk = new SocailListPK(null, null);
+		try {
+			// Timestamp begin = new Timestamp(sdf.parse((year +
+			// "-12-31")).getTime());
+			Timestamp begin = null;
+			// group = "五五";
+			// type ="追蹤";
+			select.setS_group(group);
+			select.setS_type(type);
+			select.setSocailListPK(pk);
+			List<SocailListBean> beans = dao.selectByFriend(select, begin);
+			System.out.println("beans=" + beans);
+		} catch (Exception e) {
+
+		}
 
 		sessionFactory.getCurrentSession().getTransaction().commit();
 		sessionFactory.getCurrentSession().close();

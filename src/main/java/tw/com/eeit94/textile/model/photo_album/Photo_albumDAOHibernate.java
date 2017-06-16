@@ -1,5 +1,6 @@
 package tw.com.eeit94.textile.model.photo_album;
 
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,6 +39,11 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 	public Photo_albumBean selectByAlbumNo(Photo_albumBean bean) {
 		return getSession().get(Photo_albumBean.class, bean.getAlbumno());
 	}
+	
+	@Override
+	public List<Photo_albumBean> selectBymId(Photo_albumBean bean) {
+		return getSession().createQuery("FROM Photo_albumBean where mId ="+bean.getmId(), Photo_albumBean.class).getResultList();
+	}
 
 	@Override
 	public List<Photo_albumBean> selectByOthers(Photo_albumBean bean) {
@@ -61,16 +67,32 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 		Predicate p1 = cb.like(root.<String>get("albumname"),
 				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
-				bean.getIntroduction() == null ? "%" : "%" + bean.getIntroduction() + "%");
-		Predicate p3 = cb.like(root.<String>get("visibility"),
-				bean.getVisibility() == null ? "%" : "%" + bean.getVisibility() + "%");
+				bean.getIntroduction() == null ? "%" : "%" + bean.getIntroduction() + "%");		
+		
+		Predicate p3;		
+		if(bean.getVisibility() == null || !"好友".equals(bean.getVisibility())){
+			p3 = cb.equal(root.<String>get("visibility"),"公開");							
+		}else {
+			p3 = cb.notEqual(root.<String>get("visibility"),"私人");
+		}	
+		
 		Predicate p4;
 		if (bean.getmId() != null) {
 			p4 = cb.equal(root.<Integer>get("mId"), bean.getmId());
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}
-		return getSession().createQuery(query.where(p1, p2, p3, p4)).getResultList();
+		
+		Predicate p5;
+		if (bean.getCreatetime() != null) {
+			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), bean.getCreatetime());
+		} else {
+			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), new java.sql.Timestamp(0));
+		}
+		
+		
+		
+		return getSession().createQuery(query.where(p1, p2, p3, p4, p5)).getResultList();
 	}
 
 	@Override

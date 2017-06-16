@@ -1,8 +1,5 @@
 package tw.com.eeit94.textile.model.announcement;
 
-import java.text.ParseException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +18,6 @@ public class AnnouncementService {
 		this.announcementDao = announcementDAO;
 	}
 
-	public List<AnnouncementBean> select(AnnouncementBean bean) {
-		 List<AnnouncementBean> selects = announcementDao.select();
-		 
-		return selects;
-	}
-	public List<AnnouncementBean> selectEndTime (AnnouncementBean bean){
-	
-		List<AnnouncementBean> selectsEndTime = null;
-		try {
-			selectsEndTime = announcementDao.selectByEndAnnouncement(bean);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage()+"error by selectEndTime");
-		}
-		
-		return selectsEndTime;
-	}
-	
 //	@Transactional
 //	public AnnouncementBean updateByNextTime(AnnouncementBean bean, int fre) {
 //		AnnouncementBean result = null;

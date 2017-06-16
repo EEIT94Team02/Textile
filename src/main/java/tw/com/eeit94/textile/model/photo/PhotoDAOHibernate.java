@@ -46,7 +46,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 
 	@Override
 	public List<PhotoBean> select() {
-		return this.getSession().createQuery("FROM PhotoBean", PhotoBean.class).getResultList();
+		return getSession().createQuery("FROM PhotoBean", PhotoBean.class).getResultList();
 	}
 
 	@Override
@@ -87,14 +87,9 @@ public class PhotoDAOHibernate implements PhotoDAO {
 
 	@Override
 	public PhotoBean insert(PhotoBean bean) {
-		if (bean != null) {
-			PhotoBean select = this.selectByPrimarykey(bean);
-			if (select == null) {
-				this.getSession().save(bean);
-				return bean;
-			}
-		}
-		return null;
+		getSession().clear();
+		getSession().save(bean);
+		return bean;
 	}
 
 	@Override

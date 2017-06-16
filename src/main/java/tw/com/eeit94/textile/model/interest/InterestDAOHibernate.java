@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class InterestDAOHibernate implements InterestDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<InterestBean> result;
+	private List<InterestBean> results;
 	
 	private Session getSession() {
 		return this.sessionFactory.getCurrentSession();
@@ -35,28 +35,25 @@ public class InterestDAOHibernate implements InterestDAO {
 
 	@Override
 	public List<InterestBean> select(InterestBean ibean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(InterestBean.class, ibean.getiId()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(InterestBean.class, ibean.getiId()));
+		return this.results;
 	}
 
 	@Override
 	public List<InterestBean> insert(InterestBean ibean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(ibean);
 		return this.select(ibean);
 	}
 
 	@Override
 	public List<InterestBean> update(InterestBean ibean) {
-		this.result = new ArrayList<>();
 		this.getSession().update(ibean);
 		return this.select(ibean);
 	}
 
 	@Override
 	public List<InterestBean> delete(InterestBean ibean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(ibean);
 		return this.select(ibean);
 	}

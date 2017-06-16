@@ -5,14 +5,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.naming.Context;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -21,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2017/06/12
  */
 @Service
-@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, timeout = -1)
 public class PhotoService {
 	@Autowired
 	private PhotoDAO photoDAO;
@@ -51,14 +56,14 @@ public class PhotoService {
 		Integer yy = today.get(Calendar.YEAR);
 		Integer mm = today.get(Calendar.MONTH) + 1;
 		Integer dd = today.get(Calendar.DATE);
-		String month = "";
-		String date = "";
-		if (mm.toString().length() == 1) {
-			month = "0" + mm;
-		}
-		if (dd.toString().length() == 1) {
-			date = "0" + dd;
-		}
+		String month = mm.toString();
+		String date = dd.toString();
+		if (month.length() == 1) {
+			month = "0" + month;
+		}		
+		if (date.length() == 1) {
+			date = "0" + date;
+		}	
 		return sb.append(yy).append(month).append(date).toString();
 	}
 
@@ -69,61 +74,21 @@ public class PhotoService {
 		return memberIdString;
 	}
 
-	public String countphoto(PhotoBean bean) {
+	public int countphoto(String beanno) {
+		PhotoBean bean = new PhotoBean();
+		bean.setPhotono(beanno);
 		String temp = photoDAO.selectMax(bean);
 		temp = temp.substring(temp.length() - 4, temp.length());
-		String max = String.valueOf(Integer.parseInt(temp) + 1);
-		StringBuilder sb = new StringBuilder();
-
-		String sb1 = sb.append("0000").append(max).substring(sb.length() - 4, sb.length());
-		String result = bean.getPhotono() + sb1;
-		return result;
+		int max = Integer.parseInt(temp) + 1;
+		return max;
 	}
-
-	public PhotoBean insertDataToTable(PhotoBean bean) {
+	
+	@Transactional
+	public PhotoBean insertDataToPhoto(PhotoBean bean) {
 		return photoDAO.insert(bean);
 	}
 
-	public File uploadPhoto(File file, File rootfolder) {
-		File result = null;
-		// "C:/Textile/repository/Textile/src/main/webapp/image/Makarova.jpg"
-		// rootfolder+file.getName()+".jpg"
-		UID photo = new UID();
-		File file2 = new File(rootfolder + "/XXXX/" + photo.hashCode() + ".jpg");
-		FileInputStream fis = null;
-		FileOutputStream fos = null;
-		try {
-			file2.getParentFile().mkdir();
-			fis = new FileInputStream(file);
-			fos = new FileOutputStream(file2, true);
-			int data;
-			while ((data = fis.read()) != -1) {
-				fos.write(data);
-			}
-			result = file2;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return result;
-	}
-
+	@Transactional
 	public PhotoBean updatePhotoinfo(PhotoBean bean) {
 		PhotoBean result = null;
 		PhotoBean phonebean = this.selectByphotono(bean);
@@ -139,6 +104,7 @@ public class PhotoService {
 		return result;
 	}
 
+	@Transactional
 	public boolean removePhoto(PhotoBean bean) {
 		boolean result = false;
 		PhotoBean phonebean = photoDAO.selectByPrimarykey(bean);

@@ -25,7 +25,7 @@ import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
  * @version 2017/06/12
  */
 public class DealDetailDAOHibernateTest {
-	
+
 	public static void main(String[] args) {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		SessionFactory sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
@@ -35,7 +35,7 @@ public class DealDetailDAOHibernateTest {
 		session.beginTransaction();
 
 		// Select by id
-		System.out.println(dealDetailDao.select(new DealDetailPK(1, 2)));
+		// System.out.println(dealDetailDao.select(new DealDetailPK(1, 2)));
 
 		// Select all
 		// System.out.println(dealDetailDao.select());

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class Chatroom_LogDAOHibernate implements Chatroom_LogDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private List<Chatroom_LogBean> result;
+	private List<Chatroom_LogBean> results;
 	
 	public Chatroom_LogDAOHibernate(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -39,28 +39,25 @@ public class Chatroom_LogDAOHibernate implements Chatroom_LogDAO {
 
 	@Override
 	public List<Chatroom_LogBean> select(Chatroom_LogBean c_lbean) {
-		this.result = new ArrayList<>();
-		this.result.add(this.getSession().get(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
-		return this.result;
+		this.results = new ArrayList<>();
+		this.results.add(this.getSession().get(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
+		return this.results;
 	}
 
 	@Override
 	public List<Chatroom_LogBean> insert(Chatroom_LogBean c_lbean) {
-		this.result = new ArrayList<>();
 		this.getSession().save(c_lbean);
 		return this.select(c_lbean);
 	}
 
 	@Override
 	public List<Chatroom_LogBean> update(Chatroom_LogBean c_lbean) {
-		this.result = new ArrayList<>();
 		this.getSession().update(c_lbean);
 		return this.select(c_lbean);
 	}
 
 	@Override
 	public List<Chatroom_LogBean> delete(Chatroom_LogBean c_lbean) {
-		this.result = new ArrayList<>();
 		this.getSession().delete(c_lbean);;
 		return this.select(c_lbean);
 	}

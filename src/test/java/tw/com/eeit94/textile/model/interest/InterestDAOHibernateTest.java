@@ -21,6 +21,7 @@ public class InterestDAOHibernateTest {
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		InterestDAO interestDAO = (InterestDAO) context.getBean("interestDAO");
 
+		TestUtils.printResult("列出所有interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interestDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();
@@ -29,27 +30,33 @@ public class InterestDAOHibernateTest {
 		ibean.setiClass(3);
 		ibean.setiName("義式");
 
+		TestUtils.printResult("新增一筆interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		interestDAO.insert(ibean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出一筆interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interestDAO.select(ibean));
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("修改一筆interest的資料");
 		ibean.setiName("法式");
 		sessionFactory.getCurrentSession().beginTransaction();
 		interestDAO.update(ibean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("列出一筆interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interestDAO.select(ibean));
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("刪除一筆interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		interestDAO.delete(ibean);
 		sessionFactory.getCurrentSession().getTransaction().commit();
 
+		TestUtils.printResult("重新列出所有interest的資料");
 		sessionFactory.getCurrentSession().beginTransaction();
 		TestUtils.printResult(interestDAO.selectAll());
 		sessionFactory.getCurrentSession().getTransaction().commit();

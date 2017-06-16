@@ -32,6 +32,11 @@ public class Photo_albumService {
 	public Photo_albumBean findPhotoAlbumByAlbumNo(Photo_albumBean bean) {
 		return photo_albumDAO.selectByAlbumNo(bean);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<Photo_albumBean> findPhotoAlbumBymId(Photo_albumBean bean) {
+		return photo_albumDAO.selectBymId(bean);
+	}	
 
 	@Transactional(readOnly = true)
 	public List<Photo_albumBean> findPhotoAlbumByOthers(Photo_albumBean bean) {

@@ -2,17 +2,25 @@ package tw.com.eeit94.textile.model.gift;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import tw.com.eeit94.textile.model.giftDetail.GiftDetailBean;
+import tw.com.eeit94.textile.model.member.MemberBean;
+
 /**
- * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
+ * 封裝gift表格資料的bean元件。
  * 
  * @author 李
  * @version 2017/06/12
@@ -26,48 +34,63 @@ public class GiftBean implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer giftId;
-	private Integer giverId;
-	private Integer recipientId;
+
+	@JoinColumn(name = "giverId", insertable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private MemberBean giverBean;
+	
+	@JoinColumn(name = "recipientId", insertable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private MemberBean recipientBean;
+	
 	private Timestamp giveDate;
+	
+	@JoinColumn(name = "giftId")
+	@OneToMany(fetch = FetchType.LAZY)
+	private Set<GiftDetailBean> giftDetailBeans;
 
 	@Override
 	public String toString() {
-		return "GiftBean=[" + giftId + ", " + giverId + ", " + recipientId + ", " + giveDate + "]";
+		return "GiftBean=[" + giftId + ", " + giverBean.getmName() + ", " + recipientBean.getmName() + ", " + giveDate + "]";
 	}
 
 	// giftId getter setter
-	public void setGiftId(int giftId) {
+	public void setGiftId(Integer giftId) {
 		this.giftId = giftId;
 	}
-
 	public Integer getGiftId() {
 		return this.giftId;
 	}
 
 	// giverId getter setter
-	public void setGiverId(int giverId) {
-		this.giverId = giverId;
+	public void setGiverBean(MemberBean giverBean) {
+		this.giverBean = giverBean;
 	}
-
-	public Integer getGiverId() {
-		return this.giverId;
+	public MemberBean getGiverBean() {
+		return giverBean;
 	}
 
 	// recipientId getter setter
-	public void setRecipientId(int recipientId) {
-		this.recipientId = recipientId;
+	public void setRecipientBean(MemberBean recipientBean) {
+		this.recipientBean = recipientBean;
 	}
-
-	public Integer getRecipientId() {
-		return this.recipientId;
+	public MemberBean getRecipientBean() {
+		return this.recipientBean;
 	}
 
 	// giveDate getter setter
 	public void setGiveDate(Timestamp giveDate) {
 		this.giveDate = giveDate;
 	}
-
 	public Timestamp getGiveDate() {
 		return this.giveDate;
 	}
+
+	public void setGiftDetailBeans(Set<GiftDetailBean> giftDetailBean) {
+		this.giftDetailBeans = giftDetailBean;
+	}
+	public Set<GiftDetailBean> getGiftDetailBeans() {
+		return giftDetailBeans;
+	}
+	
 }

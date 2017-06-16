@@ -9,6 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 控制金鑰的Service元件，負責讀取金鑰，並轉換密碼等資訊。
@@ -31,6 +32,7 @@ public class SecureService {
 	 * @author 賴
 	 * @version 2017/06/11
 	 */
+	@Transactional
 	public String getEncryptedText(String plainText, String sTarget) throws Exception {
 		SecureBean sbean = new SecureBean();
 		sbean.setsTarget(sTarget);
@@ -60,6 +62,7 @@ public class SecureService {
 	 * @version 2017/06/11
 	 * @throws Exception
 	 */
+	@Transactional
 	public String getDecryptedText(String encryptedText, String sTarget) throws Exception {
 		SecureBean sbean = new SecureBean();
 		sbean.setsTarget(sTarget);
@@ -104,6 +107,7 @@ public class SecureService {
 	 * @author 賴
 	 * @version 2017/06/11
 	 */
+	@Transactional
 	public void insertNewSecureKey(String sTarget) {
 		byte[] initVector = new byte[128 / 8];
 		new SecureRandom().nextBytes(initVector);

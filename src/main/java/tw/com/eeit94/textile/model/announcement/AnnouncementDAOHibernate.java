@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * selectByBginTime 利用開始時間去尋找還在活動期間內的公告
- * selectByEndAnnouncement 列出所有已經結束的活動公告
+ * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
  * 
  * @author 周
  * @version 2017/06/12
@@ -63,8 +62,10 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 		if (kappa != null) {
 			kappa.setA_id(bean.getA_id());
 			kappa.setA_type(bean.getA_type());
+			kappa.setFre(bean.getFre());
 			kappa.setMsg(bean.getMsg());
 			kappa.setGist(bean.getGist());
+			kappa.setNextTime(bean.getNextTime());
 			kappa.setStartTime(bean.getStartTime());
 			kappa.setEndTime(bean.getEndTime());
 			kappa.setRelTime(bean.getRelTime());
@@ -90,40 +91,20 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 		qry.select(root);
 		// DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Predicate p2;
-		Predicate p4;
+		Predicate p5;
 		if (bean.getStartTime() != null) {
-			p4 = cb.lessThan(root.<java.util.Date>get("startTime"), bean.getStartTime());
+			p5 = cb.lessThan(root.<java.util.Date>get("startTime"), bean.getStartTime());
 			p2 = cb.greaterThan(root.<java.util.Date>get("endTime"), bean.getStartTime());
 		} else {
-			p4 = cb.greaterThan(root.<java.util.Date>get("startTime"), new java.util.Date(0));
+			p5 = cb.greaterThan(root.<java.util.Date>get("startTime"), new java.util.Date(0));
 			p2 = cb.greaterThan(root.<java.util.Date>get("endTime"), new java.util.Date(0));
 		}
 		Predicate p1 = cb.like(root.<String>get("a_type"),
 				bean.getA_type() == null ? "%" : "%" + bean.getA_type() + "%");
 		Predicate p3 = cb.like(root.<String>get("gist"), bean.getGist() == null ? "%" : "%" + bean.getGist() + "%");
-
-		List<AnnouncementBean> result = getSession().createQuery(qry.where(p1, p2, p3, p4)).getResultList();
-
-		return result;
-	}
-
-		@Override
-		public List<AnnouncementBean> selectByEndAnnouncement(AnnouncementBean bean) throws ParseException {
-		CriteriaBuilder cb = getSession().getCriteriaBuilder();
-		CriteriaQuery<AnnouncementBean> qry = cb.createQuery(AnnouncementBean.class);
-		Root<AnnouncementBean> root= qry.from(AnnouncementBean.class);
-		qry.select(root);
-		Predicate p1;
-		if(bean.getEndTime()!=null){
-//			p1=cb.lessThan(root.<java.util.Date>get("endTime"), bean.getEndTime()); 測試用
-			p1=cb.lessThan(root.<java.util.Date>get("endTime"), new java.util.Date());//線上用
-		}else{
-			p1=cb.greaterThan(root.<java.util.Date>get("startTime"), new java.util.Date(0));
-		}
-		
-		List<AnnouncementBean> result = getSession().createQuery(qry.where(p1)).getResultList();
+		Predicate p4 = cb.like(root.<String>get("fre"), bean.getFre() == null ? "%" : "%" + bean.getFre() + "%");
+		List<AnnouncementBean> result = getSession().createQuery(qry.where(p1, p2, p3, p4, p5)).getResultList();
 
 		return result;
-		
 	}
 }

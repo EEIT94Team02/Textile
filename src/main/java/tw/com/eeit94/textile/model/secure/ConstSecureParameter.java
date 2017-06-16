@@ -7,7 +7,8 @@ package tw.com.eeit94.textile.model.secure;
  * @version 2017/06/11
  */
 public enum ConstSecureParameter {
-	TRANSFORMATION("AES/CBC/PKCS5Padding"), ALGORITHM("AES"), PASSWORD("mPassword"), EMAIL("mEmail"), CHATROOMID("cId");
+	TRANSFORMATION("AES/CBC/PKCS5Padding"), ALGORITHM("AES"), MEMBERID("mId"), EMAIL("mEmail"), PASSWORD(
+			"mPassword"), KEEPLOGIN("mKeepLogin"), CHATROOMID("cId");
 
 	private final String param;
 

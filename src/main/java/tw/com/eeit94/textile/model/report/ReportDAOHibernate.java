@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
  * @author 黃
  * @version 2017/06/12
  */
-@Repository(value = "reportDAO")
+@Repository(value = "reportDAO")//如果這裡改了測試程式那邊也要改context.getBean("reportDAOHibernate")改context.getBean("reportDAO")
 public class ReportDAOHibernate implements ReportDAO {
 	@Autowired // 如果寫到Service要把static拿掉
 	private SessionFactory sessionFactory;
@@ -54,6 +54,23 @@ public class ReportDAOHibernate implements ReportDAO {
 				ReportBean.class);
 		query.setParameter("situation", situation);
 		return query.getResultList();
+	}
+	
+	@Override //查詢會員最新回報
+	public List<ReportBean> selectReptByMidTop(Integer mId){
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<ReportBean> query = builder.createQuery(ReportBean.class);
+		javax.persistence.criteria.Root<ReportBean> reportBean = query.from(ReportBean.class);
+		query.select(reportBean);
+		Predicate meberId = builder.equal(reportBean.<Integer>get("mId"), mId);
+		//orderBy設定
+		query.orderBy(builder.desc(reportBean.<Integer>get("reptNo")));
+		return getSession().createQuery(query.where(meberId)).getResultList();
+		
+//		Query<ReportBean> query = getSession().createQuery("SELECT TOP 1 * FROM report WHERE mId=:meberID ORDER BY reptNo DESC",
+//				ReportBean.class);
+//		query.setParameter("meberID", mId);
+//		return query.getResultList();
 	}
 
 	@Override
@@ -101,11 +118,8 @@ public class ReportDAOHibernate implements ReportDAO {
 	@Override // 新增回報資料 會員編號 回報類別 回報內容
 	public ReportBean insert(ReportBean bean) {
 		if (bean != null) {
-			ReportBean select = this.select(bean.getmId());
-			if (select == null) {
 				this.getSession().save(bean);
 				return bean;
-			}
 		}
 		return null;
 	}

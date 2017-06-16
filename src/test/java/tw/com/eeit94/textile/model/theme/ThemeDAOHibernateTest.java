@@ -23,7 +23,7 @@ public class ThemeDAOHibernateTest {
 		sessionFactory.getCurrentSession().beginTransaction();
 
 		// ThemeDAOHibernate themeDAOHibernate = new ThemeDAOHibernate();
-		ThemeDAOHibernate themeDAOHibernate = (ThemeDAOHibernate) context.getBean("themeDAOHibernate");
+		ThemeDAOHibernate themeDAOHibernate = (ThemeDAOHibernate) context.getBean("themeDAO");
 		// 查詢單筆主題測試
 		ThemeBean bean = themeDAOHibernate.select(1);
 		System.out.println("主題編號" + bean.getThemeNo() + "," + "主題樣式" + bean.getThemeStyle() + "," + "主題狀態"

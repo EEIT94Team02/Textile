@@ -5,9 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import tw.com.eeit94.textile.model.member.MemberBean;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -40,6 +44,19 @@ public class ReportService {
 	public List<ReportBean> selectReptBySituation(Boolean situation) {
 		return reportDAO.selectReptBySituation(situation);
 	}
+	
+	// 查詢會員最新回報
+	public Integer selectReptByMidTop(Integer mId){
+		List<ReportBean> list = reportDAO.selectReptByMidTop(mId);
+		Integer reportNo = null;
+		if(mId != null){
+			for(ReportBean bean:list){
+					reportNo = bean.getReptNo();
+					return reportNo;				
+			}
+		}
+		return reportNo;
+	}
 
 	// 會員新增回報單 會員編號 內容 回報型態
 	public ReportBean createNewReport(ReportBean bean) {
@@ -47,8 +64,9 @@ public class ReportService {
 			if (bean.getmId() != null) {
 				bean.setmId(bean.getmId());
 				bean.setReptDate(new java.sql.Timestamp(new Date().getTime()));
-				bean.setReptDetail(bean.getReptDetail() + new Date().toString());
+				bean.setReptDetail(bean.getReptDetail() + new java.sql.Timestamp(new Date().getTime()));
 				bean.setSituation(false);
+				//System.out.println("service="+bean.getmId()+bean.getReptDate()+bean.getSituation());
 				return reportDAO.insert(bean);
 			}
 
