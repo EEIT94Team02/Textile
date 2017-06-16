@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="createreport.v">回報頁面(要登入)</a>
+	<a href="createreport.v">回報頁面</a>
 </body>
 </html>

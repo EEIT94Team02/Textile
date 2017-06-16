@@ -634,7 +634,7 @@ CREATE TABLE report(
 	reptDate datetime NOT NULL,					--回報日期
 	reptType Nvarchar(20) NOT NULL,				--回報類別
 	reptDetail Nvarchar(max) NOT NULL,			--回報內容
-	replyDetail Nvarchar(max)			        --管理員回覆內容
+	replyDetail Nvarchar(max),			        --管理員回覆內容
 	situation bit NOT NULL --目前回覆狀態，已回覆or未回覆。
 )
 GO
