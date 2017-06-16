@@ -88,6 +88,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/report/index.v").setViewName("/report/index.v");
 		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
 		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");		
+		registry.addViewController("/manager/index.v").setViewName("/manager/index.v");		
 		/*
 		 * 周
 		 */
@@ -315,6 +316,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView report_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/reportsuccess.jsp");
+		return internalResourceView;
+	}
+	
+	//管理員view
+	@Bean(name = { "/manager/index.v" })
+	public InternalResourceView managerIndex() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/manager/index.jsp");
 		return internalResourceView;
 	}
 
