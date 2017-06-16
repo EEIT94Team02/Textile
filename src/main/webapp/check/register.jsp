@@ -15,7 +15,7 @@
 			</legend>
 			<div>
 				<label for="mEmail">帳號：</label> <input id="mEmail" name="mEmail" value="${dataAndErrorsMap.mEmail}" type="text"
-					size="55" maxlength="50" placeholder="請輸入帳號" autofocus required /> <span><img id="mEmailImage" src="" />${dataAndErrorsMap.mEmail_error}</span>
+					size="55" maxlength="50" placeholder="請輸入帳號" autofocus required /> <img src="" /><span>${dataAndErrorsMap.mEmail_error}</span>
 				<br />
 				<p>帳號為Email信箱。</p>
 			</div>
@@ -197,6 +197,32 @@
     var imgsrc_close16 = '../image/check/check_close16.png';
     var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
+    // 自動驗證帳號
+    $('#mEmail').on('keyup', checkEmail);
+    $('#mEmail').on('blur', checkEmail);
+
+    function checkEmail() {
+      $('#mEmail + img').attr('src', imgsrc_loading16);
+      $.get('inspect.do', {
+        'm': 'mEmail',
+        'q': $('#mEmail').val()
+      }, function(output) {
+        if (output == '') {
+          $.get('inspect.do', {
+            'm': 'mEmailExist',
+            'q': $('#mEmail').val()
+          }, function(output) {
+            $('#mEmail + img + span').text(output);
+          });
+        }
+        if ($('#mEmail + img + span').text() == '' && $('#mEmail').val() != '') {
+          $('#mEmail + img').attr('src', imgsrc_correct16);
+        } else {
+          $('#mEmail + img').attr('src', imgsrc_error16);
+        }
+      });
+    }
+
     // 驗證請再輸入一次密碼是否相同
     $('#mPassword_again').on('keyup', function() {
       if ($('#mPassword_again').val() == $('#mPassword').val()) {
@@ -252,7 +278,8 @@
       }
     });
 
-    $('#mBirthday').on('change', function() {   
+    // 當生日更動時，星座也要更動。
+    $('#mBirthday').on('change', function() {
       function changeToSelected(index, trueOrFalse) {
         $('#mConstellation option:eq(' + index + ')').prop('selected', trueOrFalse);
       }
@@ -263,7 +290,6 @@
         var numbers = birthday_str.split('-');
         var date = new Date(numbers[0], numbers[1], numbers[2]);
         var dateArray = [new Date(numbers[0], 3, 21), new Date(numbers[0], 4, 21), new Date(numbers[0], 5, 22), new Date(numbers[0], 6, 22), new Date(numbers[0], 7, 24), new Date(numbers[0], 8, 24), new Date(numbers[0], 9, 24), new Date(numbers[0], 10, 24), new Date(numbers[0], 11, 23), new Date(numbers[0], 12, 23), new Date(numbers[0], 1, 21), new Date(numbers[0], 2, 20)];
-
         for (var i = 0; i < 12; i++) {
           if (i >= 0 && i < 9) {
             if (date >= dateArray[i] && date < dateArray[i + 1]) {

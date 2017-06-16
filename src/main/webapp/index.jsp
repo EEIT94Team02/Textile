@@ -7,7 +7,6 @@
 <title>Welcome, Textile.</title>
 </head>
 <body>
-	<a href="report/"></a>
 	<h1>Textile</h1>
 	<c:if test="${empty user}">
 		<c:out escapeXml="false" value="&nbsp;&nbsp;&nbsp;&nbsp;" />
