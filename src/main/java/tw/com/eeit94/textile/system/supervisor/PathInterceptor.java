@@ -61,7 +61,7 @@ public class PathInterceptor implements HandlerInterceptor {
 			throws Exception {
 		if (ex != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute(ConstFilterKey.ExceptionFromControllerOrView.key(), ex.getMessage());
+			session.setAttribute(ConstFilterKey.ExceptionFromServer.key(), ex.getMessage());
 			String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath + ConstMapping.ERROR_PAGE.path());
 

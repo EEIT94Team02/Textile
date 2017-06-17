@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome, Textile.</title>
+<title>Welcome, Textile</title>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 </head>
 <body>
-	<a href="report/"></a>
 	<h1>Textile</h1>
 	<c:if test="${empty user}">
 		<c:out escapeXml="false" value="&nbsp;&nbsp;&nbsp;&nbsp;" />
@@ -39,7 +41,7 @@
 	<p>
 		<a href="theme/">主題(要登入)</a>
 	</p>
-		<p>
+	<p>
 		<a href="socail/">社交名單(要登入)</a>
 	</p>
 	<p>

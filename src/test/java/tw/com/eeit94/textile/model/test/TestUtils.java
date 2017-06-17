@@ -49,8 +49,9 @@ public class TestUtils {
 	public static MemberBean getNewMemberBean() {
 		MemberBean mbean = new MemberBean();
 		mbean.setmCreateTime(new Timestamp(System.currentTimeMillis()));
-		mbean.setmEmailValid("N");
-		mbean.setmPhoneValid("N");
+		mbean.setmValidEmail("N");
+		mbean.setmValidPhone("N");
+		mbean.setmValidManager("N");
 		mbean.setmKeepLogin("N");
 		mbean.setmEmail("Dodge3218452@gmail.com");
 		mbean.setmPassword("O4iF036PE3TjpWwHPPCSSQ=="); // Aa_12345

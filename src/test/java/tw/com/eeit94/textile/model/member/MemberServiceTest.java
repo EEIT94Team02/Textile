@@ -174,11 +174,6 @@ public class MemberServiceTest {
 		dataAndErrorsMap.put(ConstMemberKey.SelfIntroduction.key(), getShortSelfIntroduction());
 		TestUtils.printResult(memberService.checkFormData(dataAndErrorsMap));
 		dataAndErrorsMap.remove(dataAndErrorsMap.get(ConstHelperKey.KEY.key()));
-		
-		// 一次測試所有資料
-		TestUtils.printResult("驗證一次測試所有資料的功能是否正確");
-		dataAndErrorsMap = TestUtils.getNewMemberMap();
-		TestUtils.printResult(memberService.checkAllData(dataAndErrorsMap));
 
 		((ConfigurableApplicationContext) context).close();
 	}

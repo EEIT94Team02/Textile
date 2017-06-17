@@ -64,7 +64,7 @@ public class LoginController {
 		int mapSize = dataAndErrorsMap.size();
 		dataAndErrorsMap = this.memberService.checkLogin(dataAndErrorsMap);
 		if (mapSize < dataAndErrorsMap.size()) {
-			request.setAttribute(ConstLoginKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
+			request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
 			return ConstMapping.LOGIN_ERROR.path();
 		} else {
 			// 在Session Scope放入該使用者的MemberBean資料。
@@ -101,7 +101,7 @@ public class LoginController {
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 
 		// 依照是否有勾選保持登入來設定Cookie和修改資料庫中會員與保持登入相關的欄位。
-		if ((ConstLoginParameter.KEEPLOGIN.param()).equals(request.getParameter(ConstLoginKey.KEEPLOGIN.key()))) {
+		if ((ConstUserParameter.KEEPLOGIN.param()).equals(request.getParameter(ConstUserKey.KEEPLOGIN.key()))) {
 			// 設定新的Cookie kl和其內容。
 			Cookie cookie = new Cookie(ConstFilterKey.COOKIE_KL.key(), this.secureService.getEncryptedText(
 					dataAndErrorsMap.get(ConstMemberKey.Email.key()), ConstSecureParameter.KEEPLOGIN.param()));
@@ -112,12 +112,12 @@ public class LoginController {
 			response.addCookie(cookie);
 
 			// 將資料庫中的會員資料保持登入的欄位設為「是」，並重新加入Session Scope。
-			mbean.setmKeepLogin(ConstLoginParameter.KEEPLOGIN_YES.param());
+			mbean.setmKeepLogin(ConstUserParameter.KEEPLOGIN_YES.param());
 			this.memberService.update(mbean);
 			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 		} else {
 			// 將資料庫中的會員資料保持登入的欄位設為「否」，並重新加入Session Scope。
-			mbean.setmKeepLogin(ConstLoginParameter.KEEPLOGIN_NO.param());
+			mbean.setmKeepLogin(ConstUserParameter.KEEPLOGIN_NO.param());
 			this.memberService.update(mbean);
 			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 		}

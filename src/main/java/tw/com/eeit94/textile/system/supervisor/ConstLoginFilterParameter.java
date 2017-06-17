@@ -10,7 +10,7 @@ package tw.com.eeit94.textile.system.supervisor;
  * @see {@link LoginFilter}
  */
 public enum ConstLoginFilterParameter {
-	UTF_8("UTF-8");
+	UTF_8("UTF-8"), IS_MANAGER("Y");
 
 	private final String param;
 

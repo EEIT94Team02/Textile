@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
 
@@ -54,6 +55,35 @@ public class InspectController {
 		dataAndErrorsMap = memberService.checkFormData(dataAndErrorsMap);
 		if (mapSize < dataAndErrorsMap.size()) {
 			output = dataAndErrorsMap.get(mField + ConstMemberParameter._ERROR.param());
+		} else {
+			output = ConstHelperKey.SPACE.key();
+		}
+		out.write(output.getBytes());
+		out.close();
+	}
+
+	/**
+	 * 驗證密碼和再輸入密碼是否一致，Map<String, String>只放分別兩組密碼。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/16
+	 * @throws IOException
+	 */
+	@RequestMapping(path = { "/inspectTheSamePassword.do" }, method = { RequestMethod.GET }, produces = {
+			"text/plain; charset=UTF-8" })
+	@ResponseBody
+	public void inspectTheSamePassword(HttpServletRequest request, HttpServletResponse response, OutputStream out)
+			throws IOException {
+		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
+		dataAndErrorsMap.put(ConstMemberKey.Password_Again.key(),
+				request.getParameter(ConstMemberKey.Password_Again.key()));
+
+		String output;
+		int mapSize = dataAndErrorsMap.size();
+		dataAndErrorsMap = memberService.checkTheSamePassword(dataAndErrorsMap, request);
+		if (mapSize < dataAndErrorsMap.size()) {
+			output = dataAndErrorsMap.get(ConstMemberKey.Password_Again.key() + ConstMemberParameter._ERROR.param());
 		} else {
 			output = ConstHelperKey.SPACE.key();
 		}

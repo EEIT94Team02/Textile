@@ -8,13 +8,15 @@ package tw.com.eeit94.textile.controller.user;
  * @author 賴
  * @version 2017/06/13
  * @see {@link ConstFilterKey}
+ * @see {@link LoginController}
+ * @See {@link RegisterController}
  */
-public enum ConstLoginKey {
+public enum ConstUserKey {
 	KEEPLOGIN("keepLogin"), DATAANDERRORSMAP("dataAndErrorsMap");
 
 	private final String key;
 
-	private ConstLoginKey(String key) {
+	private ConstUserKey(String key) {
 		this.key = key;
 	}
 
