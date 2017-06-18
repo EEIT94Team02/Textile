@@ -8,20 +8,19 @@
 </head>
 <body>
 	<h1>Textile</h1>
-	<c:if test="${not empty ActivityList}">
-		<table>
-			<thead>
-				<tr>
-					<th>活動編號</th>
-					<th>開始時間</th>
-					<th>結束時間</th>
-					<th>活動名稱</th>
-					<th>活動地點</th>
-					<th>活動說明</th>
-					<th>公開</th>
-				</tr>
-			</thead>
-			<tbody>
+	<table>
+		<thead>
+			<tr>
+				<th>活動編號</th>
+				<th>開始時間</th>
+				<th>結束時間</th>
+				<th>活動名稱</th>
+				<th>活動地點</th>
+				<th>活動內容</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:if test="${not empty ActivityList}">
 				<c:forEach var="row" items="${ActivityList}">
 					<tr>
 						<td>${row.activityno}</td>
@@ -30,17 +29,48 @@
 						<td>${row.activityname}</td>
 						<td>${row.place}</td>
 						<td>${row.interpretation}</td>
-						<td>${row.visibility}</td>
 					</tr>
 				</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
+			</c:if>
+			<c:if test="${not empty Activity}">
+				<tr>
+					<td>${Activity.activityno}</td>
+					<td>${Activity.begintime}</td>
+					<td>${Activity.endtime}</td>
+					<td>${Activity.activityname}</td>
+					<td>${Activity.place}</td>
+					<td>${Activity.interpretation}</td>
+				</tr>
+			</c:if>
+		</tbody>
+	</table>
+	<table>
+		<thead>
+			<tr>
+				<th>活動編號</th>
+				<th>活動成員</th>
+				<th>參與狀態</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="row" items="${partner}">
+				<tr>
+					<td>${row.activity_memberPK.activityno}</td>
+					<td>${row.memberBean}</td>
+					<td>${row.position}</td>
+				</tr>
+			</c:forEach>
+			<c:forEach var="row" items="${partake}">
+				<tr>
+					<td>${row.activity_memberPK.mId}</td>
+					<td>${row.activityBean}</td>
+					<td>${row.position}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
 	<c:if test="${empty ActivityList}">
-		${selectActivityErrors.selecterror}
-		${ActivityCRDErrors.insert}
-		${ActivityCRDErrors.update}
-		${ActivityCRDErrors.delete}
 	</c:if>
 
 	<p>

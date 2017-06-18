@@ -70,14 +70,6 @@
 					<td>${activityCRDErrors.interpretation}</td>
 				</tr>
 				<tr>
-					<td>活動設定：</td>
-					<td><select name="visibility">
-							<option value="公開" selected="selected">公開</option>
-							<option value="好友">好友</option>
-							<option value="私人">私人</option>
-					</select></td>
-				</tr>
-				<tr>
 					<td></td>
 					<td><input type="submit" value="更新"></td>
 					<td>${activityCRDErrors.update}</td>

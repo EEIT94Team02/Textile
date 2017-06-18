@@ -318,7 +318,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 	
-	// 創建相簿頁面。
+	// 創建活動頁面。
 	@Bean(name = { "/activity/insert.v", "actInsert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -326,11 +326,27 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 	
-	// 更新相簿頁面。
+	// 更新活動頁面。
 	@Bean(name = { "/activity/update.v", "actUpdate.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActUpdate() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/updateAct.jsp");
+		return internalResourceView;
+	}
+	
+	// 刪除活動頁面。
+	@Bean(name = { "/activity/delete.v", "actDelete.error" })
+	public org.springframework.web.servlet.view.InternalResourceView ActDelete() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/deleteAct.jsp");
+		return internalResourceView;
+	}
+	
+	// 查詢活動頁面。
+	@Bean(name = { "/activity/select.v", "actSelect.error" })
+	public org.springframework.web.servlet.view.InternalResourceView ActSelect() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/selectAct.jsp");
 		return internalResourceView;
 	}
 
