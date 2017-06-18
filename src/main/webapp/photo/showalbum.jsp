@@ -10,6 +10,7 @@
 	<h1>Textile</h1>
 
 	<c:if test="${not empty AlbumList}">
+		<c:out value="${user.mName} 的相簿" />
 		<table>
 			<thead>
 				<tr>
@@ -31,7 +32,7 @@
 						<td>${row.visibility}</td>
 						<td>${row.mId}</td>
 					</tr>
-				</c:forEach>						
+				</c:forEach>
 			</tbody>
 		</table>
 	</c:if>

@@ -83,11 +83,16 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 * 陳
 		 */
 		registry.addViewController("/photo/index.v").setViewName("/photo/index.v");
-		registry.addViewController("/activity/index.v").setViewName("/activity/index.v");
 		registry.addViewController("/photo/select.v").setViewName("/photo/select.v");
 		registry.addViewController("/photo/insert.v").setViewName("/photo/insert.v");
 		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
 		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
+		registry.addViewController("/activity/index.v").setViewName("/activity/index.v");
+		registry.addViewController("/activity/insert.v").setViewName("/activity/insert.v");
+		registry.addViewController("/activity/update.v").setViewName("/activity/update.v");
+		registry.addViewController("/activity/delete.v").setViewName("/activity/delete.v");
+		registry.addViewController("/activity/select.v").setViewName("/activity/select.v");
+
 		/*
 		 * 李
 		 */
@@ -264,11 +269,11 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 陳
 	 * @version 2017/06/14
 	 */
-	// 創建相簿成功，轉向相簿首頁。
+	// 相簿首頁,相簿顯示頁面。
 	@Bean(name = { "/photo/index.v", "album.default" })
 	public org.springframework.web.servlet.view.InternalResourceView albumIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/allalbum.jsp");
+		internalResourceView.setUrl("/photo/showalbum.jsp");
 		return internalResourceView;
 	}
 
@@ -280,7 +285,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 相簿搜尋頁面。
+	// 更新相簿頁面。
 	@Bean(name = { "/photo/update.v", "update.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumUpdate() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -288,7 +293,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 相簿搜尋頁面。
+	// 創建相簿頁面。
 	@Bean(name = { "/photo/insert.v", "insert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -296,7 +301,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 相簿搜尋頁面。
+	// 刪除相簿頁面。
 	@Bean(name = { "/photo/delete.v", "delete.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumDelete() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -305,10 +310,26 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v" })
+	@Bean(name = { "/activity/index.v" , "Activity.default"})
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/activity/index.jsp");
+		internalResourceView.setUrl("/activity/showActivity.jsp");
+		return internalResourceView;
+	}
+	
+	// 創建相簿頁面。
+	@Bean(name = { "/activity/insert.v", "actInsert.error" })
+	public org.springframework.web.servlet.view.InternalResourceView ActInsert() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/createAct.jsp");
+		return internalResourceView;
+	}
+	
+	// 更新相簿頁面。
+	@Bean(name = { "/activity/update.v", "actUpdate.error" })
+	public org.springframework.web.servlet.view.InternalResourceView ActUpdate() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/updateAct.jsp");
 		return internalResourceView;
 	}
 
