@@ -10,20 +10,21 @@ package tw.com.eeit94.textile.model.member.util;
  * ！！！！！！不要使用自動排版！！！！！！
  * 
  * @author 賴
- * @version 2017/06/09
+ * @version 2017/06/17
  */
 public enum ConstMemberKey {
 	Id("mId", false, false),
 	CreateTime("mCreateTime", false, false),
-	EmailValid("mEmailValid", false, false),
-	PhoneValid("mPhoneValid", false, false),
+	ValidEmail("mValidEmail", false, false),
+	ValidPhone("mValidPhone", false, false),
+	ValidManager("mValidManager", false, false),
 	KeepLogin("mKeepLogin", false, false),
-	Email("mEmail", true, true),
+	Email("mEmail", true, false),
 	Password("mPassword", true, true),
 	Name("mName", true, true),
 	Birthday("mBirthday", true, true),
 	IdentityCardNumber("mIdentityCardNumber", true,	true),
-	Gender("mGender", false, true),
+	Gender("mGender", false, false),
 	Address("mAddress", true, true),
 	PhoneNumber("mPhoneNumber", true, true),
 	HintPassword("mHintPassword", true, true),
@@ -38,7 +39,14 @@ public enum ConstMemberKey {
 	BloodType("mBloodType", false, false),
 	Constellation("mConstellation", false, false),
 	Religion("mReligion", false, false),
-	SelfIntroduction("mSelfIntroduction", true, true);
+	SelfIntroduction("mSelfIntroduction", false, true),
+	
+	// 特例：需用其它方式驗證
+	EmailExist("mEmailExist", false, false),
+	Password_Again("mPassword_again", false, false),
+	Adrress_County("mAddress_county", false, false),
+	Adrress_Region("mAddress_region", false, false);
+	
 
 	/**
 	 * key: MemberBean的屬性名稱。 
@@ -48,27 +56,27 @@ public enum ConstMemberKey {
 	 * isFromUserInput: 是否從使用者輸入的。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/10
+	 * @version 2017/06/17
 	 */
 	private final String key;
-	private final boolean isGoingToCheck;
-	private final boolean isFromUserInput;
+	private final boolean needToCheckWhenRegistering;
+	private final boolean isAlwaysNeedToCheck;
 
-	ConstMemberKey(String key, boolean isGoingToCheck, boolean isFromUserInput) {
+	ConstMemberKey(String key, boolean needToCheckWhenRegistering, boolean isAlwaysNeedToCheck) {
 		this.key = key;
-		this.isGoingToCheck = isGoingToCheck;
-		this.isFromUserInput = isFromUserInput;
+		this.needToCheckWhenRegistering = needToCheckWhenRegistering;
+		this.isAlwaysNeedToCheck = isAlwaysNeedToCheck;
 	}
 
 	public String key() {
 		return this.key;
 	}
-
-	public boolean isGoingToCheck() {
-		return this.isGoingToCheck;
+	
+	public boolean needToCheckWhenRegistering() {
+		return this.needToCheckWhenRegistering;
 	}
 
-	public boolean isFromUserInput() {
-		return this.isFromUserInput;
+	public boolean isAlwaysNeedToCheck() {
+		return this.isAlwaysNeedToCheck;
 	}
 }

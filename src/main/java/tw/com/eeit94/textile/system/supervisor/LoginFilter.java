@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import tw.com.eeit94.textile.controller.user.ConstLoginParameter;
+import tw.com.eeit94.textile.controller.user.ConstUserParameter;
 import tw.com.eeit94.textile.model.logs.LogsService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
@@ -33,7 +33,7 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
 /**
  * 驗證是否登入的過濾器，並記錄每個使用者的請求與回應路徑，如果使用者關閉Cookie，則會因找不到存在Cookie的JSESSIONID而導向登入網頁。
  * 
- * 映射：/activity/*、/album/*、/log/*、/photo/*、/store/*、/report/*、/theme/*、/user/*；
+ * 映射：/activity/*、/album/*、/manager/*、/photo/*、/report/*、/social/*、/store/*、/theme/*、/user/*；
  * 
  * 其中，/album/*內的資料夾還要驗證是否與會員主鍵相符才能看到；
  * 
@@ -46,10 +46,10 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
  */
 @Component
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "activity", value = "/activity/*"),
-		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "photo", value = "/photo/*"),
-		@WebInitParam(name = "store", value = "/store/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
-		@WebInitParam(name = "report", value = "/report/*"), @WebInitParam(name = "theme", value = "/theme/*"),
-		@WebInitParam(name = "user", value = "/user/*") })
+		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
+		@WebInitParam(name = "photo", value = "/photo/*"), @WebInitParam(name = "report", value = "/report/*"),
+		@WebInitParam(name = "socail", value = "/socail/*"), @WebInitParam(name = "store", value = "/store/*"),
+		@WebInitParam(name = "theme", value = "/theme/*"), @WebInitParam(name = "user", value = "/user/*") })
 public class LoginFilter implements Filter {
 	/**
 	 * 存放多個映射的網址。
@@ -74,14 +74,6 @@ public class LoginFilter implements Filter {
 	 * @version 2017/06/13
 	 */
 	private List<String> managedUrlList = new ArrayList<>();
-
-	/**
-	 * 存放多個管理員帳號的清單。
-	 * 
-	 * @author 賴
-	 * @version 2017/06/12
-	 */
-	private List<String> managerList = new ArrayList<>();
 
 	/**
 	 * 紀錄資訊的Service。
@@ -129,11 +121,6 @@ public class LoginFilter implements Filter {
 			if (urlName.startsWith("m_")) {
 				this.managedUrlList.add(filterConfig.getInitParameter(urlName));
 			}
-		}
-
-		ConstManagerList[] c = ConstManagerList.values();
-		for (int i = 0; i < c.length; i++) {
-			this.managerList.add(c[i].key());
 		}
 
 		/*
@@ -329,10 +316,8 @@ public class LoginFilter implements Filter {
 	private boolean isManager(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-		for (int i = 0; i < this.managerList.size(); i++) {
-			if (mbean.getmEmail().equals(this.managerList.get(i))) {
-				return true;
-			}
+		if(mbean.getmValidManager().equals(ConstLoginFilterParameter.IS_MANAGER.param())){
+			return true;
 		}
 		return false;
 	}
@@ -354,7 +339,7 @@ public class LoginFilter implements Filter {
 						String mEmail = this.secureService.getDecryptedText(cookie.getValue(),
 								ConstSecureParameter.KEEPLOGIN.param());
 						MemberBean mbean = this.memberService.selectByEmail(mEmail);
-						if (mbean.getmKeepLogin().equals(ConstLoginParameter.KEEPLOGIN_YES.param())) {
+						if (mbean.getmKeepLogin().equals(ConstUserParameter.KEEPLOGIN_YES.param())) {
 							session.setAttribute(ConstFilterKey.USER.key(), mbean);
 						}
 					} catch (Exception e) {

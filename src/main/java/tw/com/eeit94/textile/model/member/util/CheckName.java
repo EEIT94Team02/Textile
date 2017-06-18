@@ -14,7 +14,7 @@ import javax.validation.Payload;
  * 自訂驗證姓名格式的Annotation。
  * 
  * @author 賴
- * @version 2017/06/09
+ * @version 2017/06/17
  */
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,14 +29,14 @@ public @interface CheckName {
 	Class<? extends Payload>[] payload() default {};
 
 	/**
-	 * 姓名的位元(byte)長度必須介於3~30之間，且只能有英文、數字、空白、文字和特殊符號.-_~，但開頭結尾不得空白。
+	 * 姓名的位元(byte)長度必須介於6~30之間，且只能有英文、數字、空白、文字和特殊符號.-_~，但開頭結尾不得空白。
 	 * 有關Unicode字元，第00A1(16進位)為開始有意義的文字。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/09
+	 * @version 2017/06/17
 	 * @see {@link CheckEmail}
 	 */
-	String regex() default "^[^\\s][A-za-z\\d .-_~\u00A1-\uFFFF]+[^\\s]$";
+	String regex() default "^[A-Za-z\\u00A1-\\uFFFF]([A-Za-z\\d\\u00A1-\\uFFFF]+|([ .\\-_~]{1,2}[A-Za-z\\d\\u00A1-\\uFFFF])+)*(?:[.~])*$";
 
 	@OverridesAttribute(constraint = CheckName.class, name = "column")
 	String column() default "Name";

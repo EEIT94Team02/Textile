@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,6 +67,9 @@ public class ErrorFilter implements Filter {
 			try {
 				chain.doFilter(request, response);
 			} catch (Exception e) {
+				HttpSession session = request.getSession();
+				session.setAttribute(ConstFilterKey.ExceptionFromServer.key(), e.getMessage());
+				
 				/*
 				 * 這裡不能呼叫forward()和sendRedirect()，否則會發生類似以下錯誤。
 				 * 

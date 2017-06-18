@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Register, Textile</title>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 </head>
 <body>
@@ -15,47 +17,48 @@
 			</legend>
 			<div>
 				<label for="mEmail">*帳號：</label> <input id="mEmail" name="mEmail" value="${dataAndErrorsMap.mEmail}" type="text"
-					size="55" maxlength="50" placeholder="請輸入帳號" autofocus required /> <img src="" /><span>${dataAndErrorsMap.mEmail_error}</span>
+					size="55" maxlength="50" placeholder="請輸入帳號" autofocus required /> <img src="" /><span>${dataAndErrorsMap.mEmail_error}${dataAndErrorsMap.mEmailExist_error}</span>
 				<br />
 				<p>帳號為Email信箱。</p>
 			</div>
 			<div>
 				<label for="mPassword">*密碼：</label> <input id="mPassword" name="mPassword" value="${dataAndErrorsMap.mPassword}"
-					type="password" size="21" maxlength="16" placeholder="請輸入密碼" required /> <span><img id="mPasswordImage"
-					src="" />${dataAndErrorsMap.mPassword_error}</span> <br />
+					type="password" size="21" maxlength="16" placeholder="請輸入密碼" required /> <img src="" /><span>${dataAndErrorsMap.mPassword_error}</span>
+				<br />
 				<p>密碼長度介於8~16個字元，包含英文大寫、小寫、數字和規定的特殊符號各至少一個。</p>
 			</div>
 			<div>
-				<label>*請再次輸入密碼：</label> <input id="mPassword_again" type="password" size="21" maxlength="16" placeholder="請輸入密碼"
-					autocomplete="off" required /> <span><img id="mPassword_againImage" src="" /></span> <br />
+				<label>*請再次輸入密碼：</label> <input id="mPassword_again" name="mPassword_again"
+					value="${dataAndErrorsMap.mPassword_again}" type="password" size="21" maxlength="16" placeholder="請輸入密碼" required />
+				<img src="" /><span>${dataAndErrorsMap.mPassword_again_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
 				<label for="mName">*姓名：</label> <input id="mName" name="mName" value="${dataAndErrorsMap.mName}" type="text"
-					size="21" maxlength="20" placeholder="王小明" required /> <span><img id="mNameImage" src="" />${dataAndErrorsMap.mName_error}</span>
+					size="21" maxlength="20" placeholder="王小明" required /> <img src="" /><span>${dataAndErrorsMap.mName_error}</span>
 				<br />
 				<p>姓名為兩個字以上的中文字或六個字以上的英文字。</p>
 			</div>
 			<div>
 				<label for="mIdentityCardNumber">*身分證字號：</label> <input id="mIdentityCardNumber" name="mIdentityCardNumber"
-					value="${dataAndErrorsMap.mIdentityCardNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <span><img
-					id="mIdentityCardNumberImage" src="" />${dataAndErrorsMap.mIdentityCardNumber_error}</span> <br />
+					value="${dataAndErrorsMap.mIdentityCardNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <img
+					src="" /><span>${dataAndErrorsMap.mIdentityCardNumber_error}</span> <br />
 				<p>身分證字號由開頭一個大寫英文字和末九位的數字所組成。</p>
 			</div>
 			<div>
 				<label for="mBirthday">*生日：</label> <input id="mBirthday" name="mBirthday" value="${dataAndErrorsMap.mBirthday}"
-					type="text" size="21" maxlength="10" placeholder="2000-2-29" required /> <span><img id="mBirthdayImage"
-					src="" />${dataAndErrorsMap.mBirthday_error}</span> <br />
+					type="text" size="21" maxlength="10" placeholder="2000-2-29" required /> <img src="" /><span>${dataAndErrorsMap.mBirthday_error}</span>
+				<br />
 				<p>生日為yyyy-mm-dd(西元年-月-日)的格式。</p>
 			</div>
 			<div>
 				<label for="mPhoneNumber">*手機：</label> <input id="mPhoneNumber" name="mPhoneNumber"
-					value="${dataAndErrorsMap.mPhoneNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <span><img
-					id="mPhoneNumberImage" src="" />${dataAndErrorsMap.mPhoneNumber_error}</span> <br />
+					value="${dataAndErrorsMap.mPhoneNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <img
+					src="" /><span>${dataAndErrorsMap.mPhoneNumber_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
-				<label for="mAddress">*性別：</label>
+				<label for="mGender">*性別：</label>
 				<c:set var="genders" value="M,F" />
 				<c:set var="gendersArray" value="${genders.split(',')}" />
 				<c:set var="genderWords" value="男,女" />
@@ -82,19 +85,23 @@
 							${dataAndErrorsMap.mAddress_region == address_TaipeiArray ? 'selected' : ''}>${address_TaipeiArray}</option>
 					</c:forEach>
 				</select> <input id="mAddress" name="mAddress" value="${dataAndErrorsMap.mAddress}" type="text" size="65" maxlength="60"
-					placeholder="" required /> <span><img id="mAddressImage" src="" />${dataAndErrorsMap.mAddress_error}</span> <br />
+					placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mAddress_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
 				<label for="mHintPassword">*密碼提示：</label> <input id="mHintPassword" name="mHintPassword"
-					value="${dataAndErrorsMap.mHintPassword}" type="text" size="45" maxlength="40" placeholder="" required /> <span><img
-					id="mHintPasswordImage" src="" />${dataAndErrorsMap.mHintPassword_error}</span> <br />
+					value="${dataAndErrorsMap.mHintPassword}" type="text" size="45" maxlength="40" placeholder="" required /> <img
+					src="" /><span>${dataAndErrorsMap.mHintPassword_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
 				<label for="mHintAnswer">*提示答案：</label> <input id="mHintAnswer" name="mHintAnswer"
-					value="${dataAndErrorsMap.mHintAnswer}" type="text" size="45" maxlength="40" placeholder="" required /> <span><img
-					id="mHintAnswerImage" src="" />${dataAndErrorsMap.mHintAnswer_error}</span> <br />
+					value="${dataAndErrorsMap.mHintAnswer}" type="text" size="45" maxlength="40" placeholder="" required /> <img
+					src="" /><span>${dataAndErrorsMap.mHintAnswer_error}</span> <br />
+				<p></p>
+			</div>
+			<div>
+				<input id="submit" name="submit" value="提交" type="submit" /> <br />
 				<p></p>
 			</div>
 		</fieldset>
@@ -105,45 +112,125 @@
     var imgsrc_close16 = '../image/check/check_close16.png';
     var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
-    // 自動驗證帳號
-    $('#mEmail').on('keyup', checkEmail).on('blur', checkEmail);
-
-    function checkEmail() {
-      $('#mEmail + img').attr('src', imgsrc_loading16);
+    // 自動驗證的AJAX
+    function checkField(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
       $.get('inspect.do', {
-        'm': 'mEmail',
-        'q': $('#mEmail').val()
+        'm': id,
+        'q': $('#' + id).val()
       }, function(output) {
-        var spanJOb = $('#mEmail').parent().find('span');
-        spanJOb.text(output);
-        $.get('inspect.do', {
-          'm': 'mEmailExist',
-          'q': $('#mEmail').val()
-        }, function(output) {
-          if (spanJOb.text() == '') {
-            spanJOb.text(output);
-          }
-          if (spanJOb.text() == '' && $('#mEmail').val() != '') {
-            $('#mEmail + img').attr('src', imgsrc_correct16);
-          } else {
-            $('#mEmail + img').attr('src', imgsrc_error16);
-          }
-        });
+        $('#' + id).parent().find('span').text(output);
       });
     }
 
-    // 驗證請再輸入一次密碼是否相同
-    $('#mPassword_again').on('keyup', checkPassword).on('blur', checkPassword);
+    function checkFieldOnblur(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('inspect.do', {
+        'm': id,
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).parent().find('span').text(output);
+      }).done(function() {
+        changeImageFor(id);
+      });
+    }
 
-    function checkPassword() {
-      if ($('#mPassword_again').val() == $('#mPassword').val()) {
-        $('#mPassword_again + span img:first-child').attr('src', imgsrc_correct16);
-      } else if ($('#mPassword_again').val() == '') {
-        $('#mPassword_again + span img:first-child').attr('src', '');
+    function changeImageFor(id) {
+      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
+        $('#' + id + ' + img').attr('src', imgsrc_correct16);
       } else {
-        $('#mPassword_again + span img:first-child').attr('src', imgsrc_error16);
+        $('#' + id + ' + img').attr('src', imgsrc_error16);
       }
     }
+
+    function checkEmail(event) {
+      var email = $(event.currentTarget).attr('id');
+      $('#' + email + ' + img').attr('src', imgsrc_loading16);
+      $.get('inspect.do', {
+        'm': email,
+        'q': $('#' + email).val()
+      }, function(output) {
+        $('#' + email).parent().find('span').text(output);
+        if ($('#' + email).parent().find('span').text() == '') {
+          $.get('inspect.do', {
+            'm': email + 'Exist',
+            'q': $('#' + email).val()
+          }, function(output) {
+            $('#' + email).parent().find('span').text(output);
+          });
+        }
+      });
+    }
+
+    function checkEmailOnblur(event) {
+      var email = $(event.currentTarget).attr('id');
+      $('#' + email + ' + img').attr('src', imgsrc_loading16);
+      $.get('inspect.do', {
+        'm': email,
+        'q': $('#' + email).val()
+      }, function(output) {
+        $('#' + email).parent().find('span').text(output);
+        if ($('#' + email).parent().find('span').text() == '') {
+          $.get('inspect.do', {
+            'm': email + 'Exist',
+            'q': $('#' + email).val()
+          }, function(output) {
+            $('#' + email).parent().find('span').text(output);
+          }).done(function() {
+            changeImageFor('mEmail')
+          });
+        }
+      }).done(function() {
+        changeImageFor('mEmail')
+      });
+    }
+
+    function checkPassword_again(event) {
+      var mPassword = 'mPassword';
+      $('#' + mPassword + '_again + img').attr('src', imgsrc_loading16);
+      $.get('inspectTheSamePassword.do', {
+        'mPassword': $('#' + mPassword).val(),
+        'mPassword_again': $('#' + mPassword + '_again').val()
+      }, function(output) {
+        $('#' + mPassword + '_again').parent().find('span').text(output);
+      });
+    }
+
+    function checkPassword_againOnblur(event) {
+      var mPassword = 'mPassword';
+      $('#' + mPassword + '_again + img').attr('src', imgsrc_loading16);
+      $.get('inspectTheSamePassword.do', {
+        'mPassword': $('#' + mPassword).val(),
+        'mPassword_again': $('#' + mPassword + '_again').val()
+      }, function(output) {
+        $('#' + mPassword + '_again').parent().find('span').text(output);
+      }).done(function() {
+        changeImageFor(mPassword + '_again');
+      });
+    }
+
+    // 自動驗證帳號
+    $('#mEmail').on('keyup', checkEmail).on('blur', checkEmailOnblur);
+    // 自動驗證密碼
+    $('#mPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證請再輸入一次密碼是否相同
+    $('#mPassword_again').on('keyup', checkPassword_again).on('blur', checkPassword_againOnblur);
+    // 自動驗證姓名
+    $('#mName').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證身分證字號
+    $('#mIdentityCardNumber').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證生日
+    $('#mBirthday').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證手機
+    $('#mPhoneNumber').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證地址
+    $('#mAddress').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證密碼提示
+    $('#mHintPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證提示答案
+    $('#mHintAnswer').on('keyup', checkField).on('blur', checkFieldOnblur);
 
     // 縣市鄉鎮區的陣列
     var address_TaiwanArray = ['臺北市', '基隆市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '宜蘭縣', '花蓮縣', '臺東縣', '澎湖縣', '金門縣', '連江縣'];
@@ -170,8 +257,9 @@
     var address_KinmenCountyArray = ['金城鎮', '金湖鎮', '金沙鎮', '金寧鄉', '烈嶼鄉', '烏坵鄉'];
     var address_LianjiangCountyArray = ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'];
     var address_AllArray = [address_TaipeiCityArray, address_KeelungCityArray, address_NewTaipeiCityArray, address_TaoyuanCityArray, address_HsinchuCityArray, address_HsinchuCountyArray, address_MiaoliCountyArray, address_TaichungCityArray, address_ChanghuaCountyArray, address_NantouCountyArray, address_YunlinCountyArray, address_ChiayiCityArray, address_ChiayiCountyArray, address_TainanCityArray, address_KaohsiungCityArray, address_PingtungCountyArray, address_YilanCountyArray, address_HualienCountyArray, address_TaitungCountyArray, address_PenghuCountyArray, address_KinmenCountyArray, address_LianjiangCountyArray];
+
     // 當縣市更動時，鄉鎮區亦要更動
-    $('#mAddress_county').on('change', function() {
+    function changeOptionOfmAddress_region() {
       var county = $('#mAddress_county').val();
       var regionArray;
       for (var i = 0; i < address_TaiwanArray.length; i++) {
@@ -186,11 +274,34 @@
         optionJOb.val(regionArray[i]);
         selectJOb.append(optionJOb);
       }
+    }
+
+    $('#mAddress_county').on('change', changeOptionOfmAddress_region);
+
+    function initializeImageFor(id) {
+      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
+        $('#' + id + ' + img').attr('src', '');
+      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
+        $('#' + id + ' + img').attr('src', imgsrc_correct16);
+      } else {
+        $('#' + id + ' + img').attr('src', imgsrc_error16);
+      }
+    }
+
+    // 設定提交表單後如果還有錯誤要做圖示覆蓋
+    $(document).ready(function() {
+      var idCheckArray = ['mEmail', 'mPassword', 'mPassword_again', 'mName', 'mIdentityCardNumber', 'mBirthday', 'mPhoneNumber', 'mAddress', 'mHintPassword', 'mHintAnswer'];
+      for (var i = 0; i < idCheckArray.length; i++) {
+        var id = idCheckArray[i];
+        initializeImageFor(id);
+      }
     });
 
-    // 設定表單個人資料的預設值
+    // 設定註冊錯誤回傳後，表單地址鄉鎮區必須跟原來所選的值一樣。
     $(document).ready(function() {
-      $('#mPassword_again').val($('#mPassword').val());
+      changeOptionOfmAddress_region();
+      var mAddress_region = '${dataAndErrorsMap.mAddress_region}';
+      $('#mAddress_region option[value="' + mAddress_region + '"]').prop('selected', true);
     });
   </script>
 </body>
