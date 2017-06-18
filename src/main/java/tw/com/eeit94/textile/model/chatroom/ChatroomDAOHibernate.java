@@ -40,7 +40,7 @@ public class ChatroomDAOHibernate implements ChatroomDAO {
 	@Override
 	public List<ChatroomBean> select(ChatroomBean cbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(ChatroomBean.class, cbean.getcId()));
+		this.results.add(this.getSession().load(ChatroomBean.class, cbean.getcId()));
 		return this.results;
 	}
 

@@ -29,6 +29,8 @@ public enum ConstMapping {
 	LOGIN_PAGE("/check/login.v"),
 	LOGIN_ERROR("login.error"),
 	LOGIN_SUCCESS("login.success"),
+	LOGIN_INVALIDEMAIL("login.invalidEmail"),
+	LOGIN_VALIDEMAIL("/check/validEmail.do"),
 	LOGOUT_SUCCESS("logout.success"),
 	REGISTER_ERROR("register.error"),
 	REGISTER_SUCCESS("register.success");

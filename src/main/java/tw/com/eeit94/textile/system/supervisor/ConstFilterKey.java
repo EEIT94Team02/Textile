@@ -11,7 +11,7 @@ import tw.com.eeit94.textile.controller.user.ConstUserKey;
  * @see {@link ConstUserKey}
  */
 public enum ConstFilterKey {
-	USER("user"), TARGET("target"), COOKIE_KL("kl"), ExceptionFromServer("exceptionFromServer");
+	USER("user"), CHATROOM("chatroom"), TARGET("target"), COOKIE_KL("kl"), ExceptionFromServer("exceptionFromServer");
 
 	private final String key;
 

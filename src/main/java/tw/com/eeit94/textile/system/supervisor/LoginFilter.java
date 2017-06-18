@@ -148,13 +148,11 @@ public class LoginFilter implements Filter {
 			StringBuffer sBuffer = new StringBuffer().append("過濾器接收");
 
 			/*
-			 * 讀取客戶端的Cookie並檢驗是否能自動登入(如果之前有勾選保持登入且Cookie kl值存在。)
+			 * 讀取使用者的姓名，得知使用者的身份，會先嘗試從Session或Cookie
+			 * kl值(且之前必須勾選保持登入)找到MemberBean。
 			 */
-			this.checkCookieToKeepLogin(request);
-
-			// 讀取使用者的姓名，得知使用者的身份。
 			HttpSession session = request.getSession();
-			if (session.getAttribute(ConstFilterKey.USER.key()) != null) {
+			if (this.checkSessionToKeepLogin(request) || this.checkCookieToKeepLogin(request)) {
 				sBuffer.append("「").append(((MemberBean) session.getAttribute(ConstFilterKey.USER.key())).getmName())
 						.append("」的請求，");
 			} else {
@@ -316,7 +314,7 @@ public class LoginFilter implements Filter {
 	private boolean isManager(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-		if(mbean.getmValidManager().equals(ConstLoginFilterParameter.IS_MANAGER.param())){
+		if (mbean.getmValidManager().equals(ConstFilterParameter.IS_MANAGER.param())) {
 			return true;
 		}
 		return false;
@@ -329,7 +327,23 @@ public class LoginFilter implements Filter {
 	 * @author 賴
 	 * @version 2017/06/13
 	 */
-	private void checkCookieToKeepLogin(HttpServletRequest request) {
+	private boolean checkSessionToKeepLogin(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute(ConstFilterKey.USER.key()) != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 檢驗從客戶端來的Cookie kl的值，其實就是加密過的帳號，解密這個值並用它來搜尋該會員，
+	 * 如果會員存在，則將MemberBean直接加入Session Scope即可略過登入。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	private boolean checkCookieToKeepLogin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -341,12 +355,14 @@ public class LoginFilter implements Filter {
 						MemberBean mbean = this.memberService.selectByEmail(mEmail);
 						if (mbean.getmKeepLogin().equals(ConstUserParameter.KEEPLOGIN_YES.param())) {
 							session.setAttribute(ConstFilterKey.USER.key(), mbean);
+							return true;
 						}
 					} catch (Exception e) {
-						this.logsService.insertNewLog("該會員帳號不存在或讀取並解密客戶端Cookie kl的值失敗而拋出例外。<br />" + e.getMessage());
+						this.logsService.insertNewLog("該會員帳號不存在或讀取並解密客戶端Cookie kl的值失敗而拋出例外：<br />" + e.getMessage());
 					}
 				}
 			}
 		}
+		return false;
 	}
 }

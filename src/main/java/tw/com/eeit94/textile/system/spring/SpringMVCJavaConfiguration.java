@@ -169,7 +169,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 共同
 	 * @version 2017/06/16
 	 */
-	// 首頁
+	// 首頁。
 	@Bean(name = { "/index.v" })
 	public org.springframework.web.servlet.view.InternalResourceView main_index_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -199,11 +199,19 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 賴
 	 * @version 2017/06/10
 	 */
-	// 註冊會員頁面。
+	// 註冊會員。
 	@Bean(name = { "/check/register.v", "register.error" })
 	public org.springframework.web.servlet.view.InternalResourceView register_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/register.jsp");
+		return internalResourceView;
+	}
+
+	// 註冊成功，不要addViewController。
+	@Bean(name = { "register.success" })
+	public org.springframework.web.servlet.view.InternalResourceView register_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/registerSuccess.jsp");
 		return internalResourceView;
 	}
 
@@ -229,6 +237,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView logout_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/logout.jsp");
+		return internalResourceView;
+	}
+
+	// 尚未驗證信箱，不要addViewController。
+	@Bean(name = { "login.invalidEmail" })
+	public org.springframework.web.servlet.view.InternalResourceView login_invalidEmail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/remindCheckingEmail.jsp");
+		return internalResourceView;
+	}
+
+	// 重寄驗證郵件，不要addViewController。
+	@Bean(name = { "login.re_sendCheckingEmail" })
+	public org.springframework.web.servlet.view.InternalResourceView login_re_sendCheckingEmail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/re_sendCheckingEmail.jsp");
 		return internalResourceView;
 	}
 
@@ -311,13 +335,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v" , "Activity.default"})
+	@Bean(name = { "/activity/index.v", "Activity.default" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/showActivity.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 創建相簿頁面。
 	@Bean(name = { "/activity/insert.v", "actInsert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActInsert() {
@@ -325,7 +349,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/activity/createAct.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 更新相簿頁面。
 	@Bean(name = { "/activity/update.v", "actUpdate.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActUpdate() {

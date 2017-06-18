@@ -36,7 +36,7 @@ public class Chatroom_MemberDAOHibernate implements Chatroom_MemberDAO {
 	@Override
 	public List<Chatroom_MemberBean> select(Chatroom_MemberBean c_mbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
+		this.results.add(this.getSession().load(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
 		return this.results;
 	}
 

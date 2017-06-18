@@ -40,7 +40,7 @@ public class Chatroom_LogDAOHibernate implements Chatroom_LogDAO {
 	@Override
 	public List<Chatroom_LogBean> select(Chatroom_LogBean c_lbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
+		this.results.add(this.getSession().load(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
 		return this.results;
 	}
 
