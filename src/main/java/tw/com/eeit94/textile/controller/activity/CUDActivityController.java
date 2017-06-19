@@ -258,5 +258,5 @@ public class CUDActivityController {
 		}
 		errors.put("delete", "您不是此活動發起人，無法取消此活動");
 		return "actDelete.error";
-	}
+	}	
 }

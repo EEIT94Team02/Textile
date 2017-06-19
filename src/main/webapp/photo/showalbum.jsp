@@ -53,6 +53,9 @@
 	<p>
 		<a href='<c:url value="/photo/delete.v"/>'>刪除相簿(要登入)</a>
 	</p>
+	<p>
+		<a href='<c:url value="/photo/upload.v"/>'>上傳照片(要登入)</a>
+	</p>
 
 
 </body>

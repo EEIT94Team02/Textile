@@ -552,11 +552,11 @@ Create Table photo(
 GO
 
 INSERT INTO photo VALUES
-('20170527000000010001','','Roger','tennis',1,'大頭貼','公開'),
-('20170527000000020001','','Nadal','tennis',2,'大頭貼','公開'),
-('20170527000000030001','','Nole','tennis',5,'大頭貼','公開'),
-('20170527000000040001','','Sharapova','tennis',3,'大頭貼','公開'),
-('20170527000000050001','','Makarova','tennis',4,'大頭貼','公開')
+('20170527000000010001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558608.jpg','Roger','tennis',1,'大頭貼','公開'),
+('20170527000000020001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558610.jpg','Nadal','tennis',2,'大頭貼','公開'),
+('20170527000000030001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558609.jpg','Nole','tennis',5,'大頭貼','公開'),
+('20170527000000040001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558607.jpg','Sharapova','tennis',3,'大頭貼','公開'),
+('20170527000000050001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558611.jpg','Makarova','tennis',4,'大頭貼','公開')
 GO
 
 --=-=-=-=-=-=-=-=-=-=-=- 陳 活動資料 -=-=-=-=-=-=-=-=-=-=-=--

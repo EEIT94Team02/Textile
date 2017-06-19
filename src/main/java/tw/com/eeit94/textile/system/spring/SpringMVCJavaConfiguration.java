@@ -92,6 +92,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/activity/update.v").setViewName("/activity/update.v");
 		registry.addViewController("/activity/delete.v").setViewName("/activity/delete.v");
 		registry.addViewController("/activity/select.v").setViewName("/activity/select.v");
+		registry.addViewController("/photo/upload.v").setViewName("/photo/upload.v");
 
 		/*
 		 * 李
@@ -307,6 +308,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView albumDelete() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/delete.jsp");
+		return internalResourceView;
+	}
+	
+	// 上傳照片頁面。
+	@Bean(name = { "/photo/upload.v", "upload.error" })
+	public org.springframework.web.servlet.view.InternalResourceView photoupload() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/upload.jsp");
+		return internalResourceView;
+	}
+	
+	// 顯示照片頁面。
+	@Bean(name = { "photo.run" })
+	public org.springframework.web.servlet.view.InternalResourceView photoshow() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/showphoto.jsp");
 		return internalResourceView;
 	}
 

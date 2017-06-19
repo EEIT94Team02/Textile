@@ -41,14 +41,15 @@ public class PhotoService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<PhotoBean> selectByAlbumno(PhotoBean bean) {
-		return photoDAO.selectByAlbumno(bean);
+	public List<PhotoBean> selectByOthers(PhotoBean bean) {
+		return photoDAO.selectByOthers(bean);
 	}
 
 	@Transactional(readOnly = true)
 	public PhotoBean selectByphotono(PhotoBean bean) {
 		return photoDAO.selectByPrimarykey(bean);
-	}
+	}	
+	
 
 	public String getTimeString() {
 		Calendar today = Calendar.getInstance();
