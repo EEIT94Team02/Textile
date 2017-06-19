@@ -5,13 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder.In;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.com.eeit94.textile.model.member.MemberBean;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -35,6 +32,13 @@ public class ReportService {
 	/*
 	 * 實作企業邏輯
 	 */
+	// 查詢單筆回報內容
+	public ReportBean select(ReportBean bean){
+		if(bean!=null){
+			return reportDAO.select(bean.getReptNo());
+		}
+		return bean;
+	}
 	// 查詢某會員所有回報單
 	public List<ReportBean> selectReptByMId(ReportBean reportBean) {
 		return reportDAO.selectReptByMId(reportBean.getmId());

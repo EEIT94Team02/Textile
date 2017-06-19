@@ -2,7 +2,6 @@ package tw.com.eeit94.textile.controller.report;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,10 +58,10 @@ public class CreateNewReportController {
 		HttpSession session = request.getSession();
 		MemberBean memberBean = (MemberBean) session.getAttribute("user");
 		// 上線用
-		// bean.setmId(memberBean.getmId());
-		// int mId = memberBean.getmId();
+		 bean.setmId(memberBean.getmId());
+		 int mId = memberBean.getmId();
 		// 測試用
-		int mId = 24;
+		// int mId = 24;
 
 		Map<String, String> errors = new HashMap<String, String>();
 		model.addAttribute("errors", errors);
@@ -90,17 +89,17 @@ public class CreateNewReportController {
 		}
 
 		// 新增回報測試用
-		ReportBean bean2 = new ReportBean();
-		bean2.setmId(mId);
-		bean2.setReptType(bean.getReptType());
-		bean2.setReptDetail(bean.getReptDetail());
-		System.out.println("會員名稱=" + bean2.getmId() + "回報狀態=" + bean2.getReptType() + "回報內容=" + bean2.getReptDetail());
-		ReportBean result = reportService.createNewReport(bean2);
-		System.out.println(result);
+//		ReportBean bean2 = new ReportBean();
+//		bean2.setmId(mId);
+//		bean2.setReptType(bean.getReptType());
+//		bean2.setReptDetail(bean.getReptDetail());
+//		System.out.println("會員名稱=" + bean2.getmId() + "回報狀態=" + bean2.getReptType() + "回報內容=" + bean2.getReptDetail());
+//		ReportBean result = reportService.createNewReport(bean2);
+//		System.out.println(result);
 		//
 		// ReportImgBean insertNewImg = reportImgService.InsertNewImg(imgBean);
 		// 上線用
-		// ReportBean result = reportService.createNewReport(bean);
+		ReportBean result = reportService.createNewReport(bean);
 		List<ReportImgBean> imgPathList = new ArrayList<ReportImgBean>(); 
 		//取得目前回報編號
 		Integer imgReptNo = reportService.selectReptByMidTop(mId);
@@ -117,10 +116,10 @@ public class CreateNewReportController {
 			BufferedInputStream bufferedInputStream = null;
 			BufferedOutputStream bufferedOutputStream = null;
 			BufferedOutputStream sysbfos = null;
-			BufferedOutputStream bfos = null;
+//			BufferedOutputStream bfos = null;
 			File sysFile = null;
 			File file = null;
-			BufferedReader br = null;
+//			BufferedReader br = null;
 			try {
 				for (int i = 0; i < files.length; i++) {
 					multipartFile = files[i];

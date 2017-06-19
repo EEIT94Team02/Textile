@@ -107,6 +107,10 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/report/createreport.v").setViewName("/report/createreport.v");
 		registry.addViewController("/report/reportsuccess.v").setViewName("/report/reportsuccess.v");
 		registry.addViewController("/manager/index.v").setViewName("/manager/index.v");
+		registry.addViewController("/report/reportList.v").setViewName("/report/reportList.v");
+		registry.addViewController("/manager/situationList.v").setViewName("/manager/situationList.v");
+		registry.addViewController("/manager/reportReply.v").setViewName("/manager/reportReply.v");
+		registry.addViewController("/manager/replysuccess.v").setViewName("/manager/replysuccess.v");
 		/*
 		 * 周
 		 */
@@ -436,6 +440,39 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
+	// 會員查詢自己回報紀錄，轉向到回報列表頁面。
+	@Bean(name = { "reportList.show", "/report/reportList.v" })
+	public InternalResourceView reportList() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportlist.jsp");
+		return internalResourceView;
+	}
+
+	// 管理員查詢所有未回覆的回報
+	@Bean(name = { "situationList.show", "/manager/situationList.v" })
+	public InternalResourceView situationList() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/situationlist.jsp");
+		return internalResourceView;
+	}
+	
+	// 管理員回覆頁面
+	@Bean(name = { "reply.show", "/manager/reportReply.v" })
+	public InternalResourceView reportReply() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportreply.jsp");
+		return internalResourceView;
+	}
+	
+	// 管理員回覆成功頁面
+	@Bean(name = { "replysuccess.show", "/manager/replysuccess.v" })
+	public InternalResourceView replysuccess() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/replysuccess.jsp");
+		return internalResourceView;
+	}
+	
+	
 	/**
 	 * ****** View ******
 	 * 
