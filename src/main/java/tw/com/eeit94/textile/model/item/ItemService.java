@@ -28,7 +28,7 @@ public class ItemService {
 	@Transactional(readOnly = true)
 	public List<ItemBean> select(ItemConditionUtil queryCondition) {
 		List<ItemBean> result = null;
-		if (queryCondition != null) {
+		if (queryCondition != null && queryCondition.getMemberId() != null) {
 			if (queryCondition.getItemId() != null) {
 				result = new ArrayList<ItemBean>();
 				result.add(getItemDAO().select(new ItemPK(queryCondition.getItemId(), queryCondition.getMemberId())));

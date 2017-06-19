@@ -97,11 +97,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 李
 		 */
+		// trigger，測試用
+		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
+		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
+		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
-		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
-		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
+		registry.addViewController("/item/index.v").setViewName("/item/index.v");
 		/*
 		 * 黃
 		 */
@@ -411,25 +414,25 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 
-	// 測試用，為商品頁面呼叫controller
-		@Bean(name = { "/store/pTestTrigger.v" })
-		public org.springframework.web.servlet.view.InternalResourceView productTrigger() {
-			org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
-			view.setUrl("/store/pTestTrigger.jsp");
-			return view;
-		}
-	// 測試用，為物品欄頁面呼叫controller
+	// 測試用，為product頁面呼叫controller取得資料。
+	@Bean(name = { "/store/pTestTrigger.v" })
+	public InternalResourceView productTrigger() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/pTestTrigger.jsp");
+		return view;
+	}
+	// 測試用，為item頁面呼叫controller取得資料。
 	@Bean(name = { "/item/iTestTrigger.v" })
-	public org.springframework.web.servlet.view.InternalResourceView itemTrigger() {
-		org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
+	public InternalResourceView itemTrigger() {
+		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/item/iTestTrigger.jsp");
 		return view;
 	}
 	
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
-	public org.springframework.web.servlet.view.InternalResourceView productIndex() {
-		org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
+	public InternalResourceView productIndex() {
+		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/store/index.jsp");
 		return view;
 	}
@@ -484,6 +487,15 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return view;
 	}
 	
+	// 物品欄首頁
+	@Bean(name = { "/store/index.v" })
+	public InternalResourceView itemIndex() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/index.jsp");
+		return view;
+	}
+	
+	// 物品欄總覽頁面
 	@Bean(name = { "iList.show" })
 	public InternalResourceView itemList() {
 		InternalResourceView view = new InternalResourceView();
