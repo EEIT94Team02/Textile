@@ -8,7 +8,8 @@ package tw.com.eeit94.textile.controller.user;
  * @see {@link LoginController}
  */
 public enum ConstUserParameter {
-	KEEPLOGIN("1"), KEEPLOGIN_YES("Y"), KEEPLOGIN_NO("N");
+	EMAILFROM("system@textile.com"), VALIDEMAIL_YES("Y"), VALIDEMAIL_NO("N"), KEEPLOGIN("1"), KEEPLOGIN_YES(
+			"Y"), KEEPLOGIN_NO("N"),;
 
 	private final String param;
 

@@ -1,6 +1,7 @@
 package tw.com.eeit94.textile.system.spring;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.naming.NamingException;
 
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import freemarker.template.TemplateException;
 
 /**
  * Spring Java 組態設定檔。 最底層的Bean Container，Service、DAO或與「Servlet無關」的Bean宣告在此。
@@ -34,7 +37,7 @@ public class SpringJavaConfiguration {
 		try {
 			jndiObjectFactoryBean.afterPropertiesSet();
 		} catch (IllegalArgumentException | NamingException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
 
@@ -76,7 +79,7 @@ public class SpringJavaConfiguration {
 		try {
 			localSessionFactoryBean.afterPropertiesSet();
 		} catch (IOException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		return localSessionFactoryBean.getObject();
 	}
@@ -119,6 +122,50 @@ public class SpringJavaConfiguration {
 		java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat;
 	}
+
+	/**
+	 * 發送郵件專用。
+	 * 
+	 * @author 共同
+	 * @version 2017/06/19
+	 */
+	@Bean
+	public org.springframework.mail.javamail.JavaMailSender javaMailSender() {
+		org.springframework.mail.javamail.JavaMailSenderImpl javaMailSender = new org.springframework.mail.javamail.JavaMailSenderImpl();
+		Properties javaMailProperties = new Properties();
+		javaMailProperties.put("mail.transport.protocol", "smtp");
+		javaMailProperties.put("mail.smtp.host", "localhost");
+		javaMailProperties.put("mail.smtp.port", "8081");
+		javaMailProperties.put("mail.smtp.from", "system@textile.com");
+		javaMailProperties.put("mail.smtp.auth", "false");
+		javaMailProperties.put("mail.smtp.starttls.enable", "false");
+		javaMailProperties.put("mail.debug", "true");
+		javaMailSender.setJavaMailProperties(javaMailProperties);
+		return javaMailSender;
+	}
+
+	/**
+	 * 發送郵件專用，可讀取類似Html文件的模板作郵件內容使用。
+	 * 
+	 * @author 共同
+	 * @version 2017/06/19
+	 * @throws TemplateException
+	 * @throws IOException
+	 */
+	@Bean
+	public freemarker.template.Configuration freeMarkerConfiguration() {
+		org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean = new org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean();
+		freeMarkerConfigurationFactoryBean.setDefaultEncoding("UTF-8");
+		freeMarkerConfigurationFactoryBean.setTemplateLoaderPath("/template/");
+		freemarker.template.Configuration configuration = null;
+		try {
+			configuration = freeMarkerConfigurationFactoryBean.createConfiguration();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return configuration;
+	}
+
 	/**
 	 * 上傳多個檔案專用。
 	 * 

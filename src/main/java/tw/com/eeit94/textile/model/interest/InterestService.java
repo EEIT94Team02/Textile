@@ -1,10 +1,7 @@
 package tw.com.eeit94.textile.model.interest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 控制興趣資料的Service元件。
@@ -16,9 +13,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class InterestService {
 	@Autowired
 	private InterestDAO interestDAO;
-	
-	@Transactional
-	public List<InterestBean> selectAll() {
-		return interestDAO.selectAll();
-	}
+
 }

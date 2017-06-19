@@ -23,8 +23,10 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
- * 登入系統驗證的Controller：要檢查登入是否成功，只要檢查Map物件有無「login_error」的Key或有無增加一筆鍵值。
- * 登入成功會在Session Scope放入該使用者的MemberBean資料，Key為「user」。
+ * 登入系統驗證的Controller，此控制元件附加接收驗證信箱的功能：
+ * 
+ * 要檢查登入是否成功，只要檢查Map物件有無「login_error」的Key或有無增加一筆鍵值。 登入成功會在Session
+ * Scope放入該使用者的MemberBean資料，Key為「user」。
  * 
  * path為/check/login.do，而不使用/user/login.do，否則Filter映射到造成無窮迴圈，因為登入的控制元件是不需要登入的。
  * 
@@ -34,7 +36,7 @@ import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
  * @see {@link MemberService}
  */
 @Controller
-@RequestMapping(path = { "/check/login.do" })
+@RequestMapping(path = { "/check" })
 public class LoginController {
 	@Autowired
 	private SecureService secureService;
@@ -44,10 +46,12 @@ public class LoginController {
 	/**
 	 * 登入系統驗證的過程：
 	 * 
-	 * 1. 如果登入失敗，則轉回登入畫面；如果登入成功，若原本就是點選登入畫面進來的，則轉至首頁，
+	 * 1. 如果使用者沒有驗證信箱，直接轉往提醒驗證信箱的網頁。
+	 * 
+	 * 2. 如果登入失敗，則轉回登入畫面；如果登入成功，若原本就是點選登入畫面進來的，則轉至首頁，
 	 * 若是原本點選其它頁面而因為沒登入被迫轉至登入畫面者，則轉至原本欲導向的頁面。
 	 * 
-	 * 2. 如果有勾選保持登入，則在Cookie內加入「kl」的資訊，其值就是加密過的帳號，並且修改資料庫會員
+	 * 3. 如果有勾選保持登入，則在Cookie內加入「kl」的資訊，其值就是加密過的帳號，並且修改資料庫會員
 	 * 的保持登入欄位為「是」；如果沒有勾選，但Cookie內有「kl」的資訊，則在回應時立刻讓該Cookie消失，
 	 * 並且修改資料庫會員的保持登入欄位為「否」。
 	 * 
@@ -55,36 +59,43 @@ public class LoginController {
 	 * @version 2017/06/12
 	 * @throws Exception
 	 */
-	@RequestMapping(method = { RequestMethod.POST })
-	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(path = { "/login.do" }, method = { RequestMethod.POST })
+	public String loginProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 檢驗帳號密碼是否為同一組。
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap.put(ConstMemberKey.Email.key(), request.getParameter(ConstMemberKey.Email.key()));
 		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
 
 		int mapSize = dataAndErrorsMap.size();
 		dataAndErrorsMap = this.memberService.checkLogin(dataAndErrorsMap);
 		if (mapSize < dataAndErrorsMap.size()) {
-			request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
 			return ConstMapping.LOGIN_ERROR.path();
+		}
+
+		// 檢驗該帳號是否有驗證信箱。
+		MemberBean mbean = this.memberService.selectByEmail(request.getParameter(ConstMemberKey.Email.key()));
+		if (mbean == null || mbean.getmValidEmail().equals(ConstUserParameter.VALIDEMAIL_NO.param())) {
+			return ConstMapping.LOGIN_INVALIDEMAIL.path();
+		}
+
+		// 在Session Scope放入該使用者的MemberBean資料。
+		HttpSession session = request.getSession();
+		session.setAttribute(ConstFilterKey.USER.key(), mbean);
+
+		// 實作勾選保持登入與否對應的過程。
+		this.checkKeepLogin(request, response, dataAndErrorsMap);
+
+		String target = (String) session.getAttribute(ConstFilterKey.TARGET.key());
+		if (target == null) {
+			// 轉向首頁
+			return ConstMapping.LOGIN_SUCCESS.path();
 		} else {
-			// 在Session Scope放入該使用者的MemberBean資料。
-			MemberBean mbean = this.memberService.selectByEmail(request.getParameter(ConstMemberKey.Email.key()));
-			HttpSession session = request.getSession();
-			session.setAttribute(ConstFilterKey.USER.key(), mbean);
-
-			this.checkKeepLogin(request, response, dataAndErrorsMap);
-
-			String target = (String) session.getAttribute(ConstFilterKey.TARGET.key());
-			if (target == null) {
-				// 轉向首頁
-				return ConstMapping.LOGIN_SUCCESS.path();
-			} else {
-				// 轉向原本欲導向的頁面，Session Scope的target已無用需移除。
-				session.removeAttribute(target);
-				// 因應本專案的設計，這裡不能直接回傳路徑。
-				response.sendRedirect(request.getContextPath() + target);
-				return null;
-			}
+			// 轉向原本欲導向的頁面，Session Scope的target已無用需移除。
+			session.removeAttribute(target);
+			// 因應本專案的設計，這裡不能直接回傳路徑。
+			response.sendRedirect(request.getContextPath() + target);
+			return null;
 		}
 	}
 
@@ -121,5 +132,10 @@ public class LoginController {
 			this.memberService.update(mbean);
 			session.setAttribute(ConstFilterKey.USER.key(), mbean);
 		}
+	}
+	
+	@RequestMapping(path = { "/validEmail.do" }, method = { RequestMethod.POST })
+	public String checkValidEmailProcess(HttpServletRequest request, HttpServletResponse response) {
+		return null;
 	}
 }

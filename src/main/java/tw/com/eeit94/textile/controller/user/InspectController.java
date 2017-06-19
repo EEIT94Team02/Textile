@@ -3,6 +3,7 @@ package tw.com.eeit94.textile.controller.user;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.member.MemberService;
-import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
 
@@ -45,18 +45,17 @@ public class InspectController {
 			"text/plain; charset=UTF-8" })
 	@ResponseBody
 	public void inspect(HttpServletRequest request, HttpServletResponse response, OutputStream out) throws IOException {
-		String mField = request.getParameter(ConstHelperKey.METHOD.key());
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
-		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), mField);
-		dataAndErrorsMap.put(mField, request.getParameter(ConstHelperKey.QUERY.key()));
+		dataAndErrorsMap = this.memberService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
 
-		String output;
-		int mapSize = dataAndErrorsMap.size();
-		dataAndErrorsMap = memberService.checkFormData(dataAndErrorsMap);
-		if (mapSize < dataAndErrorsMap.size()) {
-			output = dataAndErrorsMap.get(mField + ConstMemberParameter._ERROR.param());
-		} else {
-			output = ConstHelperKey.SPACE.key();
+		String output = ConstHelperKey.SPACE.key();
+		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
+				output = dataAndErrorsMap.get(key);
+				break;
+			}
 		}
 		out.write(output.getBytes());
 		out.close();
@@ -75,17 +74,16 @@ public class InspectController {
 	public void inspectTheSamePassword(HttpServletRequest request, HttpServletResponse response, OutputStream out)
 			throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
-		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
-		dataAndErrorsMap.put(ConstMemberKey.Password_Again.key(),
-				request.getParameter(ConstMemberKey.Password_Again.key()));
+		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
 
-		String output;
-		int mapSize = dataAndErrorsMap.size();
-		dataAndErrorsMap = memberService.checkTheSamePassword(dataAndErrorsMap, request);
-		if (mapSize < dataAndErrorsMap.size()) {
-			output = dataAndErrorsMap.get(ConstMemberKey.Password_Again.key() + ConstMemberParameter._ERROR.param());
-		} else {
-			output = ConstHelperKey.SPACE.key();
+		String output = ConstHelperKey.SPACE.key();
+		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
+				output = dataAndErrorsMap.get(key);
+				break;
+			}
 		}
 		out.write(output.getBytes());
 		out.close();

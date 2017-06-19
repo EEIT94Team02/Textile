@@ -98,9 +98,10 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 * 李
 		 */
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
-		registry.addViewController("/store/pList.v").setViewName("/store/pList.v");
-		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
+		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
+		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
+		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
 		/*
 		 * 黃
 		 */
@@ -170,7 +171,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 共同
 	 * @version 2017/06/16
 	 */
-	// 首頁
+	// 首頁。
 	@Bean(name = { "/index.v" })
 	public org.springframework.web.servlet.view.InternalResourceView main_index_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -200,11 +201,19 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 賴
 	 * @version 2017/06/10
 	 */
-	// 註冊會員頁面。
+	// 註冊會員。
 	@Bean(name = { "/check/register.v", "register.error" })
 	public org.springframework.web.servlet.view.InternalResourceView register_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/register.jsp");
+		return internalResourceView;
+	}
+
+	// 註冊成功，不要addViewController。
+	@Bean(name = { "register.success" })
+	public org.springframework.web.servlet.view.InternalResourceView register_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/registerSuccess.jsp");
 		return internalResourceView;
 	}
 
@@ -230,6 +239,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView logout_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/logout.jsp");
+		return internalResourceView;
+	}
+
+	// 尚未驗證信箱，不要addViewController。
+	@Bean(name = { "login.invalidEmail" })
+	public org.springframework.web.servlet.view.InternalResourceView login_invalidEmail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/remindCheckingEmail.jsp");
+		return internalResourceView;
+	}
+
+	// 重寄驗證郵件，不要addViewController。
+	@Bean(name = { "login.re_sendCheckingEmail" })
+	public org.springframework.web.servlet.view.InternalResourceView login_re_sendCheckingEmail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/re_sendCheckingEmail.jsp");
 		return internalResourceView;
 	}
 
@@ -328,13 +353,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v" , "Activity.default"})
+	@Bean(name = { "/activity/index.v", "Activity.default" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/showActivity.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 創建活動頁面。
 	@Bean(name = { "/activity/insert.v", "actInsert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActInsert() {
@@ -342,7 +367,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/activity/createAct.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 更新活動頁面。
 	@Bean(name = { "/activity/update.v", "actUpdate.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActUpdate() {
@@ -374,47 +399,86 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 
+	// 測試用，為商品頁面呼叫controller
+		@Bean(name = { "/store/pTestTrigger.v" })
+		public org.springframework.web.servlet.view.InternalResourceView productTrigger() {
+			org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
+			view.setUrl("/store/pTestTrigger.jsp");
+			return view;
+		}
+	// 測試用，為物品欄頁面呼叫controller
+	@Bean(name = { "/item/iTestTrigger.v" })
+	public org.springframework.web.servlet.view.InternalResourceView itemTrigger() {
+		org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
+		view.setUrl("/item/iTestTrigger.jsp");
+		return view;
+	}
+	
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
 	public org.springframework.web.servlet.view.InternalResourceView productIndex() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/store/index.jsp");
-		return internalResourceView;
+		org.springframework.web.servlet.view.InternalResourceView view = new org.springframework.web.servlet.view.InternalResourceView();
+		view.setUrl("/store/index.jsp");
+		return view;
 	}
 
 	// 商品總表頁面
 	@Bean(name = { "pList.show" })
 	public InternalResourceView productList() {
-		InternalResourceView rView = new InternalResourceView();
-		rView.setUrl("/store/pList.jsp");
-		return rView;
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/index.jsp");
+		return view;
 	}
 
 	// 個別商品頁面
 	@Bean(name = { "/store/pSingle.v" })
 	public InternalResourceView productSingle() {
-		InternalResourceView rView = new InternalResourceView();
-		rView.setUrl("/store/pSingle.jsp");
-		return rView;
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/pSingle.jsp");
+		return view;
 	}
 
 	// 使用RedirectView導向個別商品頁面
 	@Bean(name = { "pSingle.show" })
 	public RedirectView productSingleR() {
-		RedirectView rView = new RedirectView();
-		rView.setUrl("/store/pSingle.v");
-		rView.setContextRelative(true);
-		return rView;
+		RedirectView view = new RedirectView();
+		view.setUrl("/store/pSingle.v");
+		view.setContextRelative(true);
+		return view;
 	}
 
 	// 商品維護頁面
+	@Bean(name = { "/store/pMaintenance.v" })
+	public InternalResourceView productMaintainV() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/pMaintenance.jsp");
+		return view;
+	}
+	
+	// 使用InternalResourceView導向商品維護頁面
 	@Bean(name = { "pMaintenance.show" })
 	public InternalResourceView productMaintain() {
-		InternalResourceView rView = new InternalResourceView();
-		rView.setUrl("/store/pMaintenance.jsp");
-		return rView;
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/pMaintenance.jsp");
+		return view;
 	}
 
+	// 使用RedirectView導向商品維護頁面
+	@Bean(name = { "pMaintenance.show.r" })
+	public RedirectView productMaintainR() {
+		RedirectView view = new RedirectView();
+		view.setUrl("/store/pMaintenance.v");
+		view.setContextRelative(true);
+		return view;
+	}
+	
+	@Bean(name = { "iList.show" })
+	public InternalResourceView itemList() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/item/index.jsp");
+		return view;
+	}
+	
 	/**
 	 * ****** View ******
 	 * 
