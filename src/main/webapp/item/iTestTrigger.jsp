@@ -4,16 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Item Test Trigger</title>
 </head>
 <body>
-<center>
-<h3>管理員回覆</h3>
-<form action="" method="post">
-	<textarea name="replyDetail" rows="10" cols="50">test</textarea>
-	<br>
-	<input type="submit" value="upload" name="送出">
-</form>
-</center>
+	<h3><a href="iList.do">item</a></h3><hr/>
+	<h3><a href="../">home</a></h3>
 </body>
 </html>

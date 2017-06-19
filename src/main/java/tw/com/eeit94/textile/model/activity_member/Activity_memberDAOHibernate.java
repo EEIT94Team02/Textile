@@ -22,7 +22,6 @@ import org.springframework.stereotype.Repository;
 public class Activity_memberDAOHibernate implements Activity_memberDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
-
 	public Activity_memberDAOHibernate(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

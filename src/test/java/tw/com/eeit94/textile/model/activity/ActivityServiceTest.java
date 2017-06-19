@@ -47,13 +47,11 @@ public class ActivityServiceTest {
 		createNew.setInterpretation(
 				"星蝕,馬尼拉,符文戰爭,blood bowl....等等" + "\n" + "由於本人自己也想玩沒玩過的桌遊" + "\n" + "所以歡迎參加者帶自己有的桌遊來交流");
 		createNew.setPlace("輔大fun桌遊 桌遊店");
-		createNew.setVisibility("私人");
 		bean = service.createNewActivity(createNew);
 		System.out.println(bean);
 
 		ActivityBean update = new ActivityBean();
 		update.setActivityno(6);
-		update.setVisibility("好友");
 		update.setActivityname("");
 		update.setPlace("");
 		try {
@@ -73,7 +71,6 @@ public class ActivityServiceTest {
 		ActivityBean anySelect = new ActivityBean();
 		anySelect.setActivityname("林口");
 		anySelect.setPlace("大安");
-		anySelect.setVisibility("取消");
 		Timestamp begin = null;
 		Timestamp end = null;
 		try {
@@ -84,7 +81,7 @@ public class ActivityServiceTest {
 		}
 		anySelect.setBegintime(begin);
 		anySelect.setEndtime(end);
-		beans = service.customeSelect(anySelect, null);
+		beans = service.customeSelect(anySelect);
 		System.out.println(beans);
 
 		sessionFactory.getCurrentSession().getTransaction().commit();

@@ -55,7 +55,6 @@ public class ActivityDAOHibernate implements ActivityDAO {
 			select.setEndtime(bean.getEndtime());
 			select.setInterpretation(bean.getInterpretation());
 			select.setPlace(bean.getPlace());
-			select.setVisibility(bean.getVisibility());
 			return select;
 		}
 		return null;
@@ -72,33 +71,29 @@ public class ActivityDAOHibernate implements ActivityDAO {
 	}
 
 	@Override
-	public List<ActivityBean> selectByOthers(ActivityBean bean, String string) {
+	public List<ActivityBean> selectByOthers(ActivityBean bean) throws ParseException {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<ActivityBean> qry = cb.createQuery(ActivityBean.class);
 		Root<ActivityBean> root = qry.from(ActivityBean.class);
 		qry.select(root);
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Predicate p1 = cb.like(root.<String>get("activityname"),
-				bean.getActivityname() == null ? "%" : "%" + bean.getActivityname() + "%");
+				bean.getActivityname() == "" ? "%" : "%" + bean.getActivityname() + "%");
 		Predicate p2 = null;
-		try {
-			p2 = cb.between(root.<Timestamp>get("begintime"),
-					(bean.getBegintime() != null ? bean.getBegintime() : new java.sql.Timestamp(0)),
-					(bean.getEndtime() != null ? bean.getEndtime()
-							: new Timestamp((sdf.parse("2100-12-31 23:59:59")).getTime())));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(bean.getEndtime().getTime() != 0){
+			p2 = cb.between(root.<Timestamp>get("begintime"),bean.getBegintime(),bean.getEndtime());
+		} else{
+			p2 = cb.between(root.<Timestamp>get("begintime"),bean.getBegintime(),new Timestamp((sdf.parse("2100-12-31 23:59:59")).getTime()));
 		}
-		Predicate p4 = cb.like(root.<String>get("place"), bean.getPlace() == null ? "%" : "%" + bean.getPlace() + "%");
-		Predicate p5 = cb.like(root.<String>get("visibility"),
-				bean.getVisibility() == null ? "%" : "%" + bean.getVisibility() + "%");
-		Order order = cb.asc(root.get("activityno"));
-
-		if (string != null && string.length() != 0) {
-			order = cb.asc(root.get(string));
+		Predicate p3 = null;
+		if(bean.getActivityno() != 0){
+			p3 = cb.equal(root.<Integer>get("activityno"), bean.getActivityno());
+		} else{
+			p3 = cb.ge(root.<Integer>get("activityno"), 0);
 		}
-
-		List<ActivityBean> results = getSession().createQuery(qry.where(p1, p2, p4, p5).orderBy(order)).getResultList();
+		Predicate p4 = cb.like(root.<String>get("place"), bean.getPlace() == "" ? "%" : "%" + bean.getPlace() + "%");
+		
+		List<ActivityBean> results = getSession().createQuery(qry.where(p1, p2, p3, p4)).getResultList();
 		return results;
 	}
 }

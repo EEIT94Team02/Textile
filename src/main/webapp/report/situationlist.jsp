@@ -22,15 +22,30 @@
 				</tr>
 			</thead>
 			<c:forEach var="sList" items="${situationList}">
+			<c:url value="reportreply.do" var="link" scope="page">
+				<c:param name="reptNo" value="${sList.reptNo}"></c:param>
+				<c:param name="mId" value="${sList.mId}"></c:param>
+				<c:param name="reptDate" value="${sList.reptDate}"></c:param>
+				<c:param name="reptType" value="${sList.reptType}"></c:param>
+				<c:param name="reptDetail" value="${sList.reptDetail}"></c:param>
+				<c:param name="replyDetail" value="${sList.reptDetail}"></c:param>
+				<c:param name="situation" value="${sList.situation}"></c:param>
+			</c:url>
 			<tr>
-			<td>${sList.reptNo}</td>
+			<td>${sList.reptNo}</td>			
 			<td>${sList.mId}</td>
 			<td>${sList.reptDate}</td>
 			<td>${sList.reptType}</td>
 			<td>${sList.reptDetail}</td>
-			<td>${sList.replyDetail}</td>
+			<td><a href="${link}">回覆</a></td>
 			<td>${sList.situation?'已回覆':'未回覆'}</td>
-<%-- 			<td>${reportimg.imgPath}</td> --%>
+			<td>
+			<c:forEach var="rImg" items="${reportimg}">
+				<c:if test="${rImg.reptNo==sList.reptNo}">
+				<img src="..${rImg.imgPath}">
+				</c:if>
+			</c:forEach>
+			</td>
 			</tr>
 			</c:forEach>
 			</tbody>

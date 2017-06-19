@@ -32,10 +32,10 @@
 	<p>
 		<a href="photo/">相簿(要登入)</a>
 	</p>
-		<p>
+	<p>
 		<a href="activity/">活動(要登入)</a>
 	</p>
-	
+
 	<p>
 		<a href="report/">回報(要登入)</a>
 	</p>
