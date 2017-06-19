@@ -52,7 +52,7 @@ function setCategoryIndex(pCount, index) {
 						<td><input type="text" name="productName" maxlength="20" value="${pBean.productName}"/></td>
 						<td><input type="text" name="unitPrice" value="${pBean.unitPrice}"/></td>
 						<td>
-							<select class="categorySelect">
+							<select class="categorySelect" name="category">
 								<option value="送禮用">送禮用</option>
 								<option value="自用">自用</option>
 							</select>
@@ -67,7 +67,7 @@ function setCategoryIndex(pCount, index) {
 						</c:choose>
 						<td><input type="text" name="intro" maxLength="20" value="${pBean.intro}"/></td>
 						<td>
-							<select class="statusSelect">
+							<select class="statusSelect" name="status">
 								<option value="0">下架</option>
 								<option value="1">上架</option>
 							</select>

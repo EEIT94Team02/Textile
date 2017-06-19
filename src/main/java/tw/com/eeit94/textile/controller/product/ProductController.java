@@ -52,7 +52,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(path = { "/maintain.do" })
-	public String productMaintain(Model model) {
+	public String productMaintain(String maintainAction, ProductBean bean, BindingResult bindingResult, Model model) {
 		return "pMaintenance.show";
 	}
 }
