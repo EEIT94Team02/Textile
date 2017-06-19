@@ -33,7 +33,7 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
 /**
  * 驗證是否登入的過濾器，並記錄每個使用者的請求與回應路徑，如果使用者關閉Cookie，則會因找不到存在Cookie的JSESSIONID而導向登入網頁。
  * 
- * 映射：/activity/*、/album/*、/log/*、/photo/*、/store/*、/report/*、/theme/*、/user/*；
+ * 映射：/activity/*、/album/*、/item/*、/log/*、/photo/*、/store/*、/report/*、/theme/*、/user/*；
  * 
  * 其中，/album/*內的資料夾還要驗證是否與會員主鍵相符才能看到；
  * 
@@ -46,10 +46,10 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
  */
 @Component
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "activity", value = "/activity/*"),
-		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "photo", value = "/photo/*"),
-		@WebInitParam(name = "store", value = "/store/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
-		@WebInitParam(name = "report", value = "/report/*"), @WebInitParam(name = "theme", value = "/theme/*"),
-		@WebInitParam(name = "user", value = "/user/*") })
+		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "item", value = "/item/*"),
+		@WebInitParam(name = "photo", value = "/photo/*"), @WebInitParam(name = "store", value = "/store/*"),
+		@WebInitParam(name = "m_manager", value = "/manager/*"), @WebInitParam(name = "report", value = "/report/*"),
+		@WebInitParam(name = "theme", value = "/theme/*"), @WebInitParam(name = "user", value = "/user/*") })
 public class LoginFilter implements Filter {
 	/**
 	 * 存放多個映射的網址。

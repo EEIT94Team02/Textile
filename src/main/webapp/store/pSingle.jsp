@@ -9,7 +9,7 @@
 </head>
 <body>
 	<c:if test="${not empty particular}">
-		<c:url value="/store/showImg.do" var="link" scope="page">
+		<c:url value="pShowImg.do" var="link" scope="page">
 			<c:param name="productId" value="${particular.productId}"/>
 		</c:url>
 		<table>
