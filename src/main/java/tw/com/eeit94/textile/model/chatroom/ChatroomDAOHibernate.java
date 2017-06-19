@@ -29,11 +29,11 @@ public class ChatroomDAOHibernate implements ChatroomDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	private final String SELECT_ALL = "from ChatroomBean";
+	private static final String SELECT_ALL = "from ChatroomBean";
 	
 	@Override
 	public List<ChatroomBean> selectAll() {
-		Query<ChatroomBean> query = this.getSession().createQuery(this.SELECT_ALL, ChatroomBean.class);
+		Query<ChatroomBean> query = this.getSession().createQuery(SELECT_ALL, ChatroomBean.class);
 		return query.list();
 	}
 

@@ -30,7 +30,10 @@ public enum ConstMapping {
 	LOGIN_ERROR("login.error"),
 	LOGIN_SUCCESS("login.success"),
 	LOGIN_INVALIDEMAIL("login.invalidEmail"),
-	LOGIN_VALIDEMAIL("/check/validEmail.do"),
+	LOGIN_EMAILCHECK("/check/emailCheck.do"),
+	LOGIN_RE_SENDEMAILCHECK("re_sendEmailCheck.do"),
+	LOGIN_EMAILCHECKRE_SEND("login.emailCheckRe_send"),
+	LOGIN_EMAILCHECKSUCCESS("login.emailCheckSuccess"),
 	LOGOUT_SUCCESS("logout.success"),
 	REGISTER_ERROR("register.error"),
 	REGISTER_SUCCESS("register.success");

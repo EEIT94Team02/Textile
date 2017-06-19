@@ -9,6 +9,8 @@
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 </head>
-<body>您尚未驗證信箱，請到您的信箱收信驗證，或按此重新發送驗證信。
+<body>
+	您尚未驗證信箱，請到您的信箱收信驗證，或
+	<a href="${emailCheckRe_sendUrl}">按此</a>重新發送驗證信。
 </body>
 </html>

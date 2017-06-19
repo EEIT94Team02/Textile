@@ -25,11 +25,11 @@ public class InterestDAOHibernate implements InterestDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	private final String SELECT_ALL = "from InterestBean";
+	private static final String SELECT_ALL = "from InterestBean";
 	
 	@Override
 	public List<InterestBean> selectAll() {
-		Query<InterestBean> query = this.getSession().createQuery(this.SELECT_ALL, InterestBean.class);
+		Query<InterestBean> query = this.getSession().createQuery(SELECT_ALL, InterestBean.class);
 		return query.list();
 	}
 

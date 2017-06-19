@@ -17,7 +17,11 @@ import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MailRegisterService;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackRroviderService;
+import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
+import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
+import tw.com.eeit94.textile.model.secure.SecureService;
+import tw.com.eeit94.textile.system.common.ConstHelperKey;
 import tw.com.eeit94.textile.system.common.ConstMapping;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
@@ -25,12 +29,14 @@ import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
  * 驗證註冊表單的資料，並回傳註冊成功與否。
  * 
  * @author 賴
- * @version 2017/06/17
+ * @version 2017/06/19
  * @see {@link MemberService}
  */
 @Controller
-@RequestMapping(path = { "/check/register.do" })
+@RequestMapping(path = { "/check" })
 public class RegisterController {
+	@Autowired
+	private SecureService secureService;
 	@Autowired
 	private MemberService memberService;
 	@Autowired
@@ -50,9 +56,10 @@ public class RegisterController {
 	 * @author 賴
 	 * @version 2017/06/17
 	 */
-	@RequestMapping(method = { RequestMethod.POST })
+	@RequestMapping(path = { "/register.do" }, method = { RequestMethod.POST })
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
 		dataAndErrorsMap = this.memberService.encapsulateAndCheckAllData(dataAndErrorsMap, request);
 		dataAndErrorsMap = this.memberService.checkNonexistentEmail(dataAndErrorsMap, request);
 		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
@@ -61,8 +68,6 @@ public class RegisterController {
 		Iterator<String> keys = dataAndErrorsMap.keySet().iterator();
 		while (keys.hasNext()) {
 			if (keys.next().endsWith(ConstMemberParameter._ERROR.param())) {
-				request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
-				System.out.println(dataAndErrorsMap);
 				return ConstMapping.REGISTER_ERROR.path();
 			}
 		}
@@ -75,17 +80,50 @@ public class RegisterController {
 			return ConstMapping.REGISTER_ERROR.path();
 		}
 
+		this.sendEmailCheckMail(request, response);
+		return ConstMapping.REGISTER_SUCCESS.path();
+	}
+
+	/**
+	 * 處理寄送驗證信箱郵件的方法，先製作驗證網址的前輟，再由MailRegisterService加工後面的參數。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/19
+	 * @see {@link MailRegisterService}
+	 */
+	public void sendEmailCheckMail(HttpServletRequest request, HttpServletResponse response) {
+		@SuppressWarnings("unchecked")
+		Map<String, String> dataAndErrorsMap = (Map<String, String>) request
+				.getAttribute(ConstUserKey.DATAANDERRORSMAP.key());
+
 		// 寄送驗證信箱的郵件，先得到網址如「http://localhost:8080/Textile」/check/register.do。
 		String checkUrl = request.getRequestURL().toString();
 		checkUrl = checkUrl.substring(0, checkUrl.lastIndexOf('/'));
 		checkUrl = checkUrl.substring(0, checkUrl.lastIndexOf('/'));
-		checkUrl = checkUrl + ConstMapping.LOGIN_VALIDEMAIL.path();
+		checkUrl = checkUrl + ConstMapping.LOGIN_EMAILCHECK.path();
 		dataAndErrorsMap.put(ConstUserKey.CHECKURL.key(), checkUrl);
 		try {
 			this.mailRegisterService.doSendEmail(dataAndErrorsMap);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return ConstMapping.REGISTER_SUCCESS.path();
+	}
+
+	/**
+	 * 重新寄送驗證信箱的郵件，接收進來參數為加密過的Email，必須先被解密。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/19
+	 * @throws Exception
+	 */
+	@RequestMapping(path = { "/re_sendEmailCheck.do" }, method = { RequestMethod.GET })
+	public String re_sendEmailCheckMail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String mEmail = this.secureService.getDecryptedText(request.getParameter(ConstHelperKey.QUERY.key()),
+				ConstSecureParameter.EMAIL.param());
+		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		dataAndErrorsMap.put(ConstMemberKey.Email.key(), mEmail);
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
+		this.sendEmailCheckMail(request, response);
+		return ConstMapping.LOGIN_EMAILCHECKRE_SEND.path();
 	}
 }

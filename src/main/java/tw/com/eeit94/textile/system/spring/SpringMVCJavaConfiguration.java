@@ -199,22 +199,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 賴
 	 * @version 2017/06/10
 	 */
-	// 註冊會員。
-	@Bean(name = { "/check/register.v", "register.error" })
-	public org.springframework.web.servlet.view.InternalResourceView register_page() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/check/register.jsp");
-		return internalResourceView;
-	}
-
-	// 註冊成功，不要addViewController。
-	@Bean(name = { "register.success" })
-	public org.springframework.web.servlet.view.InternalResourceView register_success() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/check/registerSuccess.jsp");
-		return internalResourceView;
-	}
-
 	// 登入成功，導向首頁。
 	@Bean(name = { "login.success" })
 	public org.springframework.web.servlet.view.RedirectView login_success() {
@@ -240,19 +224,43 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
+	// 註冊會員。
+	@Bean(name = { "/check/register.v", "register.error" })
+	public org.springframework.web.servlet.view.InternalResourceView register_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/register.jsp");
+		return internalResourceView;
+	}
+
+	// 註冊成功，不要addViewController。
+	@Bean(name = { "register.success" })
+	public org.springframework.web.servlet.view.InternalResourceView register_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/registerSuccess.jsp");
+		return internalResourceView;
+	}
+
 	// 尚未驗證信箱，不要addViewController。
 	@Bean(name = { "login.invalidEmail" })
 	public org.springframework.web.servlet.view.InternalResourceView login_invalidEmail() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/check/remindCheckingEmail.jsp");
+		internalResourceView.setUrl("/check/emailCheckRe_mind.jsp");
 		return internalResourceView;
 	}
 
 	// 重寄驗證郵件，不要addViewController。
-	@Bean(name = { "login.re_sendCheckingEmail" })
+	@Bean(name = { "login.emailCheckRe_send" })
 	public org.springframework.web.servlet.view.InternalResourceView login_re_sendCheckingEmail() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/check/re_sendCheckingEmail.jsp");
+		internalResourceView.setUrl("/check/emailCheckRe_send.jsp");
+		return internalResourceView;
+	}
+
+	// 驗證郵件成功，不要addViewController。
+	@Bean(name = { "login.emailCheckSuccess" })
+	public org.springframework.web.servlet.view.InternalResourceView login_checkEmailSuccess() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/emailCheckSuccess.jsp");
 		return internalResourceView;
 	}
 

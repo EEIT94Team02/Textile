@@ -10,7 +10,7 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 </head>
 <body>
-	<form action="register.do" method="post">
+	<form id="mForm" action="register.do" method="post">
 		<fieldset>
 			<legend>
 				個人資料<em>(*為必填項目)</em>
@@ -302,6 +302,13 @@
       changeOptionOfmAddress_region();
       var mAddress_region = '${dataAndErrorsMap.mAddress_region}';
       $('#mAddress_region option[value="' + mAddress_region + '"]').prop('selected', true);
+    });
+    
+    // 設定提交表單後，要將按鈕功能取消。
+    $(document).ready(function() {
+      $('#mForm').on('submit', function() {
+        $(this).find('input[type="submit"]').prop('disabled', true);
+      });
     });
   </script>
 </body>
