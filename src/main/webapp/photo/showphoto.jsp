@@ -9,7 +9,6 @@
 <body>
 	<h1>Textile</h1>
 
-	<img mapfile="">
 	<c:if test="${not empty insert}">
 		<table>
 			<thead>
@@ -30,7 +29,7 @@
 					</c:url>
 					<tr>
 						<td>${row.photono}</td>
-						<td><img src="${photo}" width="200"/></td>
+						<td><img src="${photo}" width="200" /></td>
 						<td>${row.photoname}</td>
 						<td>${row.interpretation}</td>
 						<td>${row.albumno}</td>
@@ -41,7 +40,22 @@
 			</tbody>
 		</table>
 	</c:if>
+	<p>
+		<a href="list.do">首頁</a>
+	</p>
 
+	<p>
+		<a href='<c:url value="/photo/select.v"/>'>搜尋照片(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/upload.v"/>'>上傳照片(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/update.v"/>'>更新照片(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/delete.v"/>'>刪除照片(要登入)</a>
+	</p>
 
 </body>
 </html>

@@ -46,6 +46,11 @@ public class PhotoService {
 	}
 
 	@Transactional(readOnly = true)
+	public List<PhotoBean> selectByAlbumno(PhotoBean bean) {
+		return photoDAO.selectByAlbumno(bean);
+	}
+	
+	@Transactional(readOnly = true)
 	public PhotoBean selectByphotono(PhotoBean bean) {
 		return photoDAO.selectByPrimarykey(bean);
 	}	
@@ -94,12 +99,12 @@ public class PhotoService {
 		PhotoBean result = null;
 		PhotoBean phonebean = this.selectByphotono(bean);
 		if (phonebean != null) {
-			phonebean.setPhotoname(bean.getPhotoname() == null ? phonebean.getPhotoname() : bean.getPhotoname());
-			phonebean.setPosition(bean.getPosition() == null ? phonebean.getPosition() : bean.getPosition());
-			phonebean.setVisibility(bean.getVisibility() == null ? phonebean.getVisibility() : bean.getVisibility());
-			phonebean.setAlbumno(bean.getAlbumno() == null ? phonebean.getAlbumno() : bean.getAlbumno());
+			phonebean.setPhotoname(bean.getPhotoname() == "" ? phonebean.getPhotoname() : bean.getPhotoname());
+			phonebean.setPosition(bean.getPosition() == "" ? phonebean.getPosition() : bean.getPosition());
+			phonebean.setVisibility(bean.getVisibility() == "" ? phonebean.getVisibility() : bean.getVisibility());
+			phonebean.setAlbumno(bean.getAlbumno() == 0 ? phonebean.getAlbumno() : bean.getAlbumno());
 			phonebean.setInterpretation(
-					bean.getInterpretation() == null ? phonebean.getInterpretation() : bean.getInterpretation());
+					bean.getInterpretation() == "" ? phonebean.getInterpretation() : bean.getInterpretation());
 			result = photoDAO.update(phonebean);
 		}
 		return result;

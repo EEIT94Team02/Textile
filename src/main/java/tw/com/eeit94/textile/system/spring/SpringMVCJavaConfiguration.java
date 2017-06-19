@@ -83,10 +83,10 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 * 陳
 		 */
 		registry.addViewController("/photo/index.v").setViewName("/photo/index.v");
-		registry.addViewController("/photo/select.v").setViewName("/photo/select.v");
-		registry.addViewController("/photo/insert.v").setViewName("/photo/insert.v");
-		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
-		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
+		registry.addViewController("/photo/albumselect.v").setViewName("/photo/albumselect.v");
+		registry.addViewController("/photo/albuminsert.v").setViewName("/photo/albuminsert.v");
+		registry.addViewController("/photo/albumupdate.v").setViewName("/photo/albumupdate.v");
+		registry.addViewController("/photo/albumdelete.v").setViewName("/photo/albumdelete.v");
 		registry.addViewController("/activity/index.v").setViewName("/activity/index.v");
 		registry.addViewController("/activity/insert.v").setViewName("/activity/insert.v");
 		registry.addViewController("/activity/update.v").setViewName("/activity/update.v");
@@ -272,7 +272,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 相簿首頁,相簿顯示頁面。
-	@Bean(name = { "/photo/index.v", "album.default" })
+	@Bean(name = { "/photo/index.v", "album.list" })
 	public org.springframework.web.servlet.view.InternalResourceView albumIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/showalbum.jsp");
@@ -280,34 +280,34 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 相簿搜尋頁面。
-	@Bean(name = { "/photo/select.v" })
+	@Bean(name = { "/photo/albumselect.v" })
 	public org.springframework.web.servlet.view.InternalResourceView albumSelect() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/select.jsp");
+		internalResourceView.setUrl("/photo/albumselect.jsp");
 		return internalResourceView;
 	}
 
 	// 更新相簿頁面。
-	@Bean(name = { "/photo/update.v", "update.error" })
+	@Bean(name = { "/photo/albumupdate.v", "update.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumUpdate() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/update.jsp");
+		internalResourceView.setUrl("/photo/albumupdate.jsp");
 		return internalResourceView;
 	}
 
 	// 創建相簿頁面。
-	@Bean(name = { "/photo/insert.v", "insert.error" })
+	@Bean(name = { "/photo/albuminsert.v", "insert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/insert.jsp");
+		internalResourceView.setUrl("/photo/albuminsert.jsp");
 		return internalResourceView;
 	}
 
 	// 刪除相簿頁面。
-	@Bean(name = { "/photo/delete.v", "delete.error" })
+	@Bean(name = { "/photo/albumdelete.v", "delete.error" })
 	public org.springframework.web.servlet.view.InternalResourceView albumDelete() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/delete.jsp");
+		internalResourceView.setUrl("/photo/albumdelete.jsp");
 		return internalResourceView;
 	}
 	
@@ -320,7 +320,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 	
 	// 顯示照片頁面。
-	@Bean(name = { "photo.run" })
+	@Bean(name = { "photo.list" })
 	public org.springframework.web.servlet.view.InternalResourceView photoshow() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/showphoto.jsp");

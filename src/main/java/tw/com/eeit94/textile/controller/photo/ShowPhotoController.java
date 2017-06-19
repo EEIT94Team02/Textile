@@ -47,12 +47,6 @@ public class ShowPhotoController {
 		return photoService;
 	}	
 
-	@Autowired
-	private Photo_albumService photo_albumService;
-	public Photo_albumService getPhoto_albumService() {
-		return photo_albumService;
-	}
-
 	@RequestMapping(method = { RequestMethod.GET })
 	public void process(HttpServletRequest request,HttpServletResponse response, Model model)
 			throws IOException {
@@ -70,22 +64,5 @@ public class ShowPhotoController {
 		}
 		os.close();
 		fis.close();
-//			PhotoBean outputphoto = new PhotoBean();
-//			outputphoto.setAlbumno(albumno);
-//			List<PhotoBean> outputphotos = getPhotoService().selectByAlbumno(outputphoto);
-//			System.out.println(outputphotos);			
-//			for(PhotoBean bytes: outputphotos){
-//				System.out.println("path= " +bytes.getRespath());
-//				FileInputStream a = new FileInputStream(new File((bytes.getRespath())));
-//				int size = a.available();
-//				byte[] data = new byte[size];
-//				a.read(data);
-//				a.close();
-//				OutputStream out =response.getOutputStream();
-//				response.setContentType("image/*");
-//				out.write(data);
-//				out.close();				
-//			}			
-
 	}
 }

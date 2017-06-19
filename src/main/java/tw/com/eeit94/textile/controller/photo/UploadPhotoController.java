@@ -39,7 +39,7 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
 @Controller
 @EnableWebMvc
 @RequestMapping(path = { "/photo" })
-public class CUDPhotoController {
+public class UploadPhotoController {
 
 	@Autowired
 	private PhotoService photoService;
@@ -101,7 +101,7 @@ public class CUDPhotoController {
 			albumno = Integer.parseInt(albumString);
 		}
 
-		String realpath = "/workspace/Textile/src/main/webapp/album/";
+		String realpath = "/album/";
 		ServletContext context = request.getServletContext();
 		String temdir = context.getContextPath() + realpath + java.lang.String.valueOf(id);
 		System.out.println("temdir=" + context.getContextPath());
@@ -137,11 +137,9 @@ public class CUDPhotoController {
 				int a = fullname.lastIndexOf(".");
 				name = fullname.substring(a, fullname.length());
 				file2 = new File("" + temdir + "/" + photo.hashCode() + name);
-
 				if (!file2.getParentFile().exists()) {
 					file2.getParentFile().mkdirs();
 				}
-
 				fis = file.getInputStream();
 				fos = new FileOutputStream(file2, true);
 				int data;
@@ -149,17 +147,11 @@ public class CUDPhotoController {
 					fos.write(data);
 				}
 				String path = file2.getPath();
-				
-				System.out.println("path=" + path);
-				
 				bean.setRespath(path);
 				tempno = sb.append("0000").append(photos).substring(sb.length() - 4, sb.length());
 				String newphotono = time + memberIdString + tempno;
 				bean.setPhotono(newphotono);
-				insertBean = getPhotoService().insertDataToPhoto(bean);
-				
-				System.out.println("insertBean=" + insertBean);
-				
+				insertBean = getPhotoService().insertDataToPhoto(bean);					
 				if (insertBean != null) {
 					result.add(insertBean);
 					photos++;
@@ -188,16 +180,12 @@ public class CUDPhotoController {
 		// 根據Model執行結果呼叫View
 		if (files.length == result.size()) {
 			PhotoBean albumPhoto = new PhotoBean();
-			System.out.println("albumno=" + albumno);
 			albumPhoto.setAlbumno(albumno);	
-			System.out.println("PhotoBean=" + albumPhoto);
 			List<PhotoBean> all = getPhotoService().selectByOthers(albumPhoto);
-			System.out.println("allBean=" + all);
 			model.addAttribute("insert", all);
-			return "photo.run";
+			return "photo.list";
 		} else {
 			return "upload.error";
 		}
-		// 要產生View元件則要return "Url Pattern"的相對或絕對路徑。
 	}
 }

@@ -41,6 +41,19 @@ public class ReadAlbumController {
 		return socailListService;
 	}
 
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/list.do" }, consumes = {
+			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	public String albumIndexProcess(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		MemberBean user = (MemberBean) session.getAttribute("user");
+		int userId = user.getmId();
+		Photo_albumBean bean = new Photo_albumBean();
+		bean.setmId(userId);
+		List<Photo_albumBean> index = getPhoto_albumService().findPhotoAlbumBymId(bean);
+		model.addAttribute("AlbumList", index);		
+		return "album.list";
+	}
+
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/default.do" }, consumes = {
 			"application/x-www-form-urlencoded ; charset=UTF-8" })
 	public String seclectMIdProcess(HttpServletRequest request, Model model) {
@@ -86,7 +99,7 @@ public class ReadAlbumController {
 		} else {
 			errors.put("selecterror", "找不到相簿，或沒有閱讀此相簿的權限");
 		}
-		return "album.default";
+		return "album.list";
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/select.do" }, consumes = {
@@ -138,7 +151,7 @@ public class ReadAlbumController {
 		}
 		// 根據Model執行結果呼叫View
 		model.addAttribute("AlbumList", photo_albumBeans);
-		return "album.default";
+		return "album.list";
 	};
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/search.do" }, consumes = {
@@ -201,7 +214,7 @@ public class ReadAlbumController {
 		} else {
 			errors.put("selecterror", "找不到相簿，或沒有閱讀此相簿的權限");
 		}
-		return "album.default";
+		return "album.list";
 	}
 
 }
