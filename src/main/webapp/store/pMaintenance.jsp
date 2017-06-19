@@ -14,11 +14,23 @@
 input[type="button"], input[type="submit"] {
 	display: block;
 }
+.imgUpload {
+	display: none;
+}
+.imgUploadLabel {
+	display: block;
+	height: 3em;
+	width: 5em;
+	background-color: #E6E6FA;
+}
 </style>
 </head>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script>
 function setStatusIndex(pCount, index) {
-	document.getElementsByClassName("statusSelect")[pCount-1].selectedIndex = index;
+	var status = document.getElementsByClassName("statusSelect")[pCount-1];
+	status.setAttribute("selectedIndex") = index;
 }
 function setCategoryIndex(pCount, index) {
 	document.getElementsByClassName("categorySelect")[pCount-1].selectedIndex = index;
@@ -75,7 +87,7 @@ function setCategoryIndex(pCount, index) {
 						<span>${errors[pBean.productId].pIn}</span>
 					</td>
 					<td>
-						<select class="statusSelect" name="status">
+						<select class="statusSelect" name="status" onchange="setStatusValue(${pStatus.count})">
 							<option value="false">下架</option>
 							<option value="true">上架</option>
 						</select>
@@ -88,7 +100,14 @@ function setCategoryIndex(pCount, index) {
 							<c:out value="<script>setStatusIndex(${pStatus.count}, 0)</script>" escapeXml="false" />
 						</c:otherwise>
 					</c:choose>
-					<td><img src="${showImg}" height="200" /><input type="hidden" name="img" value="${pBean.img}" /></td>
+					<td>
+						<img class="pBeanImg" src="${showImg}" height="200" />
+						<input type="hidden" class="imgValue" name="img" value="${pBean.img}" />
+						<input type="hidden" class="imgValue" name="imgFileContent" value="" />
+						<input type="button" class="imgRemove" value="Remove" onclick="removeImg(${pStatus.count})"/>
+						<label class="imgUploadLabel" for="imgUploadButton${pStatus.count}">Choose a image</label>
+						<input type="file" id="imgUploadButton${pStatus.count}" class="imgUpload" accept="image/*" onchange="setImg(${pStatus.count})" />
+					</td>
 					<td>
 						<input type="text" name="rewardPoints" value="${pBean.rewardPoints}"/>
 						<span>${errors[pBean.productId].pRP}</span>
@@ -108,8 +127,8 @@ function setCategoryIndex(pCount, index) {
 					<td><input type="text" name="intro" value="${param.intro}" placeholder="intro" /></td>
 					<td>
 						<select name="status">
-							<option value="0">下架</option>
-							<option value="1" selected="true">上架</option>
+							<option value="false">下架</option>
+							<option value="true" selected="true">上架</option>
 						</select>
 					</td>
 					<td><input type="text" name="img" value="" placeholder="img" /></td>
@@ -123,4 +142,21 @@ function setCategoryIndex(pCount, index) {
 	</table>
 </c:if>
 </body>
+<script>
+function removeImg(pCount) {
+	document.getElementsByClassName("pBeanImg")[pCount-1].src = "";
+}
+function setImg(pCount) {
+	var imgFile = document.getElementsByClassName("imgUpload")[pCount-1].files[0];
+	var reader = new FileReader();
+	reader.readAsDataURL(imgFile);
+	reader.onload = function (e) {
+		var fileContent = e.target.result;
+		var theImg = document.getElementsByClassName("pBeanImg")[pCount-1];
+		var theImgValue = document.getElementsByClassName("imgValue")[pCount-1];
+		theImg.setAttribute("src", fileContent);
+		theImgValue.setAttribute("value", fileContent);
+	}
+}
+</script>
 </html>

@@ -15,8 +15,8 @@
 </style>
 </head>
 <body>
-	<c:if test="${sessionScope.user.mId == 11}">
-		<<h3><a href=" <c:url value='pShowMaintain.do'/> ">Maintain</a></h3>
+	<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+		<<h3><a href=" <c:url value='/manager/pShowMaintain.do'/> ">Maintain</a></h3>
 	</c:if>
 	<c:if test="${not empty pList}">
 	<form method="POST" action="">
