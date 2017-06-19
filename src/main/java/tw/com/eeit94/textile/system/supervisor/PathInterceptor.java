@@ -57,19 +57,22 @@ public class PathInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e)
 			throws Exception {
-		if (ex != null) {
+		if (e != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute(ConstFilterKey.ExceptionFromControllerOrView.key(), ex.getMessage());
+			// 測試用，部署後要註解掉。
+			session.setAttribute(ConstFilterKey.ExceptionFromServer.key(), e.getMessage());
+			// 上線用，部署後要把註解撤掉。
+			// session.setAttribute(ConstFilterKey.ExceptionFromServer.key(),
+			// "發生錯誤，請返回上一頁再重新執行。");
 			String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath + ConstMapping.ERROR_PAGE.path());
 
 			/*
-			 * debug用，上線要刪除。
+			 * debug用，部署後要註解掉。
 			 */
-			ex.printStackTrace();
-			System.out.println(ex.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

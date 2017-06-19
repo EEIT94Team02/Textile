@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
-import tw.com.eeit94.textile.model.socaillist.SocailListBean;
-import tw.com.eeit94.textile.model.socaillist.SocailListPK;
-import tw.com.eeit94.textile.model.socaillist.SocailListService;
+import tw.com.eeit94.textile.model.social.SocialListBean;
+import tw.com.eeit94.textile.model.social.SocialListPK;
+import tw.com.eeit94.textile.model.social.SocialListService;
 
 /**
  * 這裡要寫摘要，為了整合和別人幫忙除錯容易，有關規則一定要先去看controller.example和model.example所有檔案，尤其是Example.java。
@@ -36,8 +36,8 @@ public class ReadAlbumController {
 	}
 
 	@Autowired
-	private SocailListService socailListService;
-	public SocailListService getSocailListService() {
+	private SocialListService socailListService;
+	public SocialListService getSocailListService() {
 		return socailListService;
 	}
 
@@ -65,14 +65,14 @@ public class ReadAlbumController {
 		}
 
 		// 呼叫Model
-		SocailListBean friendBean = new SocailListBean();
+		SocialListBean friendBean = new SocialListBean();
 		Photo_albumBean bean = new Photo_albumBean();
 		List<Photo_albumBean> photo_albumBeans = new ArrayList<Photo_albumBean>();
 		bean.setmId(memberId);
 		if (memberId == userId) {
 			photo_albumBeans = getPhoto_albumService().findPhotoAlbumBymId(bean);
 		} else {
-			friendBean = getSocailListService().select(new SocailListPK(userId, memberId));
+			friendBean = getSocailListService().select(new SocialListPK(userId, memberId));
 			String type = "";
 			if (friendBean != null) {
 				type = friendBean.getS_type();
@@ -124,8 +124,8 @@ public class ReadAlbumController {
 		if (memberId == userId) {
 			photo_albumBeans.add(getPhoto_albumService().findPhotoAlbumByAlbumNo(bean));
 		} else {
-			SocailListBean friendBean = new SocailListBean();
-			friendBean = getSocailListService().select(new SocailListPK(userId, memberId));
+			SocialListBean friendBean = new SocialListBean();
+			friendBean = getSocailListService().select(new SocialListPK(userId, memberId));
 			String type = "";
 			if (friendBean != null) {
 				friendBean.getS_type();
@@ -147,7 +147,7 @@ public class ReadAlbumController {
 
 		// 接收資料
 		Map<String, String> errors = new HashMap<String, String>();
-		SocailListBean friendBean = new SocailListBean();
+		SocialListBean friendBean = new SocialListBean();
 		Photo_albumBean bean = new Photo_albumBean();
 		model.addAttribute("selectAlbumErrors", errors);
 		String albumname = request.getParameter("albumname");
@@ -165,7 +165,7 @@ public class ReadAlbumController {
 		int mId = 0;
 		if (IdString != "" && IdString != null) {
 			mId = Integer.parseInt(IdString);
-			friendBean = getSocailListService().select(new SocailListPK(userId, mId));
+			friendBean = getSocailListService().select(new SocialListPK(userId, mId));
 			if (mId <= 0) {
 				errors.put("mId", "請輸入正確的會員ID");
 			}

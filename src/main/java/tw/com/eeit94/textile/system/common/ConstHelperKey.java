@@ -1,5 +1,6 @@
 package tw.com.eeit94.textile.system.common;
 
+import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.model.member.MemberService;
 
 /**
@@ -10,9 +11,10 @@ import tw.com.eeit94.textile.model.member.MemberService;
  * @author 賴
  * @version 2017/06/10
  * @see {@link MemberService}
+ * @see {@link RegisterController}
  */
 public enum ConstHelperKey {
-	KEY("KEY");
+	KEY("KEY"), SYSTEM_ID("11"), SPACE(""), QUERY("q"), METHOD("m");
 
 	private final String key;
 

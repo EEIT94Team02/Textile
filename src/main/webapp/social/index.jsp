@@ -15,18 +15,18 @@
 <table>
 	<tr>
 		<td>UserID : </td>
-		<td><input type="text" name="SocailListPK" value="${param.SocailListPK}"></td>
+		<td><input type="text" name="SocialListPK" value="${param.SocialListPK}"></td>
 		<td><span class="error">${errors.id}</span></td>
 	</tr>
 	
 	<tr>
 		<td>
-			<input type="submit" name="socailList" value="Insert">
-			<input type="submit" name="socailList" value="Update">
+			<input type="submit" name="socialList" value="Insert">
+			<input type="submit" name="socialList" value="Update">
 		</td>
 		<td>
-			<input type="submit" name="socailList" value="Delete">
-			<input type="submit" name="socailList" value="Select">
+			<input type="submit" name="socialList" value="Delete">
+			<input type="submit" name="socialList" value="Select">
 			<input type="button" value="Clear" onclick="clearForm()">
 		</td>
 	</tr>

@@ -3,6 +3,7 @@ package tw.com.eeit94.textile.controller.user;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,18 +45,45 @@ public class InspectController {
 			"text/plain; charset=UTF-8" })
 	@ResponseBody
 	public void inspect(HttpServletRequest request, HttpServletResponse response, OutputStream out) throws IOException {
-		String mField = request.getParameter(ConstHelperKey.METHOD.key());
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
-		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), mField);
-		dataAndErrorsMap.put(mField, request.getParameter(ConstHelperKey.QUERY.key()));
+		dataAndErrorsMap = this.memberService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
 
-		String output;
-		int mapSize = dataAndErrorsMap.size();
-		dataAndErrorsMap = memberService.checkFormData(dataAndErrorsMap);
-		if (mapSize < dataAndErrorsMap.size()) {
-			output = dataAndErrorsMap.get(mField + ConstMemberParameter._ERROR.param());
-		} else {
-			output = ConstHelperKey.SPACE.key();
+		String output = ConstHelperKey.SPACE.key();
+		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
+				output = dataAndErrorsMap.get(key);
+				break;
+			}
+		}
+		out.write(output.getBytes());
+		out.close();
+	}
+
+	/**
+	 * 驗證密碼和再輸入密碼是否一致，Map<String, String>只放分別兩組密碼。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/16
+	 * @throws IOException
+	 */
+	@RequestMapping(path = { "/inspectTheSamePassword.do" }, method = { RequestMethod.GET }, produces = {
+			"text/plain; charset=UTF-8" })
+	@ResponseBody
+	public void inspectTheSamePassword(HttpServletRequest request, HttpServletResponse response, OutputStream out)
+			throws IOException {
+		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
+
+		String output = ConstHelperKey.SPACE.key();
+		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
+				output = dataAndErrorsMap.get(key);
+				break;
+			}
 		}
 		out.write(output.getBytes());
 		out.close();

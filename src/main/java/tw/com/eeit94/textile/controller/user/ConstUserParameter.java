@@ -5,13 +5,15 @@ package tw.com.eeit94.textile.controller.user;
  * 
  * @author 賴
  * @version 2017/06/13
+ * @see {@link LoginController}
  */
-public enum ConstLoginParameter {
-	KEEPLOGIN("1"), KEEPLOGIN_YES("Y"), KEEPLOGIN_NO("N");
+public enum ConstUserParameter {
+	EMAILFROM("system@textile.com"), VALIDEMAIL_YES("Y"), VALIDEMAIL_NO("N"), KEEPLOGIN("1"), KEEPLOGIN_YES(
+			"Y"), KEEPLOGIN_NO("N"),;
 
 	private final String param;
 
-	private ConstLoginParameter(String param) {
+	private ConstUserParameter(String param) {
 		this.param = param;
 	}
 
