@@ -39,11 +39,18 @@ public class Activity_memberService {
 	public List<Activity_memberBean> findActivityNoByMemberId(Activity_memberBean bean) {
 		return activityMemberDAO.selectByOthers(bean);
 	}
+	
+	@Transactional(readOnly = true)
+	public Activity_memberBean findByPK(Activity_memberBean bean) {
+		return activityMemberDAO.selectByPrimaryKey(bean);
+	}
 
+	@Transactional
 	public Activity_memberBean addNewActivityMember(Activity_memberBean bean) {
 		return activityMemberDAO.insert(bean);
 	}
 
+	@Transactional
 	public Activity_memberBean changePosition(Activity_memberBean bean) {
 		Activity_memberBean result = activityMemberDAO.selectByPrimaryKey(bean);
 		if (result != null) {
@@ -51,7 +58,8 @@ public class Activity_memberService {
 		}
 		return result;
 	}
-
+	
+	@Transactional
 	public List<Activity_memberBean> commitAllActivity(Activity_memberBean bean) {
 		List<Activity_memberBean> begin = activityMemberDAO.selectByOthers(bean);
 		for (int i = 0; i < begin.size(); i++) {
@@ -66,6 +74,7 @@ public class Activity_memberService {
 		return null;
 	}
 
+	@Transactional
 	public boolean deleteByActivityNo(Activity_memberBean bean) {
 		List<Activity_memberBean> del = activityMemberDAO.selectByOthers(bean);
 		for (int i = 0; i < del.size(); i++) {
