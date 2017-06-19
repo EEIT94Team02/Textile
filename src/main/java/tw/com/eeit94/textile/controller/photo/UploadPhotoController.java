@@ -1,10 +1,12 @@
 package tw.com.eeit94.textile.controller.photo;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,16 +14,14 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import tw.com.eeit94.textile.model.member.MemberBean;
@@ -39,26 +39,29 @@ import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
 @Controller
 @EnableWebMvc
 @RequestMapping(path = { "/photo" })
-public class CUDPhotoController {
+public class UploadPhotoController {
 
 	@Autowired
 	private PhotoService photoService;
+
 	public PhotoService getPhotoService() {
 		return photoService;
-	}	
+	}
 
 	@Autowired
 	private Photo_albumService photo_albumService;
+
 	public Photo_albumService getPhoto_albumService() {
 		return photo_albumService;
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/upload.do" }, consumes = {
 			"multipart/form-data;charset=UTF-8" })
-	public String process(@RequestParam("file") MultipartFile[] files, HttpServletRequest request, Model model)
-			throws IOException {
+	public String process(@RequestParam("file") MultipartFile[] files, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
 
 		// 接收資料
+		String albumString = request.getParameter("albumno");
 		String photoname = request.getParameter("photoname");
 		String interpretation = request.getParameter("interpretation");
 		String position = request.getParameter("position");
@@ -75,6 +78,9 @@ public class CUDPhotoController {
 		Map<String, String> errors = new HashMap<String, String>();
 		model.addAttribute(errors);
 
+		if (albumString == null || albumString == "") {
+			errors.put("albumno", "請輸入相簿編號");
+		}
 		if (files == null || files.length == 0) {
 			errors.put("file", "請選擇至少一張照片");
 		}
@@ -90,14 +96,19 @@ public class CUDPhotoController {
 			return "photo.error";
 		}
 
-		String realpath = "/workspace/Textile/src/main/webapp/album/";
+		int albumno = 0;
+		if (albumString != null && albumString != "") {
+			albumno = Integer.parseInt(albumString);
+		}
+
+		String realpath = "/album/";
 		ServletContext context = request.getServletContext();
 		String temdir = context.getContextPath() + realpath + java.lang.String.valueOf(id);
-		System.out.println(temdir);
-		System.out.println(context.getRealPath("/album"));
+		System.out.println("temdir=" + context.getContextPath());
+		System.out.println("temdir=" + temdir);
 		MultipartFile file = null;
 		PhotoBean bean = new PhotoBean();
-		bean.setAlbumno(id);
+		bean.setAlbumno(albumno);
 		bean.setInterpretation(interpretation);
 		bean.setPhotoname(photoname);
 		bean.setPosition(position);
@@ -111,10 +122,9 @@ public class CUDPhotoController {
 		String time = getPhotoService().getTimeString();
 		String memberIdString = getPhotoService().getMemberIdString(id);
 		int photos = getPhotoService().countphoto(time + memberIdString);
-		System.out.println(photos);
 		StringBuilder sb = new StringBuilder();
 		String tempno = "";
-		String fullname ="";
+		String fullname = "";
 		String name = "";
 		PhotoBean insertBean = new PhotoBean();
 		UID photo = null;
@@ -127,23 +137,21 @@ public class CUDPhotoController {
 				int a = fullname.lastIndexOf(".");
 				name = fullname.substring(a, fullname.length());
 				file2 = new File("" + temdir + "/" + photo.hashCode() + name);
-
 				if (!file2.getParentFile().exists()) {
 					file2.getParentFile().mkdirs();
 				}
-
 				fis = file.getInputStream();
 				fos = new FileOutputStream(file2, true);
 				int data;
 				while ((data = fis.read()) != -1) {
 					fos.write(data);
 				}
-				String path = "/" + java.lang.String.valueOf(id) + "/" + photo.hashCode() + name;
+				String path = file2.getPath();
 				bean.setRespath(path);
 				tempno = sb.append("0000").append(photos).substring(sb.length() - 4, sb.length());
 				String newphotono = time + memberIdString + tempno;
 				bean.setPhotono(newphotono);
-				insertBean = getPhotoService().insertDataToPhoto(bean);
+				insertBean = getPhotoService().insertDataToPhoto(bean);					
 				if (insertBean != null) {
 					result.add(insertBean);
 					photos++;
@@ -169,14 +177,15 @@ public class CUDPhotoController {
 				}
 			}
 		}
-
 		// 根據Model執行結果呼叫View
 		if (files.length == result.size()) {
-			model.addAttribute("insert", result);
-			return "photo.run";
+			PhotoBean albumPhoto = new PhotoBean();
+			albumPhoto.setAlbumno(albumno);	
+			List<PhotoBean> all = getPhotoService().selectByOthers(albumPhoto);
+			model.addAttribute("insert", all);
+			return "photo.list";
 		} else {
-			return "photo.back";
+			return "upload.error";
 		}
-		// 要產生View元件則要return "Url Pattern"的相對或絕對路徑。
 	}
 }

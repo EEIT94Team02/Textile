@@ -3,22 +3,32 @@
  */
 package tw.com.eeit94.textile.controller.report;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.report.ReportBean;
 import tw.com.eeit94.textile.model.report.ReportService;
 import tw.com.eeit94.textile.model.reportimage.ReportImgBean;
 import tw.com.eeit94.textile.model.reportimage.ReportImgService;
+import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /*
  * 一、命名規則：
@@ -87,32 +97,84 @@ public class ReportController {
 	private ReportService reportService;
 	@Autowired
 	private ReportImgService reportImgService;
-	
-	//會員查詢自己所有回報記錄
-	@RequestMapping(path = {"/reportlist.do"})
+
+	// 會員查詢自己所有回報記錄
+	@RequestMapping(path = { "/reportlist.do" })
 	public String reptList(HttpServletRequest request, Model model) throws IOException {
 		HttpSession session = request.getSession();
 		MemberBean memberBean = (MemberBean) session.getAttribute("user");
 		ReportBean bean = new ReportBean();
-		//設定會員ID
+		// 設定會員ID
 		bean.setmId(memberBean.getmId());
 		List<ReportBean> reportList = reportService.selectReptByMId(bean);
-		model.addAttribute("reportList",reportList);
+		model.addAttribute("reportList", reportList);
 		return "reportList.show";
 	}
-	
-	//管理員查詢所有未回覆紀錄
-	@RequestMapping(path = {"/situationlist.do"})
-	public String situationList(Model model) throws IOException {
+
+	// 管理員查詢所有未回覆紀錄
+	@RequestMapping(path = { "/situationlist.do" })
+	public String situationList(HttpServletRequest request,Model model) throws IOException {
 		List<ReportBean> beans = reportService.selectReptBySituation(false);
-		List<ReportImgBean> imgBeans = null;
-		for(ReportBean bean:beans){
-			ReportImgBean imgBean = new ReportImgBean();
-			imgBean.setReptNo(bean.getReptNo());
-			imgBeans = reportImgService.selectRrptImg(imgBean);
+		List<ReportImgBean> imgBeans = new ArrayList<ReportImgBean>();
+		//設定來源
+		File source = null;
+		//設定目標
+		File target = null;
+		BufferedInputStream bufferedInputStream = null;
+		BufferedOutputStream bufferedOutputStream = null;
+		ServletContext context = request.getServletContext();
+		//設定路徑 context.getContextPath() = 專案名稱
+		String dir = context.getContextPath()+"/apache-tomcat-8.5.15/wtpwebapps/Textile";
+		for (ReportBean bean : beans) {
+			ReportImgBean reportImgBean = new ReportImgBean();
+			reportImgBean.setReptNo(bean.getReptNo());
+			List<ReportImgBean> list = reportImgService.selectRrptImg(reportImgBean);			
+			for(ReportImgBean imgBean:list){
+//				System.out.println("imgBean="+imgBean.getReptNo()+
+//						imgBean.getReptImgNo()+
+//						imgBean.getImgPath());
+				//如果沒有就寫入
+				source = new File(imgBean.getImgPath());
+				target = new File(dir+imgBean.getImgPath());
+				if(!target.getParentFile().exists()){
+					target.getParentFile().mkdirs();
+				}
+				bufferedInputStream = new BufferedInputStream(new FileInputStream(source));
+				bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(target));
+				int data = 0;
+				while(data != -1){
+					data = bufferedInputStream.read();
+					bufferedOutputStream.write(data);
+				}
+				bufferedOutputStream.flush();
+				bufferedInputStream.close();
+				bufferedOutputStream.close();
+				imgBeans.add(imgBean);
+			}
 		}
-		model.addAttribute("reportimg",imgBeans);
-		model.addAttribute("situationList",beans);
+
+		model.addAttribute("reportimg", imgBeans);
+		model.addAttribute("situationList", beans);
 		return "situationList.show";
 	}
+	
+	@RequestMapping(path = { "/reportreply.do" })
+	public String reportReply(ReportBean bean,ReportImgBean imgbean,HttpServletRequest request,Model model) throws IOException {
+		ReportBean rBean = reportService.select(bean);
+		imgbean.setReptNo(bean.getReptNo());
+		List<ReportImgBean> beans = reportImgService.selectRrptImg(imgbean);
+		model.addAttribute("reportImg",beans);
+		model.addAttribute("report",rBean);
+		return "reply.show";
+	}
+	
+	@RequestMapping(path = { "/replysuccess.do" })
+	public String replysuccess(ReportBean bean,ReportImgBean imgbean,HttpServletRequest request,Model model) throws IOException {		
+		ReportBean reportBean = reportService.select(bean);
+		System.out.println("reportBean="+reportBean.getReptNo());
+//		model.addAttribute("reportImg",beans);
+//		model.addAttribute("report",result);
+		return "replysuccess.show";
+	}
+	
 }

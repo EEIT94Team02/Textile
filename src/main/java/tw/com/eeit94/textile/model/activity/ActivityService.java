@@ -35,10 +35,10 @@ public class ActivityService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<ActivityBean> customeSelect(ActivityBean bean, String string) {
+	public List<ActivityBean> customeSelect(ActivityBean bean) {
 		List<ActivityBean> result = null;
 		try {
-			result = activityDao.selectByOthers(bean, string);
+			result = activityDao.selectByOthers(bean);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +58,6 @@ public class ActivityService {
 			result.setInterpretation(
 					bean.getInterpretation() == null ? result.getInterpretation() : bean.getInterpretation());
 			result.setPlace(bean.getPlace() == null ? result.getPlace() : bean.getPlace());
-			result.setVisibility(bean.getVisibility() == null ? result.getVisibility() : bean.getVisibility());
 			return activityDao.update(result);
 		}
 		return null;

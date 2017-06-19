@@ -24,8 +24,11 @@
 			</thead>
 			<tbody>
 				<c:forEach var="row" items="${AlbumList}">
+					<c:url value="/photo/list.do" var="album">
+						<c:param name="albumno" value="${row.albumno}"></c:param>
+					</c:url>
 					<tr>
-						<td>${row.albumno}</td>
+						<td><a href="${album}">${row.albumno}</a></td>
 						<td>${row.createtime}</td>
 						<td>${row.albumname}</td>
 						<td>${row.introduction}</td>
@@ -42,16 +45,19 @@
 	</c:if>
 
 	<p>
-		<a href='<c:url value="/photo/select.v"/>'>查詢相簿(要登入)</a>
+		<a href='<c:url value="/photo/albumselect.v"/>'>查詢相簿(要登入)</a>
 	</p>
 	<p>
-		<a href='<c:url value="/photo/insert.v"/>'>創建相簿(要登入)</a>
+		<a href='<c:url value="/photo/albuminsert.v"/>'>創建相簿(要登入)</a>
 	</p>
 	<p>
-		<a href='<c:url value="/photo/update.v"/>'>更新相簿(要登入)</a>
+		<a href='<c:url value="/photo/albumupdate.v"/>'>更新相簿(要登入)</a>
 	</p>
 	<p>
-		<a href='<c:url value="/photo/delete.v"/>'>刪除相簿(要登入)</a>
+		<a href='<c:url value="/photo/albumdelete.v"/>'>刪除相簿(要登入)</a>
+	</p>
+	<p>
+		<a href='<c:url value="/photo/upload.v"/>'>上傳照片(要登入)</a>
 	</p>
 
 

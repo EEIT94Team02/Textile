@@ -9,7 +9,7 @@
 </head>
 <body>
 <center>
-<c:if test="${not empty success}" scope="page">
+<c:if test="${not empty success}">
 <h2>回報成功</h2>
 <table border="1">
 	<tr><td>會員暱稱</td><td>${user.mName}</td></tr>

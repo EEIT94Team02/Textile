@@ -23,7 +23,7 @@ public class ActivityBean implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "{" + getActivityno() + "," + getBegintime() + "," + getEndtime() + "," + getActivityname() + ","
-				+ getPlace() + "," + getInterpretation() + "," + getVisibility() + "}";
+				+ getPlace() + "," + getInterpretation() + "}";
 	}
 
 	@Id
@@ -34,7 +34,6 @@ public class ActivityBean implements java.io.Serializable {
 	private String activityname;
 	private String place;
 	private String interpretation;
-	private String visibility;
 
 	public Integer getActivityno() {
 		return activityno;
@@ -82,13 +81,5 @@ public class ActivityBean implements java.io.Serializable {
 
 	public void setInterpretation(String interpretation) {
 		this.interpretation = interpretation;
-	}
-
-	public String getVisibility() {
-		return visibility;
-	}
-
-	public void setVisibility(String visibility) {
-		this.visibility = visibility;
 	}
 }
