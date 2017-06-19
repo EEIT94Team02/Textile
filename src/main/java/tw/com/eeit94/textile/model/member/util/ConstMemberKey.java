@@ -10,35 +10,43 @@ package tw.com.eeit94.textile.model.member.util;
  * ！！！！！！不要使用自動排版！！！！！！
  * 
  * @author 賴
- * @version 2017/06/09
+ * @version 2017/06/18
  */
 public enum ConstMemberKey {
-	Id("mId", false, false),
-	CreateTime("mCreateTime", false, false),
-	EmailValid("mEmailValid", false, false),
-	PhoneValid("mPhoneValid", false, false),
-	KeepLogin("mKeepLogin", false, false),
-	Email("mEmail", true, true),
-	Password("mPassword", true, true),
-	Name("mName", true, true),
-	Birthday("mBirthday", true, true),
-	IdentityCardNumber("mIdentityCardNumber", true,	true),
-	Gender("mGender", false, true),
-	Address("mAddress", true, true),
-	PhoneNumber("mPhoneNumber", true, true),
-	HintPassword("mHintPassword", true, true),
-	HintAnswer("mHintAnswer", true, true),
-	Scores("mScores", false, false),
-	Points("mPoints", false, false),
-	Career("mCareer", false, false),
-	Education("mEducation", false, false),
-	Economy("mEconomy", false, false), 
-	Marriage("mMarriage", false, false),
-	Family("mFamily", false, false),
-	BloodType("mBloodType", false, false),
-	Constellation("mConstellation", false, false),
-	Religion("mReligion", false, false),
-	SelfIntroduction("mSelfIntroduction", true, true);
+	Id("mId", false, false, false),
+	CreateTime("mCreateTime", false, false, false),
+	ValidEmail("mValidEmail", false, false, false),
+	ValidPhone("mValidPhone", false, false, false),
+	ValidManager("mValidManager", false, false, false),
+	KeepLogin("mKeepLogin", false, false, false),
+	Email("mEmail", true, true, false),
+	Password("mPassword", true, true, true),
+	Name("mName", true, true, true),
+	Birthday("mBirthday", true, true, true),
+	IdentityCardNumber("mIdentityCardNumber", true, true, true),
+	Gender("mGender", true, false, false),
+	Address("mAddress", true, true, true),
+	PhoneNumber("mPhoneNumber", true, true, true),
+	HintPassword("mHintPassword", true, true, true),
+	HintAnswer("mHintAnswer", true, true, true),
+	Scores("mScores", false, false, false),
+	Points("mPoints", false, false, false),
+	Career("mCareer", false, false, false),
+	Education("mEducation", false, false, false),
+	Economy("mEconomy", false, false, false), 
+	Marriage("mMarriage", false, false, false),
+	Family("mFamily", false, false, false),
+	BloodType("mBloodType", false, false, false),
+	Constellation("mConstellation", false, false, false),
+	Religion("mReligion", false, false, false),
+	SelfIntroduction("mSelfIntroduction", false, false, true),
+	
+	// 特例：需用其它方式驗證
+	EmailExist("mEmailExist", true, false, false),
+	Password_Again("mPassword_again", true, false, false),
+	Adrress_County("mAddress_county", true, false, false),
+	Adrress_Region("mAddress_region", true, false, false);
+	
 
 	/**
 	 * key: MemberBean的屬性名稱。 
@@ -48,27 +56,33 @@ public enum ConstMemberKey {
 	 * isFromUserInput: 是否從使用者輸入的。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/10
+	 * @version 2017/06/17
 	 */
 	private final String key;
-	private final boolean isGoingToCheck;
-	private final boolean isFromUserInput;
+	private final boolean needToBackInMapWhenRegistering;
+	private final boolean needToCheckWhenRegistering;
+	private final boolean NeedToCheckAfterRegistering;
 
-	ConstMemberKey(String key, boolean isGoingToCheck, boolean isFromUserInput) {
+	ConstMemberKey(String key, boolean needToBackInMapWhenRegistering, boolean needToCheckWhenRegistering, boolean NeedToCheckAfterRegistering) {
 		this.key = key;
-		this.isGoingToCheck = isGoingToCheck;
-		this.isFromUserInput = isFromUserInput;
+		this.needToBackInMapWhenRegistering = needToBackInMapWhenRegistering;
+		this.needToCheckWhenRegistering = needToCheckWhenRegistering;
+		this.NeedToCheckAfterRegistering = NeedToCheckAfterRegistering;
 	}
 
 	public String key() {
 		return this.key;
 	}
-
-	public boolean isGoingToCheck() {
-		return this.isGoingToCheck;
+	
+	public boolean needToBackInMapWhenRegistering() {
+		return this.needToBackInMapWhenRegistering;
+	}
+	
+	public boolean needToCheckWhenRegistering() {
+		return this.needToCheckWhenRegistering;
 	}
 
-	public boolean isFromUserInput() {
-		return this.isFromUserInput;
+	public boolean NeedToCheckAfterRegistering() {
+		return this.NeedToCheckAfterRegistering;
 	}
 }

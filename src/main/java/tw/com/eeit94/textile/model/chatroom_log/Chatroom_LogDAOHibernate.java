@@ -29,18 +29,18 @@ public class Chatroom_LogDAOHibernate implements Chatroom_LogDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	private final String SELECT_ALL = "from Chatroom_LogBean";
+	private static final String SELECT_ALL = "from Chatroom_LogBean";
 	
 	@Override
 	public List<Chatroom_LogBean> selectAll() {
-		Query<Chatroom_LogBean> query = this.getSession().createQuery(this.SELECT_ALL, Chatroom_LogBean.class);
+		Query<Chatroom_LogBean> query = this.getSession().createQuery(SELECT_ALL, Chatroom_LogBean.class);
 		return query.list();
 	}
 
 	@Override
 	public List<Chatroom_LogBean> select(Chatroom_LogBean c_lbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
+		this.results.add(this.getSession().load(Chatroom_LogBean.class, c_lbean.getChatroom_LogPK()));
 		return this.results;
 	}
 

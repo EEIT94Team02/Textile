@@ -32,7 +32,7 @@ public class SpringMVCDispatcherServletInitializer extends AbstractAnnotationCon
 				tw.com.eeit94.textile.system.supervisor.LoginFilter.class);
 		loginFilterRegistration.addMappingForServletNames(null, true, "/*");
 		javax.servlet.FilterRegistration pathFilterRegistration = servletContext.addFilter("pathFilter",
-				tw.com.eeit94.textile.system.supervisor.LoginFilter.class);
+				tw.com.eeit94.textile.system.supervisor.PathFilter.class);
 		pathFilterRegistration.addMappingForServletNames(null, true, "/*");
 		javax.servlet.FilterRegistration openSessionInViewFilterRegistration = servletContext.addFilter(
 				"openSessionInViewFilter", org.springframework.orm.hibernate5.support.OpenSessionInViewFilter.class);

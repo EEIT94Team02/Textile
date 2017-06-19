@@ -25,18 +25,18 @@ public class Interest_DetailDAOHibernate implements Interest_DetailDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	private final String SELECT_ALL = "from Interest_DetailBean";
+	private static final String SELECT_ALL = "from Interest_DetailBean";
 	
 	@Override
 	public List<Interest_DetailBean> selectAll() {
-		Query<Interest_DetailBean> query = this.getSession().createQuery(this.SELECT_ALL, Interest_DetailBean.class);
+		Query<Interest_DetailBean> query = this.getSession().createQuery(SELECT_ALL, Interest_DetailBean.class);
 		return query.list();
 	}
 
 	@Override
 	public List<Interest_DetailBean> select(Interest_DetailBean i_dbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(Interest_DetailBean.class, i_dbean.getmId()));
+		this.results.add(this.getSession().load(Interest_DetailBean.class, i_dbean.getmId()));
 		return this.results;
 	}
 

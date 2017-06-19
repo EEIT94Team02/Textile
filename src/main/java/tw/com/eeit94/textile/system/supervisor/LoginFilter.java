@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import tw.com.eeit94.textile.controller.user.ConstLoginParameter;
+import tw.com.eeit94.textile.controller.user.ConstUserParameter;
 import tw.com.eeit94.textile.model.logs.LogsService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
@@ -33,7 +33,7 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
 /**
  * 驗證是否登入的過濾器，並記錄每個使用者的請求與回應路徑，如果使用者關閉Cookie，則會因找不到存在Cookie的JSESSIONID而導向登入網頁。
  * 
- * 映射：/activity/*、/album/*、/log/*、/photo/*、/store/*、/report/*、/theme/*、/user/*；
+ * 映射：/activity/*、/album/*、/manager/*、/item/*、/photo/*、/report/*、/social/*、/store/*、/theme/*、/user/*；
  * 
  * 其中，/album/*內的資料夾還要驗證是否與會員主鍵相符才能看到；
  * 
@@ -46,9 +46,10 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
  */
 @Component
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "activity", value = "/activity/*"),
-		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "photo", value = "/photo/*"),
-		@WebInitParam(name = "store", value = "/store/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
-		@WebInitParam(name = "report", value = "/report/*"), @WebInitParam(name = "theme", value = "/theme/*"),
+		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
+		@WebInitParam(name = "item", value = "/item/*"), @WebInitParam(name = "photo", value = "/photo/*"),
+		@WebInitParam(name = "report", value = "/report/*"), @WebInitParam(name = "social", value = "/social/*"),
+		@WebInitParam(name = "store", value = "/store/*"), @WebInitParam(name = "theme", value = "/theme/*"),
 		@WebInitParam(name = "user", value = "/user/*") })
 public class LoginFilter implements Filter {
 	/**
@@ -74,14 +75,6 @@ public class LoginFilter implements Filter {
 	 * @version 2017/06/13
 	 */
 	private List<String> managedUrlList = new ArrayList<>();
-
-	/**
-	 * 存放多個管理員帳號的清單。
-	 * 
-	 * @author 賴
-	 * @version 2017/06/12
-	 */
-	private List<String> managerList = new ArrayList<>();
 
 	/**
 	 * 紀錄資訊的Service。
@@ -131,11 +124,6 @@ public class LoginFilter implements Filter {
 			}
 		}
 
-		ConstManagerList[] c = ConstManagerList.values();
-		for (int i = 0; i < c.length; i++) {
-			this.managerList.add(c[i].key());
-		}
-
 		/*
 		 * SpringBeanAutowiringSupport能夠幫你把在ServletContext的元件與Spring的 Root
 		 * Container做連通。
@@ -161,13 +149,11 @@ public class LoginFilter implements Filter {
 			StringBuffer sBuffer = new StringBuffer().append("過濾器接收");
 
 			/*
-			 * 讀取客戶端的Cookie並檢驗是否能自動登入(如果之前有勾選保持登入且Cookie kl值存在。)
+			 * 讀取使用者的姓名，得知使用者的身份，會先嘗試從Session或Cookie
+			 * kl值(且之前必須勾選保持登入)找到MemberBean。
 			 */
-			this.checkCookieToKeepLogin(request);
-
-			// 讀取使用者的姓名，得知使用者的身份。
 			HttpSession session = request.getSession();
-			if (session.getAttribute(ConstFilterKey.USER.key()) != null) {
+			if (this.checkSessionToKeepLogin(request) || this.checkCookieToKeepLogin(request)) {
 				sBuffer.append("「").append(((MemberBean) session.getAttribute(ConstFilterKey.USER.key())).getmName())
 						.append("」的請求，");
 			} else {
@@ -329,10 +315,8 @@ public class LoginFilter implements Filter {
 	private boolean isManager(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-		for (int i = 0; i < this.managerList.size(); i++) {
-			if (mbean.getmEmail().equals(this.managerList.get(i))) {
-				return true;
-			}
+		if (mbean.getmValidManager().equals(ConstFilterParameter.IS_MANAGER.param())) {
+			return true;
 		}
 		return false;
 	}
@@ -344,7 +328,23 @@ public class LoginFilter implements Filter {
 	 * @author 賴
 	 * @version 2017/06/13
 	 */
-	private void checkCookieToKeepLogin(HttpServletRequest request) {
+	private boolean checkSessionToKeepLogin(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute(ConstFilterKey.USER.key()) != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 檢驗從客戶端來的Cookie kl的值，其實就是加密過的帳號，解密這個值並用它來搜尋該會員，
+	 * 如果會員存在，則將MemberBean直接加入Session Scope即可略過登入。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	private boolean checkCookieToKeepLogin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -354,14 +354,16 @@ public class LoginFilter implements Filter {
 						String mEmail = this.secureService.getDecryptedText(cookie.getValue(),
 								ConstSecureParameter.KEEPLOGIN.param());
 						MemberBean mbean = this.memberService.selectByEmail(mEmail);
-						if (mbean.getmKeepLogin().equals(ConstLoginParameter.KEEPLOGIN_YES.param())) {
+						if (mbean.getmKeepLogin().equals(ConstUserParameter.KEEPLOGIN_YES.param())) {
 							session.setAttribute(ConstFilterKey.USER.key(), mbean);
+							return true;
 						}
 					} catch (Exception e) {
-						this.logsService.insertNewLog("該會員帳號不存在或讀取並解密客戶端Cookie kl的值失敗而拋出例外。<br />" + e.getMessage());
+						this.logsService.insertNewLog("該會員帳號不存在或讀取並解密客戶端Cookie kl的值失敗而拋出例外：<br />" + e.getMessage());
 					}
 				}
 			}
 		}
+		return false;
 	}
 }

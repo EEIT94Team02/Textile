@@ -21,20 +21,20 @@ public class ReportImgService {
 	/*
 	 * 實作企業邏輯
 	 */
-	// public ReportImgBean select(ReportImgBean reportImgBean){
-	// if(reportImgBean!=null){
-	// return reportImgDAO.select(reportImgBean.getReptNo());
-	// }
-	// return null;
-	// }
+	 public ReportImgBean select(ReportImgBean reportImgBean){
+		 if(reportImgBean!=null){
+		 return reportImgDAO.select(reportImgBean.getReptNo());
+		 }
+	 return null;
+	 }
 	// 查詢某回報所有圖片 接收回報編號
 	public List<ReportImgBean> selectRrptImg(ReportImgBean reportImgBean) {
-		ReportImgBean result;
-		result = reportImgDAO.select(reportImgBean.getReptNo());
-		if (result != null) {
+//		ReportImgBean result;
+//		result = reportImgDAO.select(reportImgBean.getReptNo());
+//		if (result != null) {
 			return reportImgDAO.selectAll(reportImgBean.getReptNo());
-		}
-		return null;
+//		}
+//		return null;
 	}
 
 	// 新增圖片

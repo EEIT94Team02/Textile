@@ -15,8 +15,8 @@
 </style>
 </head>
 <body>
-	<c:if test="${sessionScope.user.mId == 11}">
-		<<h3><a href=" <c:url value="maintain.do"/> ">Maintain</a></h3>
+	<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+		<<h3><a href=" <c:url value='/manager/pShowMaintain.do'/> ">Maintain</a></h3>
 	</c:if>
 	<c:if test="${not empty pList}">
 	<form method="POST" action="">
@@ -35,7 +35,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${sessionScope.pList}" var="pBean" varStatus="pStatus">
-					<c:url value="single.do" var="link" scope="page">
+					<c:url value="pSingle.do" var="link" scope="page">
 						<c:param name="productId" value="${pBean.productId}" />
 						<c:param name="productName" value="${pBean.productName}" />
 						<c:param name="unitPrice" value="${pBean.unitPrice}" />
@@ -44,12 +44,12 @@
 						<c:param name="status" value="${pBean.status}" />
 						<c:param name="rewardPoints" value="${pBean.rewardPoints}" />
 					</c:url>
-					<c:url value="showImg.do" var="showImg" scope="page">
+					<c:url value="pShowImg.do" var="showImg" scope="page">
 						<c:param name="productId" value="${pBean.productId}"/>
 					</c:url>
 					<c:if test="${pBean.status}">
 						<tr>
-							<td><a href="${link}">${pBean.productId}</a></td>
+							<td><a href="${link}">詳細資訊</a></td>
 							<td>${pBean.productName}</td>
 							<td>${pBean.unitPrice}</td>
 							<td>${pBean.category}</td>

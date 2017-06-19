@@ -33,8 +33,9 @@ public class MemberBean implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer mId;
 	private java.sql.Timestamp mCreateTime;
-	private String mEmailValid;
-	private String mPhoneValid;
+	private String mValidEmail;
+	private String mValidPhone;
+	private String mValidManager;
 	private String mKeepLogin;
 	private String mEmail; // 唯一
 	private String mPassword;
@@ -89,24 +90,28 @@ public class MemberBean implements java.io.Serializable {
 		this.mCreateTime = mCreateTime;
 	}
 
-	public String getmEmailValid() {
-		return mEmailValid;
+	public String getmValidEmail() {
+		return mValidEmail;
 	}
 
-	public void setmEmailValid(String mEmailValid) {
-		this.mEmailValid = mEmailValid;
+	public void setmValidEmail(String mValidEmail) {
+		this.mValidEmail = mValidEmail;
 	}
 
-	public String getmEmail() {
-		return mEmail;
+	public String getmValidPhone() {
+		return mValidPhone;
 	}
 
-	public String getmPhoneValid() {
-		return mPhoneValid;
+	public void setmValidPhone(String mValidPhone) {
+		this.mValidPhone = mValidPhone;
 	}
 
-	public void setmPhoneValid(String mPhoneValid) {
-		this.mPhoneValid = mPhoneValid;
+	public String getmValidManager() {
+		return mValidManager;
+	}
+
+	public void setmValidManager(String mValidManager) {
+		this.mValidManager = mValidManager;
 	}
 
 	public String getmKeepLogin() {
@@ -115,6 +120,10 @@ public class MemberBean implements java.io.Serializable {
 
 	public void setmKeepLogin(String mKeepLogin) {
 		this.mKeepLogin = mKeepLogin;
+	}
+
+	public String getmEmail() {
+		return mEmail;
 	}
 
 	public void setmEmail(String mEmail) {
@@ -310,8 +319,9 @@ public class MemberBean implements java.io.Serializable {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
 		linkedHashMap.put("mId", this.getmId().toString());
 		linkedHashMap.put("mCreateTime", this.getmCreateTime().toString());
-		linkedHashMap.put("mEmailValid", this.getmEmailValid().toString());
-		linkedHashMap.put("mPhoneValid", this.getmPhoneValid().toString());
+		linkedHashMap.put("mValidEmail", this.getmValidEmail().toString());
+		linkedHashMap.put("mValidPhone", this.getmValidPhone().toString());
+		linkedHashMap.put("mValidManager", this.getmValidManager().toString());
 		linkedHashMap.put("mKeepLogin", this.getmKeepLogin().toString());
 		linkedHashMap.put("mEmail", this.getmEmail());
 		linkedHashMap.put("mPassword", this.getmPassword());

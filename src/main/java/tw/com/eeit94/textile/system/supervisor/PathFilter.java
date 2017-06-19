@@ -79,7 +79,6 @@ public class PathFilter implements Filter {
 				 */
 				if (servletPath.endsWith(ConstMapping.FALSE_MAIN_PAGE.path())) {
 					prefixPath = servletPath.substring(0, servletPath.lastIndexOf('/'));
-					System.out.println(contextPath + prefixPath + ConstMapping.TRUE_MAIN_PAGE.path());
 					response.sendRedirect(contextPath + prefixPath + ConstMapping.TRUE_MAIN_PAGE.path());
 				} else {
 					// 非「/index.jsp」結尾者，直接到404.v慢走不送。

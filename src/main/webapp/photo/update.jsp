@@ -7,41 +7,50 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Textile</h1>
-	<c:out value="${user.mName} 的相簿" />
-	<form action='<c:url value="album/update.do"/>' method="post">
+
+	<form action='<c:url value="update.do"/>' enctype="multipart/form-data" method="post">
 		<table>
 			<tr>
-				<td>相簿編號：</td>
-				<td><input type="text" name="albumno" value="${param.albumno}" /></td>
+				<td><label>照片編號 :</label></td>
+				<td><input type="text" name="photono" value="${param.photoname}"></td>
+				<td>${errors.photoname}</td>
 			</tr>
 			<tr>
-				<td>相簿名稱：</td>
-				<td><input type="text" name="albumname" value="${param.albumname}" /></td>
-				<td>${albumInsertErrors.albumname}</td>
+				<td><label>相簿編號 :</label></td>
+				<td><input type="text" name="albumno" value="${param.photoname}"></td>
+				<td>${errors.photoname}</td>
 			</tr>
 			<tr>
-				<td>相簿簡介：</td>
-				<td><input type="text" name="introduction" value="${param.introduction}" /></td>
-				<td>${albumInsertErrors.introduction}</td>
+				<td><label>照片名稱 :</label></td>
+				<td><input type="text" name="photoname" value="${param.photoname}"></td>
+				<td>${errors.photoname}</td>
 			</tr>
 			<tr>
-				<td>隱私設定：</td>
-				<td><select name="visibility">
-						<option value="公開" selected="selected">公開</option>
-						<option value="好友">好友</option>
-						<option value="私人">私人</option>
-				</select></td>
-			</tr>
-			<tr>
+				<td><label>照片類別:</label></td>
+				<td><input type="radio" name="position" value="大頭貼">大頭貼 <input type="radio" name="position" value="封面">封面
+					<input type="radio" name="position" value="一般">一般 <input type="radio" name="position" value="背景">背景
+				</td>
 				<td></td>
-				<td><input type="submit" value="更新"></td>
-				<td>${albumInsertErrors.create}</td>
+			</tr>
+			<tr>
+				<td><label>隱私設定 :</label></td>
+				<td><input type="radio" name="visibility" value="公開">公開 <input type="radio" name="visibility"
+					value="好友">好友 <input type="radio" name="visibility" value="隱藏">隱藏</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><label>上傳檔案 :</label></td>
+				<td><input type="file" name="file" multiple accept="image/*"></td>
+				<td>${errors.file}</td>
+			</tr>
+			<tr>
+				<td><label>照片敘述 :</label></td>
+				<td><textarea name="interpretation"></textarea></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="upload"></td>
 			</tr>
 		</table>
 	</form>
-
-
-
 </body>
 </html>

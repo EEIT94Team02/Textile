@@ -21,5 +21,5 @@ public interface ActivityDAO {
 
 	public boolean delete(ActivityBean bean);
 
-	public List<ActivityBean> selectByOthers(ActivityBean bean, String string) throws ParseException;
+	public List<ActivityBean> selectByOthers(ActivityBean bean) throws ParseException;
 }

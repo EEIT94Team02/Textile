@@ -11,29 +11,26 @@
 	<form action='<c:url value="upload.do"/>' enctype="multipart/form-data" method="post">
 		<table>
 			<tr>
+				<td><label>相簿編號 :</label></td>
+				<td><input type="text" name="albumno" value="${param.photoname}"></td>
+				<td>${errors.photoname}</td>
+			</tr>
+			<tr>
 				<td><label>照片名稱 :</label></td>
-				<td>
-					<input type="text" name="photoname" value="${param.photoname}">
-				</td> 
+				<td><input type="text" name="photoname" value="${param.photoname}"></td>
 				<td>${errors.photoname}</td>
 			</tr>
 			<tr>
 				<td><label>照片類別:</label></td>
-				<td>
-					<input type="radio" name="position" value="大頭貼">大頭貼
-					<input type="radio" name="position" value="封面">封面
-					<input type="radio" name="position" value="一般">一般
-					<input type="radio" name="position" value="背景">背景
+				<td><input type="radio" name="position" value="大頭貼">大頭貼 <input type="radio" name="position" value="封面">封面
+					<input type="radio" name="position" value="一般">一般 <input type="radio" name="position" value="背景">背景
 				</td>
 				<td></td>
 			</tr>
 			<tr>
 				<td><label>隱私設定 :</label></td>
-				<td>
-					<input type="radio" name="visibility" value="公開">公開
-					<input type="radio" name="visibility" value="好友">好友
-					<input type="radio" name="visibility" value="隱藏">隱藏
-				</td>
+				<td><input type="radio" name="visibility" value="公開">公開 <input type="radio" name="visibility"
+					value="好友">好友 <input type="radio" name="visibility" value="隱藏">隱藏</td>
 				<td></td>
 			</tr>
 			<tr>

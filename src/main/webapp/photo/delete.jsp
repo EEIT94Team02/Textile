@@ -7,12 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action='<c:url value="album/delete.do"/>' method="post">
+	<form action='<c:url value="delete.do"/>' method="post">
 		<table>
 			<tr>
-				<td>相簿編號：</td>
-				<td><input type="text" name="albumno" value="${param.mId}" /></td>
-				<td>${albumInsertErrors.albumname}</td>
+				<td>照片編號：</td>
+				<td><input type="text" name="photono" value="${param.photono}" /></td>
+				<td>${albumCRDErrors.delete}</td>
 			</tr>
 			<tr>
 				<td></td>
@@ -24,12 +24,12 @@
 
 	<hr>
 
-	<form action='<c:url value="album/deleteAll.do"/>' method="post">
+	<form action='<c:url value="deleteAll.do"/>' method="post">
 		<table>
 			<tr>
-				<td>請輸入會員ID：</td>
-				<td><input type="text" name="mId" value="${param.mId}" /></td>
-				<td>${albumInsertErrors.albumname}</td>
+				<td>請輸入相簿編號：</td>
+				<td><input type="text" name="albumno" value="${param.albumno}" /></td>
+				<td>${albumCRDErrors.deleteAll}</td>
 			</tr>
 			<tr>
 				<td></td>
@@ -38,7 +38,6 @@
 			</tr>
 		</table>
 	</form>
-
 
 </body>
 </html>

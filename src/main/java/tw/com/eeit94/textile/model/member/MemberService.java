@@ -1,6 +1,10 @@
 package tw.com.eeit94.textile.model.member;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.model.member.util.CheckAddress;
 import tw.com.eeit94.textile.model.member.util.CheckBirthday;
 import tw.com.eeit94.textile.model.member.util.CheckEmail;
+import tw.com.eeit94.textile.model.member.util.CheckEmailExist;
 import tw.com.eeit94.textile.model.member.util.CheckHintAnswer;
 import tw.com.eeit94.textile.model.member.util.CheckHintPassword;
 import tw.com.eeit94.textile.model.member.util.CheckIdentityCardNumber;
@@ -35,7 +41,7 @@ import tw.com.eeit94.textile.system.common.ConstHelperKey;
  * 控制會員基本資料的Service元件。
  * 
  * @author 賴
- * @version 2017/06/10
+ * @version 2017/06/18
  */
 @Service
 public class MemberService {
@@ -45,6 +51,20 @@ public class MemberService {
 	private SecureService secureService;
 	@Autowired
 	private ExecutableValidator executableValidator;
+	@Autowired
+	private SimpleDateFormat simpleDateFormat;
+	private static final String PASSWORD_AGAIN_ERROR_MESSAGE = "密碼不一致";
+
+	/**
+	 * 修改會員的基本資料。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	@Transactional
+	public MemberBean update(MemberBean mbean) {
+		return this.memberDAO.update(mbean).get(0);
+	}
 
 	/**
 	 * 特殊查詢：利用帳號搜尋。
@@ -56,18 +76,176 @@ public class MemberService {
 	public MemberBean selectByEmail(String mEmail) {
 		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
 		mkwbean.setmEmail(mEmail);
-		return memberDAO.selectByEmail(mkwbean).get(0);
+		MemberBean mbean = null;
+		List<MemberBean> list = memberDAO.selectByEmail(mkwbean);
+		if (list.size() > 0) {
+			mbean = list.get(0);
+		}
+		return mbean;
 	}
 
 	/**
-	 * 修改會員的基本資料。
+	 * 驗證信箱是否在資料庫會員表格中已有。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/13
+	 * @version 2017/06/17
 	 */
-	@Transactional
-	public MemberBean update(MemberBean mbean) {
-		return this.memberDAO.update(mbean).get(0);
+	public Map<String, String> checkNonexistentEmail(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
+		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.EmailExist.key());
+		dataAndErrorsMap.put(ConstMemberKey.EmailExist.key(), request.getParameter(ConstMemberKey.Email.key()));
+		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證密碼和再輸入密碼是否一致，Map<String, String>只放分別兩組密碼。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 */
+	public Map<String, String> checkTheSamePassword(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
+		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
+		dataAndErrorsMap.put(ConstMemberKey.Password_Again.key(),
+				request.getParameter(ConstMemberKey.Password_Again.key()));
+		String mPassword = dataAndErrorsMap.get(ConstMemberKey.Password.key());
+		String mPassword_again = dataAndErrorsMap.get(ConstMemberKey.Password_Again.key());
+
+		if (mPassword == null || !mPassword.equals(mPassword_again)) {
+			dataAndErrorsMap.put(ConstMemberKey.Password_Again.key() + ConstMemberParameter._ERROR.param(),
+					PASSWORD_AGAIN_ERROR_MESSAGE);
+		}
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證成功時，封裝所有表單資料至MemberBean並儲存在資料庫會員表格中，其它相關會員表格者另外處理，
+	 * 交易統一由MemberRollbackRroviderService管理。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 * @see {@link RegisterController}
+	 */
+	public MemberBean getNewMemberBean(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
+		// 密碼加密
+		String mPassword;
+		try {
+			mPassword = this.secureService.getEncryptedText(dataAndErrorsMap.get(ConstMemberKey.Password.key()),
+					ConstSecureParameter.PASSWORD.param());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		// 縣市鄉鎮區路等地址合併
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(request.getParameter(ConstMemberKey.Adrress_County.key()))
+				.append(request.getParameter(ConstMemberKey.Adrress_Region.key()))
+				.append(request.getParameter(ConstMemberKey.Address.key()));
+		String fullAddress = sBuffer.toString();
+
+		// 轉換日期字串為物件
+		java.util.Date mBirthday;
+		try {
+			mBirthday = this.simpleDateFormat.parse(dataAndErrorsMap.get(ConstMemberKey.Birthday.key()));
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
+
+		MemberBean mbean = new MemberBean();
+		mbean.setmCreateTime(new Timestamp(System.currentTimeMillis()));
+		mbean.setmValidEmail("N");
+		mbean.setmValidPhone("N");
+		mbean.setmValidManager("N");
+		mbean.setmKeepLogin("N");
+		mbean.setmEmail(dataAndErrorsMap.get(ConstMemberKey.Email.key()));
+		mbean.setmPassword(mPassword);
+		mbean.setmName(dataAndErrorsMap.get(ConstMemberKey.Name.key()));
+		mbean.setmBirthday(mBirthday);
+		mbean.setmIdentityCardNumber(dataAndErrorsMap.get(ConstMemberKey.IdentityCardNumber.key()));
+		mbean.setmGender(dataAndErrorsMap.get(ConstMemberKey.Gender.key()));
+		mbean.setmAddress(fullAddress);
+		mbean.setmPhoneNumber(dataAndErrorsMap.get(ConstMemberKey.PhoneNumber.key()));
+		mbean.setmHintPassword(dataAndErrorsMap.get(ConstMemberKey.HintAnswer.key()));
+		mbean.setmHintAnswer(dataAndErrorsMap.get(ConstMemberKey.HintPassword.key()));
+		mbean.setmScores(0);
+		mbean.setmPoints(0);
+		mbean.setmCareer(0);
+		mbean.setmEducation(0);
+		mbean.setmEconomy(3);
+		mbean.setmMarriage(0);
+		mbean.setmFamily(0);
+		mbean.setmBloodType(0);
+		mbean.setmConstellation(this.getConstellationByBirthday(mbean.getmBirthday()));
+		mbean.setmReligion(0);
+		mbean.setmSelfIntroduction("");
+		return this.memberDAO.insert(mbean).get(0);
+	}
+
+	/**
+	 * 自動轉換生日對應的星座。
+	 * 
+	 * 編號0：牡羊座 (3/21~4/20)，編號1：金牛座 (4/21~5/21)，編號2：雙子座 (5/22~6/21)，
+	 * 
+	 * 編號3：巨蟹座 (6/22~7/23)，編號4：獅子座 (7/24~8/23)，編號5：處女座 (8/24~9/23)，
+	 * 
+	 * 編號6：天秤座 (9/24~10/23)，編號7：天蠍座 (10/24~11/22)，編號8：射手座 (11/23~12/22)，
+	 * 
+	 * 編號9：魔羯座 (12/23~1/20)，編號10：水瓶座 (1/21~2/19)，編號11：雙魚座 (2/20~3/20)
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 */
+	public Integer getConstellationByBirthday(java.util.Date mBirthday) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(mBirthday);
+		long[] beginConstellationRange = new long[12];
+		beginConstellationRange[0] = this.getLongTime(calendar, 3, 21);
+		beginConstellationRange[1] = this.getLongTime(calendar, 4, 21);
+		beginConstellationRange[2] = this.getLongTime(calendar, 5, 22);
+		beginConstellationRange[3] = this.getLongTime(calendar, 6, 22);
+		beginConstellationRange[4] = this.getLongTime(calendar, 7, 24);
+		beginConstellationRange[5] = this.getLongTime(calendar, 8, 24);
+		beginConstellationRange[6] = this.getLongTime(calendar, 9, 24);
+		beginConstellationRange[7] = this.getLongTime(calendar, 10, 24);
+		beginConstellationRange[8] = this.getLongTime(calendar, 11, 23);
+		beginConstellationRange[9] = this.getLongTime(calendar, 12, 23);
+		beginConstellationRange[10] = this.getLongTime(calendar, 1, 21);
+		beginConstellationRange[11] = this.getLongTime(calendar, 2, 20);
+
+		int count = 0;
+		for (int i = 0; i < beginConstellationRange.length; i++) {
+			count = i;
+			if (i >= 0 && i < 9) {
+				if (mBirthday.getTime() >= beginConstellationRange[i]
+						&& mBirthday.getTime() < beginConstellationRange[i + 1]) {
+					break;
+				}
+			} else if (i == 9) {
+				if (mBirthday.getTime() >= beginConstellationRange[i]
+						|| mBirthday.getTime() < beginConstellationRange[i + 1]) {
+					break;
+				}
+			} else if (i == 10) {
+				if (mBirthday.getTime() >= beginConstellationRange[i]
+						&& mBirthday.getTime() < beginConstellationRange[i + 1]) {
+					break;
+				}
+			} else {
+				break;
+			}
+		}
+		return new Integer(count);
+	}
+
+	/**
+	 * 取得特定年月日的毫秒數。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 */
+	public long getLongTime(Calendar calendar, int month, int day) {
+		calendar.set(Calendar.MONDAY, month - 1);
+		calendar.set(Calendar.DAY_OF_MONTH, day);
+		return calendar.getTime().getTime();
 	}
 
 	/**
@@ -144,38 +322,42 @@ public class MemberService {
 	}
 
 	/**
-	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件。
+	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/10
+	 * @version 2017/06/18
 	 */
 	public Map<String, String> encapsulateAndCheckAllData(Map<String, String> dataAndErrorsMap,
 			HttpServletRequest request) {
 		ConstMemberKey[] memberKeys = ConstMemberKey.values();
 		for (int i = 0; i < memberKeys.length; i++) {
-			if (memberKeys[i].isFromUserInput()) {
+			if (memberKeys[i].needToBackInMapWhenRegistering()) {
 				dataAndErrorsMap.put(memberKeys[i].key(), request.getParameter(memberKeys[i].key()));
+				if (memberKeys[i].needToCheckWhenRegistering()) {
+					dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
+					dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+					dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
+				}
 			}
 		}
 
-		return this.checkAllData(dataAndErrorsMap);
+		return dataAndErrorsMap;
 	}
 
 	/**
-	 * 驗證表單所有的資料，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
+	 * 驗證表單單一的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
+	 * 
+	 * request參數中的「m」(METHOD)就是屬性名稱，「q」(QUERY)就是該屬性的值。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/10
+	 * @version 2017/06/18
 	 */
-	public Map<String, String> checkAllData(Map<String, String> dataAndErrorsMap) {
-		ConstMemberKey[] memberKeys = ConstMemberKey.values();
-		for (int i = 0; i < memberKeys.length; i++) {
-			if (memberKeys[i].isGoingToCheck()) {
-				dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
-				checkFormData(dataAndErrorsMap);
-			}
-		}
-
+	public Map<String, String> encapsulateAndCheckOneData(Map<String, String> dataAndErrorsMap,
+			HttpServletRequest request) {
+		String mField = request.getParameter(ConstHelperKey.METHOD.key());
+		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), mField);
+		dataAndErrorsMap.put(mField, request.getParameter(ConstHelperKey.QUERY.key()));
+		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
 		dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
 		return dataAndErrorsMap;
 	}
@@ -230,6 +412,11 @@ public class MemberService {
 	@CheckEmail(column = "信箱")
 	public String checkEmail(String email) {
 		return email;
+	}
+
+	@CheckEmailExist(column = "信箱")
+	public String checkEmailExist(String nonexistentEmail) {
+		return nonexistentEmail;
 	}
 
 	@CheckPassword(column = "密碼")

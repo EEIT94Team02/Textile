@@ -54,7 +54,7 @@ public class CUDAlbumController {
 			errors.put("introduction", "請簡述相簿用途或向其他人介紹您的相簿");
 		}
 		if (errors != null && !errors.isEmpty()) {
-			return "album.error";
+			return "insert.error";
 		}
 
 		// 呼叫Model
@@ -149,14 +149,13 @@ public class CUDAlbumController {
 		HttpSession session = request.getSession();
 		MemberBean user = (MemberBean) session.getAttribute("user");
 		int userId = user.getmId();
-
 		String albumnoString = request.getParameter("albumno");
-		int albumno = 0;
+
 		// 轉換資料
+		int albumno = 0;
 		if (albumnoString != null && albumnoString != "") {
 			albumno = Integer.parseInt(albumnoString);
 		}
-
 		if (errors != null && !errors.isEmpty()) {
 			return "delete.error";
 		}
@@ -168,11 +167,19 @@ public class CUDAlbumController {
 		// 用相簿編號找到要刪除的相簿資料，並刪除
 		List<Photo_albumBean> photo_albumBeans = new ArrayList<Photo_albumBean>();
 		Photo_albumBean photo_albumBean = getPhoto_albumService().findPhotoAlbumByAlbumNo(bean);
+
+		// 確認相簿存不存在
+		if (photo_albumBean == null) {
+			errors.put("delete", "刪除失敗，請重新確認");
+			return "delete.error";
+		}
+
+		// 判斷有無權限刪除
 		boolean result = false;
 		if (photo_albumBean.getmId() == userId) {
 			result = getPhoto_albumService().deletePhotoAlbum(photo_albumBean);
 		} else {
-			errors.put("delete", "刪除失敗" + "您只能刪除屬於您自己的相簿");
+			errors.put("delete", "刪除失敗,您只能刪除屬於您自己的相簿");
 			return "delete.error";
 		}
 
@@ -195,32 +202,48 @@ public class CUDAlbumController {
 		// 接收資料
 		HttpSession session = request.getSession();
 		MemberBean user = (MemberBean) session.getAttribute("user");
-		int memberID = user.getmId();
-
 		Map<String, String> errors = new HashMap<String, String>();
 		model.addAttribute("albumCRDErrors", errors);
 
-		if (errors != null && !errors.isEmpty()) {
-			return "album.error";
+		// 轉換資料
+		// 驗證資料
+		int userId = user.getmId();
+		String IdStrnig = request.getParameter("mId");
+		int memberId = 0;
+		if (IdStrnig != null && IdStrnig != "") {
+			memberId = Integer.parseInt(IdStrnig);
+		} else {
+			errors.put("deleteAll", "刪除失敗, 請確認輸入的資料");
 		}
-
-		// 呼叫Model
 		Photo_albumBean bean = new Photo_albumBean();
-		bean.setmId(memberID);
+		bean.setmId(memberId);
+		List<Photo_albumBean> photo_albumBeans = new ArrayList<Photo_albumBean>();
+		if (memberId != userId) {
+			errors.put("deleteAll", "刪除失敗,您只能刪除屬於您自己的相簿");
+			return "delete.error";
+		} else {
+			// 呼叫Model
+			// 用相簿編號找到要刪除的相簿資料，並刪除
+			photo_albumBeans = getPhoto_albumService().findPhotoAlbumBymId(bean);
+			// 根據Model執行結果呼叫View
+			if(photo_albumBeans != null && !photo_albumBeans.isEmpty()){
+				boolean result = false;
+				for (Photo_albumBean album : photo_albumBeans) {
+					result = getPhoto_albumService().deletePhotoAlbum(album);
+					if (!result) {
+						errors.put("deleteAll", "刪除失敗" + album.getAlbumname() + ",請確認是否已相簿是否已清空");
+						return "delete.error";
+					}
+				}
+				System.out.println("bbbb");
+				model.addAttribute("albumdelete", "刪除成功");
+				model.addAttribute("AlbumList", photo_albumBeans);
+			} else{
+				errors.put("deleteAll", "刪除失敗,請確認輸入的資料");
+				return "delete.error";
+			}			
 
-		// 用相簿編號找到要刪除的相簿資料，並刪除
-		boolean result = false;
-		List<Photo_albumBean> photo_albumBeans = getPhoto_albumService().findPhotoAlbumBymId(bean);
-
-		// 根據Model執行結果呼叫View
-		for (Photo_albumBean album : photo_albumBeans) {
-			result = getPhoto_albumService().deletePhotoAlbum(album);
-			if (!result) {
-				errors.put("deleteAll", "刪除失敗" + album.getAlbumname() + ",請確認是否已相簿是否已清空");
-				return "album.error";
-			}
 		}
-		model.addAttribute("albumdelete", "刪除成功");
 		return "album.default";
 	}
 }
