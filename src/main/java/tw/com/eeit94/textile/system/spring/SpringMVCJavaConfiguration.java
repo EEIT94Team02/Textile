@@ -477,6 +477,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/store/pMaintenance.jsp");
 		return view;
 	}
+	
+	// 資料錯誤訊息返回商品維護頁面
+	@Bean(name = { "pMaintenance.error" })
+	public InternalResourceView productMaintainError() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/pMaintenance.jsp");
+		return view;
+	}
 
 	// 使用RedirectView導向商品維護頁面
 	@Bean(name = { "pMaintenance.show.r" })
