@@ -28,8 +28,7 @@ public class ReadPhotoController {
 		return photoService;
 	}
 
-	@RequestMapping(method = { RequestMethod.GET }, path = { "/list.do" }, consumes = {
-			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/list.do" })
 	public String seclectMIdProcess(HttpServletRequest request, Model model) {
 
 		// 接收資料
@@ -42,12 +41,52 @@ public class ReadPhotoController {
 			albumno = Integer.parseInt(albumnoString);
 		}
 		if (errors != null && !errors.isEmpty()) {
-			return "photo.error";
+			return "select.photo";
 		}
 		PhotoBean bean = new PhotoBean();
 		bean.setAlbumno(albumno);
-		List<PhotoBean> resluts = getPhotoService().selectByAlbumno(bean);
-		model.addAttribute("PhotoList", resluts);
+		List<PhotoBean> results = getPhotoService().selectByAlbumno(bean);
+		model.addAttribute("PhotoList", results);
 		return "photo.list";
 	}
+
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/list.do" })
+	public String doGetProcess(HttpServletRequest request, Model model) {
+		return seclectMIdProcess(request, model);
+	}
+
+	@RequestMapping(method = { RequestMethod.POST }, path = { "/search.do" })
+	public String searchProcess(HttpServletRequest request, Model model) {
+
+		// 接收資料
+		Map<String, String> errors = new HashMap<String, String>();
+		model.addAttribute("searchPhotoErrors", errors);
+		String photoname = request.getParameter("photoname");
+		String interpretation = request.getParameter("interpretation");
+		String position = request.getParameter("position");
+		
+		if (photoname == "" && interpretation == "" && position == "") {
+			errors.put("search", "請至少輸入一個條件");
+		}
+
+		if (errors != null && !errors.isEmpty()) {
+			return "search.photo";
+		}
+		PhotoBean bean = new PhotoBean();
+		bean.setPhotoname(photoname);
+		bean.setPosition(position);
+		bean.setInterpretation(interpretation);
+
+		List<PhotoBean> results = getPhotoService().selectByOthers(bean);
+		if(results != null && !results.isEmpty()){
+			model.addAttribute("PhotoList", results);
+			return "photo.list";
+		} else{
+			errors.put("search", "查無資料，請重新查詢");
+			return "search.photo";
+		}
+		
+
+	}
+
 }

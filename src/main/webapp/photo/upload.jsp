@@ -12,31 +12,25 @@
 		<table>
 			<tr>
 				<td><label>相簿編號 :</label></td>
-				<td><input type="text" name="albumno" value="${param.photoname}"></td>
-				<td>${errors.photoname}</td>
+				<td><input type="text" name="albumno" value="${param.albumno}"></td>
+				<td>${photoCRDErrors.albumno}</td>
 			</tr>
 			<tr>
 				<td><label>照片名稱 :</label></td>
 				<td><input type="text" name="photoname" value="${param.photoname}"></td>
-				<td>${errors.photoname}</td>
+				<td>${photoCRDErrors.photoname}</td>
 			</tr>
 			<tr>
 				<td><label>照片類別:</label></td>
-				<td><input type="radio" name="position" value="大頭貼">大頭貼 <input type="radio" name="position" value="封面">封面
+				<td><input type="radio" checked="checked" name="position" value="大頭貼">大頭貼 <input type="radio" name="position" value="封面">封面
 					<input type="radio" name="position" value="一般">一般 <input type="radio" name="position" value="背景">背景
 				</td>
 				<td></td>
 			</tr>
 			<tr>
-				<td><label>隱私設定 :</label></td>
-				<td><input type="radio" name="visibility" value="公開">公開 <input type="radio" name="visibility"
-					value="好友">好友 <input type="radio" name="visibility" value="隱藏">隱藏</td>
-				<td></td>
-			</tr>
-			<tr>
 				<td><label>上傳檔案 :</label></td>
 				<td><input type="file" name="file" multiple accept="image/*"></td>
-				<td>${errors.file}</td>
+				<td>${photoCRDErrors.file}</td>
 			</tr>
 			<tr>
 				<td><label>照片敘述 :</label></td>

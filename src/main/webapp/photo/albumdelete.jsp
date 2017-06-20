@@ -21,23 +21,5 @@
 			</tr>
 		</table>
 	</form>
-
-	<hr>
-
-	<form action='<c:url value="/photo/album/deleteAll.do"/>' method="post">
-		<table>
-			<tr>
-				<td>請輸入會員ID：</td>
-				<td><input type="text" name="mId" value="${param.mId}" /></td>
-				<td>${albumCRDErrors.deleteAll}</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="刪除全部"></td>
-				<td></td>
-			</tr>
-		</table>
-	</form>
-
 </body>
 </html>

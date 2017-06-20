@@ -69,8 +69,6 @@ public class PhotoDAOHibernate implements PhotoDAO {
 				bean.getPhotoname() == null ? "%" : "%" + bean.getPhotoname() + "%");
 		Predicate p2 = cb.like(root.<String>get("position"),
 				bean.getPosition() == null ? "%" : "%" + bean.getPosition() + "%");
-		Predicate p3 = cb.like(root.<String>get("visibility"),
-				bean.getVisibility() == null ? "%" : "%" + bean.getVisibility() + "%");
 		Predicate p6 = cb.like(root.<String>get("interpretation"),
 				bean.getInterpretation() == null ? "%" : "%" + bean.getInterpretation() + "%");
 		Predicate p4;
@@ -82,7 +80,7 @@ public class PhotoDAOHibernate implements PhotoDAO {
 		Predicate p5 = cb.like(root.<String>get("photono"),
 				bean.getPhotono() == null ? "%" : "%" + bean.getPhotono() + "%");
 
-		return getSession().createQuery(query.where(p1, p2, p3, p4, p5, p6)).getResultList();
+		return getSession().createQuery(query.where(p1, p2,p4, p5, p6)).getResultList();
 	}
 
 	@Override
@@ -100,7 +98,6 @@ public class PhotoDAOHibernate implements PhotoDAO {
 			select.setInterpretation(bean.getInterpretation());
 			select.setAlbumno(bean.getAlbumno());
 			select.setPosition(bean.getPosition());
-			select.setVisibility(bean.getVisibility());
 		}
 		return select;
 	}

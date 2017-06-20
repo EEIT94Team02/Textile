@@ -546,17 +546,16 @@ Create Table photo(
 	photoname Nvarchar(10) NULL,
 	interpretation Nvarchar(150) NULL,
 	albumno int FOREIGN KEY REFERENCES photo_album(albumno),
-	position Nvarchar(3) NOT NULL,
-	visibility Nvarchar(2) NOT NULL
+	position Nvarchar(3) NOT NULL
 )
 GO
 
 INSERT INTO photo VALUES
-('20170527000000010001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558608.jpg','Roger','tennis',1,'大頭貼','公開'),
-('20170527000000020001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558610.jpg','Nadal','tennis',2,'大頭貼','公開'),
-('20170527000000030001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558609.jpg','Nole','tennis',5,'大頭貼','公開'),
-('20170527000000040001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558607.jpg','Sharapova','tennis',3,'大頭貼','公開'),
-('20170527000000050001','\Textile\workspace\Textile\src\main\webapp\album\1\-1098558611.jpg','Makarova','tennis',4,'大頭貼','公開')
+('20170527000000010001','\Textile\album\1\-1011803197.jpg','Roger','tennis',1,'大頭貼'),
+('20170527000000020001','\Textile\album\2\-1082729221.jpg','Nadal','tennis',2,'大頭貼'),
+('20170527000000030001','\Textile\album\5\-1082729222.jpg','Nole','tennis',5,'大頭貼'),
+('20170527000000040001','\Textile\album\3\-1082729220.jpg','Sharapova','tennis',3,'大頭貼'),
+('20170527000000050001','\Textile\album\4\-1012034951.jpg','Makarova','tennis',4,'大頭貼')
 GO
 
 --=-=-=-=-=-=-=-=-=-=-=- 陳 活動資料 -=-=-=-=-=-=-=-=-=-=-=--

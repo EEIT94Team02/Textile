@@ -65,26 +65,18 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 //		}	
 
 		Predicate p1 = cb.like(root.<String>get("albumname"),
-				bean.getAlbumname() == null ? "%" : "%" + bean.getAlbumname() + "%");
+				bean.getAlbumname() == "" ? "%" : "%" + bean.getAlbumname() + "%");
 		Predicate p2 = cb.like(root.<String>get("introduction"),
-				bean.getIntroduction() == null ? "%" : "%" + bean.getIntroduction() + "%");
+				bean.getIntroduction() == "" ? "%" : "%" + bean.getIntroduction() + "%");
 		Predicate p3 = cb.like(root.<String>get("visibility"),
-				bean.getVisibility() == null ? "%" : "%" + bean.getVisibility() + "%");
+				bean.getVisibility() == "" ? "%" : "%" + bean.getVisibility() + "%");
 		Predicate p4;
-		if (bean.getmId() != null) {
+		if (bean.getmId() != 0) {
 			p4 = cb.equal(root.<Integer>get("mId"), bean.getmId());
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
-		}
-		
-		Predicate p5;
-		if (bean.getCreatetime() != null) {
-			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), bean.getCreatetime());
-		} else {
-			p5 = cb.greaterThan(root.<Timestamp>get("createtime"), new java.sql.Timestamp(0));
-		}
-		
-		
+		}		
+		Predicate p5 = cb.greaterThan(root.<Timestamp>get("createtime"), bean.getCreatetime());	
 		
 		return getSession().createQuery(query.where(p1, p2, p3, p4, p5)).getResultList();
 	}

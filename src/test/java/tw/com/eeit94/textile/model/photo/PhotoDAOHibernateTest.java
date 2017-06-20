@@ -59,7 +59,6 @@ public class PhotoDAOHibernateTest {
 		selectOther.setInterpretation("tennis");
 		selectOther.setAlbumno(1);
 		selectOther.setPosition("大頭貼");
-		selectOther.setVisibility("公開");
 		beans = dao.selectByOthers(selectOther);
 		System.out.println(beans);
 
@@ -70,7 +69,6 @@ public class PhotoDAOHibernateTest {
 		insert.setInterpretation("tennis");
 		insert.setAlbumno(1);
 		insert.setPosition("大頭貼");
-		insert.setVisibility("公開");
 		bean = dao.insert(insert);
 		System.out.println(bean);
 
@@ -81,7 +79,6 @@ public class PhotoDAOHibernateTest {
 		update.setInterpretation("tennis");
 		update.setAlbumno(1);
 		update.setPosition("大頭貼");
-		update.setVisibility("私人");
 		bean = dao.update(update);
 		System.out.println(bean);
 

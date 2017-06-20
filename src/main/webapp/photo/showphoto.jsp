@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,7 +10,7 @@
 <body>
 	<h1>Textile</h1>
 
-	<c:if test="${not empty insert}">
+	<c:if test="${not empty PhotoList}">
 		<table>
 			<thead>
 				<tr>
@@ -19,11 +20,10 @@
 					<th>interpretation</th>
 					<th>albumno</th>
 					<th>position</th>
-					<th>visibility</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="row" items="${insert}">
+				<c:forEach var="row" items="${PhotoList}">
 					<c:url value="/showphoto.v" var="photo">
 						<c:param name="photono" value="${row.photono}"></c:param>
 					</c:url>
@@ -34,16 +34,14 @@
 						<td>${row.interpretation}</td>
 						<td>${row.albumno}</td>
 						<td>${row.position}</td>
-						<td>${row.visibility}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</c:if>
 	<p>
-		<a href="list.do">首頁</a>
+		<a href='<c:url value="/photo/index.v"/>'>首頁</a>
 	</p>
-
 	<p>
 		<a href='<c:url value="/photo/select.v"/>'>搜尋照片(要登入)</a>
 	</p>

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -8,7 +9,9 @@
 </head>
 <body>
 	<h1>Textile</h1>
-
+	<c:if test="${not empty Albumresult}">
+			${Albumresult}
+		</c:if>
 	<c:if test="${not empty AlbumList}">
 		<c:out value="${user.mName} 的相簿" />
 		<table>
@@ -26,6 +29,11 @@
 				<c:forEach var="row" items="${AlbumList}">
 					<c:url value="/photo/list.do" var="album">
 						<c:param name="albumno" value="${row.albumno}"></c:param>
+						<c:param name="createtime" value="${row.createtime}"></c:param>
+						<c:param name="albumname" value="${row.albumname}"></c:param>
+						<c:param name="introduction" value="${row.introduction}"></c:param>
+						<c:param name="visibility" value="${row.visibility}"></c:param>
+						<c:param name="mId" value="${row.mId}"></c:param>
 					</c:url>
 					<tr>
 						<td><a href="${album}">${row.albumno}</a></td>
@@ -40,8 +48,6 @@
 		</table>
 	</c:if>
 	<c:if test="${empty AlbumList}">
-		${selectAlbumErrors.selecterror}
-		${albumCRDErrors.update}
 	</c:if>
 
 	<p>
