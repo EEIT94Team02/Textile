@@ -32,13 +32,13 @@ public class GiftDAOHibernate implements GiftDAO {
 	}
 	
 	@Override
-	public GiftBean select(int giftId) {
+	public GiftBean select(Integer giftId) {
 		return getSession().get(GiftBean.class, giftId);
 	}
 	
 	//  以使用者會員Id查詢其所有收送禮記錄。
 	@Override
-	public List<GiftBean> selectAll(int userId) {
+	public List<GiftBean> selectAll(Integer userId) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<GiftBean> cq = cb.createQuery(GiftBean.class);
 		Root<GiftBean> giftBean = cq.from(GiftBean.class);

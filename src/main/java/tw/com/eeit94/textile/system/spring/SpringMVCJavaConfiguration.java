@@ -97,11 +97,17 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		// trigger，測試用
 		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
 		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
+		registry.addViewController("/deposit/dTestTrigger.v").setViewName("/deposit/dTestTrigger.v");
+		registry.addViewController("/deal/dealTestTrigger.v").setViewName("/deal/dealTestTrigger.v");
+		registry.addViewController("/gift/gTestTrigger.v").setViewName("/gift/gTestTrigger.v");
 		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
 		registry.addViewController("/item/index.v").setViewName("/item/index.v");
+		registry.addViewController("/deposit/index.v").setViewName("/deposit/index.v");
+		registry.addViewController("/deal/index.v").setViewName("/deal/index.v");
+		registry.addViewController("/gift/index.v").setViewName("/gift/index.v");
 		/*
 		 * 黃
 		 */
@@ -435,6 +441,30 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/item/iTestTrigger.jsp");
 		return view;
 	}
+	
+	// 測試用，為deposit頁面呼叫controller取得資料。
+	@Bean(name = { "/deposit/dTestTrigger.v" })
+	public InternalResourceView depositTrigger() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/dTestTrigger.jsp");
+		return view;
+	}
+	
+	// 測試用，為deal頁面呼叫controller取得資料。
+	@Bean(name = { "/deal/dealTestTrigger.v" })
+	public InternalResourceView dealTrigger() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deal/dealTestTrigger.jsp");
+		return view;
+	}
+	
+	// 測試用，為gift頁面呼叫controller取得資料。
+	@Bean(name = { "/gift/gTestTrigger.v" })
+	public InternalResourceView giftTrigger() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/gTestTrigger.jsp");
+		return view;
+	}
 
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
@@ -503,10 +533,10 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 物品欄首頁
-	@Bean(name = { "/store/index.v" })
+	@Bean(name = { "/item/index.v" })
 	public InternalResourceView itemIndex() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/store/index.jsp");
+		view.setUrl("/item/index.jsp");
 		return view;
 	}
 
@@ -515,6 +545,54 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public InternalResourceView itemList() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/item/index.jsp");
+		return view;
+	}
+	
+	// 儲值首頁
+	@Bean(name = { "/deposit/index.v" })
+	public InternalResourceView depositIndex() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/index.jsp");
+		return view;
+	}
+	
+	// 個人儲值紀錄頁面
+	@Bean(name = { "dList.show" })
+	public InternalResourceView depositList() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/index.jsp");
+		return view;
+	}
+	
+	// 交易首頁
+	@Bean(name = { "/deal/index.v" })
+	public InternalResourceView dealIndex() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deal/index.jsp");
+		return view;
+	}
+
+	// 個人交易紀錄頁面
+	@Bean(name = { "dealList.show" })
+	public InternalResourceView dealList() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deal/index.jsp");
+		return view;
+	}
+	
+	// 禮物首頁
+	@Bean(name = { "/gift/index.v" })
+	public InternalResourceView giftIndex() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/index.jsp");
+		return view;
+	}
+
+	// 個人收送禮物紀錄頁面
+	@Bean(name = { "gListAll.show" })
+	public InternalResourceView giftListAll() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/index.jsp");
 		return view;
 	}
 
