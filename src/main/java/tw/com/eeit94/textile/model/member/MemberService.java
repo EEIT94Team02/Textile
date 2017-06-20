@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.model.member.util.CheckAddress;
 import tw.com.eeit94.textile.model.member.util.CheckBirthday;
 import tw.com.eeit94.textile.model.member.util.CheckEmail;
@@ -40,7 +41,7 @@ import tw.com.eeit94.textile.system.common.ConstHelperKey;
  * 控制會員基本資料的Service元件。
  * 
  * @author 賴
- * @version 2017/06/16
+ * @version 2017/06/18
  */
 @Service
 public class MemberService {
@@ -66,6 +67,24 @@ public class MemberService {
 	}
 
 	/**
+	 * 特殊查詢：利用primary key搜尋。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/20
+	 */
+	@Transactional(readOnly = true)
+	public MemberBean selectByPrimaryKey(Integer mId) {
+		MemberBean mbean = new MemberBean();
+		mbean.setmId(mId);
+		List<MemberBean> list = this.memberDAO.select(mbean);
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * 特殊查詢：利用帳號搜尋。
 	 * 
 	 * @author 賴
@@ -76,7 +95,7 @@ public class MemberService {
 		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
 		mkwbean.setmEmail(mEmail);
 		MemberBean mbean = null;
-		List<MemberBean> list = memberDAO.selectByEmail(mkwbean);
+		List<MemberBean> list = this.memberDAO.selectByEmail(mkwbean);
 		if (list.size() > 0) {
 			mbean = list.get(0);
 		}
@@ -117,10 +136,12 @@ public class MemberService {
 	}
 
 	/**
-	 * 驗證成功時，封裝所有表單資料至MemberBean並儲存在資料庫會員表格中，其它相關會員表格者另外處理。
+	 * 驗證成功時，封裝所有表單資料至MemberBean並儲存在資料庫會員表格中，其它相關會員表格者另外處理，
+	 * 交易統一由MemberRollbackRroviderService管理。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/17
+	 * @see {@link RegisterController}
 	 */
 	public MemberBean getNewMemberBean(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
 		// 密碼加密
@@ -129,7 +150,7 @@ public class MemberService {
 			mPassword = this.secureService.getEncryptedText(dataAndErrorsMap.get(ConstMemberKey.Password.key()),
 					ConstSecureParameter.PASSWORD.param());
 		} catch (Exception e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 		// 縣市鄉鎮區路等地址合併
@@ -144,7 +165,7 @@ public class MemberService {
 		try {
 			mBirthday = this.simpleDateFormat.parse(dataAndErrorsMap.get(ConstMemberKey.Birthday.key()));
 		} catch (ParseException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 		MemberBean mbean = new MemberBean();
@@ -174,7 +195,7 @@ public class MemberService {
 		mbean.setmConstellation(this.getConstellationByBirthday(mbean.getmBirthday()));
 		mbean.setmReligion(0);
 		mbean.setmSelfIntroduction("");
-		return mbean;
+		return this.memberDAO.insert(mbean).get(0);
 	}
 
 	/**
@@ -322,20 +343,40 @@ public class MemberService {
 	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/10
+	 * @version 2017/06/18
 	 */
 	public Map<String, String> encapsulateAndCheckAllData(Map<String, String> dataAndErrorsMap,
 			HttpServletRequest request) {
 		ConstMemberKey[] memberKeys = ConstMemberKey.values();
 		for (int i = 0; i < memberKeys.length; i++) {
-			if (memberKeys[i].needToCheckWhenRegistering()) {
-				dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
+			if (memberKeys[i].needToBackInMapWhenRegistering()) {
 				dataAndErrorsMap.put(memberKeys[i].key(), request.getParameter(memberKeys[i].key()));
-				dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
-				dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
+				if (memberKeys[i].needToCheckWhenRegistering()) {
+					dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
+					dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+					dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
+				}
 			}
 		}
 
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證表單單一的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
+	 * 
+	 * request參數中的「m」(METHOD)就是屬性名稱，「q」(QUERY)就是該屬性的值。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/18
+	 */
+	public Map<String, String> encapsulateAndCheckOneData(Map<String, String> dataAndErrorsMap,
+			HttpServletRequest request) {
+		String mField = request.getParameter(ConstHelperKey.METHOD.key());
+		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), mField);
+		dataAndErrorsMap.put(mField, request.getParameter(ConstHelperKey.QUERY.key()));
+		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+		dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
 		return dataAndErrorsMap;
 	}
 

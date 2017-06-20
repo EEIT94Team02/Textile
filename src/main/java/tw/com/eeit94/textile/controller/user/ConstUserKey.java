@@ -12,7 +12,8 @@ package tw.com.eeit94.textile.controller.user;
  * @See {@link RegisterController}
  */
 public enum ConstUserKey {
-	KEEPLOGIN("keepLogin"), DATAANDERRORSMAP("dataAndErrorsMap");
+	KEEPLOGIN("keepLogin"), DATAANDERRORSMAP("dataAndErrorsMap"), CHECKURL("checkUrl"), EMAILCHECKRE_SENDURL(
+			"emailCheckRe_sendUrl");
 
 	private final String key;
 

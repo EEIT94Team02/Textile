@@ -25,18 +25,18 @@ public class Chatroom_MemberDAOHibernate implements Chatroom_MemberDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	private final String SELECT_ALL = "from Chatroom_MemberBean";
+	private static final String SELECT_ALL = "from Chatroom_MemberBean";
 	
 	@Override
 	public List<Chatroom_MemberBean> selectAll() {
-		Query<Chatroom_MemberBean> query = this.getSession().createQuery(this.SELECT_ALL, Chatroom_MemberBean.class);
+		Query<Chatroom_MemberBean> query = this.getSession().createQuery(SELECT_ALL, Chatroom_MemberBean.class);
 		return query.list();
 	}
 
 	@Override
 	public List<Chatroom_MemberBean> select(Chatroom_MemberBean c_mbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().get(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
+		this.results.add(this.getSession().load(Chatroom_MemberBean.class, c_mbean.getChatroom_MemberPK()));
 		return this.results;
 	}
 

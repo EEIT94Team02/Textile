@@ -33,18 +33,18 @@ public class MemberDAOHibernate implements MemberDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	private final String SELECT_ALL = "from MemberBean";
+	private static final String SELECT_ALL = "from MemberBean";
 
 	@Override
 	public List<MemberBean> selectAll() {
-		Query<MemberBean> query = this.getSession().createQuery(this.SELECT_ALL, MemberBean.class);
+		Query<MemberBean> query = this.getSession().createQuery(SELECT_ALL, MemberBean.class);
 		return query.list();
 	}
 
 	@Override
 	public List<MemberBean> select(MemberBean mbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().load(MemberBean.class, mbean.getmId()));
+		this.results.add(this.getSession().get(MemberBean.class, mbean.getmId()));
 		return this.results;
 	}
 

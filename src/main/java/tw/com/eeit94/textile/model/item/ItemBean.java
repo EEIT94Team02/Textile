@@ -45,8 +45,8 @@ public class ItemBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemBean=[" + itemPK.getMemberId() + ", " + itemPK.getProductId() + ", " + amount + ", " + productBean
-				+ "]";
+		return "ItemBean=[" + itemPK.getMemberId() + ", " + itemPK.getProductId() + ", " + amount + ", "
+				+ productBean + "]";
 	}
 
 	// itemPK getter setter
@@ -66,13 +66,21 @@ public class ItemBean implements Serializable {
 	public ProductBean getProductBean() {
 		return productBean;
 	}
-
+	
+	public void setMemberBean(MemberBean memberBean) {
+		this.memberBean = memberBean;
+	}
+	
+	public MemberBean getMemberBean() {
+		return memberBean;
+	}
+	
 	// amount getter setter
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
-	public Integer getAmoumt() {
-		return this.amount;
+	public Integer getAmount() {
+		return amount;
 	}
 }

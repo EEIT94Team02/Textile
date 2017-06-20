@@ -2,6 +2,8 @@ package tw.com.eeit94.textile.system.common;
 
 import tw.com.eeit94.textile.controller.logs.LogsController;
 import tw.com.eeit94.textile.controller.user.LoginController;
+import tw.com.eeit94.textile.controller.user.LogoutController;
+import tw.com.eeit94.textile.controller.user.ProfileController;
 import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
 
@@ -19,7 +21,9 @@ import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
  * @see {@link SpringMVCJavaConfiguration}
  * @see {@link LogsController}
  * @see {@link LoginController}
+ * @see {@link LogoutController}
  * @see {@link RegisterController}
+ * @see {@link ProfileController}
  */
 public enum ConstMapping {
 	ERROR_PAGE("/error/404.v"),
@@ -29,9 +33,17 @@ public enum ConstMapping {
 	LOGIN_PAGE("/check/login.v"),
 	LOGIN_ERROR("login.error"),
 	LOGIN_SUCCESS("login.success"),
+	LOGIN_INVALIDEMAIL("login.invalidEmail"),
+	LOGIN_EMAILCHECK("/check/emailCheck.do"),
+	LOGIN_RE_SENDEMAILCHECK("re_sendEmailCheck.do"),
+	LOGIN_EMAILCHECKRE_SEND("login.emailCheckRe_send"),
+	LOGIN_EMAILCHECKSUCCESS("login.emailCheckSuccess"),
 	LOGOUT_SUCCESS("logout.success"),
 	REGISTER_ERROR("register.error"),
-	REGISTER_SUCCESS("register.success");
+	REGISTER_SUCCESS("register.success"),
+	PROFILE_USER_SUCCESS("user.success"),
+	PROFILE_OTHERUSER_SUCCESS("otheruser.success"),
+	MODIFY_SHOW("modify.show");
 
 	private final String path;
 

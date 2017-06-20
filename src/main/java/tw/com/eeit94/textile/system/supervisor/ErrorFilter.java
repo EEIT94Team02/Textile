@@ -62,14 +62,17 @@ public class ErrorFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) resp;
 
 			// 設定所有的請求內容編碼為UTF-8。
-			request.setCharacterEncoding(ConstLoginFilterParameter.UTF_8.param());
+			request.setCharacterEncoding(ConstFilterParameter.UTF_8.param());
+
+			// 移除之前放在Session Scope的例外訊息，以免發生看到不對稱的例外訊息的Bug。
+			HttpSession session = request.getSession();
+			session.removeAttribute(ConstFilterKey.ExceptionFromServer.key());
 
 			try {
 				chain.doFilter(request, response);
 			} catch (Exception e) {
-				HttpSession session = request.getSession();
 				session.setAttribute(ConstFilterKey.ExceptionFromServer.key(), e.getMessage());
-				
+
 				/*
 				 * 這裡不能呼叫forward()和sendRedirect()，否則會發生類似以下錯誤。
 				 * 
@@ -78,12 +81,11 @@ public class ErrorFilter implements Filter {
 				 */
 				sBuffer.append("過濾器接收後端傳回的例外：").append(e.getMessage());
 				this.logsService.insertNewLog(sBuffer.toString());
-				
+
 				/*
-				 * debug用，上線要刪除。
+				 * debug用，部署後要註解掉。
 				 */
 				e.printStackTrace();
-				System.out.println(e.getMessage());
 			}
 		} else {
 			sBuffer.append("過濾器接收未知的請求而發生錯誤。");
