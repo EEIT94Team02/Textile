@@ -14,10 +14,11 @@ public class Interest_DetailNameListBean {
 	private Map<String, Item> items;
 
 	Interest_DetailNameListBean() {
+		items = new LinkedHashMap<>();
 		ConstInterest_DetailKey[] constInterest_DetailKey = ConstInterest_DetailKey.values();
+		Item item = null;
 		for (int i = 0; i < constInterest_DetailKey.length; i++) {
-			Item item = new Item(constInterest_DetailKey[i].key(), null, constInterest_DetailKey[i].primaryKey(),
-					(byte) 0);
+			item = new Item(constInterest_DetailKey[i].key(), null, constInterest_DetailKey[i].primaryKey(), (byte) 0);
 			items.put(constInterest_DetailKey[i].key(), item);
 		}
 	}
@@ -32,17 +33,12 @@ public class Interest_DetailNameListBean {
 
 	@Override
 	public String toString() {
-		LinkedHashMap<String, LinkedHashMap<String, String>> linkedHashMap = new LinkedHashMap<>();
+		LinkedHashMap<String, Item> linkedHashMap = new LinkedHashMap<>();
 		Iterator<String> iterator = items.keySet().iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next();
 			Item item = this.items.get(key);
-			LinkedHashMap<String, String> map = new LinkedHashMap<>();
-			map.put("name", item.getName());
-			map.put("value", item.getValue());
-			map.put("key", item.getKey().toString());
-			map.put("selected", item.getSelected().toString());
-			linkedHashMap.put(key, map);
+			linkedHashMap.put(key, item);
 		}
 		return linkedHashMap.toString();
 	}
@@ -96,6 +92,16 @@ public class Interest_DetailNameListBean {
 
 		public void setSelected(Byte selected) {
 			this.selected = selected;
+		}
+
+		@Override
+		public String toString() {
+			LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+			linkedHashMap.put("name", this.name);
+			linkedHashMap.put("value", this.value);
+			linkedHashMap.put("key", this.key.toString());
+			linkedHashMap.put("selected", this.selected.toString());
+			return linkedHashMap.toString();
 		}
 	}
 }

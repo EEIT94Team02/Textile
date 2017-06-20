@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.eeit94.textile.model.interest.InterestBean;
 import tw.com.eeit94.textile.model.interest.InterestDAO;
@@ -43,6 +44,7 @@ public class Interest_DetailService {
 	 * @author 賴
 	 * @version 2017/06/18
 	 */
+	@Transactional
 	public Interest_DetailBean selectByPrimaryKey(MemberBean mbean) {
 		Interest_DetailBean i_dbean = new Interest_DetailBean();
 		i_dbean.setmId(mbean.getmId());
@@ -60,6 +62,7 @@ public class Interest_DetailService {
 	 * @version 2017/06/20
 	 * @see {@link Interest_DetailNameListBean}
 	 */
+	@Transactional
 	public Interest_DetailNameListBean getI_DNLBean(Interest_DetailBean i_dbean) {
 		Interest_DetailNameListBean i_dnlbean = new Interest_DetailNameListBean();
 		Map<String, Item> items = i_dnlbean.getItems();
@@ -136,12 +139,12 @@ public class Interest_DetailService {
 	public void getI_DNLBeanSelectedSetForInput(Interest_DetailBean i_dbean, Map<String, Item> items) {
 		for (int category = 0; category < CATEGORY_MAX; category++) {
 			JSONArray jsonArray = this.getFieldForInputPerCatogory(i_dbean, category);
-			int index = CHECKBOXES_ALL;
+			int index = 0;
 			for (int i = 0; i < INPUTS_MAX_PER_CATEGORY; i++) {
-				index = i + INPUTS_MAX_PER_CATEGORY * category;
+				index = CHECKBOXES_ALL + i + INPUTS_MAX_PER_CATEGORY * category;
 				if (i < jsonArray.length()) {
 					Item item = items.get(this.constInterest_DetailKey[index].key());
-					item.setKey(jsonArray.getInt(index));
+					item.setKey(jsonArray.getInt(i));
 					item.setSelected(YES);
 				} else {
 					break;
