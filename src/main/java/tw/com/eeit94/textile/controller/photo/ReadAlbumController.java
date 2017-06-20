@@ -37,10 +37,10 @@ public class ReadAlbumController {
 	}
 
 	@Autowired
-	private SocialListService socailListService;
+	private SocialListService socialListService;
 
-	public SocialListService getSocailListService() {
-		return socailListService;
+	public SocialListService getSocialListService() {
+		return socialListService;
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/list.do" }, consumes = {
@@ -100,7 +100,7 @@ public class ReadAlbumController {
 				if ("公開".equals(aaa.getVisibility())) {
 					resultalbumBeans.add(aaa);
 				} else {
-					friendBean = getSocailListService().select(new SocialListPK(userId, memberId));
+					friendBean = getSocialListService().select(new SocialListPK(userId, memberId));
 					if (friendBean != null && "好友".equals(friendBean.getS_type())) {
 						resultalbumBeans.add(aaa);
 					}
@@ -160,7 +160,7 @@ public class ReadAlbumController {
 			model.addAttribute("AlbumList", photo_albumBeans);
 		} else {
 			SocialListBean friendBean = new SocialListBean();
-			friendBean = getSocailListService().select(new SocialListPK(userId, memberId));
+			friendBean = getSocialListService().select(new SocialListPK(userId, memberId));
 			String type = "";
 			if (friendBean != null) {
 				type = friendBean.getS_type();
@@ -229,7 +229,7 @@ public class ReadAlbumController {
 		int hostmId = 0;
 		for (Photo_albumBean aaa : check) {
 			hostmId = aaa.getmId();
-			SocialListBean friendBean = getSocailListService().select(new SocialListPK(userId, hostmId));
+			SocialListBean friendBean = getSocialListService().select(new SocialListPK(userId, hostmId));
 			if (userId == hostmId) {
 				result.add(aaa);
 			} else if ("公開".equals(aaa.getVisibility())) {
