@@ -28,7 +28,7 @@ import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
  * @version 2017/06/18
  */
 @Service
-public class MemberRollbackRroviderService {
+public class MemberRollbackProviderService {
 	@Autowired
 	private MemberService memberService;
 	@Autowired

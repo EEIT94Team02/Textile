@@ -47,6 +47,12 @@ public class Interest_DetailNameListBean {
 		return linkedHashMap.toString();
 	}
 
+	/**
+	 * 此內部類別專門封裝表單興趣明細的每個checkbox和input。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/19
+	 */
 	public class Item {
 		private String name;
 		private String value;

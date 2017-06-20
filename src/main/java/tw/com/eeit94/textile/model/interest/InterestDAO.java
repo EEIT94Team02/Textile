@@ -19,4 +19,6 @@ public interface InterestDAO {
 	public List<InterestBean> update(InterestBean ibean);
 
 	public List<InterestBean> delete(InterestBean ibean);
+	
+	public List<InterestBean> selectByPrimaryKeys(List<Integer> primaryKeys);
 }

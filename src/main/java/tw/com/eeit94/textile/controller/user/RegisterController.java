@@ -16,7 +16,7 @@ import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MailRegisterService;
-import tw.com.eeit94.textile.model.member.service.MemberRollbackRroviderService;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
@@ -40,7 +40,7 @@ public class RegisterController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
-	private MemberRollbackRroviderService memberRollbackService;
+	private MemberRollbackProviderService memberRollbackService;
 	@Autowired
 	private MailRegisterService mailRegisterService;
 
