@@ -75,9 +75,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/check/register.v").setViewName("/check/register.v");
 		registry.addViewController("/check/login.v").setViewName("/check/login.v");
 		registry.addViewController("/check/logout.v").setViewName("/check/logout.v");
-		registry.addViewController("/user/index.v").setViewName("/user/index.v");
-		registry.addViewController("/user/profile.v").setViewName("/user/profile.v");
-		registry.addViewController("/user/modify.v").setViewName("/user/modify.v");
 		registry.addViewController("/manager/logs.v").setViewName("/manager/logs.v");
 		/*
 		 * 陳
@@ -194,6 +191,15 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
+	// 錯誤網頁，萬用的404。(重新導向)
+	@Bean(name = { "/error/404.show" })
+	public org.springframework.web.servlet.view.RedirectView error_page_r() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/error/404.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}
+
 	// 管理員後臺首頁。
 	@Bean(name = { "/manager/index.v" })
 	public org.springframework.web.servlet.view.InternalResourceView manager_index_page() {
@@ -208,7 +214,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 賴
 	 * @version 2017/06/10
 	 */
-	// 登入成功，導向首頁。
+	// 登入成功，導向首頁。(重新導向)
 	@Bean(name = { "login.success" })
 	public org.springframework.web.servlet.view.RedirectView login_success() {
 		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
@@ -273,24 +279,24 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	// 個人資訊的頁面。
-	@Bean(name = { "/user/index.v" })
-	public org.springframework.web.servlet.view.InternalResourceView user_index_page() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/user/index.jsp");
-		return internalResourceView;
-	}
-
-	// 個人介紹的頁面。
-	@Bean(name = { "/user/profile.v" })
+	// 個人資訊頁面。
+	@Bean(name = { "user.success" })
 	public org.springframework.web.servlet.view.InternalResourceView user_profile_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/profile.jsp");
 		return internalResourceView;
 	}
 
+	// 其它人的個人資訊頁面。
+	@Bean(name = { "otheruser.success" })
+	public org.springframework.web.servlet.view.InternalResourceView otheruser_profile_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/otherprofile.jsp");
+		return internalResourceView;
+	}
+
 	// 修改資料的頁面。
-	@Bean(name = { "/user/modify.v" })
+	@Bean(name = { "modify.show" })
 	public org.springframework.web.servlet.view.InternalResourceView user_modify_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modify.jsp");
@@ -350,7 +356,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/photo/albumdelete.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 上傳照片頁面。
 	@Bean(name = { "/photo/upload.v", "upload.error" })
 	public org.springframework.web.servlet.view.InternalResourceView photoupload() {
@@ -358,7 +364,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/photo/upload.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 顯示照片頁面。
 	@Bean(name = { "photo.list" })
 	public org.springframework.web.servlet.view.InternalResourceView photoshow() {
@@ -390,7 +396,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/activity/updateAct.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 刪除活動頁面。
 	@Bean(name = { "/activity/delete.v", "actDelete.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActDelete() {
@@ -398,7 +404,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/activity/deleteAct.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 查詢活動頁面。
 	@Bean(name = { "/activity/select.v", "actSelect.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActSelect() {
@@ -421,6 +427,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/store/pTestTrigger.jsp");
 		return view;
 	}
+
 	// 測試用，為item頁面呼叫controller取得資料。
 	@Bean(name = { "/item/iTestTrigger.v" })
 	public InternalResourceView itemTrigger() {
@@ -428,7 +435,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/item/iTestTrigger.jsp");
 		return view;
 	}
-	
+
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
 	public InternalResourceView productIndex() {
@@ -469,7 +476,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/store/pMaintenance.jsp");
 		return view;
 	}
-	
+
 	// 使用InternalResourceView導向商品維護頁面
 	@Bean(name = { "pMaintenance.show" })
 	public InternalResourceView productMaintain() {
@@ -494,7 +501,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setContextRelative(true);
 		return view;
 	}
-	
+
 	// 物品欄首頁
 	@Bean(name = { "/store/index.v" })
 	public InternalResourceView itemIndex() {
@@ -502,7 +509,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/store/index.jsp");
 		return view;
 	}
-	
+
 	// 物品欄總覽頁面
 	@Bean(name = { "iList.show" })
 	public InternalResourceView itemList() {
@@ -510,7 +517,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/item/index.jsp");
 		return view;
 	}
-	
+
 	/**
 	 * ****** View ******
 	 * 
@@ -556,7 +563,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/report/situationlist.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 管理員回覆頁面
 	@Bean(name = { "reply.show", "/manager/reportReply.v" })
 	public InternalResourceView reportReply() {
@@ -564,7 +571,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/report/reportreply.jsp");
 		return internalResourceView;
 	}
-	
+
 	// 管理員回覆成功頁面
 	@Bean(name = { "replysuccess.show", "/manager/replysuccess.v" })
 	public InternalResourceView replysuccess() {
@@ -572,8 +579,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/report/replysuccess.jsp");
 		return internalResourceView;
 	}
-	
-	
+
 	/**
 	 * ****** View ******
 	 * 

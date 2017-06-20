@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberBean;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailBean;
-import tw.com.eeit94.textile.model.item.ItemBean;
+import tw.com.eeit94.textile.model.interest_detail.Interest_DetailNameListBean;
 
 /**
  * 封裝會員基本資料的VO，子表為興趣明細資料。
@@ -64,15 +64,13 @@ public class MemberBean implements java.io.Serializable {
 	private Integer mConstellation;
 	private Integer mReligion;
 	private String mSelfIntroduction;
-	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "mId")
 	private Interest_DetailBean interest_DetailBean;
 	@OneToMany(cascade = {
-			CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "chatroom_MemberPK.mId", targetEntity = Chatroom_MemberBean.class)
+			CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "chatroom_MemberPK.mId", targetEntity = Chatroom_MemberBean.class)
 	private List<Chatroom_MemberBean> chatroom_MemberBean;
-	@OneToMany(cascade = {
-			CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "itemPK.memberId", targetEntity = ItemBean.class)
-	private List<ItemBean> itemBean;
+	private transient Interest_DetailNameListBean i_d;
 
 	public Integer getmId() {
 		return mId;
@@ -306,12 +304,12 @@ public class MemberBean implements java.io.Serializable {
 		this.chatroom_MemberBean = chatroom_MemberBean;
 	}
 
-	public List<ItemBean> getItemBean() {
-		return itemBean;
+	public Interest_DetailNameListBean getI_d() {
+		return i_d;
 	}
 
-	public void setItemBean(List<ItemBean> itemBean) {
-		this.itemBean = itemBean;
+	public void setI_d(Interest_DetailNameListBean i_d) {
+		this.i_d = i_d;
 	}
 
 	@Override
@@ -348,7 +346,7 @@ public class MemberBean implements java.io.Serializable {
 				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
 		linkedHashMap.put("chatroom_MemberBean",
 				this.chatroom_MemberBean != null ? this.chatroom_MemberBean.toString() : null);
-		linkedHashMap.put("itemBean", this.itemBean != null ? this.itemBean.toString() : null);
+		linkedHashMap.put("i_d",this.i_d != null ? this.i_d.toString() : null);
 		return linkedHashMap.toString();
 	}
 }

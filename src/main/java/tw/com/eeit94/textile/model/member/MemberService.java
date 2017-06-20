@@ -67,6 +67,24 @@ public class MemberService {
 	}
 
 	/**
+	 * 特殊查詢：利用primary key搜尋。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/20
+	 */
+	@Transactional(readOnly = true)
+	public MemberBean selectByPrimaryKey(Integer mId) {
+		MemberBean mbean = new MemberBean();
+		mbean.setmId(mId);
+		List<MemberBean> list = this.memberDAO.select(mbean);
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * 特殊查詢：利用帳號搜尋。
 	 * 
 	 * @author 賴
@@ -77,7 +95,7 @@ public class MemberService {
 		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
 		mkwbean.setmEmail(mEmail);
 		MemberBean mbean = null;
-		List<MemberBean> list = memberDAO.selectByEmail(mkwbean);
+		List<MemberBean> list = this.memberDAO.selectByEmail(mkwbean);
 		if (list.size() > 0) {
 			mbean = list.get(0);
 		}

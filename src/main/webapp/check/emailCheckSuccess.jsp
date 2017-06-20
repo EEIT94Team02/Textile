@@ -8,7 +8,7 @@
 <title>Email checked successfully, Textile.</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>/script>
 </head>
 <body>信箱驗證成功，3秒後自動轉向登入網頁。
 </body>
