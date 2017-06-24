@@ -229,7 +229,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		Predicate pName = null;
 		if (mkwbean.getmName() != null) {
 			pName = cBuilder.like(root.<String>get("mName"),
-					new StringBuffer().append("%").append(mkwbean.getmName()).append("%").toString());
+					new StringBuffer().append(mkwbean.getmName()).append("%").toString());
 		}
 		query = query.select(root).where(pName);
 		return this.getSession().createQuery(query).getResultList();

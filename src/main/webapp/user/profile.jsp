@@ -24,6 +24,24 @@
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
+	<p>
+		<a href="modifySecure.v">修改密碼</a>
+	</p>
+	<p>
+		<a href="modifyProfile.v">修改基本資料</a>
+	</p>
+	<p>
+		<a href="modifySituation.v">修改個人狀況</a>
+	</p>
+	<p>
+		<a href="modifyInterest.v">修改興趣喜好</a>
+	</p>
+	<p>
+		<a href="queryName.v">會員姓名查詢</a>
+	</p>
+	<p>
+		<a href="queryCondition.v">會員條件查詢</a>
+	</p>
 	<table class="dataBasic">
 		<thead>
 			<tr>
@@ -45,8 +63,12 @@
 			</tr>
 			<tr>
 				<!-- 地址只出現前三個字，如縣、市。 -->
-				<td>地址：</td>
-				<td>${fn:substring(user.mAddress, 0, 3)}</td>
+				<td>居住：</td>
+				<td>${user.mAddress_County}</td>
+			</tr>
+			<tr>
+				<td>出生：</td>
+				<td>${fn:substring(user.mBirthday.toString(),0,4)}年</td>
 			</tr>
 			<tr>
 				<td>積分：</td>
@@ -157,11 +179,15 @@
 					<c:set var="recreationSelectedArray" value="${recreationSelected.split(',')}" /> <c:set var="start"
 						value="${false}" /> <c:forEach items="${recreation.split(',')}" var="recreationArray" varStatus="status">
 						<c:if test="${recreationSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${recreationArray}" />
-							</c:if>
-							<c:out value="、${recreationArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${recreationArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${recreationArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -174,11 +200,15 @@
 					<c:set var="exercisesSelectedArray" value="${exercisesSelected.split(',')}" /> <c:set var="start" value="${false}" />
 					<c:forEach items="${exercises.split(',')}" var="exercisesArray" varStatus="status">
 						<c:if test="${exercisesSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${exercisesArray}" />
-							</c:if>
-							<c:out value="、${exercisesArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${exercisesArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${exercisesArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -191,11 +221,15 @@
 					<c:set var="dietSelectedArray" value="${dietSelected.split(',')}" /> <c:set var="start" value="${false}" /> <c:forEach
 						items="${diet.split(',')}" var="dietArray" varStatus="status">
 						<c:if test="${dietSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${dietArray}" />
-							</c:if>
-							<c:out value="、${dietArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${dietArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${dietArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -208,11 +242,15 @@
 					<c:set var="artSelectedArray" value="${artSelected.split(',')}" /> <c:set var="start" value="${false}" /> <c:forEach
 						items="${art.split(',')}" var="artArray" varStatus="status">
 						<c:if test="${artSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${artArray}" />
-							</c:if>
-							<c:out value="、${artArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${artArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${artArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -225,11 +263,15 @@
 					<c:set var="designSelectedArray" value="${designSelected.split(',')}" /> <c:set var="start" value="${false}" /> <c:forEach
 						items="${design.split(',')}" var="designArray" varStatus="status">
 						<c:if test="${designSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${designArray}" />
-							</c:if>
-							<c:out value="、${designArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${designArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${designArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -242,11 +284,15 @@
 					<c:set var="musicSelectedArray" value="${musicSelected.split(',')}" /> <c:set var="start" value="${false}" /> <c:forEach
 						items="${music.split(',')}" var="musicArray" varStatus="status">
 						<c:if test="${musicSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${musicArray}" />
-							</c:if>
-							<c:out value="、${musicArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${musicArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${musicArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -259,11 +305,15 @@
 					<c:set var="hobbiesSelectedArray" value="${hobbiesSelected.split(',')}" /> <c:set var="start" value="${false}" />
 					<c:forEach items="${hobbies.split(',')}" var="hobbiesArray" varStatus="status">
 						<c:if test="${hobbiesSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${hobbiesArray}" />
-							</c:if>
-							<c:out value="、${hobbiesArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${hobbiesArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${hobbiesArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>
@@ -276,11 +326,15 @@
 					<c:set var="activitiesSelectedArray" value="${activitiesSelected.split(',')}" /> <c:set var="start"
 						value="${false}" /> <c:forEach items="${activities.split(',')}" var="activitiesArray" varStatus="status">
 						<c:if test="${activitiesSelectedArray[status.index] == '1'}">
-							<c:if test="${start == false}">
-								<c:set var="start" value="${true}" />
-								<c:out value="${activitiesArray}" />
-							</c:if>
-							<c:out value="、${activitiesArray}" />
+							<c:choose>
+								<c:when test="${start == false}">
+									<c:set var="start" value="${true}" />
+									<c:out value="${activitiesArray}" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="、${activitiesArray}" />
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 					</c:forEach></td>
 			</tr>

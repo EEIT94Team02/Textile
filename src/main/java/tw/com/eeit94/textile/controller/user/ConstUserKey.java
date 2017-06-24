@@ -5,15 +5,34 @@ package tw.com.eeit94.textile.controller.user;
  * 
  * 方便封裝或得到對應的Bean屬性成員或值。
  * 
+ * ！！！！！！不要使用自動排版！！！！！！
+ * 
+ * ！！！！！！不要使用自動排版！！！！！！
+ * 
+ * ！！！！！！不要使用自動排版！！！！！！
+ * 
  * @author 賴
  * @version 2017/06/13
  * @see {@link ConstFilterKey}
  * @see {@link LoginController}
  * @See {@link RegisterController}
+ * @see {@link ModifyController}
+ * @see {@link QueryUserController}l
  */
 public enum ConstUserKey {
-	KEEPLOGIN("keepLogin"), DATAANDERRORSMAP("dataAndErrorsMap"), CHECKURL("checkUrl"), EMAILCHECKRE_SENDURL(
-			"emailCheckRe_sendUrl");
+	KEEPLOGIN("keepLogin"),
+	DATAANDERRORSMAP("dataAndErrorsMap"),
+	CHECKURL("checkUrl"),
+	EMAILCHECKRE_SENDURL("emailCheckRe_sendUrl"),
+	PHONECHECKCODE("phoneCheckCode"),
+	RESULTLIST("resultList"),
+	// QueryUserController使用。
+	mAddress_RegionList("mAddress_RegionList"),
+	mInterest_List("mInterest_List"),
+	mOtherInterest_List("mOtherInterest_List"),
+	mA_RL("mA_RL"),
+	mI_L("mI_L"),
+	mOI_L("mOI_L");
 
 	private final String key;
 

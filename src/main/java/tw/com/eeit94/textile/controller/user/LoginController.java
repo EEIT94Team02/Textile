@@ -145,14 +145,16 @@ public class LoginController {
 	/**
 	 * 驗證信箱，將會員資料欄的mValidEmail改為「Y」，如果已經是「Y」，則回傳錯誤網頁。
 	 * 
+	 * 注意：外來加密的字串可能含有「 」，必須轉為原先的「+」。
+	 * 
 	 * @author 賴
 	 * @version 2017/06/19
 	 * @throws Exception
 	 */
 	@RequestMapping(path = { "/emailCheck.do" }, method = { RequestMethod.GET })
 	public String checkValidEmailProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String mEmail = this.secureService.getDecryptedText(request.getParameter(ConstHelperKey.QUERY.key()),
-				ConstSecureParameter.EMAIL.param());
+		String mEmail = request.getParameter(ConstHelperKey.QUERY.key()).replace(' ', '+');
+		mEmail = this.secureService.getDecryptedText(mEmail, ConstSecureParameter.EMAIL.param());
 		MemberBean mbean = this.memberService.selectByEmail(mEmail);
 		if (mbean.getmValidEmail().equals(ConstUserParameter.VALIDEMAIL_YES.param())) {
 			return ConstMapping.ERROR_PAGE.path();

@@ -3,7 +3,9 @@ package tw.com.eeit94.textile.system.common;
 import tw.com.eeit94.textile.controller.logs.LogsController;
 import tw.com.eeit94.textile.controller.user.LoginController;
 import tw.com.eeit94.textile.controller.user.LogoutController;
+import tw.com.eeit94.textile.controller.user.ModifyController;
 import tw.com.eeit94.textile.controller.user.ProfileController;
+import tw.com.eeit94.textile.controller.user.QueryUserController;
 import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
 
@@ -24,6 +26,8 @@ import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
  * @see {@link LogoutController}
  * @see {@link RegisterController}
  * @see {@link ProfileController}
+ * @see {@link ModifyController}
+ * @see {@link QueryUserController}
  */
 public enum ConstMapping {
 	ERROR_PAGE("/error/404.v"),
@@ -41,9 +45,23 @@ public enum ConstMapping {
 	LOGOUT_SUCCESS("logout.success"),
 	REGISTER_ERROR("register.error"),
 	REGISTER_SUCCESS("register.success"),
-	PROFILE_USER_SUCCESS("user.success"),
-	PROFILE_OTHERUSER_SUCCESS("otheruser.success"),
-	MODIFY_SHOW("modify.show");
+	PROFILE_USER_SHOW("profile.show"),
+	PROFILE_OTHERUSER_PAGE("/user/index.v"),
+	PROFILE_OTHERUSER_SUCCESS("otherProfile.show"),
+	MODIFY_SECURE_SHOW("modifySecure.show"),
+	MODIFY_SECURE_ERROR("modifySecure.error"),
+	MODIFY_PHONECHECK_SHOW("phoneCheck.show"),
+	MODIFY_PHONECHECK_ERROR("phoneCheck.error"),
+	MODIFY_PROFILE_SHOW("modifyProfile.show"),
+	MODIFY_PROFILE_ERROR("modifyProfile.error"),
+	MODIFY_SITUATION_SHOW("modifySituation.show"),
+	MODIFY_SITUATION_ERROR("modifySituation.error"),
+	MODIFY_INTEREST_SHOW("modifyInterest.show"),
+	MODIFY_SUCCESS("modify.success"),
+	QUERYNAME_SHOW("/user/queryName.v"),
+	QUERYNAME_ERROR("queryName.error"),
+	QUERYCONDITION_SHOW("queryCondition.show"),
+	QUERYCONDITION_ERROR("queryCondition.error");
 
 	private final String path;
 

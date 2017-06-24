@@ -1,111 +1,180 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Register, Textile</title>
+<title>Modify profile, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
-	<form id="mForm" action="register.do" method="post">
+	<form id="profile" action="modify.do" method="post">
+		<input type="hidden" name="m" value="profile" />
 		<fieldset>
-			<legend>
-				個人資料<em>(*為必填項目)</em>
-			</legend>
+			<legend>個人資料</legend>
 			<div>
-				<label for="mEmail">*帳號：</label> <input id="mEmail" name="mEmail" value="${dataAndErrorsMap.mEmail}" type="text"
-					size="55" maxlength="50" placeholder="請輸入帳號" autofocus required /> <img src="" /><span>${dataAndErrorsMap.mEmail_error}${dataAndErrorsMap.mEmailExist_error}</span>
-				<br />
-				<p>帳號為Email信箱。</p>
-			</div>
-			<div>
-				<label for="mPassword">*密碼：</label> <input id="mPassword" name="mPassword" value="${dataAndErrorsMap.mPassword}"
-					type="password" size="21" maxlength="16" placeholder="請輸入密碼" required /> <img src="" /><span>${dataAndErrorsMap.mPassword_error}</span>
-				<br />
-				<p>密碼長度介於8~16個字元，包含英文大寫、小寫、數字和規定的特殊符號各至少一個。</p>
-			</div>
-			<div>
-				<label>*請再次輸入密碼：</label> <input id="mPassword_again" name="mPassword_again"
-					value="${dataAndErrorsMap.mPassword_again}" type="password" size="21" maxlength="16" placeholder="請輸入密碼" required />
-				<img src="" /><span>${dataAndErrorsMap.mPassword_again_error}</span> <br />
-				<p></p>
-			</div>
-			<div>
-				<label for="mName">*姓名：</label> <input id="mName" name="mName" value="${dataAndErrorsMap.mName}" type="text"
-					size="21" maxlength="20" placeholder="王小明" required /> <img src="" /><span>${dataAndErrorsMap.mName_error}</span>
-				<br />
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mName}">
+						<c:set var="x" value="${dataAndErrorsMap.mName}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mName}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mName">姓名：</label> <input id="mName" name="mName" value="${x}" type="text" size="21" maxlength="20"
+					placeholder="王小明" required /> <img src="" /><span>${dataAndErrorsMap.mPassword_error}</span> <br />
 				<p>姓名為兩個字以上的中文字或六個字以上的英文字。</p>
 			</div>
 			<div>
-				<label for="mIdentityCardNumber">*身分證字號：</label> <input id="mIdentityCardNumber" name="mIdentityCardNumber"
-					value="${dataAndErrorsMap.mIdentityCardNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <img
-					src="" /><span>${dataAndErrorsMap.mIdentityCardNumber_error}</span> <br />
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mIdentityCardNumber}">
+						<c:set var="x" value="${dataAndErrorsMap.mIdentityCardNumber}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mIdentityCardNumber}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mIdentityCardNumber">身分證字號：</label> <input id="mIdentityCardNumber" name="mIdentityCardNumber"
+					value="${x}" type="text" size="21" maxlength="10" placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mIdentityCardNumber_error}</span>
+				<br />
 				<p>身分證字號由開頭一個大寫英文字和末九位的數字所組成。</p>
 			</div>
 			<div>
-				<label for="mBirthday">*生日：</label> <input id="mBirthday" name="mBirthday" value="${dataAndErrorsMap.mBirthday}"
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mBirthday}">
+						<c:set var="x" value="${dataAndErrorsMap.mBirthday}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mBirthday}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mBirthday">生日：</label> <input id="mBirthday" name="mBirthday" value="${fn:substring(x.toString(),0,10)}"
 					type="text" size="21" maxlength="10" placeholder="2000-2-29" required /> <img src="" /><span>${dataAndErrorsMap.mBirthday_error}</span>
 				<br />
 				<p>生日為yyyy-mm-dd(西元年-月-日)的格式。</p>
 			</div>
 			<div>
-				<label for="mPhoneNumber">*手機：</label> <input id="mPhoneNumber" name="mPhoneNumber"
-					value="${dataAndErrorsMap.mPhoneNumber}" type="text" size="21" maxlength="10" placeholder="" required /> <img
-					src="" /><span>${dataAndErrorsMap.mPhoneNumber_error}</span> <br />
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mPhoneNumber}">
+						<c:set var="x" value="${dataAndErrorsMap.mPhoneNumber}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mPhoneNumber}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mPhoneNumber">手機：</label> <input id="mPhoneNumber" name="mPhoneNumber" value="${x}" type="text"
+					size="21" maxlength="10" placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mPhoneNumber_error}</span>
+				<br />
 				<p></p>
 			</div>
 			<div>
-				<label for="mGender">*性別：</label>
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mGender}">
+						<c:set var="x" value="${dataAndErrorsMap.mGender}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mGender}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mGender">性別：</label>
 				<c:set var="genders" value="M,F" />
 				<c:set var="gendersArray" value="${genders.split(',')}" />
 				<c:set var="genderWords" value="男,女" />
 				<select id="mGender" name="mGender">
 					<c:forEach items="${genderWords.split(',')}" var="genderWordsArray" varStatus="status">
-						<option value="${gendersArray[status.index]}"
-							${dataAndErrorsMap.mGender == gendersArray[status.index] ? 'selected' : ''}>${genderWordsArray}</option>
+						<option value="${gendersArray[status.index]}" ${x == gendersArray[status.index] ? 'selected' : ''}>${genderWordsArray}</option>
 					</c:forEach>
 				</select> <span></span> <br />
 				<p></p>
 			</div>
 			<div>
-				<label for="mAddress">*地址：</label> <select id="mAddress_County" name="mAddress_County">
+				<label for="mAddress">地址：</label>
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mAddress_County}">
+						<c:set var="x" value="${dataAndErrorsMap.mAddress_County}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mAddress_County}" />
+					</c:otherwise>
+				</c:choose>
+				<select id="mAddress_County" name="mAddress_County">
 					<c:set var="address_Taiwan"
 						value="臺北市,基隆市,新北市,桃園市,新竹市,新竹縣,苗栗縣,臺中市,彰化縣,南投縣,雲林縣,嘉義市,嘉義縣,臺南市,高雄市,屏東縣,宜蘭縣,花蓮縣,臺東縣,澎湖縣,金門縣,連江縣" />
 					<c:forEach items="${address_Taiwan.split(',')}" var="address_TaiwanArray">
-						<option value="${address_TaiwanArray}"
-							${dataAndErrorsMap.mAddress_County == address_TaiwanArray ? 'selected' : ''}>${address_TaiwanArray}</option>
+						<option value="${address_TaiwanArray}" ${x == address_TaiwanArray ? 'selected' : ''}>${address_TaiwanArray}</option>
 					</c:forEach>
-				</select> <select id="mAddress_Region" name="mAddress_Region">
+				</select>
+				<!-- 地址的區鄉鎮市要用JavaScript再重新刷一次。 -->
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mAddress_Region}">
+						<c:set var="x" value="${dataAndErrorsMap.mAddress_Region}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mAddress_Region}" />
+					</c:otherwise>
+				</c:choose>
+				<select id="mAddress_Region" name="mAddress_Region">
 					<c:set var="address_Taipei" value="中正區,大同區,中山區,松山區,大安區,萬華區,信義區,士林區,北投區,內湖區,南港區,文山區" />
 					<c:forEach items="${address_Taipei.split(',')}" var="address_TaipeiArray">
-						<option value="${address_TaipeiArray}"
-							${dataAndErrorsMap.mAddress_Region == address_TaipeiArray ? 'selected' : ''}>${address_TaipeiArray}</option>
+						<option value="${address_TaipeiArray}" ${x == address_TaipeiArray ? 'selected' : ''}>${address_TaipeiArray}</option>
 					</c:forEach>
-				</select> <input id="mAddress" name="mAddress" value="${dataAndErrorsMap.mAddress}" type="text" size="65" maxlength="60"
-					placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mAddress_error}</span> <br />
+				</select>
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mAddress}">
+						<c:set var="x" value="${dataAndErrorsMap.mAddress}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mAddress}" />
+					</c:otherwise>
+				</c:choose>
+				<input id="mAddress" name="mAddress" value="${x}" type="text" size="65" maxlength="60" placeholder="" required /> <img
+					src="" /><span>${dataAndErrorsMap.mAddress_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
-				<label for="mHintPassword">*密碼提示：</label> <input id="mHintPassword" name="mHintPassword"
-					value="${dataAndErrorsMap.mHintPassword}" type="text" size="45" maxlength="40" placeholder="" required /> <img
-					src="" /><span>${dataAndErrorsMap.mHintPassword_error}</span> <br />
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mHintPassword}">
+						<c:set var="x" value="${dataAndErrorsMap.mHintPassword}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mHintPassword}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mHintPassword">密碼提示：</label> <input id="mHintPassword" name="mHintPassword" value="${x}" type="text"
+					size="45" maxlength="40" placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mHintPassword_error}</span>
+				<br />
 				<p></p>
 			</div>
 			<div>
-				<label for="mHintAnswer">*提示答案：</label> <input id="mHintAnswer" name="mHintAnswer"
-					value="${dataAndErrorsMap.mHintAnswer}" type="text" size="45" maxlength="40" placeholder="" required /> <img
-					src="" /><span>${dataAndErrorsMap.mHintAnswer_error}</span> <br />
+				<c:choose>
+					<c:when test="${not empty dataAndErrorsMap.mHintAnswer}">
+						<c:set var="x" value="${dataAndErrorsMap.mHintAnswer}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="x" value="${user.mHintAnswer}" />
+					</c:otherwise>
+				</c:choose>
+				<label for="mHintAnswer">提示答案：</label> <input id="mHintAnswer" name="mHintAnswer" value="${x}" type="text" size="45"
+					maxlength="40" placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mHintAnswer_error}</span> <br />
 				<p></p>
 			</div>
 			<div>
-				<input id="submit" name="submit" value="提交" type="submit" /> <br />
+				<input id="submit" name="submit" value="修改" type="submit" /> <br />
 				<p></p>
 			</div>
 		</fieldset>
 	</form>
+	<c:choose>
+		<c:when test="${not empty dataAndErrorsMap.mAddress_Region}">
+			<c:set var="init_mAddress_Region" value="${dataAndErrorsMap.mAddress_Region}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="init_mAddress_Region" value="${user.mAddress_Region}" />
+		</c:otherwise>
+	</c:choose>
 	<script type="text/javascript">
     var imgsrc_correct16 = '../image/check/check_correct16.png';
     var imgsrc_error16 = '../image/check/check_error16.png';
@@ -116,7 +185,7 @@
     function checkField(event) {
       var id = $(event.currentTarget).attr('id');
       $('#' + id + ' + img').attr('src', imgsrc_loading16);
-      $.get('inspect.do', {
+      $.get('modify.do', {
         'm': id,
         'q': $('#' + id).val()
       }, function(output) {
@@ -127,7 +196,7 @@
     function checkFieldOnblur(event) {
       var id = $(event.currentTarget).attr('id');
       $('#' + id + ' + img').attr('src', imgsrc_loading16);
-      $.get('inspect.do', {
+      $.get('modify.do', {
         'm': id,
         'q': $('#' + id).val()
       }, function(output) {
@@ -147,78 +216,6 @@
       }
     }
 
-    function checkEmail(event) {
-      var email = $(event.currentTarget).attr('id');
-      $('#' + email + ' + img').attr('src', imgsrc_loading16);
-      $.get('inspect.do', {
-        'm': email,
-        'q': $('#' + email).val()
-      }, function(output) {
-        $('#' + email).parent().find('span').text(output);
-        if ($('#' + email).parent().find('span').text() == '') {
-          $.get('inspect.do', {
-            'm': email + 'Exist',
-            'q': $('#' + email).val()
-          }, function(output) {
-            $('#' + email).parent().find('span').text(output);
-          });
-        }
-      });
-    }
-
-    function checkEmailOnblur(event) {
-      var email = $(event.currentTarget).attr('id');
-      $('#' + email + ' + img').attr('src', imgsrc_loading16);
-      $.get('inspect.do', {
-        'm': email,
-        'q': $('#' + email).val()
-      }, function(output) {
-        $('#' + email).parent().find('span').text(output);
-        if ($('#' + email).parent().find('span').text() == '') {
-          $.get('inspect.do', {
-            'm': email + 'Exist',
-            'q': $('#' + email).val()
-          }, function(output) {
-            $('#' + email).parent().find('span').text(output);
-          }).done(function() {
-            changeImageFor('mEmail')
-          });
-        }
-      }).done(function() {
-        changeImageFor('mEmail')
-      });
-    }
-
-    function checkPassword_again(event) {
-      var mPassword = 'mPassword';
-      $('#' + mPassword + '_again + img').attr('src', imgsrc_loading16);
-      $.get('inspectTheSamePassword.do', {
-        'mPassword': $('#' + mPassword).val(),
-        'mPassword_again': $('#' + mPassword + '_again').val()
-      }, function(output) {
-        $('#' + mPassword + '_again').parent().find('span').text(output);
-      });
-    }
-
-    function checkPassword_againOnblur(event) {
-      var mPassword = 'mPassword';
-      $('#' + mPassword + '_again + img').attr('src', imgsrc_loading16);
-      $.get('inspectTheSamePassword.do', {
-        'mPassword': $('#' + mPassword).val(),
-        'mPassword_again': $('#' + mPassword + '_again').val()
-      }, function(output) {
-        $('#' + mPassword + '_again').parent().find('span').text(output);
-      }).done(function() {
-        changeImageFor(mPassword + '_again');
-      });
-    }
-
-    // 自動驗證帳號
-    $('#mEmail').on('keyup', checkEmail).on('blur', checkEmailOnblur);
-    // 自動驗證密碼
-    $('#mPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
-    // 自動驗證請再輸入一次密碼是否相同
-    $('#mPassword_again').on('keyup', checkPassword_again).on('blur', checkPassword_againOnblur);
     // 自動驗證姓名
     $('#mName').on('keyup', checkField).on('blur', checkFieldOnblur);
     // 自動驗證身分證字號
@@ -260,7 +257,7 @@
     var address_LianjiangCountyArray = ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'];
     var address_AllArray = [address_TaipeiCityArray, address_KeelungCityArray, address_NewTaipeiCityArray, address_TaoyuanCityArray, address_HsinchuCityArray, address_HsinchuCountyArray, address_MiaoliCountyArray, address_TaichungCityArray, address_ChanghuaCountyArray, address_NantouCountyArray, address_YunlinCountyArray, address_ChiayiCityArray, address_ChiayiCountyArray, address_TainanCityArray, address_KaohsiungCityArray, address_PingtungCountyArray, address_YilanCountyArray, address_HualienCountyArray, address_TaitungCountyArray, address_PenghuCountyArray, address_KinmenCountyArray, address_LianjiangCountyArray];
 
-    // 當縣市更動時，鄉鎮區亦要更動
+    // 當縣市更動時，鄉鎮區亦要更動。
     function changeOptionOfmAddress_Region() {
       var county = $('#mAddress_County').val();
       var regionArray;
@@ -281,13 +278,15 @@
     $('#mAddress_County').on('change', changeOptionOfmAddress_Region);
 
     // 設定提交表單後，要將按鈕功能取消。
-    $('#mForm').on('submit', function() {
-      $(this).find('input[type="submit"]').prop('disabled', true);
-    });
-    
+    function disableSubmit() {
+      $(document).find('input[type="submit"]').prop('disabled', true);
+    }
+
+    $('#profile').on('submit', disableSubmit);
+
     // 設定提交表單後如果還有錯誤要做圖示覆蓋
     $(document).ready(function() {
-      var idCheckArray = ['mEmail', 'mPassword', 'mPassword_again', 'mName', 'mIdentityCardNumber', 'mBirthday', 'mPhoneNumber', 'mAddress', 'mHintPassword', 'mHintAnswer'];
+      var idCheckArray = ['mName', 'mIdentityCardNumber', 'mBirthday', 'mPhoneNumber', 'mAddress', 'mHintPassword', 'mHintAnswer'];
       for (var i = 0; i < idCheckArray.length; i++) {
         var id = idCheckArray[i];
         changeImageFor(id);
@@ -297,7 +296,7 @@
     // 設定註冊錯誤回傳後，表單地址鄉鎮區必須跟原來所選的值一樣。
     $(document).ready(function() {
       changeOptionOfmAddress_Region();
-      var mAddress_Region = '${dataAndErrorsMap.mAddress_Region}';
+      var mAddress_Region = '${init_mAddress_Region}';
       $('#mAddress_Region option[value="' + mAddress_Region + '"]').prop('selected', true);
     });
   </script>

@@ -1,7 +1,6 @@
 package tw.com.eeit94.textile.controller.user;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +16,8 @@ import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MailRegisterService;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
+import tw.com.eeit94.textile.model.member.service.UserCentralService;
 import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
-import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
@@ -40,6 +39,8 @@ public class RegisterController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
+	private UserCentralService userCentralService;
+	@Autowired
 	private MemberRollbackProviderService memberRollbackService;
 	@Autowired
 	private MailRegisterService mailRegisterService;
@@ -60,16 +61,13 @@ public class RegisterController {
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
-		dataAndErrorsMap = this.memberService.encapsulateAndCheckAllData(dataAndErrorsMap, request);
+		dataAndErrorsMap = this.memberService.encapsulateAndCheckAllDataWhenRegistering(dataAndErrorsMap, request);
 		dataAndErrorsMap = this.memberService.checkNonexistentEmail(dataAndErrorsMap, request);
 		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
 
 		// 檢查是否含「_error」結尾的Key。
-		Iterator<String> keys = dataAndErrorsMap.keySet().iterator();
-		while (keys.hasNext()) {
-			if (keys.next().endsWith(ConstMemberParameter._ERROR.param())) {
-				return ConstMapping.REGISTER_ERROR.path();
-			}
+		if (this.userCentralService.getSubmitCheckFailure(dataAndErrorsMap)) {
+			return ConstMapping.REGISTER_ERROR.path();
 		}
 
 		// 初始化所有相關新會員資料於資料庫。

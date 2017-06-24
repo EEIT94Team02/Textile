@@ -4,13 +4,16 @@ import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.executable.ExecutableValidator;
 
@@ -18,11 +21,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.controller.user.ConstUserKey;
+import tw.com.eeit94.textile.controller.user.ConstUserParameter;
 import tw.com.eeit94.textile.controller.user.RegisterController;
 import tw.com.eeit94.textile.model.member.util.CheckAddress;
 import tw.com.eeit94.textile.model.member.util.CheckBirthday;
 import tw.com.eeit94.textile.model.member.util.CheckEmail;
 import tw.com.eeit94.textile.model.member.util.CheckEmailExist;
+import tw.com.eeit94.textile.model.member.util.CheckEmailExistValidator;
 import tw.com.eeit94.textile.model.member.util.CheckHintAnswer;
 import tw.com.eeit94.textile.model.member.util.CheckHintPassword;
 import tw.com.eeit94.textile.model.member.util.CheckIdentityCardNumber;
@@ -36,6 +42,7 @@ import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
+import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
  * 控制會員基本資料的Service元件。
@@ -54,17 +61,9 @@ public class MemberService {
 	@Autowired
 	private SimpleDateFormat simpleDateFormat;
 	private static final String PASSWORD_AGAIN_ERROR_MESSAGE = "密碼不一致";
-
-	/**
-	 * 修改會員的基本資料。
-	 * 
-	 * @author 賴
-	 * @version 2017/06/13
-	 */
-	@Transactional
-	public MemberBean update(MemberBean mbean) {
-		return this.memberDAO.update(mbean).get(0);
-	}
+	private static final String OLDPASSWORD_ERROR_MESSAGE = "舊密碼必須與原密碼相同";
+	private static final String NEWPASSWORD_ERROR_MESSAGE = "新密碼必須與原密碼不同";
+	private static final String NewPASSWORD_AGAIN_ERROR_MESSAGE = "新密碼不一致";
 
 	/**
 	 * 特殊查詢：利用primary key搜尋。
@@ -103,36 +102,130 @@ public class MemberService {
 	}
 
 	/**
-	 * 驗證信箱是否在資料庫會員表格中已有。
+	 * 特殊查詢：利用完全相同的姓名來搜尋。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/17
+	 * @version 2017/06/23
 	 */
-	public Map<String, String> checkNonexistentEmail(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
-		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.EmailExist.key());
-		dataAndErrorsMap.put(ConstMemberKey.EmailExist.key(), request.getParameter(ConstMemberKey.Email.key()));
-		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
-		return dataAndErrorsMap;
+	@Transactional(readOnly = true)
+	public List<MemberBean> selectByName(String mName) {
+		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
+		mkwbean.setmName(mName);
+		List<MemberBean> list = this.memberDAO.selectByName(mkwbean);
+		return list;
 	}
 
 	/**
-	 * 驗證密碼和再輸入密碼是否一致，Map<String, String>只放分別兩組密碼。
+	 * 特殊查詢：利用相似的姓名來搜尋。
 	 * 
 	 * @author 賴
-	 * @version 2017/06/17
+	 * @version 2017/06/23
 	 */
-	public Map<String, String> checkTheSamePassword(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
-		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
-		dataAndErrorsMap.put(ConstMemberKey.Password_Again.key(),
-				request.getParameter(ConstMemberKey.Password_Again.key()));
-		String mPassword = dataAndErrorsMap.get(ConstMemberKey.Password.key());
-		String mPassword_again = dataAndErrorsMap.get(ConstMemberKey.Password_Again.key());
+	@Transactional(readOnly = true)
+	public List<MemberBean> selectBySimilarName(String mName) {
+		MemberKeyWordsBean mkwbean = new MemberKeyWordsBean();
+		mkwbean.setmName(mName);
+		List<MemberBean> list = this.memberDAO.selectBySimilarName(mkwbean);
+		return list;
+	}
 
-		if (mPassword == null || !mPassword.equals(mPassword_again)) {
-			dataAndErrorsMap.put(ConstMemberKey.Password_Again.key() + ConstMemberParameter._ERROR.param(),
-					PASSWORD_AGAIN_ERROR_MESSAGE);
+	/**
+	 * 特殊查詢：利用條件來搜尋，由於結果可能很多，以及興趣另外比對，所以交易必須統一管理。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/23
+	 */
+	public List<MemberBean> selectBySimilarName(MemberKeyWordsBean mkwbean) {
+		List<MemberBean> list = this.memberDAO.selectByKeyWords(mkwbean);
+		return list;
+	}
+
+	/**
+	 * 修改會員的基本資料。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/13
+	 */
+	@Transactional
+	public MemberBean update(MemberBean mbean) {
+		return this.memberDAO.update(mbean).get(0);
+	}
+
+	/**
+	 * 修改會員的密碼。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/22
+	 * @throws Exception
+	 */
+	@Transactional
+	public void updateSecurity(Map<String, String> dataAndErrorsMap, HttpServletRequest request) throws Exception {
+		MemberBean mbean = (MemberBean) request.getSession().getAttribute(ConstFilterKey.USER.key());
+		String newPassword = dataAndErrorsMap.get(ConstMemberKey.NewPassword.key());
+		String encryptedNewPassword = this.secureService.getEncryptedText(newPassword,
+				ConstSecureParameter.PASSWORD.param());
+		mbean.setmPassword(encryptedNewPassword);
+		this.memberDAO.update(mbean);
+	}
+
+	/**
+	 * 修改會員的個人資料，修改手機時必須要將手機已驗證的參數調回未驗證。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/22
+	 * @throws Exception
+	 */
+	@Transactional
+	public void updateProfile(Map<String, String> dataAndErrorsMap, HttpServletRequest request) throws Exception {
+		java.util.Date mBirthday;
+		try {
+			mBirthday = this.simpleDateFormat.parse(dataAndErrorsMap.get(ConstMemberKey.Birthday.key()));
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
 		}
-		return dataAndErrorsMap;
+
+		MemberBean mbean = (MemberBean) request.getSession().getAttribute(ConstFilterKey.USER.key());
+
+		// 如果修改手機，則亦改變手機已驗證的參數。
+		if (!mbean.getmPhoneNumber().equals(dataAndErrorsMap.get(ConstMemberKey.PhoneNumber.key()))) {
+			mbean.setmValidPhone(ConstUserParameter.VALIDPHONE_NO.param());
+		}
+
+		mbean.setmName(dataAndErrorsMap.get(ConstMemberKey.Name.key()));
+		mbean.setmIdentityCardNumber(dataAndErrorsMap.get(ConstMemberKey.IdentityCardNumber.key()));
+		mbean.setmBirthday(mBirthday);
+		mbean.setmPhoneNumber(dataAndErrorsMap.get(ConstMemberKey.PhoneNumber.key()));
+		mbean.setmGender(dataAndErrorsMap.get(ConstMemberKey.Gender.key()));
+		mbean.setmAddress_County(dataAndErrorsMap.get(ConstMemberKey.Adrress_County.key()));
+		mbean.setmAddress_Region(dataAndErrorsMap.get(ConstMemberKey.Adrress_Region.key()));
+		mbean.setmAddress(dataAndErrorsMap.get(ConstMemberKey.Address.key()));
+		mbean.setmHintPassword(dataAndErrorsMap.get(ConstMemberKey.HintPassword.key()));
+		mbean.setmHintAnswer(dataAndErrorsMap.get(ConstMemberKey.HintAnswer.key()));
+
+		// 生日改變，也應該改變星座。
+		mbean.setmConstellation(this.getConstellationByBirthday(mbean.getmBirthday()));
+		this.memberDAO.update(mbean);
+	}
+
+	/**
+	 * 修改會員的個人狀況，星座在表單被disable不會有值。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/22
+	 * @throws Exception
+	 */
+	@Transactional
+	public void updateSituation(Map<String, String> dataAndErrorsMap, HttpServletRequest request) throws Exception {
+		MemberBean mbean = (MemberBean) request.getSession().getAttribute(ConstFilterKey.USER.key());
+		mbean.setmCareer(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Career.key())));
+		mbean.setmEducation(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Education.key())));
+		mbean.setmEconomy(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Economy.key())));
+		mbean.setmMarriage(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Marriage.key())));
+		mbean.setmFamily(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Family.key())));
+		mbean.setmBloodType(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.BloodType.key())));
+		mbean.setmReligion(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Religion.key())));
+		mbean.setmSelfIntroduction(dataAndErrorsMap.get(ConstMemberKey.SelfIntroduction.key()));
+		this.memberDAO.update(mbean);
 	}
 
 	/**
@@ -152,13 +245,6 @@ public class MemberService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		// 縣市鄉鎮區路等地址合併
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getParameter(ConstMemberKey.Adrress_County.key()))
-				.append(request.getParameter(ConstMemberKey.Adrress_Region.key()))
-				.append(request.getParameter(ConstMemberKey.Address.key()));
-		String fullAddress = sBuffer.toString();
 
 		// 轉換日期字串為物件
 		java.util.Date mBirthday;
@@ -180,7 +266,9 @@ public class MemberService {
 		mbean.setmBirthday(mBirthday);
 		mbean.setmIdentityCardNumber(dataAndErrorsMap.get(ConstMemberKey.IdentityCardNumber.key()));
 		mbean.setmGender(dataAndErrorsMap.get(ConstMemberKey.Gender.key()));
-		mbean.setmAddress(fullAddress);
+		mbean.setmAddress_County(dataAndErrorsMap.get(ConstMemberKey.Adrress_County.key()));
+		mbean.setmAddress_Region(dataAndErrorsMap.get(ConstMemberKey.Adrress_Region.key()));
+		mbean.setmAddress(dataAndErrorsMap.get(ConstMemberKey.Address.key()));
 		mbean.setmPhoneNumber(dataAndErrorsMap.get(ConstMemberKey.PhoneNumber.key()));
 		mbean.setmHintPassword(dataAndErrorsMap.get(ConstMemberKey.HintAnswer.key()));
 		mbean.setmHintAnswer(dataAndErrorsMap.get(ConstMemberKey.HintPassword.key()));
@@ -298,8 +386,8 @@ public class MemberService {
 
 		// 檢查密碼是否與之一致，從資料庫讀出的密碼必須先解密。
 		MemberBean mbean = list.get(0);
-		if (!dataAndErrorsMap.get(ConstMemberKey.Password.key())
-				.equals(secureService.getDecryptedText(mbean.getmPassword(), ConstSecureParameter.PASSWORD.param()))) {
+		if (!dataAndErrorsMap.get(ConstMemberKey.Password.key()).equals(
+				this.secureService.getDecryptedText(mbean.getmPassword(), ConstSecureParameter.PASSWORD.param()))) {
 			return this.loginError(dataAndErrorsMap);
 		}
 
@@ -345,7 +433,66 @@ public class MemberService {
 	 * @author 賴
 	 * @version 2017/06/18
 	 */
-	public Map<String, String> encapsulateAndCheckAllData(Map<String, String> dataAndErrorsMap,
+	public Map<String, String> encapsulateAndCheckAllDataWhenModifying(Map<String, String> dataAndErrorsMap,
+			HttpServletRequest request) {
+		ConstMemberKey[] memberKeys = ConstMemberKey.values();
+		for (int i = 0; i < memberKeys.length; i++) {
+			if (memberKeys[i].needToBackInMapWhenModifying() && request.getParameter(memberKeys[i].key()) != null) {
+				dataAndErrorsMap.put(memberKeys[i].key(), request.getParameter(memberKeys[i].key()));
+				if (memberKeys[i].needToCheckWhenModifying()) {
+					dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
+					dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+					dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
+				}
+			}
+		}
+		System.out.println(dataAndErrorsMap);
+
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 從HttpRequest封裝表單與會員「條件查詢」有關的所有資料至Map物件，其中地址、興趣、其它興趣需分開處理。
+	 * 
+	 * (這裡有很多寫死的地方)
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public Map<String, String> encapsulateAllWhenQueryingCondition(Map<String, String> dataAndErrorsMap,
+			HttpServletRequest request) {
+		List<String> mAddress_RegionList = new ArrayList<>();
+		List<String> mInterest_List = new ArrayList<>();
+		List<String> mOtherInterest_List = new ArrayList<>();
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
+		request.setAttribute(ConstUserKey.mAddress_RegionList.key(), mAddress_RegionList);
+		request.setAttribute(ConstUserKey.mInterest_List.key(), mInterest_List);
+		request.setAttribute(ConstUserKey.mOtherInterest_List.key(), mOtherInterest_List);
+
+		Enumeration<String> e = request.getParameterNames();
+		while (e.hasMoreElements()) {
+			String key = e.nextElement();
+			if (key.startsWith(ConstUserKey.mA_RL.key())) {
+				mAddress_RegionList.add(request.getParameter(key));
+			} else if (key.startsWith(ConstUserKey.mI_L.key())) {
+				mInterest_List.add(request.getParameter(key));
+			} else if (key.startsWith(ConstUserKey.mOI_L.key())) {
+				mOtherInterest_List.add(request.getParameter(key));
+			} else {
+				dataAndErrorsMap.put(key, request.getParameter(key));
+			}
+		}
+
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/18
+	 */
+	public Map<String, String> encapsulateAndCheckAllDataWhenRegistering(Map<String, String> dataAndErrorsMap,
 			HttpServletRequest request) {
 		ConstMemberKey[] memberKeys = ConstMemberKey.values();
 		for (int i = 0; i < memberKeys.length; i++) {
@@ -365,7 +512,7 @@ public class MemberService {
 	/**
 	 * 驗證表單單一的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
 	 * 
-	 * request參數中的「m」(METHOD)就是屬性名稱，「q」(QUERY)就是該屬性的值。
+	 * request參數中的「m」(METHOD)就是屬性名稱，「q」(QUERY)就是該屬性的值。(AJAX專用)
 	 * 
 	 * @author 賴
 	 * @version 2017/06/18
@@ -422,10 +569,14 @@ public class MemberService {
 	/**
 	 * 協助驗證表單的資料，傳回值會受到對應的Annotation檢驗。
 	 * 
-	 * 這樣的寫法對於國際化的方面有些寫死，若要國際化可能要在實作Validator的initialize()方法中想辦法取得MessageSource。
+	 * 這樣的寫法對於國際化的方面有些寫死，若要國際化要在實作Validator的initialize()方法中想辦法取得MessageSource，
+	 * 
+	 * SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this)
+	 * do this magic.
 	 * 
 	 * @author 賴
 	 * @version 2017/06/10
+	 * @see {@link CheckEmailExistValidator}
 	 */
 	@CheckEmail(column = "信箱")
 	public String checkEmail(String email) {
@@ -480,5 +631,118 @@ public class MemberService {
 	@CheckSelfIntroduction(column = "自我介紹")
 	public String checkSelfIntroduction(String selfIntroduction) {
 		return selfIntroduction;
+	}
+
+	/**
+	 * 驗證信箱是否在資料庫會員表格中已有。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 */
+	public Map<String, String> checkNonexistentEmail(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
+		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.EmailExist.key());
+		dataAndErrorsMap.put(ConstMemberKey.EmailExist.key(), request.getParameter(ConstMemberKey.Email.key()));
+		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證密碼和再輸入密碼是否一致，Map<String, String>只放分別兩組密碼。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/17
+	 */
+	public Map<String, String> checkTheSamePassword(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
+		dataAndErrorsMap.put(ConstMemberKey.Password.key(), request.getParameter(ConstMemberKey.Password.key()));
+		dataAndErrorsMap.put(ConstMemberKey.Password_Again.key(),
+				request.getParameter(ConstMemberKey.Password_Again.key()));
+		String mPassword = dataAndErrorsMap.get(ConstMemberKey.Password.key());
+		String mPassword_Again = dataAndErrorsMap.get(ConstMemberKey.Password_Again.key());
+
+		if (mPassword == null || !mPassword.equals(mPassword_Again)) {
+			dataAndErrorsMap.put(ConstMemberKey.Password_Again.key() + ConstMemberParameter._ERROR.param(),
+					PASSWORD_AGAIN_ERROR_MESSAGE);
+		}
+
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證舊密碼是否和現在的密碼相同。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/21
+	 * @throws Exception
+	 */
+	@Transactional
+	public Map<String, String> checkOldPassword(Map<String, String> dataAndErrorsMap, HttpServletRequest request)
+			throws Exception {
+		String mOldPassword = dataAndErrorsMap.get(ConstMemberKey.OldPassword.key());
+		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		String mPassword = this.secureService.getDecryptedText(mbean.getmPassword(),
+				ConstSecureParameter.PASSWORD.param());
+		if (!mOldPassword.equals(mPassword)) {
+			dataAndErrorsMap.put(ConstMemberKey.OldPassword.key() + ConstMemberParameter._ERROR.param(),
+					OLDPASSWORD_ERROR_MESSAGE);
+		}
+
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證新密碼是否符合規定，且不可和原密碼一樣。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/21
+	 * @throws Exception
+	 */
+	@Transactional
+	public Map<String, String> checkNewPassword(Map<String, String> dataAndErrorsMap, HttpServletRequest request)
+			throws Exception {
+		String mNewPassword = dataAndErrorsMap.get(ConstMemberKey.NewPassword.key());
+		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		String mPassword = this.secureService.getDecryptedText(mbean.getmPassword(),
+				ConstSecureParameter.PASSWORD.param());
+		// 先驗證是否和原密碼一樣，如果一樣則傳回錯誤。
+		if (mPassword.equals(mNewPassword)) {
+			dataAndErrorsMap.put(ConstMemberKey.NewPassword.key() + ConstMemberParameter._ERROR.param(),
+					NEWPASSWORD_ERROR_MESSAGE);
+			return dataAndErrorsMap;
+		}
+
+		// 再用原本的驗證方式驗證密碼是否符合規定，因為用原本的驗證器(@CheckPassword)，所以方法得用「mPassword」。
+		dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Password.key());
+		dataAndErrorsMap.put(ConstMemberKey.Password.key(), mNewPassword);
+		dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+		if (dataAndErrorsMap.containsKey(ConstMemberKey.Password.key() + ConstMemberParameter._ERROR.param())) {
+			String output = dataAndErrorsMap.get(ConstMemberKey.Password.key() + ConstMemberParameter._ERROR.param());
+			dataAndErrorsMap.remove(ConstMemberKey.Password.key() + ConstMemberParameter._ERROR.param());
+			dataAndErrorsMap.put(ConstMemberKey.NewPassword.key() + ConstMemberParameter._ERROR.param(), output);
+			return dataAndErrorsMap;
+		}
+
+		return dataAndErrorsMap;
+	}
+
+	/**
+	 * 驗證新密碼是否符合規定，且不可和原密碼一樣。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/21
+	 * @throws Exception
+	 */
+	public Map<String, String> checkNewPassword_Again(Map<String, String> dataAndErrorsMap, HttpServletRequest request)
+			throws Exception {
+		String mNewPassword = dataAndErrorsMap.get(ConstMemberKey.NewPassword.key());
+		String mNewPassword_Again = dataAndErrorsMap.get(ConstMemberKey.NewPassword_Again.key());
+
+		if (mNewPassword == null || !mNewPassword.equals(mNewPassword_Again)) {
+			dataAndErrorsMap.put(ConstMemberKey.NewPassword_Again.key() + ConstMemberParameter._ERROR.param(),
+					NewPASSWORD_AGAIN_ERROR_MESSAGE);
+		}
+
+		return dataAndErrorsMap;
 	}
 }

@@ -41,7 +41,7 @@ public class InterestDAOHibernate implements InterestDAO {
 	@Override
 	public List<InterestBean> select(InterestBean ibean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().load(InterestBean.class, ibean.getiId()));
+		this.results.add(this.getSession().get(InterestBean.class, ibean.getiId()));
 		return this.results;
 	}
 
@@ -79,6 +79,26 @@ public class InterestDAOHibernate implements InterestDAO {
 		}
 		Predicate pOr = cBuilder.or(pArray);
 		query = query.select(root).where(pOr);
+		return this.getSession().createQuery(query).getResultList();
+	}
+
+	@Override
+	public List<InterestBean> selectBySimilarName(String iName) {
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
+		CriteriaQuery<InterestBean> query = cBuilder.createQuery(InterestBean.class);
+		Root<InterestBean> root = query.from(InterestBean.class);
+		Predicate p = cBuilder.like(root.<String>get("iName"), new StringBuffer().append(iName).append("%").toString());
+		query.select(root).where(p);
+		return this.getSession().createQuery(query).getResultList();
+	}
+
+	@Override
+	public List<InterestBean> selectByName(String iName) {
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
+		CriteriaQuery<InterestBean> query = cBuilder.createQuery(InterestBean.class);
+		Root<InterestBean> root = query.from(InterestBean.class);
+		Predicate p = cBuilder.equal(root.<String>get("iName"), iName);
+		query.select(root).where(p);
 		return this.getSession().createQuery(query).getResultList();
 	}
 }

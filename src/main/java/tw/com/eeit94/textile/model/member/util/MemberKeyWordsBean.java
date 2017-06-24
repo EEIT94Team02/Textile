@@ -17,9 +17,16 @@ public class MemberKeyWordsBean {
 	 */
 	private String mEmail;
 	private String mName;
+	/**
+	 * 以下開始為條件查詢使用。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/23
+	 */
 	private String mGender;
 	private java.util.Date mBirthdayBegin;
 	private java.util.Date mBirthdayEnd;
+	// 這裡應該要拼成地址前段，如「臺北市」或「臺北市大安區」。
 	private java.util.List<String> mAddress;
 	/**
 	 * 依照論壇經歷作查詢關鍵字。

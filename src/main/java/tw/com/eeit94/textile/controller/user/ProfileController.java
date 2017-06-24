@@ -47,24 +47,26 @@ public class ProfileController {
 	 * @throws Exception
 	 */
 	@RequestMapping(path = { "/index.v" }, method = { RequestMethod.GET })
-	public String userProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String userViewProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 		mbean = this.userCentralService.selectUserAllData(mbean);
-		return ConstMapping.PROFILE_USER_SUCCESS.path();
+		return ConstMapping.PROFILE_USER_SHOW.path();
 	}
 
 	/**
-	 * 讀取其它使用者的資料，外來加密的字串可能含有「 」，必須轉為原先的「+」。
+	 * 讀取其它使用者的資料：
+	 * 
+	 * 注意：外來加密的字串可能含有「 」，必須轉為原先的「+」。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/20
 	 * @throws Exception
 	 */
 	@RequestMapping(path = { "/index.v" }, method = { RequestMethod.GET }, params = { "q" })
-	public String otheruserProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String q = request.getParameter(ConstHelperKey.QUERY.key());
-		String mId = this.secureService.getDecryptedText(q.replace(' ', '+'), ConstSecureParameter.MEMBERID.param());
+	public String otheruserViewProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String query = request.getParameter(ConstHelperKey.QUERY.key());
+		String mId = this.secureService.getDecryptedText(query.replace(' ', '+'), ConstSecureParameter.MEMBERID.param());
 		MemberBean mbean = this.memberService.selectByPrimaryKey(Integer.parseInt(mId));
 		if (mbean != null) {
 			mbean = this.userCentralService.selectUserAllData(mbean);

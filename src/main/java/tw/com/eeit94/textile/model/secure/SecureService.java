@@ -102,6 +102,21 @@ public class SecureService {
 	}
 
 	/**
+	 * 亂數產生數字，需輸入欲產生數字的數量。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/23
+	 */
+	public String getRandomNumber(int amount) {
+		StringBuffer sBuffer = new StringBuffer();
+		for (int i = 0; i < amount; i++) {
+			int randomNumber = (int) (Math.random() * 10);
+			sBuffer.append(randomNumber);
+		}
+		return sBuffer.toString();
+	}
+
+	/**
 	 * 新增新的金鑰。
 	 * 
 	 * @author 賴
