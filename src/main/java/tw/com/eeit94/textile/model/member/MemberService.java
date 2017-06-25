@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.com.eeit94.textile.controller.user.ConstUserKey;
 import tw.com.eeit94.textile.controller.user.ConstUserParameter;
 import tw.com.eeit94.textile.controller.user.RegisterController;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.member.util.CheckAddress;
 import tw.com.eeit94.textile.model.member.util.CheckBirthday;
 import tw.com.eeit94.textile.model.member.util.CheckEmail;
@@ -38,10 +39,10 @@ import tw.com.eeit94.textile.model.member.util.CheckPhoneNumber;
 import tw.com.eeit94.textile.model.member.util.CheckSelfIntroduction;
 import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
-import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
+import tw.com.eeit94.textile.system.common.ConstMapping;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
@@ -64,6 +65,18 @@ public class MemberService {
 	private static final String OLDPASSWORD_ERROR_MESSAGE = "舊密碼必須與原密碼相同";
 	private static final String NEWPASSWORD_ERROR_MESSAGE = "新密碼必須與原密碼不同";
 	private static final String NewPASSWORD_AGAIN_ERROR_MESSAGE = "新密碼不一致";
+	private static final Integer System_mId = new Integer(1);
+
+	/**
+	 * 特殊查詢：搜索全部會員。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	@Transactional(readOnly = true)
+	public List<MemberBean> selectAll() {
+		return this.memberDAO.selectAll();
+	}
 
 	/**
 	 * 特殊查詢：利用primary key搜尋。
@@ -138,6 +151,30 @@ public class MemberService {
 	public List<MemberBean> selectBySimilarName(MemberKeyWordsBean mkwbean) {
 		List<MemberBean> list = this.memberDAO.selectByKeyWords(mkwbean);
 		return list;
+	}
+
+	/**
+	 * 特殊查詢：這裡只查詢基本資料、論壇經歷、個人狀況，有關個人喜好的查詢會在回傳後List&lt;MemberBean&gt;，
+	 * 逐一利用位元比對。因為要特製化查詢，MemberBean的屬性成員不敷使用，因此使用新創的MemberKeyWordsBean。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/08
+	 */
+	@Transactional(readOnly = true)
+	public List<MemberBean> selectByKeyWords(MemberKeyWordsBean mkwbean) {
+		List<MemberBean> list = this.memberDAO.selectByKeyWords(mkwbean);
+		return list;
+	}
+
+	/**
+	 * 特殊查詢：搜尋會員總數。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	@Transactional(readOnly = true)
+	public Long selectMemberCount() {
+		return this.memberDAO.selectMemberCount();
 	}
 
 	/**
@@ -226,6 +263,173 @@ public class MemberService {
 		mbean.setmReligion(Integer.parseInt(dataAndErrorsMap.get(ConstMemberKey.Religion.key())));
 		mbean.setmSelfIntroduction(dataAndErrorsMap.get(ConstMemberKey.SelfIntroduction.key()));
 		this.memberDAO.update(mbean);
+	}
+
+	/**
+	 * 得到會員主頁的連結。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 * @throws Exception
+	 */
+	public String getOtherProfileUrl(MemberBean mbean, HttpServletRequest request) throws Exception {
+		String encryptedMId = this.secureService.getEncryptedText(mbean.getmId().toString(),
+				ConstSecureParameter.MEMBERID.param());
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(request.getContextPath()).append(ConstMapping.PROFILE_OTHERUSER_PAGE.path())
+				.append(ConstHelperKey.QUESTION.key()).append(ConstHelperKey.QUERY_EQUAL.key()).append(encryptedMId);
+		return sBuffer.toString();
+	}
+
+	/**
+	 * 查詢會員「隨機搜尋」的最後步驟之一：去除名為「系統」的會員。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	public MemberBean getRidOfSystemMBean(MemberBean mbean) {
+		List<MemberBean> memberList = new ArrayList<>();
+		memberList.add(mbean);
+		memberList = this.getRidOfSystemMBean(memberList);
+		if (memberList.size() > 0) {
+			return memberList.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」的最後步驟之一：去除名為「系統」的會員。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	public List<MemberBean> getRidOfSystemMBean(List<MemberBean> memberList) {
+		List<MemberBean> list = new ArrayList<>();
+		for (int i = 0; i < memberList.size(); i++) {
+			if (memberList.get(i).getmId().intValue() != System_mId.intValue()) {
+				list.add(memberList.get(i));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * 查詢會員「隨機搜尋」：完全隨機篩選出一名會員。
+	 * 
+	 * 注意：要篩選掉自己。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public MemberBean getQueryRandomResult(MemberBean usermBean) {
+		Long memberCount = this.selectMemberCount();
+		MemberBean mbean = null;
+		boolean isResultUserSelf = true;
+
+		while (isResultUserSelf) {
+			Integer randomIndex = (int) (Math.random() * memberCount.intValue());
+			mbean = this.selectByPrimaryKey(randomIndex);
+			if (mbean != null) {
+				if (usermBean.getmId().intValue() != mbean.getmId().intValue()) {
+					isResultUserSelf = false;
+				}
+			}
+		}
+
+		return mbean;
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」的最後步驟之一：隨機篩選出一名會員。
+	 * 
+	 * 注意：要篩選掉自己。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public MemberBean getQueryConditionResult(List<MemberBean> memberList, MemberBean usermBean) {
+		MemberBean mbean = null;
+		boolean isResultUserSelf = true;
+		while (isResultUserSelf) {
+			int randomIndex = (int) (Math.random() * memberList.size());
+			if (memberList.size() > 0) {
+				mbean = memberList.get(randomIndex);
+				if (usermBean.getmId().intValue() != mbean.getmId().intValue()) {
+					isResultUserSelf = false;
+				}
+				if (memberList.size() == 1) {
+					mbean = null;
+					isResultUserSelf = false;
+				}
+			} else {
+				isResultUserSelf = false;
+			}
+		}
+
+		return mbean;
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時，將興趣除外的個人資料封裝在MemberKeyWordsBean。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 * @throws ParseException
+	 * @see {@link MemberKeyWordsBean}
+	 */
+	@SuppressWarnings("unchecked")
+	public MemberKeyWordsBean setMemberKeyWordsBean(MemberKeyWordsBean mkwbean, HttpServletRequest request)
+			throws ParseException {
+		String mGender = request.getParameter(ConstMemberKey.Gender.key());
+		mkwbean.setmGender((mGender == "" ? null : mGender));
+		java.util.Date mBirthdayBegin = this.simpleDateFormat
+				.parse(request.getParameter(ConstUserKey.mBirthdayBegin.key()));
+		mkwbean.setmBirthdayBegin(mBirthdayBegin);
+		java.util.Date mBirthdayEnd = this.simpleDateFormat
+				.parse(request.getParameter(ConstUserKey.mBirthdayEnd.key()));
+		mkwbean.setmBirthdayEnd(mBirthdayEnd);
+
+		// 如果縣市不選擇「皆可」的話才封裝地址區域清單。
+		String mAddress_County = request.getParameter(ConstMemberKey.Adrress_County.key());
+		if (mAddress_County.equals(ConstUserParameter.mAddress_County_Default.param())) {
+			mAddress_County = null;
+		}
+		mkwbean.setmAddress_County(mAddress_County);
+
+		List<String> mAddress_Region = (List<String>) request.getAttribute(ConstUserKey.mAddress_RegionList.key());
+		if (mAddress_County == null || mAddress_Region.size() == 0) {
+			mAddress_Region = null;
+		}
+		mkwbean.setmAddress_Region(mAddress_Region);
+
+		Integer mScores = Integer.parseInt(request.getParameter(ConstMemberKey.Scores.key()));
+		mkwbean.setmScores(mScores);
+		java.util.Date mCreateTimeBegin = this.simpleDateFormat
+				.parse(request.getParameter(ConstUserKey.mCreateTimeBegin.key()));
+		mkwbean.setmCreateTimeBegin(new Timestamp(mCreateTimeBegin.getTime()));
+		java.util.Date mCreateTimeEnd = this.simpleDateFormat
+				.parse(request.getParameter(ConstUserKey.mCreateTimeEnd.key()));
+		mkwbean.setmCreateTimeEnd(new Timestamp(mCreateTimeEnd.getTime()));
+
+		Integer mCareer = Integer.parseInt(request.getParameter(ConstMemberKey.Career.key()));
+		mkwbean.setmCareer((mCareer == -1 ? null : mCareer));
+		Integer mEducation = Integer.parseInt(request.getParameter(ConstMemberKey.Education.key()));
+		mkwbean.setmEducation((mEducation == -1 ? null : mEducation));
+		Integer mEconomy = Integer.parseInt(request.getParameter(ConstMemberKey.Economy.key()));
+		mkwbean.setmEconomy((mEconomy == -1 ? null : mEconomy));
+		Integer mMarriage = Integer.parseInt(request.getParameter(ConstMemberKey.Marriage.key()));
+		mkwbean.setmMarriage((mMarriage == -1 ? null : mMarriage));
+		Integer mFamily = Integer.parseInt(request.getParameter(ConstMemberKey.Family.key()));
+		mkwbean.setmFamily((mFamily == -1 ? null : mFamily));
+		Integer mBloodType = Integer.parseInt(request.getParameter(ConstMemberKey.BloodType.key()));
+		mkwbean.setmBloodType((mBloodType == -1 ? null : mBloodType));
+		Integer mConstellation = Integer.parseInt(request.getParameter(ConstMemberKey.Constellation.key()));
+		mkwbean.setmConstellation((mConstellation == -1 ? null : mConstellation));
+		Integer mReligion = Integer.parseInt(request.getParameter(ConstMemberKey.Religion.key()));
+		mkwbean.setmReligion((mReligion == -1 ? null : mReligion));
+		return mkwbean;
 	}
 
 	/**
@@ -428,30 +632,6 @@ public class MemberService {
 	}
 
 	/**
-	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
-	 * 
-	 * @author 賴
-	 * @version 2017/06/18
-	 */
-	public Map<String, String> encapsulateAndCheckAllDataWhenModifying(Map<String, String> dataAndErrorsMap,
-			HttpServletRequest request) {
-		ConstMemberKey[] memberKeys = ConstMemberKey.values();
-		for (int i = 0; i < memberKeys.length; i++) {
-			if (memberKeys[i].needToBackInMapWhenModifying() && request.getParameter(memberKeys[i].key()) != null) {
-				dataAndErrorsMap.put(memberKeys[i].key(), request.getParameter(memberKeys[i].key()));
-				if (memberKeys[i].needToCheckWhenModifying()) {
-					dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
-					dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
-					dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
-				}
-			}
-		}
-		System.out.println(dataAndErrorsMap);
-
-		return dataAndErrorsMap;
-	}
-
-	/**
 	 * 從HttpRequest封裝表單與會員「條件查詢」有關的所有資料至Map物件，其中地址、興趣、其它興趣需分開處理。
 	 * 
 	 * (這裡有很多寫死的地方)
@@ -459,8 +639,7 @@ public class MemberService {
 	 * @author 賴
 	 * @version 2017/06/24
 	 */
-	public Map<String, String> encapsulateAllWhenQueryingCondition(Map<String, String> dataAndErrorsMap,
-			HttpServletRequest request) {
+	public void encapsulateAllWhenQueryingCondition(Map<String, String> dataAndErrorsMap, HttpServletRequest request) {
 		List<String> mAddress_RegionList = new ArrayList<>();
 		List<String> mInterest_List = new ArrayList<>();
 		List<String> mOtherInterest_List = new ArrayList<>();
@@ -480,6 +659,27 @@ public class MemberService {
 				mOtherInterest_List.add(request.getParameter(key));
 			} else {
 				dataAndErrorsMap.put(key, request.getParameter(key));
+			}
+		}
+	}
+
+	/**
+	 * 驗證表單所有的資料，從HttpRequest封裝表單與會員有關的所有資料至Map物件，傳回封裝「錯誤資訊」和「表單原始資料」的Map物件。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/18
+	 */
+	public Map<String, String> encapsulateAndCheckAllDataWhenModifying(Map<String, String> dataAndErrorsMap,
+			HttpServletRequest request) {
+		ConstMemberKey[] memberKeys = ConstMemberKey.values();
+		for (int i = 0; i < memberKeys.length; i++) {
+			if (memberKeys[i].needToBackInMapWhenModifying() && request.getParameter(memberKeys[i].key()) != null) {
+				dataAndErrorsMap.put(memberKeys[i].key(), request.getParameter(memberKeys[i].key()));
+				if (memberKeys[i].needToCheckWhenModifying()) {
+					dataAndErrorsMap.put(ConstHelperKey.KEY.key(), memberKeys[i].key());
+					dataAndErrorsMap = this.checkFormData(dataAndErrorsMap);
+					dataAndErrorsMap.remove(ConstHelperKey.KEY.key());
+				}
 			}
 		}
 

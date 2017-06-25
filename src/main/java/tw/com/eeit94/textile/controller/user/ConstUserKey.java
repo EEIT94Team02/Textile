@@ -22,17 +22,24 @@ package tw.com.eeit94.textile.controller.user;
 public enum ConstUserKey {
 	KEEPLOGIN("keepLogin"),
 	DATAANDERRORSMAP("dataAndErrorsMap"),
+	// RegisterController使用
 	CHECKURL("checkUrl"),
 	EMAILCHECKRE_SENDURL("emailCheckRe_sendUrl"),
+	// ModifyController使用
 	PHONECHECKCODE("phoneCheckCode"),
 	RESULTLIST("resultList"),
-	// QueryUserController使用。
+	// QueryUserController使用
 	mAddress_RegionList("mAddress_RegionList"),
 	mInterest_List("mInterest_List"),
 	mOtherInterest_List("mOtherInterest_List"),
 	mA_RL("mA_RL"),
 	mI_L("mI_L"),
-	mOI_L("mOI_L");
+	mOI_L("mOI_L"),
+	mBirthdayBegin("mBirthdayBegin"),
+	mBirthdayEnd("mBirthdayEnd"),
+	mCreateTimeBegin("mCreateTimeBegin"),
+	mCreateTimeEnd("mCreateTimeEnd"),
+	queryCondition("queryCondition");
 
 	private final String key;
 

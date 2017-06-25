@@ -4,32 +4,33 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Login, Textile</title>
+<title>Find password, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
-	<form action="login.do" method="post">
+	<form action="findPassword.do" method="post">
 		<table>
 			<tr>
-				<td>帳號：</td>
+				<td>帳號輸入：</td>
 				<td><input type="text" name="mEmail" value="${dataAndErrorsMap.mEmail}" /></td>
-				<td>${dataAndErrorsMap.login_error}</td>
+				<td>${dataAndErrorsMap.mEmail_error}</td>
 			</tr>
+			<c:if test="${not empty user}">
+				<tr>
+					<td>密碼提示：</td>
+					<td >${user.mHintPassword}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>密碼答案：</td>
+					<td><input type="text" name="mHintAnswer" value="${dataAndErrorsMap.mHintAnswer}" /></td>
+					<td>${dataAndErrorsMap.mHintAnswer_error}</td>
+				</tr>
+			</c:if>
 			<tr>
-				<td>密碼：</td>
-				<td><input type="password" name="mPassword" value="${dataAndErrorsMap.mPassword}" /></td>
-				<td></td>
-			</tr>
-			<tr>
-				<c:set var="x" value="&nbsp;&nbsp;&nbsp;" />
-				<td colspan="2" align="right"><a href="findPassword.v">忘記密碼？</a>${x}<input type="checkbox" name="keepLogin"
-					value="1" />保持登入</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="right"><input type="submit" value="登入" /></td>
+				<td colspan="2" align="right"><input type="submit" value="提交" /></td>
 				<td></td>
 			</tr>
 		</table>

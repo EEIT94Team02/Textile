@@ -1,7 +1,9 @@
 package tw.com.eeit94.textile.model.interest_detail;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.controller.user.ConstUserKey;
 import tw.com.eeit94.textile.model.interest.InterestService;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailNameListBean.Item;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.member.util.CheckEmailExistValidator;
 import tw.com.eeit94.textile.model.member.util.CheckInterest;
 import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
@@ -66,6 +70,229 @@ public class Interest_DetailService {
 		Interest_DetailBean i_dbean = new Interest_DetailBean();
 		i_dbean.setmId(mbean.getmId());
 		return this.interest_DetailDAO.select(i_dbean).get(0);
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時的最終步驟之一：篩選主要興趣相同者。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 * @see {@link MemberKeyWordsBean}
+	 */
+	public List<MemberBean> queryConditionByComparingI_L(MemberKeyWordsBean mkwbean, List<MemberBean> memberList) {
+		List<MemberBean> list = new ArrayList<>();
+		boolean almostLike;
+		MemberBean mbean;
+		Integer refernce;
+		Integer compared;
+
+		for (int i = 0; i < memberList.size(); i++) {
+			mbean = memberList.get(i);
+			almostLike = true;
+			for (int category = 0; category < CATEGORY_MAX; category++) {
+				refernce = this.getFieldForCheckboxPerCatogory(mkwbean, category);
+				compared = this.getFieldForCheckboxPerCatogory(mbean.getInterest_DetailBean(), category);
+				if (!this.interestBinaryConvertorService.compareTwoIntsLoosely(refernce, compared)) {
+					almostLike = false;
+				}
+			}
+
+			if (almostLike) {
+				list.add(mbean);
+			}
+		}
+		
+		return list;
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時的最終步驟之一：篩選其它興趣相同者。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 * @see {@link MemberKeyWordsBean}
+	 */
+	public List<MemberBean> queryConditionByComparingOI_L(MemberKeyWordsBean mkwbean, List<MemberBean> memberList) {
+		List<MemberBean> list = new ArrayList<>();
+		List<Integer> I_dOtherInterest = mkwbean.getI_dOtherInterest();
+		List<Integer> primaryKeys;
+		MemberBean mbean;
+		Interest_DetailBean i_dbean;
+		JSONArray jsonArray;
+		int sameCount;
+
+		// 如果條件中沒有其它興趣，比都不用比，直接回傳會員清單。
+		if (I_dOtherInterest.size() == 0) {
+			return memberList;
+		}
+
+		for (int i = 0; i < memberList.size(); i++) {
+			mbean = memberList.get(i);
+			i_dbean = mbean.getInterest_DetailBean();
+			primaryKeys = new ArrayList<>();
+			sameCount = 0;
+
+			// 將會員其它興趣資料完全取出
+			for (int category = 0; category < CATEGORY_MAX; category++) {
+				jsonArray = this.getFieldForInputPerCatogory(i_dbean, category);
+				for (int j = 0; j < jsonArray.length(); j++) {
+					primaryKeys.add(jsonArray.getInt(j));
+				}
+			}
+
+			// 比較條件中的其它興趣(至多5個)
+			for (int j = 0; j < I_dOtherInterest.size(); j++) {
+				for (int k = 0; k < primaryKeys.size(); k++) {
+					if (I_dOtherInterest.get(j).intValue() == primaryKeys.get(k).intValue()) {
+						sameCount++;
+						break;
+					}
+				}
+			}
+
+			// 如果條件中的其它興趣該會員都有，則篩選該會員。
+			if (sameCount == I_dOtherInterest.size()) {
+				list.add(mbean);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時，將興趣封裝在MemberKeyWordsBean。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 * @see {@link MemberKeyWordsBean}
+	 */
+	@SuppressWarnings("unchecked")
+	public MemberKeyWordsBean setMemberKeyWordsBean(MemberKeyWordsBean mkwbean, HttpServletRequest request) {
+		List<String> mInterest_List = (List<String>) request.getAttribute(ConstUserKey.mInterest_List.key());
+		List<Integer> mInterest = new ArrayList<>();
+		for (int i = 0; i < mInterest_List.size(); i++) {
+			mInterest.add(Integer.parseInt(mInterest_List.get(i)));
+		}
+
+		// 將有勾選的興趣依照8大分類的各8個子興趣分別轉為1byte儲存。
+		int index = 0;
+		int remainder = 0;
+		byte[] bs = new byte[CHECKBOXES_MAX_PER_CATEGORY];
+		for (int i = 0; i < CHECKBOXES_ALL; i++) {
+			remainder = i % CHECKBOXES_MAX_PER_CATEGORY;
+			if (remainder == 0) {
+				bs = new byte[CHECKBOXES_MAX_PER_CATEGORY];
+			}
+
+			// mInterest.get(index)必須少1，原因是由於8大興趣的子興趣其primary key由1開始算。
+			if (index < mInterest.size() && i == mInterest.get(index) - 1) {
+				bs[remainder] = YES;
+				index++;
+			} else {
+				bs[remainder] = NO;
+			}
+
+			// 如果儲存在byte[]的最末位，則要轉換為整數並封裝在MemberKeyWordsBean。
+			if (remainder == CHECKBOXES_MAX_PER_CATEGORY - 1) {
+				Integer x = this.interestBinaryConvertorService.bitsToInt(bs);
+				this.setFieldForCheckboxPerCatogory(mkwbean, i / CHECKBOXES_MAX_PER_CATEGORY, x);
+			}
+		}
+
+		return this.setMemberKeyWordsBeanI_DMain(mkwbean);
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時，將興趣封裝在MemberKeyWordsBean後，更新I_DMain(興趣總表)的值。
+	 * 
+	 * (這裡將無視其它興趣的分類，只歸類主要興趣。)
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public MemberKeyWordsBean setMemberKeyWordsBeanI_DMain(MemberKeyWordsBean mkwbean) {
+		byte[] bs = new byte[CATEGORY_MAX];
+		for (int category = 0; category < CATEGORY_MAX; category++) {
+			int i_dInterest = this.getFieldForCheckboxPerCatogory(mkwbean, category);
+			if (i_dInterest > 0) {
+				bs[category] = YES;
+			}
+		}
+		int x = this.interestBinaryConvertorService.bitsToInt(bs);
+		mkwbean.setI_dMain(x);
+		return mkwbean;
+	}
+
+	/**
+	 * 從MemberKeyWordsBean得到興趣明細中與checkbox有關的int資料。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public int getFieldForCheckboxPerCatogory(MemberKeyWordsBean mkwbean, int category) {
+		int x = 0;
+		switch (category) {
+		case 0:
+			x = mkwbean.getI_dRecreation();
+			break;
+		case 1:
+			x = mkwbean.getI_dExercises();
+			break;
+		case 2:
+			x = mkwbean.getI_dDiet();
+			break;
+		case 3:
+			x = mkwbean.getI_dArt();
+			break;
+		case 4:
+			x = mkwbean.getI_dDesign();
+			break;
+		case 5:
+			x = mkwbean.getI_dMusic();
+			break;
+		case 6:
+			x = mkwbean.getI_dHobbies();
+			break;
+		case 7:
+			x = mkwbean.getI_dActivities();
+			break;
+		}
+		return x;
+	}
+
+	/**
+	 * 將興趣明細中與checkbox有關的int資料存入MemberKeyWordsBean。
+	 *
+	 * @author 賴
+	 * @version 2017/06/24
+	 */
+	public void setFieldForCheckboxPerCatogory(MemberKeyWordsBean mkwbean, int category, Integer i_dInterest) {
+		switch (category) {
+		case 0:
+			mkwbean.setI_dRecreation(i_dInterest);
+			break;
+		case 1:
+			mkwbean.setI_dExercises(i_dInterest);
+			break;
+		case 2:
+			mkwbean.setI_dDiet(i_dInterest);
+			break;
+		case 3:
+			mkwbean.setI_dArt(i_dInterest);
+			break;
+		case 4:
+			mkwbean.setI_dDesign(i_dInterest);
+			break;
+		case 5:
+			mkwbean.setI_dMusic(i_dInterest);
+			break;
+		case 6:
+			mkwbean.setI_dHobbies(i_dInterest);
+			break;
+		case 7:
+			mkwbean.setI_dActivities(i_dInterest);
+			break;
+		}
 	}
 
 	/**

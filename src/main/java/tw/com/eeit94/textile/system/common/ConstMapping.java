@@ -1,6 +1,6 @@
 package tw.com.eeit94.textile.system.common;
 
-import tw.com.eeit94.textile.controller.logs.LogsController;
+import tw.com.eeit94.textile.controller.manager.ManagerController;
 import tw.com.eeit94.textile.controller.user.LoginController;
 import tw.com.eeit94.textile.controller.user.LogoutController;
 import tw.com.eeit94.textile.controller.user.ModifyController;
@@ -21,7 +21,7 @@ import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
  * @author 賴
  * @version 2017/06/10
  * @see {@link SpringMVCJavaConfiguration}
- * @see {@link LogsController}
+ * @see {@link ManagerController}
  * @see {@link LoginController}
  * @see {@link LogoutController}
  * @see {@link RegisterController}
@@ -33,7 +33,9 @@ public enum ConstMapping {
 	ERROR_PAGE("/error/404.v"),
 	FALSE_MAIN_PAGE("/index.jsp"),
 	TRUE_MAIN_PAGE("/index.v"),
-	LOGS_SUCCESS("logs.success"),
+	REDIRECT_MAIN_PAGE("/index.r"),
+	MANAGER_LOGS_SHOW("logs.show"),
+	MANAGER_USERS_SHOW("users.show"),
 	LOGIN_PAGE("/check/login.v"),
 	LOGIN_ERROR("login.error"),
 	LOGIN_SUCCESS("login.success"),
@@ -42,6 +44,9 @@ public enum ConstMapping {
 	LOGIN_RE_SENDEMAILCHECK("re_sendEmailCheck.do"),
 	LOGIN_EMAILCHECKRE_SEND("login.emailCheckRe_send"),
 	LOGIN_EMAILCHECKSUCCESS("login.emailCheckSuccess"),
+	LOGIN_FINDPASSWORD_SHOW("findPassword.show"),
+	LOGIN_FINDPASSWORD_ERROR("findPassword.error"),
+	LOGIN_FINDPASSWORD_SUCCESS("findPassword.success"),
 	LOGOUT_SUCCESS("logout.success"),
 	REGISTER_ERROR("register.error"),
 	REGISTER_SUCCESS("register.success"),
@@ -61,7 +66,9 @@ public enum ConstMapping {
 	QUERYNAME_SHOW("/user/queryName.v"),
 	QUERYNAME_ERROR("queryName.error"),
 	QUERYCONDITION_SHOW("queryCondition.show"),
-	QUERYCONDITION_ERROR("queryCondition.error");
+	QUERYCONDITION_ERROR("queryCondition.error"),
+	CHAT("/user/chat.do"),
+	CHAT_SHOW("chat.show");
 
 	private final String path;
 

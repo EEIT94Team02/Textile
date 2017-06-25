@@ -76,6 +76,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/check/register.v").setViewName("/check/register.v");
 		registry.addViewController("/check/login.v").setViewName("/check/login.v");
 		registry.addViewController("/check/logout.v").setViewName("/check/logout.v");
+		registry.addViewController("/check/findPassword.v").setViewName("/check/findPassword.v");
 		registry.addViewController("/user/queryName.v").setViewName("/user/queryName.v");
 		/*
 		 * 陳
@@ -223,10 +224,18 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/10
 	 */
 	// 系統記錄的畫面(後臺)。
-	@Bean(name = { "logs.success", "/manager/logs.v" })
+	@Bean(name = { "logs.show", "/manager/logs.v" })
 	public org.springframework.web.servlet.view.InternalResourceView manager_logs_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/manager/logs.jsp");
+		return internalResourceView;
+	}
+
+	// 會員列表的畫面(後臺)。
+	@Bean(name = { "users.show", "/manager/users.v" })
+	public org.springframework.web.servlet.view.InternalResourceView manager_users_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/manager/users.jsp");
 		return internalResourceView;
 	}
 
@@ -252,6 +261,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView logout_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/logout.jsp");
+		return internalResourceView;
+	}
+
+	// 找回密碼的畫面。
+	@Bean(name = { "/check/findPassword.v", "findPassword.show", "findPassword.error" })
+	public org.springframework.web.servlet.view.InternalResourceView find_password_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/findPassword.jsp");
+		return internalResourceView;
+	}
+
+	// 找回密碼成功的畫面。
+	@Bean(name = { "findPassword.success" })
+	public org.springframework.web.servlet.view.InternalResourceView find_password_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/findPasswordSuccess.jsp");
 		return internalResourceView;
 	}
 
@@ -313,7 +338,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 修改密碼的頁面。
 	@Bean(name = { "modifySecure.show", "modifySecure.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modifySecure_page() {
+	public org.springframework.web.servlet.view.InternalResourceView modifySecure_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modifySecure.jsp");
 		return internalResourceView;
@@ -321,7 +346,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 修改個人資料的頁面。
 	@Bean(name = { "modifyProfile.show", "modifyProfile.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modifyProfile_page() {
+	public org.springframework.web.servlet.view.InternalResourceView modifyProfile_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modifyProfile.jsp");
 		return internalResourceView;
@@ -329,7 +354,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 修改個人狀況的頁面。
 	@Bean(name = { "modifySituation.show", "modifySituation.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modifySituation_page() {
+	public org.springframework.web.servlet.view.InternalResourceView modifySituation_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modifySituation.jsp");
 		return internalResourceView;
@@ -337,7 +362,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 修改興趣喜好的頁面。
 	@Bean(name = { "modifyInterest.show" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modifyInteresty_page() {
+	public org.springframework.web.servlet.view.InternalResourceView modifyInterest_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modifyInterest.jsp");
 		return internalResourceView;
@@ -345,7 +370,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 修改資料成功的頁面。
 	@Bean(name = { "modify.success" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modify_success() {
+	public org.springframework.web.servlet.view.InternalResourceView modify_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/modifySuccess.jsp");
 		return internalResourceView;
@@ -353,7 +378,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 驗證手機的畫面。
 	@Bean(name = { "phoneCheck.show" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modify_phoneCheck_page() {
+	public org.springframework.web.servlet.view.InternalResourceView phoneCheck_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/phoneCheck.jsp");
 		return internalResourceView;
@@ -361,7 +386,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 驗證手機錯誤的畫面。
 	@Bean(name = { "phoneCheck.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modify_phoneCheck_error() {
+	public org.springframework.web.servlet.view.InternalResourceView phoneCheck_error() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/phoneCheckError.jsp");
 		return internalResourceView;
@@ -369,7 +394,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 會員姓名查詢的畫面。
 	@Bean(name = { "/user/queryName.v", "queryName.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_query_name_page() {
+	public org.springframework.web.servlet.view.InternalResourceView queryName_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/queryName.jsp");
 		return internalResourceView;
@@ -377,7 +402,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 會員條件查詢的畫面。
 	@Bean(name = { "queryCondition.show", "queryCondition.error" })
-	public org.springframework.web.servlet.view.InternalResourceView user_query_condition_page() {
+	public org.springframework.web.servlet.view.InternalResourceView queryCondition_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/queryCondition.jsp");
 		return internalResourceView;

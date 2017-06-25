@@ -5,12 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.controller.user.ConstUserKey;
 import tw.com.eeit94.textile.model.interest_detail.ConstInterest_DetailKey;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailNameListBean;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailNameListBean.Item;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailService;
 
 /**
@@ -60,6 +65,31 @@ public class InterestService {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * 查詢會員「條件搜尋」時，將其它興趣封裝在MemberKeyWordsBean。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/24
+	 * @see {@link MemberKeyWordsBean}
+	 */
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public MemberKeyWordsBean setMemberKeyWordsBean(MemberKeyWordsBean mkwbean, HttpServletRequest request) {
+		List<String> mOtherInterest_List = (List<String>) request.getAttribute(ConstUserKey.mOtherInterest_List.key());
+		List<Integer> mOtherInterest = new ArrayList<>();
+		
+		for (int i = 0; i < mOtherInterest_List.size(); i++) {
+			List<InterestBean> list = this.interestDAO.selectByName(mOtherInterest_List.get(i));
+			if (list.size() > 0) {
+				InterestBean ibean = list.get(0);
+				mOtherInterest.add(ibean.getiId());
+			}
+		}
+		mkwbean.setI_dOtherInterest(mOtherInterest);
+
+		return mkwbean;
 	}
 
 	/**
