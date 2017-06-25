@@ -27,8 +27,8 @@ public class LogsDAOHibernate implements LogsDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	private List<LogsBean> results;
-	private final String CLEARED_PREFIX = "已清空共";
-	private final String CLEARED_SUFFIX = "筆紀錄，並重新開始對系統記錄。";
+	private static final String CLEARED_PREFIX = "已清空共";
+	private static final String CLEARED_SUFFIX = "筆紀錄，並重新開始對系統記錄。";
 
 	private Session getSession() {
 		return this.sessionFactory.getCurrentSession();
@@ -60,7 +60,7 @@ public class LogsDAOHibernate implements LogsDAO {
 		LogsBean lbean = new LogsBean();
 		lbean.setlCreateTime(new Timestamp(System.currentTimeMillis()));
 		lbean.setlLog(
-				new StringBuffer().append(this.CLEARED_PREFIX).append(rows).append(this.CLEARED_SUFFIX).toString());
+				new StringBuffer().append(CLEARED_PREFIX).append(rows).append(CLEARED_SUFFIX).toString());
 		this.insert(lbean);
 		return this.selectAll();
 	}

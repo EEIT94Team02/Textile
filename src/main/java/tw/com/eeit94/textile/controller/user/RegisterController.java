@@ -71,7 +71,7 @@ public class RegisterController {
 		}
 
 		// 初始化所有相關新會員資料於資料庫。
-		this.memberRollbackService.rollbackProviderWhenRegistering(dataAndErrorsMap, request);
+		this.memberRollbackService.registerWithRollbackProvider(dataAndErrorsMap, request);
 		MemberBean mbean = (MemberBean) request.getAttribute(ConstFilterKey.USER.key());
 		ChatroomBean cbean = (ChatroomBean) request.getAttribute(ConstFilterKey.CHATROOM.key());
 		if (mbean == null || cbean == null) {

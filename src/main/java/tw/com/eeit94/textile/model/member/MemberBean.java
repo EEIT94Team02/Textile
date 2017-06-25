@@ -75,6 +75,7 @@ public class MemberBean implements java.io.Serializable {
 			CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "chatroom_MemberPK.mId", targetEntity = Chatroom_MemberBean.class)
 	private List<Chatroom_MemberBean> chatroom_MemberBean;
 	private transient Interest_DetailNameListBean i_d;
+	private transient String mOtherProfileUrl;
 
 	public Integer getmId() {
 		return mId;
@@ -332,6 +333,14 @@ public class MemberBean implements java.io.Serializable {
 		this.i_d = i_d;
 	}
 
+	public String getmOtherProfileUrl() {
+		return mOtherProfileUrl;
+	}
+
+	public void setmOtherProfileUrl(String mOtherProfileUrl) {
+		this.mOtherProfileUrl = mOtherProfileUrl;
+	}
+
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -369,6 +378,7 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("chatroom_MemberBean",
 				this.chatroom_MemberBean != null ? this.chatroom_MemberBean.toString() : null);
 		linkedHashMap.put("i_d", this.i_d != null ? this.i_d.toString() : null);
+		linkedHashMap.put("mOtherProfileUrl", this.mOtherProfileUrl != null ? this.mOtherProfileUrl : null);
 		return linkedHashMap.toString();
 	}
 }

@@ -2,7 +2,7 @@ package tw.com.eeit94.textile.model.member;
 
 import java.util.List;
 
-import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 
 /**
  * 控制會員基本資料的DAO。
@@ -29,4 +29,6 @@ public interface MemberDAO {
 	public List<MemberBean> selectBySimilarName(MemberKeyWordsBean mkwbean);
 	
 	public List<MemberBean> selectByEmail(MemberKeyWordsBean mkwbean);
+
+	public Long selectMemberCount();
 }

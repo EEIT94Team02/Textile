@@ -1,12 +1,19 @@
-package tw.com.eeit94.textile.model.member.util;
+package tw.com.eeit94.textile.model.member.service;
 
 import java.util.LinkedHashMap;
+
+import tw.com.eeit94.textile.model.interest.InterestService;
+import tw.com.eeit94.textile.model.interest_detail.Interest_DetailService;
+import tw.com.eeit94.textile.model.member.MemberService;
 
 /**
  * 專門用來備份查詢資料的條件封裝檔。
  * 
  * @author 賴
  * @version 2017/06/08
+ * @see {@link MemberService}
+ * @see {@link Interest_DetailService}
+ * @see {@link InterestService}
  */
 public class MemberKeyWordsBean {
 	/**
@@ -26,8 +33,8 @@ public class MemberKeyWordsBean {
 	private String mGender;
 	private java.util.Date mBirthdayBegin;
 	private java.util.Date mBirthdayEnd;
-	// 這裡應該要拼成地址前段，如「臺北市」或「臺北市大安區」。
-	private java.util.List<String> mAddress;
+	private String mAddress_County;
+	private java.util.List<String> mAddress_Region;
 	/**
 	 * 依照論壇經歷作查詢關鍵字。
 	 * 
@@ -58,23 +65,15 @@ public class MemberKeyWordsBean {
 	 * @version 2017/06/08
 	 */
 	private Integer i_dMain;
-	private String i_dOther;
 	private Integer i_dRecreation;
-	private String i_dOtherRecreation;
 	private Integer i_dExercises;
-	private String i_dOtherExercises;
 	private Integer i_dDiet;
-	private String i_dOtherDiet;
 	private Integer i_dArt;
-	private String i_dOtherArt;
 	private Integer i_dDesign;
-	private String i_dOtherDesign;
 	private Integer i_dMusic;
-	private String i_dOtherMusic;
 	private Integer i_dHobbies;
-	private String i_dOtherHobbies;
 	private Integer i_dActivities;
-	private String i_dOtherActivities;
+	private java.util.List<Integer> i_dOtherInterest;
 
 	public String getmEmail() {
 		return mEmail;
@@ -116,12 +115,20 @@ public class MemberKeyWordsBean {
 		this.mBirthdayEnd = mBirthdayEnd;
 	}
 
-	public java.util.List<String> getmAddress() {
-		return mAddress;
+	public String getmAddress_County() {
+		return mAddress_County;
 	}
 
-	public void setmAddress(java.util.List<String> mAddress) {
-		this.mAddress = mAddress;
+	public void setmAddress_County(String mAddress_County) {
+		this.mAddress_County = mAddress_County;
+	}
+
+	public java.util.List<String> getmAddress_Region() {
+		return mAddress_Region;
+	}
+
+	public void setmAddress_Region(java.util.List<String> mAddress_Region) {
+		this.mAddress_Region = mAddress_Region;
 	}
 
 	public Integer getmScores() {
@@ -220,28 +227,12 @@ public class MemberKeyWordsBean {
 		this.i_dMain = i_dMain;
 	}
 
-	public String getI_dOther() {
-		return i_dOther;
-	}
-
-	public void setI_dOther(String i_dOther) {
-		this.i_dOther = i_dOther;
-	}
-
 	public Integer getI_dRecreation() {
 		return i_dRecreation;
 	}
 
 	public void setI_dRecreation(Integer i_dRecreation) {
 		this.i_dRecreation = i_dRecreation;
-	}
-
-	public String getI_dOtherRecreation() {
-		return i_dOtherRecreation;
-	}
-
-	public void setI_dOtherRecreation(String i_dOtherRecreation) {
-		this.i_dOtherRecreation = i_dOtherRecreation;
 	}
 
 	public Integer getI_dExercises() {
@@ -252,28 +243,12 @@ public class MemberKeyWordsBean {
 		this.i_dExercises = i_dExercises;
 	}
 
-	public String getI_dOtherExercises() {
-		return i_dOtherExercises;
-	}
-
-	public void setI_dOtherExercises(String i_dOtherExercises) {
-		this.i_dOtherExercises = i_dOtherExercises;
-	}
-
 	public Integer getI_dDiet() {
 		return i_dDiet;
 	}
 
 	public void setI_dDiet(Integer i_dDiet) {
 		this.i_dDiet = i_dDiet;
-	}
-
-	public String getI_dOtherDiet() {
-		return i_dOtherDiet;
-	}
-
-	public void setI_dOtherDiet(String i_dOtherDiet) {
-		this.i_dOtherDiet = i_dOtherDiet;
 	}
 
 	public Integer getI_dArt() {
@@ -284,28 +259,12 @@ public class MemberKeyWordsBean {
 		this.i_dArt = i_dArt;
 	}
 
-	public String getI_dOtherArt() {
-		return i_dOtherArt;
-	}
-
-	public void setI_dOtherArt(String i_dOtherArt) {
-		this.i_dOtherArt = i_dOtherArt;
-	}
-
 	public Integer getI_dDesign() {
 		return i_dDesign;
 	}
 
 	public void setI_dDesign(Integer i_dDesign) {
 		this.i_dDesign = i_dDesign;
-	}
-
-	public String getI_dOtherDesign() {
-		return i_dOtherDesign;
-	}
-
-	public void setI_dOtherDesign(String i_dOtherDesign) {
-		this.i_dOtherDesign = i_dOtherDesign;
 	}
 
 	public Integer getI_dMusic() {
@@ -316,28 +275,12 @@ public class MemberKeyWordsBean {
 		this.i_dMusic = i_dMusic;
 	}
 
-	public String getI_dOtherMusic() {
-		return i_dOtherMusic;
-	}
-
-	public void setI_dOtherMusic(String i_dOtherMusic) {
-		this.i_dOtherMusic = i_dOtherMusic;
-	}
-
 	public Integer getI_dHobbies() {
 		return i_dHobbies;
 	}
 
 	public void setI_dHobbies(Integer i_dHobbies) {
 		this.i_dHobbies = i_dHobbies;
-	}
-
-	public String getI_dOtherHobbies() {
-		return i_dOtherHobbies;
-	}
-
-	public void setI_dOtherHobbies(String i_dOtherHobbies) {
-		this.i_dOtherHobbies = i_dOtherHobbies;
 	}
 
 	public Integer getI_dActivities() {
@@ -348,52 +291,52 @@ public class MemberKeyWordsBean {
 		this.i_dActivities = i_dActivities;
 	}
 
-	public String getI_dOtherActivities() {
-		return i_dOtherActivities;
+	public java.util.List<Integer> getI_dOtherInterest() {
+		return i_dOtherInterest;
 	}
 
-	public void setI_dOtherActivities(String i_dOtherActivities) {
-		this.i_dOtherActivities = i_dOtherActivities;
+	public void setI_dOtherInterest(java.util.List<Integer> i_dOtherInterest) {
+		this.i_dOtherInterest = i_dOtherInterest;
 	}
 
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-		linkedHashMap.put("mEmail", this.getmEmail().toString());
-		linkedHashMap.put("mName", this.getmName().toString());
-		linkedHashMap.put("mGender", this.getmGender().toString());
-		linkedHashMap.put("mBirthdayBegin", this.getmBirthdayBegin().toString());
-		linkedHashMap.put("mBirthdayEnd", this.getmBirthdayEnd().toString());
-		linkedHashMap.put("mAddress", this.getmAddress().toString());
-		linkedHashMap.put("mScores", this.getmScores().toString());
-		linkedHashMap.put("mCreateTimeBegin", this.getmCreateTimeBegin().toString());
-		linkedHashMap.put("mCreateTimeEnd", this.getmCreateTimeEnd().toString());
-		linkedHashMap.put("mCareer", this.getmCareer().toString());
-		linkedHashMap.put("mEducation", this.getmEducation().toString());
-		linkedHashMap.put("mEconomy", this.getmEconomy().toString());
-		linkedHashMap.put("mMarriage", this.getmMarriage().toString());
-		linkedHashMap.put("mFamily", this.getmFamily().toString());
-		linkedHashMap.put("mBloodType", this.getmBloodType().toString());
-		linkedHashMap.put("mConstellation", this.getmConstellation().toString());
-		linkedHashMap.put("mReligion", this.getmReligion().toString());
-		linkedHashMap.put("i_dMain", this.getI_dMain().toString());
-		linkedHashMap.put("i_dOther", this.getI_dOther().toString());
-		linkedHashMap.put("i_dRecreation", this.getI_dRecreation().toString());
-		linkedHashMap.put("i_dOtherRecreation", this.getI_dOtherRecreation().toString());
-		linkedHashMap.put("i_dExercises", this.getI_dExercises().toString());
-		linkedHashMap.put("i_dOtherExercises", this.getI_dOtherExercises().toString());
-		linkedHashMap.put("i_dDiet", this.getI_dDiet().toString());
-		linkedHashMap.put("i_dOtherDiet", this.getI_dOtherDiet().toString());
-		linkedHashMap.put("i_dArt", this.getI_dArt().toString());
-		linkedHashMap.put("i_dOtherArt", this.getI_dOtherArt().toString());
-		linkedHashMap.put("i_dDesign", this.getI_dDesign().toString());
-		linkedHashMap.put("i_dOtherDesign", this.getI_dOtherDesign().toString());
-		linkedHashMap.put("i_dMusic", this.getI_dMusic().toString());
-		linkedHashMap.put("i_dOtherMusic", this.getI_dOtherMusic().toString());
-		linkedHashMap.put("i_dHobbies", this.getI_dHobbies().toString());
-		linkedHashMap.put("i_dOtherHobbies", this.getI_dOtherHobbies().toString());
-		linkedHashMap.put("i_dActivities", this.getI_dActivities().toString());
-		linkedHashMap.put("i_dOtherActivities", this.getI_dOtherActivities().toString());
+		linkedHashMap.put("mEmail", this.getmEmail() == null ? null : this.getmEmail().toString());
+		linkedHashMap.put("mName", this.getmName() == null ? null : this.getmName().toString());
+		linkedHashMap.put("mGender", this.getmGender() == null ? null : this.getmGender().toString());
+		linkedHashMap.put("mBirthdayBegin",
+				this.getmBirthdayBegin() == null ? null : this.getmBirthdayBegin().toString());
+		linkedHashMap.put("mBirthdayEnd", this.getmBirthdayEnd() == null ? null : this.getmBirthdayEnd().toString());
+		linkedHashMap.put("mAddress_County",
+				this.getmAddress_County() == null ? null : this.getmAddress_County().toString());
+		linkedHashMap.put("mAddress_Region",
+				this.getmAddress_Region() == null ? null : this.getmAddress_Region().toString());
+		linkedHashMap.put("mScores", this.getmScores() == null ? null : this.getmScores().toString());
+		linkedHashMap.put("mCreateTimeBegin",
+				this.getmCreateTimeBegin() == null ? null : this.getmCreateTimeBegin().toString());
+		linkedHashMap.put("mCreateTimeEnd",
+				this.getmCreateTimeEnd() == null ? null : this.getmCreateTimeEnd().toString());
+		linkedHashMap.put("mCareer", this.getmCareer() == null ? null : this.getmCareer().toString());
+		linkedHashMap.put("mEducation", this.getmEducation() == null ? null : this.getmEducation().toString());
+		linkedHashMap.put("mEconomy", this.getmEconomy() == null ? null : this.getmEconomy().toString());
+		linkedHashMap.put("mMarriage", this.getmMarriage() == null ? null : this.getmMarriage().toString());
+		linkedHashMap.put("mFamily", this.getmFamily() == null ? null : this.getmFamily().toString());
+		linkedHashMap.put("mBloodType", this.getmBloodType() == null ? null : this.getmBloodType().toString());
+		linkedHashMap.put("mConstellation",
+				this.getmConstellation() == null ? null : this.getmConstellation().toString());
+		linkedHashMap.put("mReligion", this.getmReligion() == null ? null : this.getmReligion().toString());
+		linkedHashMap.put("i_dMain", this.getI_dMain() == null ? null : this.getI_dMain().toString());
+		linkedHashMap.put("i_dRecreation", this.getI_dRecreation() == null ? null : this.getI_dRecreation().toString());
+		linkedHashMap.put("i_dExercises", this.getI_dExercises() == null ? null : this.getI_dExercises().toString());
+		linkedHashMap.put("i_dDiet", this.getI_dDiet() == null ? null : this.getI_dDiet().toString());
+		linkedHashMap.put("i_dArt", this.getI_dArt() == null ? null : this.getI_dArt().toString());
+		linkedHashMap.put("i_dDesign", this.getI_dDesign() == null ? null : this.getI_dDesign().toString());
+		linkedHashMap.put("i_dMusic", this.getI_dMusic() == null ? null : this.getI_dMusic().toString());
+		linkedHashMap.put("i_dHobbies", this.getI_dHobbies() == null ? null : this.getI_dHobbies().toString());
+		linkedHashMap.put("i_dActivities", this.getI_dActivities() == null ? null : this.getI_dActivities().toString());
+		linkedHashMap.put("I_dOtherInterest",
+				this.getI_dOtherInterest() == null ? null : this.getI_dOtherInterest().toString());
 		return linkedHashMap.toString();
 	}
 }

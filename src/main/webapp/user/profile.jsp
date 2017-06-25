@@ -42,6 +42,9 @@
 	<p>
 		<a href="queryCondition.v">會員條件查詢</a>
 	</p>
+	<p>
+		<a href="queryRandom.do">會員隨機查詢</a>
+	</p>
 	<table class="dataBasic">
 		<thead>
 			<tr>
@@ -341,7 +344,7 @@
 		</tbody>
 	</table>
 	<script type="text/javascript">
-    
-  </script>
+		
+	</script>
 </body>
 </html>
