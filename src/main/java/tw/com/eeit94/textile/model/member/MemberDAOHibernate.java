@@ -236,7 +236,8 @@ public class MemberDAOHibernate implements MemberDAO {
 			pName = cBuilder.like(root.<String>get("mName"),
 					new StringBuffer().append(mkwbean.getmName()).append("%").toString());
 		}
-		query = query.select(root).where(pName);
+		Order order = cBuilder.asc(root.<String>get("mName"));
+		query = query.select(root).where(pName).orderBy(order);
 		return this.getSession().createQuery(query).getResultList();
 	}
 

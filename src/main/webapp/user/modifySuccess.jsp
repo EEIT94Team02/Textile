@@ -10,6 +10,6 @@
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
-<body>資料驗證成功，3秒後自動轉向修改個人資料頁面。
+<body>資料修改成功，3秒後自動轉向個人資料頁面。
 </body>
 </html>

@@ -358,6 +358,7 @@ public class MemberService {
 				mbean = memberList.get(randomIndex);
 				if (usermBean.getmId().intValue() != mbean.getmId().intValue()) {
 					isResultUserSelf = false;
+					break;
 				}
 				if (memberList.size() == 1) {
 					mbean = null;
@@ -474,8 +475,8 @@ public class MemberService {
 		mbean.setmAddress_Region(dataAndErrorsMap.get(ConstMemberKey.Adrress_Region.key()));
 		mbean.setmAddress(dataAndErrorsMap.get(ConstMemberKey.Address.key()));
 		mbean.setmPhoneNumber(dataAndErrorsMap.get(ConstMemberKey.PhoneNumber.key()));
-		mbean.setmHintPassword(dataAndErrorsMap.get(ConstMemberKey.HintAnswer.key()));
-		mbean.setmHintAnswer(dataAndErrorsMap.get(ConstMemberKey.HintPassword.key()));
+		mbean.setmHintPassword(dataAndErrorsMap.get(ConstMemberKey.HintPassword.key()));
+		mbean.setmHintAnswer(dataAndErrorsMap.get(ConstMemberKey.HintAnswer.key()));
 		mbean.setmScores(0);
 		mbean.setmPoints(0);
 		mbean.setmCareer(0);
