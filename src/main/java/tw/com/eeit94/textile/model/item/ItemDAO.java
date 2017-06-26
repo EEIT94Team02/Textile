@@ -9,10 +9,10 @@ import java.util.List;
  * @version 2017/06/12
  */
 public interface ItemDAO {
-
+	
 	ItemBean select(ItemPK itemPK);
-
-	List<ItemBean> select(ItemConditionUtil queryCondition);
+	
+	List<ItemBean> selectAll(ItemPK itemPK);
 
 	ItemBean insert(ItemBean bean);
 

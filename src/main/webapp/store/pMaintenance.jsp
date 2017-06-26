@@ -15,11 +15,7 @@
 input[type="button"], input[type="submit"] {
 	display: block;
 }
-.imgUpload {
-	display: none;
-}
 .imgUploadLabel {
-	padding: 3pk;
 	display: block;
 	height: 3em;
 	width: 5em;
@@ -83,11 +79,11 @@ function setCategoryIndex(pCount, index) {
 				<tr>
 					<td><input type="hidden" name="productId" value="${pBean.productId}" /></td>
 					<td>
-						<input type="text" name="productName" maxlength="20" value="${pBean.productName}" />
+						<input type="text" name="productName" value="${pBean.productName}" maxlength="20" />
 						<span class="errorMessage">${errors[pBean.productId].pNa}</span>
 					</td>
 					<td>
-						<input type="text" name="unitPrice" value="${pBean.unitPrice}" />
+						<input type="text" name="unitPrice" value="${pBean.unitPrice}" maxlength="4" />
 						<span class="errorMessage">${errors[pBean.productId].pUP}</span>
 					</td>
 					<td>
@@ -105,7 +101,7 @@ function setCategoryIndex(pCount, index) {
 						</c:otherwise>
 					</c:choose>
 					<td>
-						<input type="text" name="intro" maxLength="20" value="${pBean.intro}" />
+						<input type="text" name="intro" value="${pBean.intro}" maxLength="20" />
 						<span class="errorMessage">${errors[pBean.productId].pIn}</span>
 					</td>
 					<td>
@@ -128,12 +124,12 @@ function setCategoryIndex(pCount, index) {
 						<input type="button" class="imgRemove" value="Remove" />
 						<label class="imgUploadLabel" for="imgUploadButton${pStatus.count}">
 							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-							<input type="file" id="imgUploadButton${pStatus.count}" accept="image/*" onchange="setImg(${pStatus.count})" style="display:none" />
+							<input type="file" id="imgUploadButton${pStatus.count}" accept="image/*" class="imgUpload" onchange="setImg(${pStatus.count})" style="display:none" />
 						</label>
 						<img class="pBeanImg" src="${showImg}" height="200" />
 					</td>
 					<td>
-						<input type="text" name="rewardPoints" value="${pBean.rewardPoints}"/>
+						<input type="text" name="rewardPoints" value="${pBean.rewardPoints}" maxlength="4" />
 						<span class="errorMessage">${errors[pBean.productId].pRP}</span>
 					</td>
 					<td>
@@ -147,11 +143,11 @@ function setCategoryIndex(pCount, index) {
 				<tr>
 					<td><input type="hidden" name="insertCount" value="${insertCount}" /></td>
 					<td>
-						<input type="text" name="productName" value="${param.productName}" placeholder="productName" />
+						<input type="text" name="productName" value="${param.productName}" maxlength="20" placeholder="productName" />
 						<span class="errorMessage">${errors[icInteger].pNa}</span>
 					</td>
 					<td>
-						<input type="text" name="unitPrice" value="${param.unitPrice}" placeholder="unitPrice" />
+						<input type="text" name="unitPrice" value="${param.unitPrice}" maxlength="4" placeholder="unitPrice" />
 						<span class="errorMessage">${errors[icInteger].pUP}</span>
 					</td>
 					<td>
@@ -161,7 +157,7 @@ function setCategoryIndex(pCount, index) {
 						</select>
 					</td>
 					<td>
-						<input type="text" name="intro" value="${param.intro}" placeholder="intro" />
+						<input type="text" name="intro" value="${param.intro}"  maxlength="20" placeholder="intro" />
 						<span class="errorMessage">${errors[icInteger].pIn}</span>
 					</td>
 					<td>
@@ -175,15 +171,15 @@ function setCategoryIndex(pCount, index) {
 						<input type="hidden" class="imgFileValue" name="imgFileContent" value="" />
 						<input type="button" class="imgRemove" value="Remove" />
 						<label class="imgUploadLabel" for="imgUploadButton${insertCount}">
-							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-							<input type="file" id="imgUploadButton${insertCount}" accept="image/*" onchange="setImg(${insertCount})" style="display:none" />
+							<span class="glyphicon glyphicon-folder-open" aria-hidde="true"></span>
+							<input type="file" id="imgUploadButton${insertCount}" accept="image/*" class="imgUpload" onchange="setImg(${insertCount})" style="display:none" />
 						</label>
 						<span class="errorMessage">${errors[icInteger].pImg}</span>
 						
 						<img class="pBeanImg" src="" height="200" />
 					</td>
 					<td>
-						<input type="text" name="rewardPoints" value="${param.rewardPoints}" placeholder="rewardPoints" />
+						<input type="text" name="rewardPoints" value="${param.rewardPoints}"  maxlength="4" placeholder="rewardPoints" />
 						<span class="errorMessage">${errors[icInteger].pRP}</span>
 					</td>
 					<td>

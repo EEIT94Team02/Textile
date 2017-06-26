@@ -78,6 +78,7 @@ div.otherInterestDiv div {
 
 	<div id="center">
 		<div id="body">
+			<fieldset>
 			<form id="queryCondition" action="queryCondition.do" method="post">
 				<input type="hidden" name="m" value="queryCondition" />
 				<p>個人資料</p>
@@ -428,6 +429,7 @@ div.otherInterestDiv div {
 							</tr>
 						</tbody>
 					</table>
+					
 				</div>
 				<div>
 					<input id="submit" name="submit" value="搜尋" type="submit" /><img src="" /><span>${dataAndErrorsMap.queryCondition_error}</span>
@@ -435,6 +437,7 @@ div.otherInterestDiv div {
 					<p></p>
 				</div>
 			</form>
+			</fieldset>
 			<c:if test="${not empty mAddress_RegionList}">
 				<c:set var="start" value="${false}" />
 				<c:forEach var="mAddress_RegionArray" items="${mAddress_RegionList}" varStatus="status">

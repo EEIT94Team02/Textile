@@ -29,18 +29,18 @@ public class ItemDAOHibernate implements ItemDAO {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	
 	@Override
 	public ItemBean select(ItemPK itemPK) {
 		return getSession().get(ItemBean.class, itemPK);
 	}
-
+	
 	@Override
-	public List<ItemBean> select(ItemConditionUtil queryCondition) {
+	public List<ItemBean> selectAll(ItemPK itemPK) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<ItemBean> cq = cb.createQuery(ItemBean.class);
 		Root<ItemBean> itemBean = cq.from(ItemBean.class);
-		Predicate byId = cb.equal(itemBean.<MemberBean>get("memberBean"), queryCondition.getMemberId());
+		Predicate byId = cb.equal(itemBean.<MemberBean>get("memberBean").<Integer>get("mId"), itemPK.getMemberId());
 		return getSession().createQuery(cq.where(byId)).getResultList();
 	}
 
@@ -50,7 +50,12 @@ public class ItemDAOHibernate implements ItemDAO {
 		if (bean != null) {
 			result = getSession().get(ItemBean.class, bean.getItemPK());
 			if (result == null) {
-				bean.setProductBean(getSession().get(ProductBean.class, bean.getItemPK().getProductId()));
+				if (bean.getProductBean() == null) {
+					bean.setProductBean(getSession().get(ProductBean.class, bean.getItemPK().getProductId()));
+				}
+				if (bean.getMemberBean() == null) {
+					bean.setMemberBean(getSession().get(MemberBean.class, bean.getItemPK().getMemberId()));
+				}
 				getSession().save(bean);
 				result = bean;
 			}

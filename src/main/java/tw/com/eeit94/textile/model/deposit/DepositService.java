@@ -27,7 +27,7 @@ public class DepositService {
 	@Transactional(readOnly = true)
 	public List<DepositBean> select(DepositConditionUtil queryCondition) {
 		List<DepositBean> result = null;
-		if (queryCondition.getMemberId() != null) {
+		if (queryCondition != null && queryCondition.getMemberId() != null) {
 			result = getDepositDAO().selectConditional(queryCondition);
 		}
 		return result;

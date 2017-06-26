@@ -45,8 +45,7 @@ public class ItemBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemBean=[" + itemPK.getMemberId() + ", " + itemPK.getProductId() + ", " + amount + ", "
-				+ productBean + "]";
+		return "ItemBean=[" + itemPK.getMemberId() + ", " + itemPK.getProductId() + ", " + amount + "]";
 	}
 
 	// itemPK getter setter

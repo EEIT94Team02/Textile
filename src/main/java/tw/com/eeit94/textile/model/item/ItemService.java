@@ -26,14 +26,14 @@ public class ItemService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<ItemBean> select(ItemConditionUtil queryCondition) {
+	public List<ItemBean> select(ItemPK itemPK) {
 		List<ItemBean> result = null;
-		if (queryCondition != null && queryCondition.getMemberId() != null) {
-			if (queryCondition.getItemId() != null) {
+		if (itemPK != null && itemPK.getMemberId() != null) {
+			if (itemPK.getProductId() != null) {
 				result = new ArrayList<ItemBean>();
-				result.add(getItemDAO().select(new ItemPK(queryCondition.getItemId(), queryCondition.getMemberId())));
+				result.add(getItemDAO().select(itemPK));
 			} else {
-				result = getItemDAO().select(queryCondition);
+				result = getItemDAO().selectAll(itemPK);
 			}
 		}
 		return result;

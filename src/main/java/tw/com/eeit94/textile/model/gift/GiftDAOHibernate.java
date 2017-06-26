@@ -61,8 +61,7 @@ public class GiftDAOHibernate implements GiftDAO {
 		Predicate byDate = null;
 		if (queryCondition.getGiverId() != null || queryCondition.getRecipientId() != null) {
 			if (queryCondition.getGiverId() == null) {
-				byId = cb.equal(giftBean.<MemberBean>get("recipientBean").<Integer>get("mId"),
-						queryCondition.getRecipientId());
+				byId = cb.equal(giftBean.<MemberBean>get("recipientBean").<Integer>get("mId"), queryCondition.getRecipientId());
 				if (queryCondition.getGiverName() != null) {
 					byName = cb.like(giftBean.<MemberBean>get("giverBean").<String>get("mName"),
 							"%" + queryCondition.getGiverName() + "%");
