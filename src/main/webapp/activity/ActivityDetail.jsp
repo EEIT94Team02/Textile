@@ -9,38 +9,14 @@
 <title>Welcome, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
-<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/sweetalert.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/jquery-ui-timepicker-addon.js'/>"></script>
-
-<script type="text/javascript">
-	$(function() {
-		$('#begin').datetimepicker({
-			dateFormat : "yy-mm-dd",
-			timeFormat : "HH:mm"
-
-		});
-		$('#end').datetimepicker({
-			dateFormat : "yy-mm-dd",
-			timeFormat : "HH:mm"
-		});
-	});
-</script>
-<style type="text/css">
-.ui-datetimepicker {
-	background: #FFFFFF;
-	border: 1px solid #AAAAAA;
-	color: #0000AA;
-}
-</style>
-<title>Welcome, Textile.</title>
+<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <body>
 	<c:url value="/photo/album/list.do" var="album">
@@ -85,47 +61,74 @@
 		<!--預留給聊天室的區塊-->
 		<div id="right">預留給聊天室的區塊</div>
 		<div id="body">
-			<c:if test="${not empty user}">
-				<div>
-					<p style="color: black; font-size: 20px"><c:out value="${user.mName} 準備發起一個活動:" /></p>
-				</div>
-				<form action='<c:url value="/activity/create.do"/>' method="post">
+			<c:if test="${not empty Activity}">
+				<div style="font-size: 18px; width: 100%">
 					<table>
 						<tr>
-							<td>活動名稱：</td>
-							<td><input type="text" name="activityname" value="${param.activityname}" /></td>
-							<td>${activityCRDErrors.activityname}</td>
+							<td width="80px"><label>活動名稱:</label></td>
+							<td>${Activity.activityname}</td>
 						</tr>
 						<tr>
-							<td>開始時間：</td>
-							<td><input type="text" id="begin" name="begintime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
-							<td>${activityCRDErrors.begintime}</td>
+							<td width="80px"><label>開始時間:</label></td>
+							<td><fmt:formatDate value="${Activity.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
 						<tr>
-							<td>結束時間：</td>
-							<td><input type="text" id="end" name="endtime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間"></td>
-							<td>${activityCRDErrors.endtime}</td>
+							<td width="80px"><label>結束時間:</label></td>
+							<td><fmt:formatDate value="${Activity.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
 						<tr>
-							<td>活動地點：</td>
-							<td><input type="text" name="place" value="${param.place}" /></td>
-							<td>${activityCRDErrors.place}</td>
+							<td width="80px"><label>活動地點:</label></td>
+							<td>${Activity.place}</td>
 						</tr>
 						<tr>
-							<td>活動內容：</td>
-							<td><textarea name="interpretation">${param.interpretation}</textarea></td>
-							<td>${activityCRDErrors.interpretation}</td>
-						</tr>
-						<tr>
+							<td width="80px"><label>活動內容:</label></td>
 							<td></td>
-							<td><input type="submit" value="建立"></td>
-							<td>${activityCRDErrors.create}</td>
+						</tr>
+						<tr>
+							<td width="80px"></td>
+							<td><p>${Activity.interpretation}</p></td>
 						</tr>
 					</table>
+
+				</div>
+			</c:if>
+			<c:if test="${not empty partner}">
+				<h2>活動成員:</h2>
+				<table>
+					<thead style="font-size: 16px">
+						<tr>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 14px; font-family: inherit; text-align: center;">
+						<c:forEach var="row" items="${partner}">
+							<tr>
+								<td style="width: 120px">${row.memberBean.mName}</td>
+								<td style="width: 120px">${row.position}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<br>
+				<form action='<c:url value="/activity/invite.do"/>' method="post">
+					<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
+					<label>邀請好友:</label>
+					<select name="mId">
+						<c:forEach var="Friend" items="${FriendList}">
+							<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
+						</c:forEach>
+					</select> 
+					<input type="submit" value="邀請"/>
 				</form>
 			</c:if>
 		</div>
 	</div>
 	<div id="footer">this is footer</div>
+	<script>
+		
+	</script>
 </body>
 </html>

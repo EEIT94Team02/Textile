@@ -9,38 +9,14 @@
 <title>Welcome, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
-<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/sweetalert.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/jquery-ui-timepicker-addon.js'/>"></script>
-
-<script type="text/javascript">
-	$(function() {
-		$('#begin').datetimepicker({
-			dateFormat : "yy-mm-dd",
-			timeFormat : "HH:mm"
-
-		});
-		$('#end').datetimepicker({
-			dateFormat : "yy-mm-dd",
-			timeFormat : "HH:mm"
-		});
-	});
-</script>
-<style type="text/css">
-.ui-datetimepicker {
-	background: #FFFFFF;
-	border: 1px solid #AAAAAA;
-	color: #0000AA;
-}
-</style>
-<title>Welcome, Textile.</title>
+<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <body>
 	<c:url value="/photo/album/list.do" var="album">
@@ -85,47 +61,43 @@
 		<!--預留給聊天室的區塊-->
 		<div id="right">預留給聊天室的區塊</div>
 		<div id="body">
-			<c:if test="${not empty user}">
-				<div>
-					<p style="color: black; font-size: 20px"><c:out value="${user.mName} 準備發起一個活動:" /></p>
-				</div>
-				<form action='<c:url value="/activity/create.do"/>' method="post">
-					<table>
+			<c:if test="${not empty myActivityList.old}">
+				<h3>歷史紀錄</h3>
+				<table border="1" style="text-align: center; width: 100%">
+					<thead>
 						<tr>
-							<td>活動名稱：</td>
-							<td><input type="text" name="activityname" value="${param.activityname}" /></td>
-							<td>${activityCRDErrors.activityname}</td>
+							<th>活動</th>
+							<th>開始時間</th>
+							<th>結束時間</th>
+							<th>活動名稱</th>
+							<th>地點</th>
+							<th>成員名單</th>
 						</tr>
-						<tr>
-							<td>開始時間：</td>
-							<td><input type="text" id="begin" name="begintime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
-							<td>${activityCRDErrors.begintime}</td>
-						</tr>
-						<tr>
-							<td>結束時間：</td>
-							<td><input type="text" id="end" name="endtime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間"></td>
-							<td>${activityCRDErrors.endtime}</td>
-						</tr>
-						<tr>
-							<td>活動地點：</td>
-							<td><input type="text" name="place" value="${param.place}" /></td>
-							<td>${activityCRDErrors.place}</td>
-						</tr>
-						<tr>
-							<td>活動內容：</td>
-							<td><textarea name="interpretation">${param.interpretation}</textarea></td>
-							<td>${activityCRDErrors.interpretation}</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input type="submit" value="建立"></td>
-							<td>${activityCRDErrors.create}</td>
-						</tr>
-					</table>
-				</form>
+					</thead>
+					<tbody>
+						<c:forEach var="old" items="${myActivityList.old}">
+							<c:url value="/activity/partner.do" var="findActMember">
+								<c:param name="activityno" value="${old.activityBean.activityno}"></c:param>
+							</c:url>
+							<tr>
+								<td>${old.activityBean.activityno}</td>
+								<td><fmt:formatDate value="${old.activityBean.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
+								<td><fmt:formatDate value="${old.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
+								<td>${old.activityBean.activityname}</td>
+								<td>${old.activityBean.place}</td>
+								<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</c:if>
 		</div>
 	</div>
 	<div id="footer">this is footer</div>
+	<script>
+		function findActMember(obj) {
+			location.href = obj;
+		};
+	</script>
 </body>
 </html>
