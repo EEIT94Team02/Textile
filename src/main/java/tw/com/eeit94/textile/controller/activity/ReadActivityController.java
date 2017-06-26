@@ -210,11 +210,11 @@ public class ReadActivityController {
 		
 		System.out.println(activities);
 		
-//		List<String> s_type = new ArrayList<>();
-//		MemberBean memberBean = (MemberBean) session.getAttribute("user");
-//		Integer userId = memberBean.getmId();
-//		s_type.add("好友");
-//		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
+		List<String> s_type = new ArrayList<>();
+		MemberBean memberBean = (MemberBean) session.getAttribute("user");
+		Integer userId = memberBean.getmId();
+		s_type.add("好友");
+		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
 
 		Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
 		List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
@@ -238,7 +238,7 @@ public class ReadActivityController {
 				}
 			}
 		}
-//		session.setAttribute("FriendList", friendsBean);
+		session.setAttribute("FriendList", friendsBean);
 		session.setAttribute("myActivityList", myAct);
 		return "Activity.default";
 	}
