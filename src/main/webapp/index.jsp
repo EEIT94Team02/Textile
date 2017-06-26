@@ -56,8 +56,5 @@
 	</div>
 	<div id="footer">this is footer</div>
 	
-	
-	
-	
 </body>
 </html>

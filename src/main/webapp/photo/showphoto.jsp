@@ -55,6 +55,7 @@
 				<li><a href="<c:url value ='/activity/' />">活動</a></li>
 				<li><a href="<c:url value ='/store/' />">商店</a></li>
 				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
 				<li><c:if test="${not empty user}">
 						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
 					</c:if></li>
