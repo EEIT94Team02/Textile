@@ -553,7 +553,8 @@ INSERT INTO deal (memberId, dealDate, totalCost) VALUES
 (8, '2017-05-14', 1700),
 (1, '2017-06-01', 2000),
 (9, '2017-06-07', 10),
-(3, '2017-06-30', 350)GO
+(3, '2017-06-30', 350)
+GO
 
 --=-=-=-=-=-=-=-=-=-=-=- 李 送禮資料 -=-=-=-=-=-=-=-=-=-=-=--
 -- 送禮資料不屬於會員被贈與者的子表，所以沒採用DELETE CASCADE。
@@ -592,7 +593,6 @@ CREATE TABLE deal_detail(
 GO
 
 INSERT INTO deal_detail (dealId, productId, amount) VALUES
-(1, 1, 50),
 (1, 2, 50),
 (1, 3, 50),
 (2, 1, 200),
