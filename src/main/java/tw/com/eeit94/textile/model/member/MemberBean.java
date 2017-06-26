@@ -68,6 +68,7 @@ public class MemberBean implements java.io.Serializable {
 	private Integer mConstellation;
 	private Integer mReligion;
 	private String mSelfIntroduction;
+	private String mPhotono;
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "mId")
 	private Interest_DetailBean interest_DetailBean;
@@ -341,6 +342,14 @@ public class MemberBean implements java.io.Serializable {
 		this.mOtherProfileUrl = mOtherProfileUrl;
 	}
 
+	public String getmPhotono() {
+		return mPhotono;
+	}
+
+	public void setmPhotono(String mPhotono) {
+		this.mPhotono = mPhotono;
+	}
+
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -373,6 +382,7 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("mConstellation", this.getmConstellation().toString());
 		linkedHashMap.put("mReligion", this.getmReligion().toString());
 		linkedHashMap.put("mselfIntroduction", this.getmSelfIntroduction());
+		linkedHashMap.put("mPhotono", this.mPhotono != null ? this.mPhotono : null);
 		linkedHashMap.put("interest_DetailBean",
 				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
 		linkedHashMap.put("chatroom_MemberBean",

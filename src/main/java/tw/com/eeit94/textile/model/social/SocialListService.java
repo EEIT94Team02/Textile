@@ -1,11 +1,11 @@
 package tw.com.eeit94.textile.model.social;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.search.IntegerComparisonTerm;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.eeit94.textile.model.member.MemberBean;
-import tw.com.eeit94.textile.model.secure.SecureBean;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
+import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
+import tw.com.eeit94.textile.model.secure.SecureService;
+import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
  *
@@ -25,6 +28,10 @@ import tw.com.eeit94.textile.model.secure.SecureBean;
 public class SocialListService {
 	@Autowired
 	private SocialListDAO socialListDAO;
+	@Autowired
+	private SecureService secureService;
+	@Autowired
+	private MemberRollbackProviderService memberRollbackProviderService;
 
 	public SocialListService(SocialListDAO socialListDAO) {
 		this.socialListDAO = socialListDAO;
@@ -51,22 +58,18 @@ public class SocialListService {
 		List<SocialListBean> selectcheck = this.socialListDAO.getRelativeToMeList(acquaintenceId, s_type);
 		return selectcheck;
 	}
-	
-	
-	
+
 	@Transactional
-	public List<SocialListBean> searchfriend(Integer userId,String s_type ,String s_group, Timestamp s_login) {
-		List<SocialListBean> searchfriend =this.socialListDAO.searchFriend(userId, s_type, s_group, s_login);
-		
+	public List<SocialListBean> searchfriend(Integer userId, String s_type, String s_group, Timestamp s_login) {
+		List<SocialListBean> searchfriend = this.socialListDAO.searchFriend(userId, s_type, s_group, s_login);
+
 		return searchfriend;
 	}
-	
-	
-	
+
 	@Transactional
 	public List<SocialListBean> selectAllFriend(Integer userId, String s_type) {
 		List<SocialListBean> selectAllFriend = this.socialListDAO.selectAllFriend(userId, s_type);
-		
+
 		return selectAllFriend;
 	}
 
@@ -78,15 +81,16 @@ public class SocialListService {
 			result = socialListDAO.insert(bean);
 		}
 		return result;
-
 	}
 
 	@Transactional
 	public boolean delete(SocialListBean bean) {
 
-		SocialListPK pk1 = new SocialListPK(bean.getSocialListPK().getUserId(),bean.getSocialListPK().getAcquaintenceId());
+		SocialListPK pk1 = new SocialListPK(bean.getSocialListPK().getUserId(),
+				bean.getSocialListPK().getAcquaintenceId());
 		SocialListBean resultA = socialListDAO.select(pk1);
-		SocialListPK pk2 = new SocialListPK(bean.getSocialListPK().getAcquaintenceId(), bean.getSocialListPK().getUserId());
+		SocialListPK pk2 = new SocialListPK(bean.getSocialListPK().getAcquaintenceId(),
+				bean.getSocialListPK().getUserId());
 		SocialListBean resultB = socialListDAO.select(pk2);
 		if (resultA != null && resultB != null) {
 			socialListDAO.delete(resultA);
@@ -131,7 +135,37 @@ public class SocialListService {
 		}
 		return result;
 	}
-	
-	
 
+	@Transactional
+	public void setLinksListInSession(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+
+		List<LinksBean> friendList = this.getLinksList(mbean, "好友", request);
+		List<LinksBean> blackList = this.getLinksList(mbean, "黑單", request);
+		List<LinksBean> trackList = this.getLinksList(mbean, "追蹤", request);
+		List<LinksBean> unconfirmedList = this.getLinksList(mbean, "未確認", request);
+
+		session.setAttribute("friendList", friendList);
+		session.setAttribute("blackList", blackList);
+		session.setAttribute("trackList", trackList);
+		session.setAttribute("unconfirmedList", unconfirmedList);
+	}
+
+	@Transactional
+	public List<LinksBean> getLinksList(MemberBean mbean, String s_type, HttpServletRequest request) throws Exception {
+		Integer userId = mbean.getmId();
+		List<SocialListBean> socialList = this.selectAllFriend(userId, s_type);
+		List<LinksBean> linksList = new ArrayList<>();
+		for (SocialListBean sbean : socialList) {
+			LinksBean linksBean = new LinksBean();
+			linksBean.setChatroomURL(this.memberRollbackProviderService.getChatUrlWithRollbackProvider(mbean,
+					sbean.getSocialListPK().getAcquaintenceId(), request));
+			linksBean.setProfileURL(this.secureService.getEncryptedText(
+					sbean.getSocialListPK().getAcquaintenceId().toString(), ConstSecureParameter.MEMBERID.param()));
+			linksBean.setmName(sbean.getMbean().getmName());
+			linksList.add(linksBean);
+		}
+		return linksList;
+	}
 }

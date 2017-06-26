@@ -83,6 +83,7 @@ public class TestUtils {
 		mbean.setmReligion(4);
 		mbean.setmSelfIntroduction(
 				"Dodge是女生，擁有淡粉色的眼瞳，淡紫色的公主卷長發，是100%的美女。為人傲嬌、沒禮貌、多疑、溫文儒雅、孝順和冷漠。家室貧窮，喜歡打電動、烹飪、打羽球、唱歌和游泳，討厭鬼、花痴、老鼠、和貓擅長烹飪、跳舞、做手工和做家務。");
+		mbean.setmPhotono("197001019999999990002");
 		return mbean;
 	}
 

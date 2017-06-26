@@ -15,6 +15,7 @@ import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.UserCentralService;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
+import tw.com.eeit94.textile.model.social.SocialListService;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
 import tw.com.eeit94.textile.system.common.ConstMapping;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
@@ -38,6 +39,8 @@ public class ProfileController {
 	private MemberService memberService;
 	@Autowired
 	private UserCentralService userCentralService;
+	@Autowired
+	private SocialListService socialListService;
 
 	/**
 	 * 讀取個人使用者的資料。
@@ -51,6 +54,8 @@ public class ProfileController {
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 		mbean = this.userCentralService.selectUserAllData(mbean);
+		// 將好友列表加入session scope
+		this.socialListService.setLinksListInSession(request);
 		return ConstMapping.PROFILE_USER_SHOW.path();
 	}
 
@@ -66,7 +71,8 @@ public class ProfileController {
 	@RequestMapping(path = { "/index.v" }, method = { RequestMethod.GET }, params = { "q" })
 	public String otheruserViewProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String query = request.getParameter(ConstHelperKey.QUERY.key());
-		String mId = this.secureService.getDecryptedText(query.replace(' ', '+'), ConstSecureParameter.MEMBERID.param());
+		String mId = this.secureService.getDecryptedText(query.replace(' ', '+'),
+				ConstSecureParameter.MEMBERID.param());
 		MemberBean mbean = this.memberService.selectByPrimaryKey(Integer.parseInt(mId));
 		if (mbean != null) {
 			mbean = this.userCentralService.selectUserAllData(mbean);

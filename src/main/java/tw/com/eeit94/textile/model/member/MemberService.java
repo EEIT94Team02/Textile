@@ -61,6 +61,8 @@ public class MemberService {
 	private ExecutableValidator executableValidator;
 	@Autowired
 	private SimpleDateFormat simpleDateFormat;
+	private static final String DEFAULT_MALE_POHOTONO = "197001019999999990001";
+	private static final String DEFAULT_FEMALE_POHOTONO = "197001019999999990002";
 	private static final String PASSWORD_AGAIN_ERROR_MESSAGE = "密碼不一致";
 	private static final String OLDPASSWORD_ERROR_MESSAGE = "舊密碼必須與原密碼相同";
 	private static final String NEWPASSWORD_ERROR_MESSAGE = "新密碼必須與原密碼不同";
@@ -459,6 +461,14 @@ public class MemberService {
 			throw new RuntimeException(e);
 		}
 
+		// 依性別決定預設大頭貼
+		String mPhotono;
+		if (dataAndErrorsMap.get(ConstMemberKey.Gender.key()).equals(ConstMemberParameter.MALE_CODE.param())) {
+			mPhotono = DEFAULT_MALE_POHOTONO;
+		} else {
+			mPhotono = DEFAULT_FEMALE_POHOTONO;
+		}
+
 		MemberBean mbean = new MemberBean();
 		mbean.setmCreateTime(new Timestamp(System.currentTimeMillis()));
 		mbean.setmValidEmail("N");
@@ -488,6 +498,7 @@ public class MemberService {
 		mbean.setmConstellation(this.getConstellationByBirthday(mbean.getmBirthday()));
 		mbean.setmReligion(0);
 		mbean.setmSelfIntroduction("");
+		mbean.setmPhotono(mPhotono);
 		return this.memberDAO.insert(mbean).get(0);
 	}
 

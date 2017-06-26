@@ -4,32 +4,27 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
-import tw.com.eeit94.textile.model.secure.SecureBean;
 import tw.com.eeit94.textile.model.secure.SecureService;
-import tw.com.eeit94.textile.model.social.LinksBean;
 import tw.com.eeit94.textile.model.social.SocialListBean;
 import tw.com.eeit94.textile.model.social.SocialListPK;
 import tw.com.eeit94.textile.model.social.SocialListService;
@@ -49,6 +44,8 @@ public class SocialListController {
 	public void initBinder(WebDataBinder binder) {
 	}
 
+	@Autowired
+	private MemberRollbackProviderService memberRollbackProviderService;
 	@Autowired
 	public SocialListService socialListService;
 	@Autowired
@@ -153,72 +150,8 @@ public class SocialListController {
 
 	}
 
-	@RequestMapping(method = { RequestMethod.POST }, path = { "/index.do" })
-	public String selectprocess(HttpServletRequest request, Model model) throws Exception {
-
-		// 接收資料
-		HttpSession session = request.getSession();
-		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-
-		Map<String, String> errors = new HashMap<String, String>();
-		model.addAttribute("SocialListSelectErrors", errors);
-		// Long cId = this.chatroom_MemberService(mId);
-		Integer userId = mbean.getmId();
-		Long chatId = 1L;
-
-		List<SocialListBean> selectByFriend = this.socialListService.selectAllFriend(userId, "好友");
-		List<SocialListBean> selectByBlack = this.socialListService.selectAllFriend(userId, "黑單");
-		List<SocialListBean> selectByTrack = this.socialListService.selectAllFriend(userId, "追蹤");
-		List<SocialListBean> selectByUnconfirmed = this.socialListService.selectcheck(userId, "未確認");
-
-		List<LinksBean> collection = new ArrayList<>();
-		for (SocialListBean setLinkBean : selectByFriend) {
-			LinksBean addLinksbean = new LinksBean();
-			addLinksbean.setChatroomURL(
-					this.secureService.getEncryptedText(chatId.toString(), ConstSecureParameter.MEMBERID.param()));
-			addLinksbean.setProfileURL(
-					this.secureService.getEncryptedText(setLinkBean.getSocialListPK().getAcquaintenceId().toString(),
-							ConstSecureParameter.CHATROOMID.param()));
-			addLinksbean.setLinkname(setLinkBean.getMbean().getmName());
-			collection.add(addLinksbean);
-		}
-
-		List<LinksBean> ibeancollection = new ArrayList<>();
-		for (SocialListBean setIBean : selectByUnconfirmed) {
-			LinksBean addLinksbean = new LinksBean();
-			addLinksbean.setLinkmId(setIBean.getIbean().getmId());
-			addLinksbean.setLinkname(setIBean.getIbean().getmName());
-			ibeancollection.add(addLinksbean);
-		}
-		System.out.println(ibeancollection);
-
-		String sb = request.getParameter("submit");
-		System.out.println(userId);
-		System.out.println(collection);
-		System.out.println(sb);
-		System.out.println("列出" + selectByUnconfirmed);
-
-		if (sb.equals("查詢") && selectByFriend != null) {
-			System.out.println(sb);
-			model.addAttribute("userId", userId);
-			model.addAttribute("select", selectByFriend);
-			model.addAttribute("Bselect", selectByBlack);
-			model.addAttribute("Tselect", selectByTrack);
-			model.addAttribute("unconfirmed", selectByUnconfirmed);
-			model.addAttribute("LinksBean", collection);
-			model.addAttribute("LinksIBean", ibeancollection);
-			return "s_select.v";
-
-		} else {
-			System.out.println("errorsss");
-			return "/error/404.v";
-		}
-
-	}
-
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/delete.do" })
 	public String deleteprocess(HttpServletRequest request, Model model) throws IOException {
-
 		// 接收資料
 		HttpSession session = request.getSession();
 		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
@@ -350,5 +283,4 @@ public class SocialListController {
 
 		return "";
 	}
-
 }
