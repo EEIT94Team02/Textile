@@ -53,6 +53,7 @@ public class ChatController {
 		session.removeAttribute(ConstChatKey.CHAT.key());
 
 		String encryptedCId = request.getParameter(ConstHelperKey.QUERY.key());
+		encryptedCId = this.secureService.getRebuiltEncryptedText(encryptedCId);
 		String decryptedCId = this.secureService.getDecryptedText(encryptedCId,
 				ConstSecureParameter.CHATROOMID.param());
 		Long cId = Long.parseLong(decryptedCId);
