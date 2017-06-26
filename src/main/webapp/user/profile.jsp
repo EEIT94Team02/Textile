@@ -394,7 +394,6 @@
 							<td><a href="${row.chatroomURL}">聊天</a></td>
 							</tr>
 						</c:forEach>
-
 					</tbody>
 				</table>
 			</div>

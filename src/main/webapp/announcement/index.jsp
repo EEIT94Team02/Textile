@@ -48,45 +48,43 @@
 	</div>
 	<div id="center">
 		<div id="body">
-		<fieldset>
-			<div>
-				<label>查詢公告</label>
-			</div>
-			<div>
-				<label>公告類別</label>
-			</div>
+			<fieldset>
+				<div>
+					<label>查詢公告</label>
+				</div>
+				<div>
+					<label>公告類別</label>
+				</div>
 
-			<div>
-				<input type="radio" name="a_type" />系統 <input type="radio" name="a_type" />新聞 <input type="radio" name="a_type" />活動
-				<input type="radio" name="a_type" />商城
-				<c:out value=""></c:out>
-			</div>
-			<div>
-				<label>公告時間</label> <input type="text" name="startTime" value=""> <span>${errors.ooo}</span> <input
-					type="submit" name="announcement" value="開始查詢">
-			</div>
-			<br>
-			<div>
-				<label>列出活動中的公告</label> <input type="submit" name="announcement" value="Select">
+				<div>
+					<input type="radio" name="a_type" />系統 <input type="radio" name="a_type" />新聞 <input type="radio" name="a_type" />活動
+					<input type="radio" name="a_type" />商城
+					<c:out value=""></c:out>
+				</div>
+				<div>
+					<label>公告時間</label> <input type="text" name="startTime" value=""> <span>${errors.ooo}</span> <input
+						type="submit" name="announcement" value="開始查詢">
+				</div>
+				<br>
+				<div>
+					<label>列出活動中的公告</label> <input type="submit" name="announcement" value="Select">
+				</div>
 
-			</div>
+				<br>
+				<div>
+					<label>列出已結束公告活動</label> <input type="submit" name="endTime" value="Select">
+				</div>
+				<br>
+				<div>
+					<label>新增修改公告</label>
 
-			<br>
-			<div>
-				<label>列出已結束公告活動</label> <input type="submit" name="endTime" value="Select">
-			</div>
-			<br>
-			<div>
-				<label>新增修改公告</label>
-
-			</div>
+				</div>
 			</fieldset>
 		</div>
 	</div>
-	
 	<div id="left">
 		<div class="actions">
-		<ul>
+			<ul>
 				<li class="list"><a href='<c:url value="insert.v"/>'>新增公告</a></li>
 				<li class="list"><a href='<c:url value="list.v"/>'>查詢公告</a></li>
 				<li class="list"><a href='<c:url value="update.v"/>'>修改公告</a></li>
@@ -105,16 +103,11 @@
 					</thead>
 					<tbody>
 						<c:forEach var="row" items="${friendList}">
-							<c:url  var="member">
-								<c:param name="q" value="${row.profileURL}"></c:param>
-							</c:url>
-							<c:url var="chatroom">
-								<c:param name="q" value="${row.chatroomURL}"></c:param>
-							</c:url>
 							<tr>
-								<td><a href="${member}">${row.mName}</a></td>
-								<td><a href="${chatroom}">聊天</a></td>
+								<td><a href="${row.profileURL}">${row.mName}</a></td>
+								<td><a href="${row.chatroomURL}">聊天</a></td>
 							</tr>
+
 						</c:forEach>
 					</tbody>
 				</table>
@@ -137,9 +130,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-
 		</fieldset>
-
 		<fieldset>
 			<c:out value="您的邀請名單" />
 			<table>
@@ -149,18 +140,11 @@
 					</tr>
 				</thead>
 				<tbody>
-
 					<c:forEach var="row" items="${unconfirmedList}">
-						<c:url var="insert">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<c:url  var="refuseDelete">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
 						<tr>
 							<td>${row.mName}</td>
-							<td><input onclick="getInviteId('${insert}')" type="button" value="加好友"></td>
-							<td><input onclick="refuse('${refuseDelete}')" type="button" value="取消"></td>
+							<td><input onclick="getInviteId('${row.profileURL}')" type="button" value="加好友"></td>
+							<td><input onclick="refuse('${row.profileURL}')" type="button" value="取消"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -185,9 +169,6 @@
 		</fieldset>
 	</div>
 	<div id="footer">this is footer</div>
-
-
-
 </body>
 </html>
 
