@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberBean;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
@@ -28,6 +29,24 @@ public class ChatroomService {
 	private ChatroomDAO chatroomDAO;
 	@Autowired
 	private SecureService secureService;
+
+	/**
+	 * 藉由聊天室的主鍵，搜尋對應的實體。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/26
+	 */
+	@Transactional(readOnly = true)
+	public ChatroomBean selectByPrimaryKey(Long cId) {
+		ChatroomBean cbean = new ChatroomBean();
+		cbean.setcId(cId);
+		List<ChatroomBean> list = this.chatroomDAO.select(cbean);
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * 藉由聊天室的各個主鍵，搜尋對應的實體，交易統一由MemberRollbackRroviderService管理。
