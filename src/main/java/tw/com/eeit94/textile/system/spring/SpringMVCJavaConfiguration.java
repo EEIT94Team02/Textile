@@ -113,6 +113,12 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/manager/situationList.v").setViewName("/manager/situationList.v");
 		registry.addViewController("/manager/reportReply.v").setViewName("/manager/reportReply.v");
 		registry.addViewController("/manager/replysuccess.v").setViewName("/manager/replysuccess.v");
+		registry.addViewController("/report/reportUpdate.v").setViewName("/report/reportUpdate.v");
+		registry.addViewController("/report/reportUpDatesuccess.v").setViewName("/report/reportUpDatesuccess.v");
+		registry.addViewController("/report/reportDetail.v").setViewName("/report/reportDetail.v");
+		registry.addViewController("/manager/reply.v").setViewName("/manager/reply.v");
+		registry.addViewController("/manager/replyfollowup.v").setViewName("/manager/replyfollowup.v");
+		registry.addViewController("/manager/replyfollowupsuccess.v").setViewName("/manager/replyfollowupsuccess.v");
 		/*
 		 * 周
 		 */
@@ -490,15 +496,15 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 回報首頁
-	@Bean(name = { "/report/index.v" })
-	public org.springframework.web.servlet.view.InternalResourceView reportIndex() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/report/index.jsp");
-		return internalResourceView;
-	}
+//	@Bean(name = { "/report/index.v" })
+//	public org.springframework.web.servlet.view.InternalResourceView reportIndex() {
+//		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+//		internalResourceView.setUrl("/report/index.jsp");
+//		return internalResourceView;
+//	}
 
 	// 回報失敗，轉向回報頁面。
-	@Bean(name = { "report.error", "/report/createreport.v" })
+	@Bean(name = { "report.error", "/report/createreport.v","/report/index.v"})
 	public org.springframework.web.servlet.view.InternalResourceView report_error() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/createreport.jsp");
@@ -530,11 +536,23 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 	
 	// 管理員回覆頁面
-	@Bean(name = { "reply.show", "/manager/reportReply.v" })
+	@Bean(name = { "/manager/reportReply.v" })
 	public InternalResourceView reportReply() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/reportreply.jsp");
 		return internalResourceView;
+	}
+	
+	// 轉向管理員回覆頁面/manager/reportReply.v
+	@Bean(name = { "replydetail.show" })
+	public RedirectView reportReply_R() {
+//		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+//		internalResourceView.setUrl("/manager/reportReply.v");
+//		return internalResourceView;		
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("/manager/reportReply.v");
+		return redirectView;
 	}
 	
 	// 管理員回覆成功頁面
@@ -545,6 +563,89 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 	
+	// 管理員回覆後續內容成功頁面
+	@Bean(name = { "replyfollowupsuccess.show", "/manager/replyfollowupsuccess.v" })
+	public InternalResourceView replyfollowupsuccess() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/replyfollowupsuccess.jsp");
+		return internalResourceView;
+	}
+	
+	// 新增回報內容頁面
+	@Bean(name = { "/report/reportUpdate.v"})
+	public InternalResourceView reportUpdate() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportupdate.jsp");
+		return internalResourceView;
+	}
+	
+	// 轉跳到新增回報內容頁面
+	@Bean(name = { "reportUpdate.show" })
+	public RedirectView reportUpdate_R() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("/report/reportUpdate.v");
+		return redirectView;
+	}
+	
+	// 新增回報內容頁面
+	@Bean(name = { "/report/reportDetail.v" })
+	public InternalResourceView reportdetail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportdetail.jsp");
+		return internalResourceView;
+	}
+	
+	// 轉跳到新增回報內容頁面
+	@Bean(name = { "reportdetail.show" })
+	public RedirectView reportdetail_R() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("/report/reportDetail.v");
+		return redirectView;
+	}
+	
+	// 回報處理頁面
+	@Bean(name = { "/manager/reply.v" })
+	public InternalResourceView reply() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportreplymain.jsp");
+		return internalResourceView;
+	}
+	
+	// 轉跳到回報處理頁面
+	@Bean(name = { "reply.show" })
+	public RedirectView reply_R() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("/manager/reply.v");
+		return redirectView;
+	}
+	
+	// 回報處理後續頁面
+	@Bean(name = {"/manager/replyfollowup.v" })
+	public InternalResourceView replyfollowup() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportreplyfollowup.jsp");
+		return internalResourceView;
+	}
+	
+	// 轉跳到回報處理後續頁面
+	@Bean(name = { "replyfollowup.show" })
+	public RedirectView replyfollowup_R() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("/manager/replyfollowup.v");
+		return redirectView;
+	}
+	
+	// 新增回報成功，轉向到回報結果頁面。
+	@Bean(name = { "reportUpDate.success", "/report/reportUpDatesuccess.v" })
+	public InternalResourceView reportUpDatesuccess() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/report/reportupdatesuccess.jsp");
+		return internalResourceView;
+	}
 	
 	/**
 	 * ****** View ******
