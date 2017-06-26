@@ -47,7 +47,7 @@ public class ActivityMemberController {
 	public MemberService getMemberService() {
 		return memberService;
 	}
-	
+
 	@Autowired
 	private Activity_memberService activity_memberService;
 
@@ -63,26 +63,15 @@ public class ActivityMemberController {
 		int mId = Integer.parseInt(mIdstring);
 		int activityno = Integer.parseInt(activitynostring);
 		Activity_memberBean joinbean = new Activity_memberBean();
-		ActivityBean aaa =new ActivityBean();
-		aaa.setActivityno(activityno);		
-		System.out.println(aaa);
+		ActivityBean aaa = new ActivityBean();
+		aaa.setActivityno(activityno);
 		joinbean.setActivity_memberPK(new Activity_memberPK(activityno, mId));
-		if(getActivity_memberService().findByPK(joinbean) != null){
-			
+		if (getActivity_memberService().findByPK(joinbean) == null) {
+			joinbean.setPosition("待確認");
+			joinbean.setActivityBean(getActivityService().selectByActivityNO(aaa));
+			joinbean.setMemberBean(getMemberService().selectByPrimaryKey(mId));
+			getActivity_memberService().addNewActivityMember(joinbean);
 		}
-		
-		
-		joinbean.setPosition("待確認");
-		joinbean.setActivityBean(getActivityService().selectByActivityNO(aaa));
-		joinbean.setMemberBean(getMemberService().selectByPrimaryKey(mId));	
-		
-		System.out.println((getActivity_memberService().findByPK(joinbean)));
-		
-		getActivity_memberService().addNewActivityMember(joinbean);
-		if(getActivity_memberService().addNewActivityMember(joinbean) == null){
-			System.out.println("aaa");
-		}
-		
 		Activity_memberBean man = new Activity_memberBean();
 		Activity_memberPK memberBeanPK = new Activity_memberPK();
 		memberBeanPK.setActivityno(activityno);

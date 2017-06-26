@@ -1,18 +1,14 @@
 package tw.com.eeit94.textile.model.activity_member;
 
-import java.util.List;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.stereotype.Component;
-
 import tw.com.eeit94.textile.model.activity.ActivityBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
 
@@ -25,6 +21,7 @@ import tw.com.eeit94.textile.model.member.MemberBean;
 @Entity
 @Table(name = "activity_member")
 @Component
+@DynamicInsert
 public class Activity_memberBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 

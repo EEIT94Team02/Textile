@@ -82,6 +82,9 @@
 								<c:url value="/activity/partner.do" var="findActMember">
 									<c:param name="activityno" value="${owner.activity_memberPK.activityno}"></c:param>
 								</c:url>
+								<c:url value="/activity/delete.do" var="cancelBean">
+									<c:param name="activityno" value="${owner.activity_memberPK.activityno}"></c:param>
+								</c:url>
 								<tr>
 									<td>${owner.activityBean.activityno}</td>
 									<td><fmt:formatDate value="${owner.activityBean.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
@@ -90,7 +93,7 @@
 									<td>${owner.activityBean.place}</td>
 									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
-									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
+									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="cancelMyAct('${cancelBean}')"></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -197,8 +200,22 @@
 				swal("成功執行!", "你已退出此活動", "success");
 				location.href = obj;
 			});
-
 		};
+		function cancelMyAct(obj) {
+			swal({
+				title : "你確定要取消嗎？",
+				text : "是否要取消此活動?",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-danger",
+				confirmButtonText : "確認取消",
+				closeOnConfirm : false
+			}, function() {
+				swal("成功執行!", "你已取消此活動", "success");
+				location.href = obj;
+			});
+		};
+
 		function joinMyAct(obj) {
 			swal({
 				title : "你確定要參加嗎？？",
@@ -240,8 +257,7 @@
 				swal("成功執行!", "你已退出此活動", "success");
 				location.href = obj;
 			});
-		};		
-
+		};
 
 		function findActMember(obj) {
 			location.href = obj;
