@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.com.eeit94.textile.model.deal.DealBean;
+import tw.com.eeit94.textile.model.deal.DealConditionUtil;
 
 /**
  * deal_detail表格CRUD的service元件。
@@ -27,10 +27,10 @@ public class DealDetailService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<DealDetailBean> select(DealBean bean) {
+	public List<DealDetailBean> select(DealConditionUtil dealCondition) {
 		List<DealDetailBean> result = null;
-		if (bean != null && bean.getDealId() != null && !Integer.valueOf(0).equals(bean.getDealId())) {
-			result = getDealDetailDAO().select(bean.getDealId());
+		if (dealCondition != null && dealCondition.getDealId() != null && !Integer.valueOf(0).equals(dealCondition.getDealId())) {
+			result = getDealDetailDAO().select(dealCondition.getDealId().intValue());
 		}
 		return result;
 	}

@@ -8,10 +8,7 @@
 <title>Item Test Trigger</title>
 </head>
 <body>
-	<c:url var="showList" value="iList.do" >
-		<c:param name="memberId" value="${sessionScope.user.mId}"/>
-	</c:url>
-	<h3><a href="${showList}">item</a></h3><hr/>
+	<h3><a href="iList.do">item</a></h3><hr/>
 	<h3><a href="../">home</a></h3>
 </body>
 </html>

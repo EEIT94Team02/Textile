@@ -102,17 +102,20 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		// trigger，測試用
 		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
 		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
-		registry.addViewController("/deposit/dTestTrigger.v").setViewName("/deposit/dTestTrigger.v");
 		registry.addViewController("/deal/dealTestTrigger.v").setViewName("/deal/dealTestTrigger.v");
 		registry.addViewController("/gift/gTestTrigger.v").setViewName("/gift/gTestTrigger.v");
 		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
+		registry.addViewController("/store/cart.v").setViewName("/store/cart.v");
 		registry.addViewController("/item/index.v").setViewName("/item/index.v");
 		registry.addViewController("/deposit/index.v").setViewName("/deposit/index.v");
+		registry.addViewController("/deposit/depositList.v").setViewName("/deposit/depositList.v");
+		registry.addViewController("/deposit/depositProceed.v").setViewName("/deposit/depositProceed.v");
 		registry.addViewController("/deal/index.v").setViewName("/deal/index.v");
 		registry.addViewController("/gift/index.v").setViewName("/gift/index.v");
+		registry.addViewController("/gift/giftSendingProceed.v").setViewName("/gift/giftSendingProceed.v");
 		/*
 		 * 黃
 		 */
@@ -592,14 +595,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return view;
 	}
 
-	// 測試用，為deposit頁面呼叫controller取得資料。
-	@Bean(name = { "/deposit/dTestTrigger.v" })
-	public InternalResourceView depositTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deposit/dTestTrigger.jsp");
-		return view;
-	}
-
 	// 測試用，為deal頁面呼叫controller取得資料。
 	@Bean(name = { "/deal/dealTestTrigger.v" })
 	public InternalResourceView dealTrigger() {
@@ -681,6 +676,40 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setContextRelative(true);
 		return view;
 	}
+	
+	// 購物車頁面
+	@Bean(name = { "/store/cart.v" })
+	public InternalResourceView cartPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/cart.jsp");
+		return view;
+	}
+	
+	// 成功新增商品至購物車
+	@Bean(name = { "addCart.success" })
+	public RedirectView addCart() {
+		RedirectView view = new RedirectView();
+		view.setUrl("/store/index.v");
+		view.setContextRelative(true);
+		return view;
+	}
+	
+	// 購物車中的商品資料更新成功
+	@Bean(name = { "adjust.success" })
+	public RedirectView adjustSuccess() {
+		RedirectView view = new RedirectView();
+		view.setUrl("/store/cart.v");
+		view.setContextRelative(true);
+		return view;
+	}
+	
+	// 購物車中的商品資料更新失敗
+	@Bean(name = { "adjust.error" })
+	public InternalResourceView adjustError() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/cart.jsp");
+		return view;
+	}
 
 	// 物品欄首頁
 	@Bean(name = { "/item/index.v" })
@@ -706,14 +735,38 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return view;
 	}
 
+	// 儲值動作頁面
+	@Bean(name = { "/deposit/depositProceed.v" })
+	public InternalResourceView depositProceed() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/depositProceed.jsp");
+		return view;
+	}
+	
 	// 個人儲值紀錄頁面
 	@Bean(name = { "dList.show" })
 	public InternalResourceView depositList() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deposit/index.jsp");
+		view.setUrl("/deposit/depositList.jsp");
 		return view;
 	}
 
+	// 儲值成功，轉向儲值首頁
+	@Bean(name = { "deposit.success" })
+	public InternalResourceView depositSuccess() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/depositSuccess.jsp");
+		return view;
+	}
+	
+	// 儲值失敗，回到儲值動作頁面
+	@Bean(name = { "deposit.fail" })
+	public InternalResourceView depositFail() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deposit/depositProceed.jsp");
+		return view;
+	}
+	
 	// 交易首頁
 	@Bean(name = { "/deal/index.v" })
 	public InternalResourceView dealIndex() {
@@ -724,12 +777,37 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	// 個人交易紀錄頁面
 	@Bean(name = { "dealList.show" })
-	public InternalResourceView dealList() {
+	public RedirectView dealList() {
+		RedirectView view = new RedirectView();
+		view.setUrl("/deal/index.v");
+		view.setContextRelative(true);
+		return view;
+	}
+	
+	// 交易明細紀錄頁面
+	@Bean(name = { "dealDetail.show" })
+	public InternalResourceView dealDetailList() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deal/index.jsp");
+		view.setUrl("/deal/dealDetailList.jsp");
 		return view;
 	}
 
+	// 交易成功
+	@Bean(name = { "deal.success" })
+	public InternalResourceView dealSuccess() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/deal/purchaseSuccess.jsp");
+		return view;
+	}
+	
+	// 交易失敗
+	@Bean(name = { "deal.error" })
+	public InternalResourceView dealError() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/store/cart.jsp");
+		return view;
+	}
+	
 	// 禮物首頁
 	@Bean(name = { "/gift/index.v" })
 	public InternalResourceView giftIndex() {
@@ -743,6 +821,39 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public InternalResourceView giftListAll() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/gift/index.jsp");
+		return view;
+	}
+	
+	// 送禮明細頁面
+	@Bean(name = { "giftDetail.show" })
+	public InternalResourceView giftDetail() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/giftDetailList.jsp");
+		return view;
+	}
+	
+	// 送禮頁面
+	@Bean(name = { "/gift/giftSendingProceed.v" })
+	public InternalResourceView giftSending() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/giftSendingProceed.jsp");
+		return view;
+	}
+	
+	// 取得物品資料後重新導向送禮頁面
+	@Bean(name = { "giftSendingPage.show" })
+	public RedirectView giftSendPage() {
+		RedirectView view = new RedirectView();
+		view.setUrl("/gift/giftSendingProceed.v");
+		view.setContextRelative(true);
+		return view;
+	}
+	
+	//送禮成功
+	@Bean(name = { "giftSending.success" })
+	public InternalResourceView giftSendingSuccess() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/gift/giftSendingSuccess.jsp");
 		return view;
 	}
 

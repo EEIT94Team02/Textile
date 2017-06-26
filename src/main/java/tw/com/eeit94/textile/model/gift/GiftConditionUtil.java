@@ -14,7 +14,7 @@ public class GiftConditionUtil {
 	private String recipientName;
 	private java.util.Date giveDateAfter;
 	private java.util.Date giveDateBefore;
-
+	
 	public void setGiftId(Integer giftId) {
 		this.giftId = giftId;
 	}
