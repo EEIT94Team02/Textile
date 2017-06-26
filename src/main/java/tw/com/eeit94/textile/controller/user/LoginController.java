@@ -163,7 +163,7 @@ public class LoginController {
 		mEmail = this.secureService.getDecryptedText(mEmail, ConstSecureParameter.EMAIL.param());
 		MemberBean mbean = this.memberService.selectByEmail(mEmail);
 		if (mbean.getmValidEmail().equals(ConstUserParameter.VALIDEMAIL_YES.param())) {
-			return ConstMapping.ERROR_PAGE.path();
+			return ConstMapping.ERROR_PAGE_REDIRECT.path();
 		}
 		mbean.setmValidEmail(ConstUserParameter.VALIDEMAIL_YES.param());
 		this.memberService.update(mbean);

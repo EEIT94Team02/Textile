@@ -49,7 +49,8 @@
 						<a href="check/register.v">註冊</a>
 						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
 					</c:if> <c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
+						<c:url var="x" value="/check/logout.do" />
+						<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
 					</c:if></li>
 			</ul>
 		</div>
@@ -136,7 +137,7 @@
 								<c:param name="q" value="${row.chatroomURL}"></c:param>
 							</c:url>
 							<figure style="display: inline-block">
-									<a href="${member}">${row.mName}</a>
+								<a href="${member}">${row.mName}</a>
 							</figure>
 							<figure style="display: inline-block">
 								<a href="${chatroom}">聊天</a>
@@ -212,105 +213,92 @@
 	</div>
 
 	<script type="text/javascript">
-		var imgsrc_correct16 = '../image/check/check_correct16.png';
-		var imgsrc_error16 = '../image/check/check_error16.png';
-		var imgsrc_close16 = '../image/check/check_close16.png';
-		var imgsrc_loading16 = '../image/check/check_loading16.gif';
+    var imgsrc_correct16 = '../image/check/check_correct16.png';
+    var imgsrc_error16 = '../image/check/check_error16.png';
+    var imgsrc_close16 = '../image/check/check_close16.png';
+    var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
-		// 自動驗證的AJAX
-		function checkField(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).parent().find('span').text(output);
-			});
-		}
+    // 自動驗證的AJAX
+    function checkField(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).parent().find('span').text(output);
+      });
+    }
 
-		function checkFieldOnblur(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).parent().find('span').text(output);
-			}).done(function() {
-				changeImageFor(id);
-			});
-		}
+    function checkFieldOnblur(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).parent().find('span').text(output);
+      }).done(function() {
+        changeImageFor(id);
+      });
+    }
 
-		function changeImageFor(id) {
-			if ($('#' + id).parent().find('span').text() == ''
-					&& $('#' + id).val() == '') {
-				$('#' + id + ' + img').attr('src', '');
-			} else if ($('#' + id).parent().find('span').text() == ''
-					&& $('#' + id).val() != '') {
-				$('#' + id + ' + img').attr('src', imgsrc_correct16);
-			} else {
-				$('#' + id + ' + img').attr('src', imgsrc_error16);
-			}
-		}
+    function changeImageFor(id) {
+      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
+        $('#' + id + ' + img').attr('src', '');
+      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
+        $('#' + id + ' + img').attr('src', imgsrc_correct16);
+      } else {
+        $('#' + id + ' + img').attr('src', imgsrc_error16);
+      }
+    }
 
-		function checkPassword_Again(event) {
-			var mNewPassword = 'mNewPassword';
-			$('#' + mNewPassword + '_Again + img')
-					.attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'mNewPassword' : $('#' + mNewPassword).val(),
-				'mNewPassword_Again' : $('#' + mNewPassword + '_Again').val()
-			}, function(output) {
-				$('#' + mNewPassword + '_Again').parent().find('span').text(
-						output);
-			});
-		}
+    function checkPassword_Again(event) {
+      var mNewPassword = 'mNewPassword';
+      $('#' + mNewPassword + '_Again + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'mNewPassword': $('#' + mNewPassword).val(),
+        'mNewPassword_Again': $('#' + mNewPassword + '_Again').val()
+      }, function(output) {
+        $('#' + mNewPassword + '_Again').parent().find('span').text(output);
+      });
+    }
 
-		function checkPassword_AgainOnblur(event) {
-			var mNewPassword = 'mNewPassword';
-			$('#' + mNewPassword + '_Again + img')
-					.attr('src', imgsrc_loading16);
-			$.get(
-					'modify.do',
-					{
-						'mNewPassword' : $('#' + mNewPassword).val(),
-						'mNewPassword_Again' : $('#' + mNewPassword + '_Again')
-								.val()
-					},
-					function(output) {
-						$('#' + mNewPassword + '_Again').parent().find('span')
-								.text(output);
-					}).done(function() {
-				changeImageFor(mNewPassword + '_Again');
-			});
-		}
+    function checkPassword_AgainOnblur(event) {
+      var mNewPassword = 'mNewPassword';
+      $('#' + mNewPassword + '_Again + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'mNewPassword': $('#' + mNewPassword).val(),
+        'mNewPassword_Again': $('#' + mNewPassword + '_Again').val()
+      }, function(output) {
+        $('#' + mNewPassword + '_Again').parent().find('span').text(output);
+      }).done(function() {
+        changeImageFor(mNewPassword + '_Again');
+      });
+    }
 
-		// 自動驗證舊密碼
-		$('#mOldPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
-		// 自動驗證新密碼
-		$('#mNewPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
-		// 自動驗證再輸入一次新密碼
-		$('#mNewPassword_Again').on('keyup', checkPassword_Again).on('blur',
-				checkPassword_AgainOnblur);
+    // 自動驗證舊密碼
+    $('#mOldPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證新密碼
+    $('#mNewPassword').on('keyup', checkField).on('blur', checkFieldOnblur);
+    // 自動驗證再輸入一次新密碼
+    $('#mNewPassword_Again').on('keyup', checkPassword_Again).on('blur', checkPassword_AgainOnblur);
 
-		// 設定提交表單後，要將按鈕功能取消。
-		function disableSubmit() {
-			$(document).find('input[type="submit"]').prop('disabled', true);
-		}
+    // 設定提交表單後，要將按鈕功能取消。
+    function disableSubmit() {
+      $(document).find('input[type="submit"]').prop('disabled', true);
+    }
 
-		$('#security').on('submit', disableSubmit);
+    $('#security').on('submit', disableSubmit);
 
-		// 設定提交表單後如果還有錯誤要做圖示覆蓋
-		$(document).ready(
-				function() {
-					var idCheckArray = [ 'mOldPassword', 'mNewPassword',
-							'mNewPassword_Again' ];
-					for (var i = 0; i < idCheckArray.length; i++) {
-						var id = idCheckArray[i];
-						changeImageFor(id);
-					}
-				});
-	</script>
+    // 設定提交表單後如果還有錯誤要做圖示覆蓋
+    $(document).ready(function() {
+      var idCheckArray = ['mOldPassword', 'mNewPassword', 'mNewPassword_Again'];
+      for (var i = 0; i < idCheckArray.length; i++) {
+        var id = idCheckArray[i];
+        changeImageFor(id);
+      }
+    });
+  </script>
 </body>
 </html>

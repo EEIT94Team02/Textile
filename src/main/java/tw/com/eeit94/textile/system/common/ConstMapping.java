@@ -31,6 +31,7 @@ import tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration;
  */
 public enum ConstMapping {
 	ERROR_PAGE("/error/404.v"),
+	ERROR_PAGE_REDIRECT("error.404.show"),
 	FALSE_MAIN_PAGE("/index.jsp"),
 	TRUE_MAIN_PAGE("/index.v"),
 	REDIRECT_MAIN_PAGE("/index.r"),

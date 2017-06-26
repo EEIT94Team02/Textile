@@ -49,7 +49,8 @@
 						<a href="check/register.v">註冊</a>
 						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
 					</c:if> <c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
+						<c:url var="x" value="/check/logout.do" />
+						<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
 					</c:if></li>
 			</ul>
 		</div>
@@ -390,8 +391,8 @@
 					<tbody>
 						<c:forEach var="row" items="${friendList}">
 							<tr>
-							<td><a href="${row.profileURL}">${row.mName}</a></td>
-							<td><a href="${row.chatroomURL}">聊天</a></td>
+								<td><a href="${row.profileURL}">${row.mName}</a></td>
+								<td><a href="${row.chatroomURL}">聊天</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

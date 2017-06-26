@@ -48,7 +48,8 @@
 						<a href="check/register.v">註冊</a>
 						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
 					</c:if> <c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
+						<c:url var="x" value="/check/logout.do" />
+						<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
 					</c:if></li>
 			</ul>
 		</div>
@@ -243,67 +244,64 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var imgsrc_correct16 = '../image/check/check_correct16.png';
-		var imgsrc_error16 = '../image/check/check_error16.png';
-		var imgsrc_close16 = '../image/check/check_close16.png';
-		var imgsrc_loading16 = '../image/check/check_loading16.gif';
+    var imgsrc_correct16 = '../image/check/check_correct16.png';
+    var imgsrc_error16 = '../image/check/check_error16.png';
+    var imgsrc_close16 = '../image/check/check_close16.png';
+    var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
-		// 自動驗證的AJAX
-		function checkField(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).parent().find('span').text(output);
-			});
-		}
+    // 自動驗證的AJAX
+    function checkField(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).parent().find('span').text(output);
+      });
+    }
 
-		function checkFieldOnblur(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).parent().find('span').text(output);
-			}).done(function() {
-				changeImageFor(id);
-			});
-		}
+    function checkFieldOnblur(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).parent().find('span').text(output);
+      }).done(function() {
+        changeImageFor(id);
+      });
+    }
 
-		function changeImageFor(id) {
-			if ($('#' + id).parent().find('span').text() == ''
-					&& $('#' + id).val() == '') {
-				$('#' + id + ' + img').attr('src', '');
-			} else if ($('#' + id).parent().find('span').text() == ''
-					&& $('#' + id).val() != '') {
-				$('#' + id + ' + img').attr('src', imgsrc_correct16);
-			} else {
-				$('#' + id + ' + img').attr('src', imgsrc_error16);
-			}
-		}
+    function changeImageFor(id) {
+      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
+        $('#' + id + ' + img').attr('src', '');
+      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
+        $('#' + id + ' + img').attr('src', imgsrc_correct16);
+      } else {
+        $('#' + id + ' + img').attr('src', imgsrc_error16);
+      }
+    }
 
-		// 自動驗證自我介紹
-		$('#mSelfIntroduction').on('keyup', checkField).on('blur',
-				checkFieldOnblur);
+    // 自動驗證自我介紹
+    $('#mSelfIntroduction').on('keyup', checkField).on('blur', checkFieldOnblur);
 
-		// 設定提交表單後，要將按鈕功能取消。
-		function disableSubmit() {
-			$(document).find('input[type="submit"]').prop('disabled', true);
-		}
+    // 設定提交表單後，要將按鈕功能取消。
+    function disableSubmit() {
+      $(document).find('input[type="submit"]').prop('disabled', true);
+    }
 
-		$('#situation').on('submit', disableSubmit);
+    $('#situation').on('submit', disableSubmit);
 
-		// 設定提交表單後如果還有錯誤要做圖示覆蓋
-		$(document).ready(function() {
-			var idCheckArray = [ 'mSelfIntroduction' ];
-			for (var i = 0; i < idCheckArray.length; i++) {
-				var id = idCheckArray[i];
-				changeImageFor(id);
-			}
-		});
-	</script>
+    // 設定提交表單後如果還有錯誤要做圖示覆蓋
+    $(document).ready(function() {
+      var idCheckArray = ['mSelfIntroduction'];
+      for (var i = 0; i < idCheckArray.length; i++) {
+        var id = idCheckArray[i];
+        changeImageFor(id);
+      }
+    });
+  </script>
 </body>
 </html>

@@ -213,7 +213,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 錯誤網頁，萬用的404。(重新導向)
-	@Bean(name = { "/error/404.show" })
+	@Bean(name = { "error.404.show" })
 	public org.springframework.web.servlet.view.RedirectView error_page_r() {
 		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
 		redirectView.setUrl("/error/404.v");
