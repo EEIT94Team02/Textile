@@ -389,15 +389,9 @@
 					</thead>
 					<tbody>
 						<c:forEach var="row" items="${friendList}">
-							<c:url value="/user/index.v" var="member">
-								<c:param name="q" value="${row.profileURL}"></c:param>
-							</c:url>
-							<c:url value="/user/chat.v" var="chatroom">
-								<c:param name="q" value="${row.chatroomURL}"></c:param>
-							</c:url>
 							<tr>
-								<td><a href="${member}">${row.mName}</a></td>
-								<td><a href="${chatroom}">聊天</a></td>
+							<td><a href="${row.profileURL}">${row.mName}</a></td>
+							<td><a href="${row.chatroomURL}">聊天</a></td>
 							</tr>
 						</c:forEach>
 
@@ -434,18 +428,11 @@
 					</tr>
 				</thead>
 				<tbody>
-
 					<c:forEach var="row" items="${unconfirmedList}">
-						<c:url value="/social/insert.do" var="insert">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<c:url value="/social/refuse.do" var="refuseDelete">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
 						<tr>
 							<td>${row.mName}</td>
-							<td><input onclick="getInviteId('${insert}')" type="button" value="加好友"></td>
-							<td><input onclick="refuse('${refuseDelete}')" type="button" value="取消"></td>
+							<td><input onclick="getInviteId('${row.profileURL}')" type="button" value="加好友"></td>
+							<td><input onclick="refuse('${row.profileURL}')" type="button" value="取消"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
