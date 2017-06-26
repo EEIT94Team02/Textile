@@ -4,7 +4,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<title>Welcome, Textile</title>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <script type="text/javascript">
 
@@ -71,9 +82,6 @@ function refuse(obj) {
 			<thead>
 				<tr>
 					<th>追蹤中</th>
-					<th>群組</th>
-					<th>追蹤時間</th>
-					<th>類別</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -111,7 +119,6 @@ function refuse(obj) {
 					<c:param name="q" value="${row.ibean.mId}"></c:param>
 				</c:url>
 					<tr>
-						
 						<td>${row.ibean.mName}</td>
 						<td><input onclick="getInviteId('${insert}')" type="button" value="確認邀請"></td>
 						<td><input onclick="refuse('${refuseDelete}')" type="button" value="拒絕邀請"></td>
@@ -129,19 +136,13 @@ function refuse(obj) {
 			<thead>
 				<tr>
 					<th>黑單中</th>
-					<th>群組</th>
-					<th>黑單時間</th>
-					<th>類別</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="row" items="${Bselect}">
+				<c:forEach var="row" items="${blackList}">
 
 					<tr>
 						<td>${row.mbean.mName}</td>
-						<td>${row.s_group}</td>
-						<td>${row.log_in}</td>
-						<td>${row.s_type}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -4,7 +4,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <title>Query user, Textile</title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<style type="text/css">
+.dataBasic td {
+	width: 100px;
+}
+
+.dataSituation td:nth-child(1) {
+	width: 100px;
+}
+
+.dataSituation td:nth-child(2) {
+	width: 200px;
+}
+</style>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <link rel="stylesheet" href="<c:url value = '../css/jquery-ui-1.12.1.css'/>">
@@ -13,39 +28,85 @@
 <script type="text/javascript" src="<c:url value = '../js/json2.js'/>"></script>
 </head>
 <body>
-	<form id="queryName" class="ui-widget" action="queryName.do" method="post">
-		<input type="hidden" name="m" value="queryName" />請輸入會員名稱：<input id="q" name="q" value="${dataAndErrorsMap.mName}"
-			type="text" size="21" maxlength="20" placeholder="王小明" /><img src="" /><span>${dataAndErrorsMap.mName_error}</span><br />
-		<p></p>
-		<input id="submit" name="submit" value="搜尋" type="submit" /> <br />
-		<p></p>
-	</form>
+	<div id="header">
+		<div class="section">
+			<c:url value="/photo/album/list.do" var="album">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<ul>
+				<li><c:if test="${not empty user}">
+						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+							<a href="manager/">後臺</a>
+						</c:if>
+					</c:if></li>
+				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
+				<li><a href="<c:url value ='/user/' />">會員</a></li>
+				<li><a href="${album}">相簿</a></li>
+				<li><a href="<c:url value ='/activity/' />">活動</a></li>
+				<li><a href="<c:url value ='/store/' />">商店</a></li>
+				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
+				<li><c:if test="${empty user}">
+						<a href="check/register.v">註冊</a>
+						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
+					</c:if> <c:if test="${not empty user}">
+						<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
+					</c:if></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="left">
+		<div class="actions">
+			<ul>
+				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
+				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
+				<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
+				<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
+				<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
+				<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
+				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="center">
+		<div id="body">
+			<form id="queryName" class="ui-widget" action="queryName.do" method="post">
+				<input type="hidden" name="m" value="queryName" />請輸入會員名稱：<input id="q" name="q" value="${dataAndErrorsMap.mName}"
+					type="text" size="21" maxlength="20" placeholder="王小明" /><img src="" /><span>${dataAndErrorsMap.mName_error}</span><br />
+				<p></p>
+				<input id="submit" name="submit" value="搜尋" type="submit" /> <br />
+				<p></p>
+			</form>
+		</div>
+	</div>
 	<script type="text/javascript">
-    var imgsrc_loading16 = '../image/check/check_loading16.gif';
-    var userList = [];
+		var imgsrc_loading16 = '../image/check/check_loading16.gif';
+		var userList = [];
 
-    // m=q,q=input
-    function checkField(event) {
-      var id = $(event.currentTarget).attr('id');
-      $('#' + id + ' + img').attr('src', imgsrc_loading16);
-      $('#' + id + ' + img + span').text('');
-      $.get('queryName.do', {
-        'm': id,
-        'q': $('#' + id).val()
-      }, function(output) {
-        userList = JSON.parse(output);
-        $("#q").autocomplete({
-          source: userList
-        });
-      });
-    }
+		// m=q,q=input
+		function checkField(event) {
+			var id = $(event.currentTarget).attr('id');
+			$('#' + id + ' + img').attr('src', imgsrc_loading16);
+			$('#' + id + ' + img + span').text('');
+			$.get('queryName.do', {
+				'm' : id,
+				'q' : $('#' + id).val()
+			}, function(output) {
+				userList = JSON.parse(output);
+				$("#q").autocomplete({
+					source : userList
+				});
+			});
+		}
 
-    function checkFieldOnblur(event) {
-      var id = $(event.currentTarget).attr('id');
-      $('#' + id + ' + img').attr('src', '');
-    }
+		function checkFieldOnblur(event) {
+			var id = $(event.currentTarget).attr('id');
+			$('#' + id + ' + img').attr('src', '');
+		}
 
-    $('#q').on('keydown', checkField).on('blur', checkFieldOnblur);
-  </script>
+		$('#q').on('keydown', checkField).on('blur', checkFieldOnblur);
+	</script>
 </body>
 </html>
