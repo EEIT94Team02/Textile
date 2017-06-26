@@ -105,10 +105,10 @@
 					</thead>
 					<tbody>
 						<c:forEach var="row" items="${friendList}">
-							<c:url value="/user/index.v" var="member">
+							<c:url  var="member">
 								<c:param name="q" value="${row.profileURL}"></c:param>
 							</c:url>
-							<c:url value="/user/chat.v" var="chatroom">
+							<c:url var="chatroom">
 								<c:param name="q" value="${row.chatroomURL}"></c:param>
 							</c:url>
 							<tr>
@@ -151,10 +151,10 @@
 				<tbody>
 
 					<c:forEach var="row" items="${unconfirmedList}">
-						<c:url value="/social/insert.do" var="insert">
+						<c:url var="insert">
 							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
-						<c:url value="/social/refuse.do" var="refuseDelete">
+						<c:url  var="refuseDelete">
 							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<tr>
