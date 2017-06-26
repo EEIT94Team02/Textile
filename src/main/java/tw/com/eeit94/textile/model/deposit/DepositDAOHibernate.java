@@ -44,12 +44,12 @@ public class DepositDAOHibernate implements DepositDAO {
 		CriteriaQuery<DepositBean> cq = cb.createQuery(DepositBean.class);
 		Root<DepositBean> depositBean = cq.from(DepositBean.class);
 		List<Predicate> pList = new ArrayList<Predicate>();
-		Predicate byName = null;
+		Predicate byId = null;
 		Predicate byDate = null;
 		if (queryCondition.getMemberId() != null) {
-			byName = cb.equal(depositBean.<MemberBean>get("memberBean").<Integer>get("mId"), 
+			byId = cb.equal(depositBean.<MemberBean>get("memberBean").<Integer>get("mId"), 
 					queryCondition.getMemberId());
-			pList.add(byName);
+			pList.add(byId);
 			if (queryCondition.getDepositDateAfter() != null || queryCondition.getDepositDateBefore() != null) {
 				if (queryCondition.getDepositDateAfter() == null) {
 					byDate = cb.between(depositBean.<Timestamp>get("depositDate"), 

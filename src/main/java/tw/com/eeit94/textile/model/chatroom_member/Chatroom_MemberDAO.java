@@ -19,4 +19,6 @@ public interface Chatroom_MemberDAO {
 	public List<Chatroom_MemberBean> update(Chatroom_MemberBean c_mbean);
 
 	public List<Chatroom_MemberBean> delete(Chatroom_MemberBean c_mbean);
+
+	public List<Chatroom_MemberBean> selectByMId(Integer mId);
 }

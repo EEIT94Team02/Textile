@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Product Maintenance</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <style>
 .mainList, .mainList th, td {
 	border: 3px solid lightblue;
@@ -18,19 +19,36 @@ input[type="button"], input[type="submit"] {
 	display: none;
 }
 .imgUploadLabel {
+	padding: 3pk;
 	display: block;
 	height: 3em;
 	width: 5em;
 	background-color: #E6E6FA;
 }
+.errorMessage {
+	display: block;
+	color: red;
+}
 </style>
 </head>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script>
+$(function(){
+	$('input[name="clearForm"]').on('click', function() {
+		$(this).parents('tr').find('input[type="text"]').val('');
+		$(this).parents('tr').find('input[type="hidden"]').val('');
+	});
+	
+	$('.imgRemove').on('click', function() {
+		$(this).parents('tr').find('input[name="img"]').remove();
+		$(this).parents('tr').find('input[name*="img"]').val('');
+		$(this).parents('tr').find('img').attr('src', '');
+		$(this).parents('tr').find('img').css("display", "none");
+	});
+});
 function setStatusIndex(pCount, index) {
-	var status = document.getElementsByClassName("statusSelect")[pCount-1];
-	status.setAttribute("selectedIndex") = index;
+	var status = document.getElementsByClassName("statusSelect")[pCount-1].selectedIndex = index;
 }
 function setCategoryIndex(pCount, index) {
 	document.getElementsByClassName("categorySelect")[pCount-1].selectedIndex = index;
@@ -38,6 +56,7 @@ function setCategoryIndex(pCount, index) {
 </script>
 <body>
 <c:if test="${not empty pMList}">
+	<h3>${dataError.actionError}</h3>
 	<table class="mainList">
 		<thead>
 			<tr>
@@ -53,20 +72,23 @@ function setCategoryIndex(pCount, index) {
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${sessionScope.pList}" var="pBean" varStatus="pStatus">
+			<c:forEach items="${sessionScope.pMList}" var="pBean" varStatus="pStatus">
 				<c:url value="pShowImg.do" var="showImg" scope="page">
 					<c:param name="productId" value="${pBean.productId}"/>
 				</c:url>
+				<c:if test="${pStatus.last}">
+					<c:set var="insertCount" value="${pStatus.count+1}" scope="page"/>
+				</c:if>
 				<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/pMaintain.do'>" escapeXml="false" />
 				<tr>
 					<td><input type="hidden" name="productId" value="${pBean.productId}" /></td>
 					<td>
 						<input type="text" name="productName" maxlength="20" value="${pBean.productName}" />
-						<span>${errors[pBean.productId].pNa}</span>
+						<span class="errorMessage">${errors[pBean.productId].pNa}</span>
 					</td>
 					<td>
 						<input type="text" name="unitPrice" value="${pBean.unitPrice}" />
-						<span>${errors[pBean.productId].pUP}</span>
+						<span class="errorMessage">${errors[pBean.productId].pUP}</span>
 					</td>
 					<td>
 						<select class="categorySelect" name="category">
@@ -84,10 +106,10 @@ function setCategoryIndex(pCount, index) {
 					</c:choose>
 					<td>
 						<input type="text" name="intro" maxLength="20" value="${pBean.intro}" />
-						<span>${errors[pBean.productId].pIn}</span>
+						<span class="errorMessage">${errors[pBean.productId].pIn}</span>
 					</td>
 					<td>
-						<select class="statusSelect" name="status" onchange="setStatusValue(${pStatus.count})">
+						<select class="statusSelect" name="status">
 							<option value="false">下架</option>
 							<option value="true">上架</option>
 						</select>
@@ -101,51 +123,80 @@ function setCategoryIndex(pCount, index) {
 						</c:otherwise>
 					</c:choose>
 					<td>
+						<input type="hidden" class="imgValue" name="img" value="${pBean.img}" alt="${pBean.productName}" />
+						<input type="hidden" class="imgFileValue" name="imgFileContent" value="" />
+						<input type="button" class="imgRemove" value="Remove" />
+						<label class="imgUploadLabel" for="imgUploadButton${pStatus.count}">
+							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+							<input type="file" id="imgUploadButton${pStatus.count}" accept="image/*" onchange="setImg(${pStatus.count})" style="display:none" />
+						</label>
 						<img class="pBeanImg" src="${showImg}" height="200" />
-						<input type="hidden" class="imgValue" name="img" value="${pBean.img}" />
-						<input type="hidden" class="imgValue" name="imgFileContent" value="" />
-						<input type="button" class="imgRemove" value="Remove" onclick="removeImg(${pStatus.count})"/>
-						<label class="imgUploadLabel" for="imgUploadButton${pStatus.count}">Choose a image</label>
-						<input type="file" id="imgUploadButton${pStatus.count}" class="imgUpload" accept="image/*" onchange="setImg(${pStatus.count})" />
 					</td>
 					<td>
 						<input type="text" name="rewardPoints" value="${pBean.rewardPoints}"/>
-						<span>${errors[pBean.productId].pRP}</span>
+						<span class="errorMessage">${errors[pBean.productId].pRP}</span>
 					</td>
 					<td>
-						<input type="submit" name="maintainAction" value="Update" />
-						<input type="submit" name="maintainAction" value="Delete" />
+						<input type="submit" class="btn btn-success" name="maintainAction" value="Update" />
+						<input type="submit" class="btn btn-danger" name="maintainAction" value="Delete" />
 					</td>
 				</tr>
 				<c:out value="</form>" escapeXml="false" />
 			</c:forEach>
+			<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/pMaintain.do'>" escapeXml="false" />
 				<tr>
-					<td><input type="hidden" name="productId" value="${param.productId}" /></td>
-					<td><input type="text" name="productName" value="${param.productName}" placeholder="productName" /></td>
-					<td><input type="text" name="unidPrice" value="${param.unitPrice}" placeholder="unidPrice" /></td>
-					<td><input type="text" name="category" value="${param.category}" placeholder="category" /></td>
-					<td><input type="text" name="intro" value="${param.intro}" placeholder="intro" /></td>
+					<td><input type="hidden" name="insertCount" value="${insertCount}" /></td>
+					<td>
+						<input type="text" name="productName" value="${param.productName}" placeholder="productName" />
+						<span class="errorMessage">${errors[icInteger].pNa}</span>
+					</td>
+					<td>
+						<input type="text" name="unitPrice" value="${param.unitPrice}" placeholder="unitPrice" />
+						<span class="errorMessage">${errors[icInteger].pUP}</span>
+					</td>
+					<td>
+						<select class="categorySelect" name="category">
+							<option value="送禮用">送禮用</option>
+							<option value="自用">自用</option>
+						</select>
+					</td>
+					<td>
+						<input type="text" name="intro" value="${param.intro}" placeholder="intro" />
+						<span class="errorMessage">${errors[icInteger].pIn}</span>
+					</td>
 					<td>
 						<select name="status">
 							<option value="false">下架</option>
 							<option value="true" selected="true">上架</option>
 						</select>
 					</td>
-					<td><input type="text" name="img" value="" placeholder="img" /></td>
-					<td><input type="text" name="rewardPoints" value="${param.rewardPoints}" placeholder="rewardPoints" /></td>
 					<td>
-						<input type="submit" name="maintainAction" value="Insert" />
-						<input type="button" value="Clear" />
+						<input type="hidden" class="imgValue" name="img" value="${param.img}" alt="${param.productName}" />
+						<input type="hidden" class="imgFileValue" name="imgFileContent" value="" />
+						<input type="button" class="imgRemove" value="Remove" />
+						<label class="imgUploadLabel" for="imgUploadButton${insertCount}">
+							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+							<input type="file" id="imgUploadButton${insertCount}" accept="image/*" onchange="setImg(${insertCount})" style="display:none" />
+						</label>
+						<span class="errorMessage">${errors[icInteger].pImg}</span>
+						
+						<img class="pBeanImg" src="" height="200" />
+					</td>
+					<td>
+						<input type="text" name="rewardPoints" value="${param.rewardPoints}" placeholder="rewardPoints" />
+						<span class="errorMessage">${errors[icInteger].pRP}</span>
+					</td>
+					<td>
+						<input type="submit" class="btn btn-success" name="maintainAction" value="Insert" />
+						<input type="button" class="btn btn-danger" name="clearForm" value="Clear" />
 					</td>
 				</tr>
+			<c:out value="</form>" escapeXml="false" />
 		</tbody>
 	</table>
 </c:if>
 </body>
 <script>
-function removeImg(pCount) {
-	document.getElementsByClassName("pBeanImg")[pCount-1].src = "";
-}
 function setImg(pCount) {
 	var imgFile = document.getElementsByClassName("imgUpload")[pCount-1].files[0];
 	var reader = new FileReader();
@@ -153,7 +204,7 @@ function setImg(pCount) {
 	reader.onload = function (e) {
 		var fileContent = e.target.result;
 		var theImg = document.getElementsByClassName("pBeanImg")[pCount-1];
-		var theImgValue = document.getElementsByClassName("imgValue")[pCount-1];
+		var theImgValue = document.getElementsByClassName("imgFileValue")[pCount-1];
 		theImg.setAttribute("src", fileContent);
 		theImgValue.setAttribute("value", fileContent);
 	}

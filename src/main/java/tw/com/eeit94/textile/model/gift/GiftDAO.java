@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface GiftDAO {
 	
-	GiftBean select(int giftId);
+	GiftBean select(Integer giftId);
 
-	List<GiftBean> selectAll(int userId);
+	List<GiftBean> selectAll(Integer userId);
 
 	List<GiftBean> selectConditional(GiftConditionUtil queryCondition);
 

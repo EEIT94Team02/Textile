@@ -14,6 +14,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import tw.com.eeit94.textile.model.member.MemberBean;
+
 /**
  * deal表格的CRUD及條件查詢，以Hibernate實作。
  * 
@@ -44,7 +46,8 @@ public class DealDAOHibernate implements DealDAO {
 		Predicate byId = null;
 		Predicate byDate = null;
 		if (queryCondition.getMemberId() != null) {
-			byId = cb.equal(dealBean.<Integer>get("memberId"), queryCondition.getMemberId());
+			byId = cb.equal(dealBean.<MemberBean>get("memberBean").<Integer>get("mId"), queryCondition.getMemberId());
+			pList.add(byId);
 			if (queryCondition.getDealDateAfter() != null || queryCondition.getDealDateBefore() != null) {
 				if (queryCondition.getDealDateBefore() == null) {
 					byDate = cb.between(dealBean.<Timestamp>get("dealDate"), 
@@ -56,9 +59,8 @@ public class DealDAOHibernate implements DealDAO {
 					byDate = cb.between(dealBean.<Timestamp>get("dealDate"), 
 							queryCondition.getDealDateAfter(), queryCondition.getDealDateBefore());
 				}
+				pList.add(byDate);
 			}
-			pList.add(byId);
-			pList.add(byDate);
 		}
 		Predicate[] pArray = pList.toArray(new Predicate[pList.size()]);
 		return getSession().createQuery(cq.where(pArray)).getResultList();

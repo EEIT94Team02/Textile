@@ -34,11 +34,11 @@ public class DealDAOHibernateTest {
 		// System.out.println(dealDao.select());
 
 		// Insert
-		DealBean bean = new DealBean();
-		bean.setMemberId(2);
-		bean.setDealDate(new Timestamp(System.currentTimeMillis()));
-		bean.setTotalCost(300);
-		System.out.println(dealDao.insert(bean));
+		// DealBean bean = new DealBean();
+		// bean.setMemberId(2);
+		// bean.setDealDate(new Timestamp(System.currentTimeMillis()));
+		// bean.setTotalCost(300);
+		// System.out.println(dealDao.insert(bean));
 
 		// Update
 		// DealBean bean = new DealBean();

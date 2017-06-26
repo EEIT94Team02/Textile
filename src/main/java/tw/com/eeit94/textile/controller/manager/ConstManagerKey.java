@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.controller.logs;
+package tw.com.eeit94.textile.controller.manager;
 
 /**
  * 定義輔助搜尋request.getParameter()和Map<String, String>參數的Key常數，
@@ -8,12 +8,12 @@ package tw.com.eeit94.textile.controller.logs;
  * @author 賴
  * @version 2017/06/12
  */
-public enum ConstLogsKey {
-	LOGS("logs");
+public enum ConstManagerKey {
+	LOGS("logs"), USERS("users");
 
 	private final String key;
 
-	private ConstLogsKey(String key) {
+	private ConstManagerKey(String key) {
 		this.key = key;
 	}
 

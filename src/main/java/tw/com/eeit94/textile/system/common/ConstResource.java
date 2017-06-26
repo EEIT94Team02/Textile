@@ -14,7 +14,8 @@ package tw.com.eeit94.textile.system.common;
  * @see {@link MailRegisterService}
  */
 public enum ConstResource {
-	REGISTER_SUCCESS_EMAIL_TEMPLATE("register_success.html");
+	REGISTER_SUCCESS_EMAIL_TEMPLATE("register_success.html"),
+	FINDPASSWORD_SUCCESS_EMAIL_TEMPLATE("findPassword_success.html");
 
 	private final String path;
 

@@ -65,7 +65,9 @@ public class TestUtils {
 
 		mbean.setmIdentityCardNumber("A265415600");
 		mbean.setmGender("F");
-		mbean.setmAddress("105台北市松山區中華里敦化北路199巷18號");
+		mbean.setmAddress_County("台北市");
+		mbean.setmAddress_Region("松山區");
+		mbean.setmAddress("中華里敦化北路199巷18號");
 		mbean.setmPhoneNumber("0965127856");
 		mbean.setmHintPassword("我最愛的動漫");
 		mbean.setmHintAnswer("刀劍神域");
@@ -99,7 +101,9 @@ public class TestUtils {
 		mMap.put(ConstMemberKey.Birthday.key(), "1989-06-04");
 		mMap.put(ConstMemberKey.IdentityCardNumber.key(), "A123456789");
 		mMap.put(ConstMemberKey.Gender.key(), "M");
-		mMap.put(ConstMemberKey.Address.key(), "臺北市大安區復興南路一段390號2,3,15樓");
+		mMap.put(ConstMemberKey.Adrress_County.key(), "臺北市");
+		mMap.put(ConstMemberKey.Adrress_Region.key(), "大安區");
+		mMap.put(ConstMemberKey.Address.key(), "復興南路一段390號2,3,15樓");
 		mMap.put(ConstMemberKey.PhoneNumber.key(), "0912345678");
 		mMap.put(ConstMemberKey.HintPassword.key(), "我爸爸最愛吃的水果是什麼？");
 		mMap.put(ConstMemberKey.HintAnswer.key(), "榴槤");
