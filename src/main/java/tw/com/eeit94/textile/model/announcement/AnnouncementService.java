@@ -48,5 +48,26 @@ public class AnnouncementService {
 
 		return result;
 	}
+	
+	public List<AnnouncementBean> selectByBeginTime(AnnouncementBean bean){
+		List<AnnouncementBean> result =null;
+		if(bean!=null){
+			try {
+				result = announcementDao.selectByBeginTime(bean);
+			} catch (Exception e) {
+				System.out.println(e.getMessage() + "error by selectByBeginTime");
+			}
+		}
+		return result ;
+	}
+	public AnnouncementBean update (AnnouncementBean bean){
+		AnnouncementBean result =null;
+		if(bean!=null){
+			result =announcementDao.update(bean);
+		}
+		
+		return result;
+	}
+	
 
 }

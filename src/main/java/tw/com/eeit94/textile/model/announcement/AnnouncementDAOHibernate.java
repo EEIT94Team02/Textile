@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * selectByBginTime 利用開始時間去尋找還在活動期間內的公告
- * selectByEndAnnouncement 列出所有已經結束的活動公告
+ * selectByBginTime 利用開始時間去尋找還在活動期間內的公告 selectByEndAnnouncement 列出所有已經結束的活動公告
  * 
  * @author 周
  * @version 2017/06/12
@@ -48,11 +47,8 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 	@Override
 	public AnnouncementBean insert(AnnouncementBean bean) {
 		if (bean != null) {
-			AnnouncementBean select = this.select(bean);
-			if (select == null) {
-				this.getSession().save(bean);
-				return bean;
-			}
+			this.getSession().save(bean);
+			return bean;
 		}
 		return null;
 	}
@@ -83,12 +79,11 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 	}
 
 	@Override
-	public List<AnnouncementBean> selectByBginTime(AnnouncementBean bean) throws ParseException {
+	public List<AnnouncementBean> selectByBeginTime(AnnouncementBean bean) throws ParseException {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<AnnouncementBean> qry = cb.createQuery(AnnouncementBean.class);
 		Root<AnnouncementBean> root = qry.from(AnnouncementBean.class);
 		qry.select(root);
-		// DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Predicate p2;
 		Predicate p4;
 		if (bean.getStartTime() != null) {
@@ -107,23 +102,24 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 		return result;
 	}
 
-		@Override
-		public List<AnnouncementBean> selectByEndAnnouncement(AnnouncementBean bean) throws ParseException {
+	@Override
+	public List<AnnouncementBean> selectByEndAnnouncement(AnnouncementBean bean) throws ParseException {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<AnnouncementBean> qry = cb.createQuery(AnnouncementBean.class);
-		Root<AnnouncementBean> root= qry.from(AnnouncementBean.class);
+		Root<AnnouncementBean> root = qry.from(AnnouncementBean.class);
 		qry.select(root);
 		Predicate p1;
-		if(bean.getEndTime()!=null){
-//			p1=cb.lessThan(root.<java.util.Date>get("endTime"), bean.getEndTime()); 測試用
-			p1=cb.lessThan(root.<java.util.Date>get("endTime"), new java.util.Date());//線上用
-		}else{
-			p1=cb.greaterThan(root.<java.util.Date>get("startTime"), new java.util.Date(0));
+		if (bean.getEndTime() != null) {
+			// p1=cb.lessThan(root.<java.util.Date>get("endTime"),
+			// bean.getEndTime()); 測試用
+			p1 = cb.lessThan(root.<java.util.Date>get("endTime"), new java.util.Date());// 線上用
+		} else {
+			p1 = cb.greaterThan(root.<java.util.Date>get("startTime"), new java.util.Date(0));
 		}
-		
+
 		List<AnnouncementBean> result = getSession().createQuery(qry.where(p1)).getResultList();
 
 		return result;
-		
+
 	}
 }

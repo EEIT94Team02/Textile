@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
-<!-- 設定方式參考 https://tomcat.apache.org/tomcat-8.5-doc/config/context.html -->
-<Context path="/Textile" docBase="Textile" reloadable="true">
-
-	<!-- Resource改寫在Servers/context.xml -->
-
-</Context>

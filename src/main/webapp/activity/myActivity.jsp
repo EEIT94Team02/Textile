@@ -53,9 +53,8 @@
 
 		<!--預留給聊天室的區塊-->
 		<div id="right">預留給聊天室的區塊</div>
-
 		<div id="body">
-			<c:if test="${not empty ActivityList}">
+			<c:if test="${not empty myActivityList}">
 				<table>
 					<thead>
 						<tr>
@@ -64,18 +63,17 @@
 							<th>結束時間</th>
 							<th>活動名稱</th>
 							<th>活動地點</th>
-							<th>活動內容</th>
+
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="row" items="${ActivityList}">
+						<c:forEach var="row" items="${myActivityList}">
 							<tr>
 								<td>${row.activityno}</td>
 								<td>${row.begintime}</td>
 								<td>${row.endtime}</td>
 								<td>${row.activityname}</td>
 								<td>${row.place}</td>
-								<td>${row.interpretation}</td>
 							</tr>
 						</c:forEach>
 
@@ -86,7 +84,6 @@
 								<td>${Activity.endtime}</td>
 								<td>${Activity.activityname}</td>
 								<td>${Activity.place}</td>
-								<td>${Activity.interpretation}</td>
 							</tr>
 						</c:if>
 					</tbody>
@@ -138,7 +135,6 @@
 					</tbody>
 				</table>
 			</c:if>
-
 			<c:if test="${not empty partake}">
 				<table>
 					<thead>
@@ -163,7 +159,6 @@
 
 			<c:if test="${empty ActivityList}">
 			</c:if>
-
 			<p><a href='<c:url value="/activity/select.v"/>'>查詢活動(要登入)</a></p>
 			<p><a href='<c:url value="/activity/insert.v"/>'>創建活動(要登入)</a></p>
 			<p><a href='<c:url value="/activity/update.v"/>'>更新活動(要登入)</a></p>
