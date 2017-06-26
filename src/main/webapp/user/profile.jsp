@@ -390,7 +390,7 @@
 							</c:url>
 							<br/>
 							<figure style="display: inline-block">
-									<a href="${member}">${row.mbean.mName}</a>
+									<a href="${member}">${row.mName}</a>
 							</figure>
 							<figure style="display: inline-block">
 								<a href="${chatroom}">聊天</a>
@@ -432,16 +432,15 @@
 
 					<c:forEach var="row" items="${unconfirmedList}">
 						<c:url value="/social/insert.do" var="insert">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<c:url value="/social/refuse.do" var="refuseDelete">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<tr>
-							<td>${row.ibean.mName}</td>
+							<td>${row.mName}</td>
 							<td><input onclick="getInviteId('${insert}')" type="button" value="確認邀請"></td>
 							<td><input onclick="refuse('${refuseDelete}')" type="button" value="拒絕邀請"></td>
-							<td><input type="hidden" value="${row.mbean.mId}" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -458,7 +457,7 @@
 				<tbody>
 					<c:forEach var="row" items="${blackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
