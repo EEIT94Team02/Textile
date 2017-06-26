@@ -96,7 +96,7 @@
 					</tr>
 					<tr>
 						<td><label style="color:black ; font-size: 20px">照片類別 :</label></td>
-						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">大頭貼 <input type="radio" name="position" value="封面">封面 <input type="radio" name="position" value="背景">背景</td>
+						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">設為大頭貼 <input type="radio" name="position" value="封面">封面 </td>
 						<td></td>
 					</tr>
 					<tr>
