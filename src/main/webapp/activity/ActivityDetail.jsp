@@ -62,60 +62,61 @@
 		<div id="right">預留給聊天室的區塊</div>
 		<div id="body">
 			<c:if test="${not empty Activity}">
-				<div style="font-size: 18px; width: 100%">
+				<h2>活動:</h2>
+				<div style="font-size: 18px; width: 100%; border: 1px solid black">
 					<table>
 						<tr>
 							<td width="80px"><label>活動名稱:</label></td>
-							<td>${Activity.activityname}</td>
+							<td style="font-size: 16px">${Activity.activityname}</td>
 						</tr>
 						<tr>
 							<td width="80px"><label>開始時間:</label></td>
-							<td><fmt:formatDate value="${Activity.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
+							<td style="font-size: 16px"><fmt:formatDate value="${Activity.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
 						<tr>
 							<td width="80px"><label>結束時間:</label></td>
-							<td><fmt:formatDate value="${Activity.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
+							<td style="font-size: 16px"><fmt:formatDate value="${Activity.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
 						<tr>
 							<td width="80px"><label>活動地點:</label></td>
-							<td>${Activity.place}</td>
+							<td style="font-size: 16px">${Activity.place}</td>
 						</tr>
 						<tr>
-							<td width="80px"><label>活動內容:</label></td>
-							<td></td>
+							<td width="80px"><label>活動敘述:</label></td>
+							<td style="font-size: 16px"></td>
 						</tr>
 						<tr>
-							<td width="80px"></td>
-							<td><p>${Activity.interpretation}</p></td>
+						</tr>
+						<tr>
+							<td colspan="2">${Activity.interpretation}</td>
 						</tr>
 					</table>
-
 				</div>
 			</c:if>
 			<c:if test="${not empty partner}">
 				<h2>活動成員:</h2>
-				<table>
-					<thead style="font-size: 16px">
-						<tr>
-							<th></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody style="font-size: 14px; font-family: inherit; text-align: center;">
-						<c:forEach var="row" items="${partner}">
+				<div style="font-size: 18px">
+					<table>
+						<thead style="font-size: 14px">
 							<tr>
-								<td style="width: 120px">${row.memberBean.mName}</td>
-								<td style="width: 120px">${row.position}</td>
+								<th>參與成員</th>
+								<th></th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<br>
-				<br>
+						</thead>
+						<tbody style="font-size: 14px; font-family: inherit; text-align: center; margin-right: 10px">
+							<c:forEach var="row" items="${partner}">
+								<tr>
+									<td style="width: 120px">${row.memberBean.mName}</td>
+									<td style="width: 120px">${row.position}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 				<br>
 				<form action='<c:url value="/activity/invite.do"/>' method="post">
 					<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
-					<label>邀請好友:</label>
+					<label>邀請好友一起加入:</label>
 					<select name="mId">
 						<c:forEach var="Friend" items="${FriendList}">
 							<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>

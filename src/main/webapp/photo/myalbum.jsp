@@ -80,11 +80,6 @@
 					</c:forEach>
 				</div>
 			</c:if>
-			<%-- 			<c:if test="${not empty FriendList}"> --%>
-			<%-- 				<c:forEach var="Friend" items="${FriendList}"> --%>
-			<%-- 					${Friend.mbean.mName} --%>
-			<%-- 				</c:forEach> --%>
-			<%-- 			</c:if> --%>
 		</div>
 	</div>
 	<div id="footer">this is footer</div>

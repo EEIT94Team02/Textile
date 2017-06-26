@@ -100,7 +100,7 @@
 					</table>
 				</c:if>
 				<c:if test="${not empty myActivityList.ready}">
-					<h3>已參加的活動</h3>
+					<h3>${user.mName}已參加的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
@@ -135,7 +135,7 @@
 									<td>${row.activityBean.activityname}</td>
 									<td>${row.activityBean.place}</td>
 									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
-									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="inviteFriend('${inviteMember}')"></td>
+									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
 								</tr>
 							</c:forEach>
@@ -143,7 +143,7 @@
 					</table>
 				</c:if>
 				<c:if test="${not empty myActivityList.notcommit}">
-					<h3>受邀請的活動</h3>
+					<h3>${user.mName}受邀請的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
