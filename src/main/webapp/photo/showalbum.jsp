@@ -55,7 +55,73 @@
 		</div>
 
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<table>
+				<thead>
+					<tr>
+						<th>好友</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="row" items="${friendlist}">
+				<c:url value="/user/index.v" var="member">
+					<c:param name="q" value="${row.profileURL}"></c:param>
+				</c:url>
+				<c:url value="/user/chat.v" var="chatroom">
+					<c:param name="q" value="${row.chatroomURL}"></c:param>
+				</c:url><br/>
+				<figure style="display: inline-block">
+					<a href="${member}">${row.mName}</a>
+				</figure>
+				<figure style="display: inline-block">
+					<a href="${chatroom}">聊天</a>
+				</figure>
+			</c:forEach>
+				</tbody>
+			</table>
+			<table>
+				<thead>
+					<tr>
+						<th>追蹤</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="row" items="${tracklist}">
+					<tr>
+					<td>${row.mbean.mName}</td>
+					</tr>
+			</c:forEach>
+				</tbody>
+			</table>
+			<table>
+				<thead>
+					<tr>
+						<th>邀請人</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="row" items="${unconfirmedlist}">
+					<tr>
+					<td>${row.ibean.mName}</td>
+					</tr>
+			</c:forEach>
+				</tbody>
+			</table>
+			<table>
+				<thead>
+					<tr>
+						<th>黑名單</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="row" items="${blacklist}">
+					<tr>
+					<td>${row.mbean.mName}</td>
+					</tr>
+			</c:forEach>
+				</tbody>
+			</table>
+		</div>
 
 
 		<div id="body">
