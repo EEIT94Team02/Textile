@@ -13,18 +13,18 @@ import org.hibernate.annotations.DynamicInsert;
 @DynamicInsert
 public class LinksBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EmbeddedId
-	private String Linkname;
+	private String mName;
 	private String profileURL;
 	private String chatroomURL;
 
-	public String getLinkname() {
-		return Linkname;
+	public String getmName() {
+		return mName;
 	}
 
-	public void setLinkname(String linkname) {
-		Linkname = linkname;
+	public void setmName(String mName) {
+		this.mName = mName;
 	}
 
 	public String getProfileURL() {
@@ -42,5 +42,4 @@ public class LinksBean implements Serializable {
 	public void setChatroomURL(String chatroomURL) {
 		this.chatroomURL = chatroomURL;
 	}
-
 }

@@ -75,55 +75,49 @@ public class SocialListDAOHibernate implements SocialListDAO {
 		}
 		return false;
 	}
-	
+
 	@Override
-	public List<SocialListBean> searchFriend( Integer userId,String s_type ,String s_group, Timestamp s_login) {
+	public List<SocialListBean> searchFriend(Integer userId, String s_type, String s_group, Timestamp s_login) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
 		Root<SocialListBean> root = qry.from(SocialListBean.class);
 		Predicate p4;
 		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
 		Predicate p2 = cb.equal(root.<String>get("s_type"), s_type);
-		Predicate p3 = cb.like(root.<String>get("s_group"),s_group == "" ? "%" : "%" + s_group + "%");
+		Predicate p3 = cb.like(root.<String>get("s_group"), s_group == "" ? "%" : "%" + s_group + "%");
 		if (s_login != null) {
 			p4 = cb.lessThan(root.<Timestamp>get("log_in"), s_login);
 		} else {
 			p4 = cb.greaterThan(root.<Timestamp>get("log_in"), new Timestamp(0));
 		}
-		
-		qry = qry.select(root).where(p1, p2, p3,p4);
+
+		qry = qry.select(root).where(p1, p2, p3, p4);
 		List<SocialListBean> users = getSession().createQuery(qry).getResultList();
 		return users;
 	}
-	
-	
+
 	@Override
-	public List<SocialListBean> selectAllFriend(Integer userId, List<String> s_type) {
+	public List<SocialListBean> selectAllFriend(Integer userId, String s_type) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
 		Root<SocialListBean> root = qry.from(SocialListBean.class);
-		List<Predicate> pList = new ArrayList<>();
-		Predicate pUserId = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
-		if (s_type != null) {
-			for(String type : s_type) {
-				Predicate pType = cb.equal(root.<String>get("s_type"), type);
-				pList.add(pType);
-			}
-		}
-		Predicate[] pArray = pList.toArray(new Predicate[pList.size()]);
-		Predicate pOr = cb.or(pArray);
-		List<SocialListBean> users = getSession().createQuery(qry.where(cb.and(pUserId, pOr))).getResultList();
+
+		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
+		Predicate p2 = cb.equal(root.<String>get("s_type"), s_type);
+		qry = qry.select(root).where(p1, p2);
+		List<SocialListBean> users = getSession().createQuery(qry).getResultList();
 		return users;
 	}
-	
-	
+
 	@Override
 	public List<SocialListBean> getRelativeToMeList(Integer acquaintenceId, String s_type) {
 		CriteriaBuilder cb = getSession().getCriteriaBuilder();
 		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
 		Root<SocialListBean> root = qry.from(SocialListBean.class);
 		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("acquaintenceId"), acquaintenceId);
-//		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), acquaintenceId);
+		// Predicate p1 =
+		// cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"),
+		// acquaintenceId);
 		Predicate p2 = cb.equal(root.<String>get("s_type"), s_type);
 		qry = qry.select(root).where(p1, p2);
 		List<SocialListBean> users = getSession().createQuery(qry).getResultList();
@@ -138,7 +132,7 @@ public class SocialListDAOHibernate implements SocialListDAO {
 		Root<SocialListBean> root = qry.from(SocialListBean.class);
 		qry.select(root);
 		Predicate p1;
-		
+
 		if (date != null) {
 			p1 = cb.lessThan(root.<Timestamp>get("log_in"), date);
 		} else {
@@ -156,4 +150,22 @@ public class SocialListDAOHibernate implements SocialListDAO {
 		return result;
 	}
 
+	@Override
+	public List<SocialListBean> selectAll(int userId, List<String> s_type) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
+		Root<SocialListBean> root = qry.from(SocialListBean.class);
+		List<Predicate> pList = new ArrayList<>();
+		Predicate pUserId = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
+		if (s_type != null) {
+			for (String type : s_type) {
+				Predicate pType = cb.equal(root.<String>get("s_type"), type);
+				pList.add(pType);
+			}
+		}
+		Predicate[] pArray = pList.toArray(new Predicate[pList.size()]);
+		Predicate pOr = cb.or(pArray);
+		List<SocialListBean> users = getSession().createQuery(qry.where(cb.and(pUserId, pOr))).getResultList();
+		return users;
+	}
 }

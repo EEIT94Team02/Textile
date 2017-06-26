@@ -65,7 +65,9 @@ public class TestUtils {
 
 		mbean.setmIdentityCardNumber("A265415600");
 		mbean.setmGender("F");
-		mbean.setmAddress("105台北市松山區中華里敦化北路199巷18號");
+		mbean.setmAddress_County("台北市");
+		mbean.setmAddress_Region("松山區");
+		mbean.setmAddress("中華里敦化北路199巷18號");
 		mbean.setmPhoneNumber("0965127856");
 		mbean.setmHintPassword("我最愛的動漫");
 		mbean.setmHintAnswer("刀劍神域");
@@ -81,6 +83,7 @@ public class TestUtils {
 		mbean.setmReligion(4);
 		mbean.setmSelfIntroduction(
 				"Dodge是女生，擁有淡粉色的眼瞳，淡紫色的公主卷長發，是100%的美女。為人傲嬌、沒禮貌、多疑、溫文儒雅、孝順和冷漠。家室貧窮，喜歡打電動、烹飪、打羽球、唱歌和游泳，討厭鬼、花痴、老鼠、和貓擅長烹飪、跳舞、做手工和做家務。");
+		mbean.setmPhotono("19700101999999990002");
 		return mbean;
 	}
 
@@ -99,7 +102,9 @@ public class TestUtils {
 		mMap.put(ConstMemberKey.Birthday.key(), "1989-06-04");
 		mMap.put(ConstMemberKey.IdentityCardNumber.key(), "A123456789");
 		mMap.put(ConstMemberKey.Gender.key(), "M");
-		mMap.put(ConstMemberKey.Address.key(), "臺北市大安區復興南路一段390號2,3,15樓");
+		mMap.put(ConstMemberKey.Adrress_County.key(), "臺北市");
+		mMap.put(ConstMemberKey.Adrress_Region.key(), "大安區");
+		mMap.put(ConstMemberKey.Address.key(), "復興南路一段390號2,3,15樓");
 		mMap.put(ConstMemberKey.PhoneNumber.key(), "0912345678");
 		mMap.put(ConstMemberKey.HintPassword.key(), "我爸爸最愛吃的水果是什麼？");
 		mMap.put(ConstMemberKey.HintAnswer.key(), "榴槤");

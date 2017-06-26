@@ -56,13 +56,27 @@ public class InterestBinaryConvertorService {
 	}
 
 	/**
-	 * 比較兩個整數，並傳回是否有相同的位元(皆為1)，例如01101101和10010010就沒有相同的位元。
+	 * 比較兩個整數是否存在至少一組相同的位元(皆為1)，例如01101101和10010010就沒有相同的位元，或兩者完全為0，則上述兩種情況皆傳回正確。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/19
 	 */
-	public boolean compareTwoInts(int refernce, int compared) {
-		if ((refernce & compared) > 0) {
+	public boolean compareTwoIntsLoosely(int refernce, int compared) {
+		if ((refernce & compared) > 0 || refernce == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 比較兩個整數是否完全一樣，一樣才傳回正確。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/19
+	 */
+	public boolean compareTwoIntsStrictly(int refernce, int compared) {
+		if (refernce == compared) {
 			return true;
 		} else {
 			return false;

@@ -2,17 +2,20 @@ package tw.com.eeit94.textile.model.social;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
+import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
 
 /**

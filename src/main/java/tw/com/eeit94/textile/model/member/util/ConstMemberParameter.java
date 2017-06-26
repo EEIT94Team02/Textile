@@ -7,7 +7,7 @@ package tw.com.eeit94.textile.model.member.util;
  * @version 2017/06/11
  */
 public enum ConstMemberParameter {
-	CHECK("check"), _ERROR("_error"), LOGIN("login");
+	CHECK("check"), _ERROR("_error"), LOGIN("login"), MALE_CODE("M"), FEMALE_CODE("F");
 
 	private final String param;
 

@@ -23,7 +23,7 @@ import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
  */
 public class ActivityServiceTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringJavaConfiguration.class);
 		ActivityService service = (ActivityService) context.getBean("activityService");
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");

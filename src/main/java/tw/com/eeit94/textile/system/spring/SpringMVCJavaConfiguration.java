@@ -72,25 +72,30 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 賴
 		 */
+		registry.addViewController("/manager/logs.v").setViewName("/manager/logs.v");
 		registry.addViewController("/check/register.v").setViewName("/check/register.v");
 		registry.addViewController("/check/login.v").setViewName("/check/login.v");
 		registry.addViewController("/check/logout.v").setViewName("/check/logout.v");
-		registry.addViewController("/manager/logs.v").setViewName("/manager/logs.v");
+		registry.addViewController("/check/findPassword.v").setViewName("/check/findPassword.v");
+		registry.addViewController("/user/queryName.v").setViewName("/user/queryName.v");
 		/*
 		 * 陳
 		 */
 		registry.addViewController("/photo/index.v").setViewName("/photo/index.v");
-		registry.addViewController("/photo/albumselect.v").setViewName("/photo/albumselect.v");
 		registry.addViewController("/photo/albuminsert.v").setViewName("/photo/albuminsert.v");
-		registry.addViewController("/photo/albumupdate.v").setViewName("/photo/albumupdate.v");
-		registry.addViewController("/photo/albumdelete.v").setViewName("/photo/albumdelete.v");
 		registry.addViewController("/activity/index.v").setViewName("/activity/index.v");
-		registry.addViewController("/activity/insert.v").setViewName("/activity/insert.v");
+		registry.addViewController("/activity/createAct.v").setViewName("/activity/createAct.v");
 		registry.addViewController("/activity/update.v").setViewName("/activity/update.v");
-		registry.addViewController("/activity/delete.v").setViewName("/activity/delete.v");
+		registry.addViewController("/activity/historyActivity.v").setViewName("/activity/historyActivity.v");
 		registry.addViewController("/activity/select.v").setViewName("/activity/select.v");
 		registry.addViewController("/photo/upload.v").setViewName("/photo/upload.v");
-
+		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
+		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
+		registry.addViewController("/photo/myalbum.v").setViewName("/photo/myalbum.v");
+		registry.addViewController("/photo/showalbum.v").setViewName("/photo/showalbum.v");
+		registry.addViewController("/photo/showphoto.v").setViewName("/photo/showphoto.v");
+		registry.addViewController("/activity/secede.v").setViewName("/activity/secede.v");
+		registry.addViewController("/activity/allAct.v").setViewName("/activity/allAct.v");
 		/*
 		 * 李
 		 */
@@ -126,7 +131,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		 * 周
 		 */
 		registry.addViewController("/social/index.v").setViewName("/social/index.v");
-		registry.addViewController("/announcement/announcement.v").setViewName("/announcement/announcement.v");
+		registry.addViewController("/social/invite.v").setViewName("/social/invite.v");
+		registry.addViewController("/social/select.v").setViewName("/social/select.v");
+		registry.addViewController("/social/search.v").setViewName("/social/search.v");
+		registry.addViewController("/announcement/index.v").setViewName("/announcement/index.v");
+		registry.addViewController("/announcement/list.v").setViewName("/announcement/list.v");
+		registry.addViewController("/announcement/insert.v").setViewName("/announcement/insert.v");
+		registry.addViewController("/announcement/update.v").setViewName("/announcement/update.v");
 
 		super.addViewControllers(registry);
 	}
@@ -224,6 +235,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 賴
 	 * @version 2017/06/10
 	 */
+	// 系統記錄的畫面(後臺)。
+	@Bean(name = { "logs.show", "/manager/logs.v" })
+	public org.springframework.web.servlet.view.InternalResourceView manager_logs_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/manager/logs.jsp");
+		return internalResourceView;
+	}
+
+	// 會員列表的畫面(後臺)。
+	@Bean(name = { "users.show", "/manager/users.v" })
+	public org.springframework.web.servlet.view.InternalResourceView manager_users_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/manager/users.jsp");
+		return internalResourceView;
+	}
+
 	// 登入成功，導向首頁。(重新導向)
 	@Bean(name = { "login.success" })
 	public org.springframework.web.servlet.view.RedirectView login_success() {
@@ -246,6 +273,22 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView logout_success() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/check/logout.jsp");
+		return internalResourceView;
+	}
+
+	// 找回密碼的畫面。
+	@Bean(name = { "/check/findPassword.v", "findPassword.show", "findPassword.error" })
+	public org.springframework.web.servlet.view.InternalResourceView find_password_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/findPassword.jsp");
+		return internalResourceView;
+	}
+
+	// 找回密碼成功的畫面。
+	@Bean(name = { "findPassword.success" })
+	public org.springframework.web.servlet.view.InternalResourceView find_password_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/check/findPasswordSuccess.jsp");
 		return internalResourceView;
 	}
 
@@ -290,34 +333,98 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 個人資訊頁面。
-	@Bean(name = { "user.success" })
-	public org.springframework.web.servlet.view.InternalResourceView user_profile_page() {
+	@Bean(name = { "profile.show" })
+	public org.springframework.web.servlet.view.InternalResourceView profile_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/user/profile.jsp");
 		return internalResourceView;
 	}
 
 	// 其它人的個人資訊頁面。
-	@Bean(name = { "otheruser.success" })
-	public org.springframework.web.servlet.view.InternalResourceView otheruser_profile_page() {
+	@Bean(name = { "otherProfile.show" })
+	public org.springframework.web.servlet.view.InternalResourceView otherProfile_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/user/otherprofile.jsp");
+		internalResourceView.setUrl("/user/otherProfile.jsp");
 		return internalResourceView;
 	}
 
-	// 修改資料的頁面。
-	@Bean(name = { "modify.show" })
-	public org.springframework.web.servlet.view.InternalResourceView user_modify_page() {
+	// 修改密碼的頁面。
+	@Bean(name = { "modifySecure.show", "modifySecure.error" })
+	public org.springframework.web.servlet.view.InternalResourceView modifySecure_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/user/modify.jsp");
+		internalResourceView.setUrl("/user/modifySecure.jsp");
 		return internalResourceView;
 	}
 
-	// 系統記錄的畫面(後臺)。
-	@Bean(name = { "logs.success", "/manager/logs.v" })
-	public org.springframework.web.servlet.view.InternalResourceView manager_logs_page() {
+	// 修改個人資料的頁面。
+	@Bean(name = { "modifyProfile.show", "modifyProfile.error" })
+	public org.springframework.web.servlet.view.InternalResourceView modifyProfile_page() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/manager/logs.jsp");
+		internalResourceView.setUrl("/user/modifyProfile.jsp");
+		return internalResourceView;
+	}
+
+	// 修改個人狀況的頁面。
+	@Bean(name = { "modifySituation.show", "modifySituation.error" })
+	public org.springframework.web.servlet.view.InternalResourceView modifySituation_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/modifySituation.jsp");
+		return internalResourceView;
+	}
+
+	// 修改興趣喜好的頁面。
+	@Bean(name = { "modifyInterest.show" })
+	public org.springframework.web.servlet.view.InternalResourceView modifyInterest_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/modifyInterest.jsp");
+		return internalResourceView;
+	}
+
+	// 修改資料成功的頁面。
+	@Bean(name = { "modify.success" })
+	public org.springframework.web.servlet.view.InternalResourceView modify_success() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/modifySuccess.jsp");
+		return internalResourceView;
+	}
+
+	// 驗證手機的畫面。
+	@Bean(name = { "phoneCheck.show" })
+	public org.springframework.web.servlet.view.InternalResourceView phoneCheck_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/phoneCheck.jsp");
+		return internalResourceView;
+	}
+
+	// 驗證手機錯誤的畫面。
+	@Bean(name = { "phoneCheck.error" })
+	public org.springframework.web.servlet.view.InternalResourceView phoneCheck_error() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/phoneCheckError.jsp");
+		return internalResourceView;
+	}
+
+	// 會員姓名查詢的畫面。
+	@Bean(name = { "/user/queryName.v", "queryName.error" })
+	public org.springframework.web.servlet.view.InternalResourceView queryName_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/queryName.jsp");
+		return internalResourceView;
+	}
+
+	// 會員條件查詢的畫面。
+	@Bean(name = { "queryCondition.show", "queryCondition.error" })
+	public org.springframework.web.servlet.view.InternalResourceView queryCondition_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/queryCondition.jsp");
+		return internalResourceView;
+	}
+	
+	// 開啟聊天室頁面。
+	@Bean(name = { "chat.show" })
+	public org.springframework.web.servlet.view.InternalResourceView chat_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/chat.jsp");
 		return internalResourceView;
 	}
 
@@ -328,98 +435,140 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 相簿首頁,相簿顯示頁面。
-	@Bean(name = { "/photo/index.v", "album.list" })
-	public org.springframework.web.servlet.view.InternalResourceView albumIndex() {
+	@Bean(name = {"album.my"})
+	public org.springframework.web.servlet.view.RedirectView myalbumRefresh() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/photo/myalbum.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}	
+	@Bean(name = {"album.list"})
+	public org.springframework.web.servlet.view.RedirectView albumRefresh() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/photo/showalbum.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}
+	@Bean(name = { "/photo/index.v", "/photo/myalbum.v"})
+	public org.springframework.web.servlet.view.InternalResourceView Myalbum() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/myalbum.jsp");
+		return internalResourceView;
+	}
+	@Bean(name = { "/photo/showalbum.v" })
+	public org.springframework.web.servlet.view.InternalResourceView showalbum() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/showalbum.jsp");
 		return internalResourceView;
 	}
-
 	// 相簿搜尋頁面。
-	@Bean(name = { "/photo/albumselect.v" })
+	@Bean(name = { "/photo/albumselect.v" , "select.album" })
 	public org.springframework.web.servlet.view.InternalResourceView albumSelect() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/albumselect.jsp");
 		return internalResourceView;
 	}
-
-	// 更新相簿頁面。
-	@Bean(name = { "/photo/albumupdate.v", "update.error" })
-	public org.springframework.web.servlet.view.InternalResourceView albumUpdate() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/albumupdate.jsp");
-		return internalResourceView;
-	}
-
 	// 創建相簿頁面。
-	@Bean(name = { "/photo/albuminsert.v", "insert.error" })
+	@Bean(name = { "/photo/albuminsert.v", "insert.album" })
 	public org.springframework.web.servlet.view.InternalResourceView albumInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/albuminsert.jsp");
 		return internalResourceView;
 	}
-
-	// 刪除相簿頁面。
-	@Bean(name = { "/photo/albumdelete.v", "delete.error" })
-	public org.springframework.web.servlet.view.InternalResourceView albumDelete() {
-		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/photo/albumdelete.jsp");
-		return internalResourceView;
-	}
-
 	// 上傳照片頁面。
-	@Bean(name = { "/photo/upload.v", "upload.error" })
+	@Bean(name = { "/photo/upload.v", "upload.photo" })
 	public org.springframework.web.servlet.view.InternalResourceView photoupload() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/upload.jsp");
 		return internalResourceView;
-	}
-
-	// 顯示照片頁面。
-	@Bean(name = { "photo.list" })
+	}	
+	// 更新照片頁面。
+	@Bean(name = { "/photo/update.v", "update.photo" })
+	public org.springframework.web.servlet.view.InternalResourceView photoupdate() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/update.jsp");
+		return internalResourceView;
+	}	
+	// 尋找照片頁面。
+	@Bean(name = { "/photo/select.v", "search.photo" })
+	public org.springframework.web.servlet.view.InternalResourceView photosearch() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/select.jsp");
+		return internalResourceView;
+	}	
+	
+	// 顯示照片頁面
+	@Bean(name = { "/photo/showphoto.v" })
 	public org.springframework.web.servlet.view.InternalResourceView photoshow() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/photo/showphoto.jsp");
 		return internalResourceView;
+	}	
+	// 顯示照片頁面。
+	@Bean(name = { "photo.list" })
+	public org.springframework.web.servlet.view.RedirectView photoshow_R() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/photo/showphoto.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
 	}
-
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "Activity.default" })
+	@Bean(name = { "/activity/index.v", "Activity.default" , "/activity/secede.v" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/activity/showActivity.jsp");
+		internalResourceView.setUrl("/activity/myActivity.jsp");
 		return internalResourceView;
 	}
 
 	// 創建活動頁面。
-	@Bean(name = { "/activity/insert.v", "actInsert.error" })
+	@Bean(name = { "/activity/createAct.v", "actInsert.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActInsert() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/createAct.jsp");
 		return internalResourceView;
 	}
-
 	// 更新活動頁面。
 	@Bean(name = { "/activity/update.v", "actUpdate.error" })
 	public org.springframework.web.servlet.view.InternalResourceView ActUpdate() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/updateAct.jsp");
 		return internalResourceView;
-	}
-
+	} 
 	// 刪除活動頁面。
-	@Bean(name = { "/activity/delete.v", "actDelete.error" })
+	@Bean(name = { "/activity/historyActivity.v"})
 	public org.springframework.web.servlet.view.InternalResourceView ActDelete() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/activity/deleteAct.jsp");
+		internalResourceView.setUrl("/activity/historyActivity.jsp");
 		return internalResourceView;
 	}
-
+	// 退出活動
+	@Bean(name = { "Activity.delete" , "Activity.join"})
+	public org.springframework.web.servlet.view.RedirectView ActSecede() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/activity/secede.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}
+	// 查詢活動列表
+	@Bean(name = { "Activity.AllActivitise" , "Activity.select"})
+	public org.springframework.web.servlet.view.RedirectView AllActS() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/activity/allAct.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}
 	// 查詢活動頁面。
-	@Bean(name = { "/activity/select.v", "actSelect.error" })
+	@Bean(name = { "/activity/allAct.v" , "actSelect.error"})
 	public org.springframework.web.servlet.view.InternalResourceView ActSelect() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
-		internalResourceView.setUrl("/activity/selectAct.jsp");
+		internalResourceView.setUrl("/activity/showActivity.jsp");
+		return internalResourceView;
+	}
+	// 顯示成員明細
+	@Bean(name = { "Activity.partner"})
+	public org.springframework.web.servlet.view.InternalResourceView ActDetail() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/ActivityDetail.jsp");
 		return internalResourceView;
 	}
 
@@ -445,7 +594,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/item/iTestTrigger.jsp");
 		return view;
 	}
-	
+
 	// 測試用，為deal頁面呼叫controller取得資料。
 	@Bean(name = { "/deal/dealTestTrigger.v" })
 	public InternalResourceView dealTrigger() {
@@ -453,7 +602,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/deal/dealTestTrigger.jsp");
 		return view;
 	}
-	
+
 	// 測試用，為gift頁面呼叫controller取得資料。
 	@Bean(name = { "/gift/gTestTrigger.v" })
 	public InternalResourceView giftTrigger() {
@@ -510,7 +659,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/store/pMaintenance.jsp");
 		return view;
 	}
-	
+
 	// 資料錯誤訊息返回商品維護頁面
 	@Bean(name = { "pMaintenance.error" })
 	public InternalResourceView productMaintainError() {
@@ -577,7 +726,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/item/index.jsp");
 		return view;
 	}
-	
+
 	// 儲值首頁
 	@Bean(name = { "/deposit/index.v" })
 	public InternalResourceView depositIndex() {
@@ -585,7 +734,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/deposit/index.jsp");
 		return view;
 	}
-	
+
 	// 儲值動作頁面
 	@Bean(name = { "/deposit/depositProceed.v" })
 	public InternalResourceView depositProceed() {
@@ -601,7 +750,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/deposit/depositList.jsp");
 		return view;
 	}
-	
+
 	// 儲值成功，轉向儲值首頁
 	@Bean(name = { "deposit.success" })
 	public InternalResourceView depositSuccess() {
@@ -642,7 +791,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		view.setUrl("/deal/dealDetailList.jsp");
 		return view;
 	}
-	
+
 	// 交易成功
 	@Bean(name = { "deal.success" })
 	public InternalResourceView dealSuccess() {
@@ -777,18 +926,75 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 公告首頁
-	@Bean(name = { "/announcement/announcement.v" })
-	public InternalResourceView announcement() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/announcement.jsp");
-		return internalResourceView;
-	}
+		@Bean(name = { "/announcement/index.v" ,"alist.show"})
+		public InternalResourceView announcementIndex() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/index.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/announcement/list.v","alist.error" })
+		public InternalResourceView announcementList() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/list.jsp");
+			return internalResourceView;
+		}
+		//成功頁面
+		@Bean(name = { "/announcement/success.v","announcement.success","social.success" })
+		public InternalResourceView announcementsuccess() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/success.jsp");
+			return internalResourceView;
+		}
+		//失敗頁面
+		@Bean(name = { "/announcement/error.v","announcement.error","social.error" })
+		public InternalResourceView announcementerror() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/error.jsp");
+			return internalResourceView;
+		}
+		
+		@Bean(name = { "/announcement/insert.v" })
+		public InternalResourceView announcementinsert() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/insert.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/announcement/update.v" })
+		public InternalResourceView announcementupdate() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/announcement/update.jsp");
+			return internalResourceView;
+		}
 
-	// 社交名單首頁
-	@Bean(name = { "/social/index.v" })
-	public InternalResourceView socialList() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/index.jsp");
-		return internalResourceView;
+		// 社交名單首頁
+		@Bean(name = { "/social/index.v" })
+		public InternalResourceView socialList() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/social/index.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/social/invite.v" ,"s_invite" })
+		public InternalResourceView socialinvite() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/social/invite.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/social/insert.v" ,"s_insert" })
+		public InternalResourceView socialinsert() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/social/insert.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/social/select.v" ,"s_select.v"})
+		public InternalResourceView socialListselect() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/social/select.jsp");
+			return internalResourceView;
+		}
+		@Bean(name = { "/social/search.v" ,"s_search.v"})
+		public InternalResourceView socialListsearch() {
+			InternalResourceView internalResourceView = new InternalResourceView();
+			internalResourceView.setUrl("/social/search.jsp");
+			return internalResourceView;
+		}
 	}
-}

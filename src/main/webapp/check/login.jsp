@@ -23,7 +23,9 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="right"><input type="checkbox" name="keepLogin" value="1" />保持登入</td>
+				<c:set var="x" value="&nbsp;&nbsp;&nbsp;" />
+				<td colspan="2" align="right"><a href="findPassword.v">忘記密碼？</a>${x}<input type="checkbox" name="keepLogin"
+					value="1" />保持登入</td>
 				<td></td>
 			</tr>
 			<tr>

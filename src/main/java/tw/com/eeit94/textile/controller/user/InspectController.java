@@ -3,7 +3,6 @@ package tw.com.eeit94.textile.controller.user;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.member.MemberService;
-import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
-import tw.com.eeit94.textile.system.common.ConstHelperKey;
+import tw.com.eeit94.textile.model.member.service.UserCentralService;
 
 /**
  * 此控制元件檢驗瀏覽器送來的單一資料，q為資料，m為該資料對應MemberBean的屬性。
@@ -32,6 +30,8 @@ import tw.com.eeit94.textile.system.common.ConstHelperKey;
 public class InspectController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private UserCentralService userCentralService;
 
 	/**
 	 * 驗證資料的方式與註冊和登入的元件相同，還能檢驗帳號是否已存在。
@@ -47,16 +47,7 @@ public class InspectController {
 	public void inspect(HttpServletRequest request, HttpServletResponse response, OutputStream out) throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.memberService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
-
-		String output = ConstHelperKey.SPACE.key();
-		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
-		while (iterator.hasNext()) {
-			String key = iterator.next();
-			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
-				output = dataAndErrorsMap.get(key);
-				break;
-			}
-		}
+		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
 		out.write(output.getBytes());
 		out.close();
 	}
@@ -75,16 +66,7 @@ public class InspectController {
 			throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
-
-		String output = ConstHelperKey.SPACE.key();
-		Iterator<String> iterator = dataAndErrorsMap.keySet().iterator();
-		while (iterator.hasNext()) {
-			String key = iterator.next();
-			if (key.endsWith(ConstMemberParameter._ERROR.param())) {
-				output = dataAndErrorsMap.get(key);
-				break;
-			}
-		}
+		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
 		out.write(output.getBytes());
 		out.close();
 	}

@@ -20,7 +20,9 @@ public interface AnnouncementDAO {
 
 	boolean delete(AnnouncementBean bean);
 
-	List<AnnouncementBean> selectByBginTime(AnnouncementBean bean) throws ParseException;
+	
 
 	List<AnnouncementBean> selectByEndAnnouncement(AnnouncementBean bean) throws ParseException;
+
+	List<AnnouncementBean> selectByBeginTime(AnnouncementBean bean) throws ParseException;
 }

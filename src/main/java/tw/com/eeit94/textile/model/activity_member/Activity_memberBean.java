@@ -1,9 +1,12 @@
 package tw.com.eeit94.textile.model.activity_member;
 
+import java.util.List;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,43 +31,47 @@ public class Activity_memberBean implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "{" + activity_memberPK.getActivityno() + "," + activity_memberPK.getmId() + "," + getPosition() + ","
-				+ activityBean + memberBean+"}";
+				+ activityBean + memberBean + "}";
 	}
 
 	@EmbeddedId
 	private Activity_memberPK activity_memberPK;
+
 	public Activity_memberPK getActivity_memberPK() {
-		return activity_memberPK;	}
+		return activity_memberPK;
+	}
+
 	public void setActivity_memberPK(Activity_memberPK activity_memberPK) {
 		this.activity_memberPK = activity_memberPK;
 	}
-	
 
 	@MapsId(value = "activityno")
 	@JoinColumn(name = "activityno")
 	@OneToOne(fetch = FetchType.EAGER)
 	private ActivityBean activityBean;
+
 	public ActivityBean getActivityBean() {
 		return activityBean;
 	}
+
 	public void setActivityBean(ActivityBean activityBean) {
 		this.activityBean = activityBean;
 	}
-	
+
 	@MapsId(value = "mId")
 	@JoinColumn(name = "mId")
 	@OneToOne(fetch = FetchType.EAGER)
 	private MemberBean memberBean;
+
 	public MemberBean getMemberBean() {
 		return memberBean;
 	}
+
 	public void setMemberBean(MemberBean memberBean) {
 		this.memberBean = memberBean;
-	}	
+	}
 
 	private String position;
-
-
 
 	public String getPosition() {
 		return position;

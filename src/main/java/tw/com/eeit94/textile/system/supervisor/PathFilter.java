@@ -90,7 +90,7 @@ public class PathFilter implements Filter {
 				chain.doFilter(request, response);
 				break;
 			case ".v":
-				// 到Spring的ViewController。
+				// 到Spring的ViewController或自訂的Controller。
 				chain.doFilter(request, response);
 				break;
 			case ".r":
@@ -105,6 +105,7 @@ public class PathFilter implements Filter {
 			case ".js":
 				chain.doFilter(request, response);
 				break;
+			// 圖片專用
 			case ".jpg":
 				chain.doFilter(request, response);
 				break;
@@ -117,6 +118,7 @@ public class PathFilter implements Filter {
 			case ".gif":
 				chain.doFilter(request, response);
 				break;
+			// Bootstrap專用
 			case ".ttf":
 				chain.doFilter(request, response);
 				break;

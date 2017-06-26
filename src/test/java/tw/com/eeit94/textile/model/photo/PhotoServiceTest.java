@@ -1,14 +1,11 @@
 package tw.com.eeit94.textile.model.photo;
 
-import java.io.File;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.multipart.MultipartFile;
-
 import tw.com.eeit94.textile.model.photo.PhotoBean;
 import tw.com.eeit94.textile.model.photo.PhotoService;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
@@ -61,7 +58,6 @@ public class PhotoServiceTest {
 		insert.setAlbumno(1);
 		insert.setPhotoname("Nadal");
 		insert.setPosition("大頭貼");
-		insert.setVisibility("公開");
 		insert.setInterpretation("US OPEN Champion");
 		insert.setPhoto_albumBean(bean.getPhoto_albumBean());
 		bean = service.insertDataToPhoto(insert);
@@ -71,7 +67,6 @@ public class PhotoServiceTest {
 		// update.setAlbumno(2);
 		// update.setPhotono(beanPhotoNo);
 		// update.setInterpretation("XXX");
-		// update.setVisibility("私人");
 		// update.setPosition("OOO");
 		// update.setPhotoname("Nole");
 		// bean = service.updatePhotoinfo(update);

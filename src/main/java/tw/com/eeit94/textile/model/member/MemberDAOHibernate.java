@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -15,7 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 
 /**
  * 控制會員基本資料的DAO，利用Hibernate來實作。
@@ -67,7 +68,7 @@ public class MemberDAOHibernate implements MemberDAO {
 	}
 
 	/**
-	 * 特殊查詢：這裡只查詢基本資料、論壇經歷、個人狀況，有關個人喜好的查詢會在回傳後List<MemberBean>，
+	 * 特殊查詢：這裡只查詢基本資料、論壇經歷、個人狀況，有關個人喜好的查詢會在回傳後List&lt;MemberBean&gt;，
 	 * 逐一利用位元比對。因為要特製化查詢，MemberBean的屬性成員不敷使用，因此使用新創的MemberKeyWordsBean。
 	 * 
 	 * @author 賴
@@ -85,7 +86,8 @@ public class MemberDAOHibernate implements MemberDAO {
 		List<Predicate> pList = new ArrayList<>();
 		Predicate pGender;
 		Predicate pBirthday;
-		Predicate pAddress;
+		Predicate pAddress_County;
+		Predicate pAddress_Region;
 		Predicate pScores;
 		Predicate pCreateTime;
 		Predicate pCareer;
@@ -118,15 +120,18 @@ public class MemberDAOHibernate implements MemberDAO {
 			}
 			pList.add(pBirthday);
 		}
-		if (mkwbean.getmAddress() != null) {
-			List<String> mAddress = mkwbean.getmAddress();
-			Predicate[] orPs = new Predicate[mAddress.size()];
-			for (int i = 0; i < mAddress.size(); i++) {
-				orPs[i] = cBuilder.like(root.<String>get("mAddress"),
-						new StringBuffer().append("%").append(mAddress.get(i)).append("%").toString());
+		if (mkwbean.getmAddress_County() != null) {
+			pAddress_County = cBuilder.equal(root.<String>get("mAddress_County"), mkwbean.getmAddress_County());
+			pList.add(pAddress_County);
+		}
+		if (mkwbean.getmAddress_Region() != null) {
+			List<String> mAddress_Region = mkwbean.getmAddress_Region();
+			Predicate[] orPs = new Predicate[mAddress_Region.size()];
+			for (int i = 0; i < mAddress_Region.size(); i++) {
+				orPs[i] = cBuilder.equal(root.<String>get("mAddress_Region"), mkwbean.getmAddress_Region().get(i));
 			}
-			pAddress = cBuilder.or(orPs);
-			pList.add(pAddress);
+			pAddress_Region = cBuilder.or(orPs);
+			pList.add(pAddress_Region);
 		}
 		if (mkwbean.getmScores() != null) {
 			pScores = cBuilder.ge(root.<Integer>get("mScores"), mkwbean.getmScores());
@@ -229,9 +234,10 @@ public class MemberDAOHibernate implements MemberDAO {
 		Predicate pName = null;
 		if (mkwbean.getmName() != null) {
 			pName = cBuilder.like(root.<String>get("mName"),
-					new StringBuffer().append("%").append(mkwbean.getmName()).append("%").toString());
+					new StringBuffer().append(mkwbean.getmName()).append("%").toString());
 		}
-		query = query.select(root).where(pName);
+		Order order = cBuilder.asc(root.<String>get("mName"));
+		query = query.select(root).where(pName).orderBy(order);
 		return this.getSession().createQuery(query).getResultList();
 	}
 
@@ -252,5 +258,26 @@ public class MemberDAOHibernate implements MemberDAO {
 		}
 		query = query.select(root).where(pEmail);
 		return this.getSession().createQuery(query).getResultList();
+	}
+
+	/**
+	 * 特殊查詢：搜尋會員總數。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	@Override
+	public Long selectMemberCount() {
+		CriteriaBuilder cBuilder = this.getSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = cBuilder.createQuery(Long.class);
+		Root<MemberBean> root = query.from(MemberBean.class);
+		Expression<Long> expression = cBuilder.count(root);
+		query = query.select(expression);
+		List<Long> list = this.getSession().createQuery(query).getResultList();
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
 	}
 }

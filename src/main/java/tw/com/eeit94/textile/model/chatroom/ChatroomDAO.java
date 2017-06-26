@@ -19,4 +19,6 @@ public interface ChatroomDAO {
 	public List<ChatroomBean> update(ChatroomBean cbean);
 
 	public List<ChatroomBean> delete(ChatroomBean cbean);
+
+	public List<ChatroomBean> selectByPrimaryKeys(List<Long> primaryKeys);
 }

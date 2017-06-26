@@ -1,14 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="application/x-www-form-urlencoded; charset=UTF-8">
-<link rel="stylesheet" href="../css/jquery-ui-1.12.1.css">
-<link rel="stylesheet" href="../css/jquery-ui-timepicker-addon.css">
-<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-1.12.1.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<title>Welcome, Textile</title>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
+<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/jquery-ui-timepicker-addon.js'/>"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$('#begin').datetimepicker({
@@ -20,7 +31,6 @@
 			dateFormat : "yy-mm-dd",
 			timeFormat : "HH:mm"
 		});
-
 	});
 </script>
 <style type="text/css">
@@ -33,43 +43,89 @@
 <title>Welcome, Textile.</title>
 </head>
 <body>
-	<h1>Textile</h1>
-	<img src="">
-	<c:if test="${not empty user}">
-		<form action='<c:url value="/activity/create.do"/>' method="post">
-			<table>
-				<tr>
-					<td>活動名稱：</td>
-					<td><input type="text" name="activityname" value="${param.activityname}" /></td>
-					<td>${activityCRDErrors.activityname}</td>
-				</tr>
-				<tr>
-					<td>開始時間：</td>
-					<td><input type="text" id="begin" name="begintime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
-					<td>${activityCRDErrors.begintime}</td>
-				</tr>
-				<tr>
-					<td>結束時間：</td>
-					<td><input type="text" id="end" name="endtime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間"></td>
-					<td>${activityCRDErrors.endtime}</td>
-				</tr>
-				<tr>
-					<td>活動地點：</td>
-					<td><input type="text" name="place" value="${param.place}" /></td>
-					<td>${activityCRDErrors.place}</td>
-				</tr>
-				<tr>
-					<td>活動內容：</td>
-					<td><textarea name="interpretation">${param.interpretation}</textarea></td>
-					<td>${activityCRDErrors.interpretation}</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="建立"></td>
-					<td>${activityCRDErrors.create}</td>
-				</tr>
-			</table>
-		</form>
-	</c:if>
+	<c:url value="/photo/album/list.do" var="album">
+		<c:param name="mId" value="${mysecuremId}"></c:param>
+	</c:url>
+	<c:url value="/activity/myAct.do" var="myAct">
+	</c:url>
+	<c:url value="/activity/allAct.do" var="allAct">
+	</c:url>
+	<div id="header">
+		<div class="section">
+			<ul>
+				<li><c:if test="${not empty user}">
+						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+							<a href="manager/">後臺</a>
+						</c:if>
+					</c:if></li>
+				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
+				<li><a href="<c:url value ='/user/' />">會員</a></li>
+				<li><a href="${album}">相簿</a></li>
+				<li><a href="${myAct}">活動</a></li>
+				<li><a href="<c:url value ='/store/' />">商店</a></li>
+				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><c:if test="${not empty user}">
+						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
+					</c:if></li>
+			</ul>
+		</div>
+	</div>
+	<div id="center">
+		<div id="left">
+			<div class="actions">
+				<ul>
+					<li class="list"><a href="${myAct}">我的活動</a></li>
+					<li class="list"><a href="${allAct}">活動列表</a></li>
+					<li class="list"><a href="<c:url value='/activity/createAct.v'/>">開團招募</a></li>
+					<li class="list"><a href="<c:url value='/activity/historyActivity.v'/>">歷史活動</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!--預留給聊天室的區塊-->
+		<div id="right">預留給聊天室的區塊</div>
+		<div id="body">
+			<c:if test="${not empty user}">
+				<div>
+					<p style="color: black; font-size: 20px"><c:out value="${user.mName} 準備發起一個活動:" /></p>
+				</div>
+				<form action='<c:url value="/activity/create.do"/>' method="post">
+					<table>
+						<tr>
+							<td>活動名稱：</td>
+							<td><input type="text" name="activityname" value="${param.activityname}" /></td>
+							<td>${activityCRDErrors.activityname}</td>
+						</tr>
+						<tr>
+							<td>開始時間：</td>
+							<td><input type="text" id="begin" name="begintime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
+							<td>${activityCRDErrors.begintime}</td>
+						</tr>
+						<tr>
+							<td>結束時間：</td>
+							<td><input type="text" id="end" name="endtime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間"></td>
+							<td>${activityCRDErrors.endtime}</td>
+						</tr>
+						<tr>
+							<td>活動地點：</td>
+							<td><input type="text" name="place" value="${param.place}" /></td>
+							<td>${activityCRDErrors.place}</td>
+						</tr>
+						<tr>
+							<td>活動內容：</td>
+							<td><textarea name="interpretation">${param.interpretation}</textarea></td>
+							<td>${activityCRDErrors.interpretation}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="submit" value="建立"></td>
+							<td>${activityCRDErrors.create}</td>
+						</tr>
+					</table>
+				</form>
+			</c:if>
+		</div>
+	</div>
+	<div id="footer">this is footer</div>
 </body>
 </html>

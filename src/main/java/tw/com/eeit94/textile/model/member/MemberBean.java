@@ -21,8 +21,10 @@ import tw.com.eeit94.textile.model.interest_detail.Interest_DetailNameListBean;
 /**
  * 封裝會員基本資料的VO，子表為興趣明細資料。
  * 
+ * 地址分成三段：縣市、區鄉鎮市、尾段。
+ * 
  * @author 賴
- * @version 2017/06/08
+ * @version 2017/06/21
  */
 @Entity
 @Table(name = "member")
@@ -43,6 +45,8 @@ public class MemberBean implements java.io.Serializable {
 	private java.util.Date mBirthday;
 	private String mIdentityCardNumber;
 	private String mGender;
+	private String mAddress_County;
+	private String mAddress_Region;
 	private String mAddress;
 	private String mPhoneNumber;
 	private String mHintPassword;
@@ -64,6 +68,7 @@ public class MemberBean implements java.io.Serializable {
 	private Integer mConstellation;
 	private Integer mReligion;
 	private String mSelfIntroduction;
+	private String mPhotono;
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "mId")
 	private Interest_DetailBean interest_DetailBean;
@@ -71,6 +76,7 @@ public class MemberBean implements java.io.Serializable {
 			CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "chatroom_MemberPK.mId", targetEntity = Chatroom_MemberBean.class)
 	private List<Chatroom_MemberBean> chatroom_MemberBean;
 	private transient Interest_DetailNameListBean i_d;
+	private transient String mOtherProfileUrl;
 
 	public Integer getmId() {
 		return mId;
@@ -166,6 +172,22 @@ public class MemberBean implements java.io.Serializable {
 
 	public void setmGender(String mGender) {
 		this.mGender = mGender;
+	}
+
+	public String getmAddress_County() {
+		return mAddress_County;
+	}
+
+	public void setmAddress_County(String mAddress_County) {
+		this.mAddress_County = mAddress_County;
+	}
+
+	public String getmAddress_Region() {
+		return mAddress_Region;
+	}
+
+	public void setmAddress_Region(String mAddress_Region) {
+		this.mAddress_Region = mAddress_Region;
 	}
 
 	public String getmAddress() {
@@ -312,6 +334,22 @@ public class MemberBean implements java.io.Serializable {
 		this.i_d = i_d;
 	}
 
+	public String getmOtherProfileUrl() {
+		return mOtherProfileUrl;
+	}
+
+	public void setmOtherProfileUrl(String mOtherProfileUrl) {
+		this.mOtherProfileUrl = mOtherProfileUrl;
+	}
+
+	public String getmPhotono() {
+		return mPhotono;
+	}
+
+	public void setmPhotono(String mPhotono) {
+		this.mPhotono = mPhotono;
+	}
+
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -327,6 +365,8 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("mBirthday", this.getmBirthday().toString());
 		linkedHashMap.put("mIdentityCardNumber", this.getmIdentityCardNumber());
 		linkedHashMap.put("mGender", this.getmGender());
+		linkedHashMap.put("mAddress_County", this.getmAddress_County());
+		linkedHashMap.put("mAddress_Region", this.getmAddress_Region());
 		linkedHashMap.put("mAddress", this.getmAddress());
 		linkedHashMap.put("mPhoneNumber", this.getmPhoneNumber());
 		linkedHashMap.put("mHintPassword", this.getmHintPassword());
@@ -342,11 +382,13 @@ public class MemberBean implements java.io.Serializable {
 		linkedHashMap.put("mConstellation", this.getmConstellation().toString());
 		linkedHashMap.put("mReligion", this.getmReligion().toString());
 		linkedHashMap.put("mselfIntroduction", this.getmSelfIntroduction());
+		linkedHashMap.put("mPhotono", this.mPhotono != null ? this.mPhotono : null);
 		linkedHashMap.put("interest_DetailBean",
 				this.interest_DetailBean != null ? this.interest_DetailBean.toString() : null);
 		linkedHashMap.put("chatroom_MemberBean",
 				this.chatroom_MemberBean != null ? this.chatroom_MemberBean.toString() : null);
-		linkedHashMap.put("i_d",this.i_d != null ? this.i_d.toString() : null);
+		linkedHashMap.put("i_d", this.i_d != null ? this.i_d.toString() : null);
+		linkedHashMap.put("mOtherProfileUrl", this.mOtherProfileUrl != null ? this.mOtherProfileUrl : null);
 		return linkedHashMap.toString();
 	}
 }
