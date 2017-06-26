@@ -118,8 +118,6 @@ public class AnnouncementDAOHibernate implements AnnouncementDAO {
 		}
 
 		List<AnnouncementBean> result = getSession().createQuery(qry.where(p1)).getResultList();
-
 		return result;
-
 	}
 }

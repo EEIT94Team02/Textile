@@ -1,4 +1,4 @@
-package tw.com.eeit94.textile.model.member;
+﻿package tw.com.eeit94.textile.model.member;
 
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -61,8 +61,8 @@ public class MemberService {
 	private ExecutableValidator executableValidator;
 	@Autowired
 	private SimpleDateFormat simpleDateFormat;
-	private static final String DEFAULT_MALE_POHOTONO = "197001019999999990001";
-	private static final String DEFAULT_FEMALE_POHOTONO = "197001019999999990002";
+	private static final String DEFAULT_MALE_POHOTONO = "19700101999999990001";
+	private static final String DEFAULT_FEMALE_POHOTONO = "19700101999999990002";
 	private static final String PASSWORD_AGAIN_ERROR_MESSAGE = "密碼不一致";
 	private static final String OLDPASSWORD_ERROR_MESSAGE = "舊密碼必須與原密碼相同";
 	private static final String NEWPASSWORD_ERROR_MESSAGE = "新密碼必須與原密碼不同";
