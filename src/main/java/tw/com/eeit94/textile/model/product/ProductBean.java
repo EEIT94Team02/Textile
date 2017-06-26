@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 封裝product表格資料的bean元件。
  * 
@@ -16,6 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Product")
+@Component
 public class ProductBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 

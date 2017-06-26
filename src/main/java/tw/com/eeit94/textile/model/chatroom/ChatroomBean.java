@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import tw.com.eeit94.textile.model.chatroom_log.Chatroom_LogBean;
 import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberBean;
 
 /**
@@ -35,9 +34,6 @@ public class ChatroomBean implements Serializable {
 	@OneToMany(cascade = {
 			CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "chatroom_MemberPK.cId", targetEntity = Chatroom_MemberBean.class)
 	private List<Chatroom_MemberBean> chatroom_MemberBean;
-	@OneToMany(cascade = {
-			CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "chatroom_LogPK.cId", targetEntity = Chatroom_LogBean.class)
-	private List<Chatroom_LogBean> chatroom_LogBean;
 
 	public Long getcId() {
 		return cId;
@@ -71,14 +67,6 @@ public class ChatroomBean implements Serializable {
 		this.chatroom_MemberBean = chatroom_MemberBean;
 	}
 
-	public List<Chatroom_LogBean> getChatroom_LogBean() {
-		return chatroom_LogBean;
-	}
-
-	public void setChatroom_LogBean(List<Chatroom_LogBean> chatroom_LogBean) {
-		this.chatroom_LogBean = chatroom_LogBean;
-	}
-
 	@Override
 	public String toString() {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -87,7 +75,6 @@ public class ChatroomBean implements Serializable {
 		linkedHashMap.put("cClass", this.getcClass());
 		linkedHashMap.put("chatroom_MemberBean",
 				this.chatroom_MemberBean != null ? this.chatroom_MemberBean.toString() : null);
-		linkedHashMap.put("chatroom_LogBean", this.chatroom_LogBean != null ? this.chatroom_LogBean.toString() : null);
 		return linkedHashMap.toString();
 	}
 }

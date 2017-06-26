@@ -1,12 +1,10 @@
 package tw.com.eeit94.textile.controller.photo;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import tw.com.eeit94.textile.model.member.MemberBean;
+import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.photo.PhotoBean;
 import tw.com.eeit94.textile.model.photo.PhotoService;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
@@ -55,6 +54,13 @@ public class UploadPhotoController {
 		return photo_albumService;
 	}
 
+	@Autowired
+	private MemberService memberService;
+	public MemberService getMemberService() {
+		return memberService;
+	}
+	
+
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/upload.do" }, consumes = {
 			"multipart/form-data;charset=UTF-8" })
 	public String process(@RequestParam("file") MultipartFile[] files, HttpServletRequest request,
@@ -65,19 +71,24 @@ public class UploadPhotoController {
 		String photoname = request.getParameter("photoname");
 		String interpretation = request.getParameter("interpretation");
 		String position = request.getParameter("position");
-		String visibility = request.getParameter("visibility");
 		HttpSession session = request.getSession();
 		MemberBean user = (MemberBean) session.getAttribute("user");
 		int id = user.getmId();
+		int albumno = 0;
+		if (albumString != null && albumString != "") {
+			albumno = Integer.parseInt(albumString);
+		}
 		Photo_albumBean photo_albumbean = new Photo_albumBean();
-		photo_albumbean.setAlbumno(1);
+		photo_albumbean.setAlbumno(albumno);
 		Photo_albumBean albumbean = getPhoto_albumService().findPhotoAlbumByAlbumNo(photo_albumbean);
 
 		// 轉換資料
 		// 驗證資料，給預設值
 		Map<String, String> errors = new HashMap<String, String>();
-		model.addAttribute(errors);
-
+		model.addAttribute("photoCRDErrors", errors);
+		if (albumbean == null) {
+			errors.put("albumno", "相簿不存在");
+		}
 		if (albumString == null || albumString == "") {
 			errors.put("albumno", "請輸入相簿編號");
 		}
@@ -93,12 +104,7 @@ public class UploadPhotoController {
 		}
 
 		if (errors != null && !errors.isEmpty()) {
-			return "photo.error";
-		}
-
-		int albumno = 0;
-		if (albumString != null && albumString != "") {
-			albumno = Integer.parseInt(albumString);
+			return "upload.photo";
 		}
 
 		String realpath = "/album/";
@@ -112,7 +118,6 @@ public class UploadPhotoController {
 		bean.setInterpretation(interpretation);
 		bean.setPhotoname(photoname);
 		bean.setPosition(position);
-		bean.setVisibility(visibility);
 		bean.setPhoto_albumBean(albumbean);
 		List<PhotoBean> result = new ArrayList<PhotoBean>();
 
@@ -129,6 +134,7 @@ public class UploadPhotoController {
 		PhotoBean insertBean = new PhotoBean();
 		UID photo = null;
 		File file2 = null;
+		String newphotono="";
 		try {
 			for (int i = 0; i < files.length; i++) {
 				file = files[i];
@@ -149,9 +155,9 @@ public class UploadPhotoController {
 				String path = file2.getPath();
 				bean.setRespath(path);
 				tempno = sb.append("0000").append(photos).substring(sb.length() - 4, sb.length());
-				String newphotono = time + memberIdString + tempno;
+				newphotono = time + memberIdString + tempno;
 				bean.setPhotono(newphotono);
-				insertBean = getPhotoService().insertDataToPhoto(bean);					
+				insertBean = getPhotoService().insertDataToPhoto(bean);
 				if (insertBean != null) {
 					result.add(insertBean);
 					photos++;
@@ -177,15 +183,21 @@ public class UploadPhotoController {
 				}
 			}
 		}
-		// 根據Model執行結果呼叫View
+		if("大頭貼".equals(position)){
+			MemberBean mbean = getMemberService().selectByPrimaryKey(id);
+			mbean.setmPhotono(newphotono);	
+			getMemberService().update(mbean);
+			((MemberBean) session.getAttribute("user")).setmPhotono(newphotono);
+		}		
 		if (files.length == result.size()) {
 			PhotoBean albumPhoto = new PhotoBean();
-			albumPhoto.setAlbumno(albumno);	
+			albumPhoto.setAlbumno(albumno);
 			List<PhotoBean> all = getPhotoService().selectByOthers(albumPhoto);
-			model.addAttribute("insert", all);
-			return "photo.list";
+			model.addAttribute("PhotoList", all);
+			return "album.my";
 		} else {
-			return "upload.error";
+			model.addAttribute("PhotoResult", "上傳失敗");
+			return "upload.photo";
 		}
 	}
 }

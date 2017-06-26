@@ -47,10 +47,11 @@ import tw.com.eeit94.textile.system.common.ConstMapping;
 @Component
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "activity", value = "/activity/*"),
 		@WebInitParam(name = "u_album", value = "/album/*"), @WebInitParam(name = "m_manager", value = "/manager/*"),
-		@WebInitParam(name = "item", value = "/item/*"), @WebInitParam(name = "photo", value = "/photo/*"),
-		@WebInitParam(name = "report", value = "/report/*"), @WebInitParam(name = "social", value = "/social/*"),
-		@WebInitParam(name = "store", value = "/store/*"), @WebInitParam(name = "theme", value = "/theme/*"),
-		@WebInitParam(name = "user", value = "/user/*") })
+		@WebInitParam(name = "item", value = "/item/*"), @WebInitParam(name = "gift", value = "/gift/*"),
+		@WebInitParam(name = "deal", value = "/deal/*"), @WebInitParam(name = "deposit", value = "/deposit/*"),
+		@WebInitParam(name = "photo", value = "/photo/*"), @WebInitParam(name = "report", value = "/report/*"),
+		@WebInitParam(name = "social", value = "/social/*"), @WebInitParam(name = "store", value = "/store/*"),
+		@WebInitParam(name = "theme", value = "/theme/*"), @WebInitParam(name = "user", value = "/user/*") })
 public class LoginFilter implements Filter {
 	/**
 	 * 存放多個映射的網址。

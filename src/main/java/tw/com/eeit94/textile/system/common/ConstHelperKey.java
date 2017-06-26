@@ -14,7 +14,8 @@ import tw.com.eeit94.textile.model.member.MemberService;
  * @see {@link RegisterController}
  */
 public enum ConstHelperKey {
-	KEY("KEY"), SYSTEM_ID("11"), SPACE(""), QUERY("q"), METHOD("m");
+	KEY("KEY"), SYSTEM_ID("11"), SPACE(""), QUESTION("?"), QUERY("q"), QUERY_EQUAL("q="), METHOD("m"), METHOD_EQUAL(
+			"m=");
 
 	private final String key;
 

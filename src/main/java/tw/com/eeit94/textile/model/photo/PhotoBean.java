@@ -27,7 +27,7 @@ public class PhotoBean implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "{" + getPhotono() + "," + getRespath() + "," + getPhotoname() + "," + getInterpretation() + ","
-				+ getAlbumno() + "," + getPosition() + "," + getVisibility() + "," + getPhoto_albumBean() + "}";
+				+ getAlbumno() + "," + getPosition() + "," + getPhoto_albumBean() + "}";
 	}
 
 	@Id
@@ -37,7 +37,6 @@ public class PhotoBean implements java.io.Serializable {
 	private String interpretation;
 	private Integer albumno;
 	private String position;
-	private String visibility;
 
 	@MapsId(value = "albumno")
 	@JoinColumn(name = "albumno")
@@ -98,13 +97,5 @@ public class PhotoBean implements java.io.Serializable {
 
 	public void setPosition(String position) {
 		this.position = position;
-	}
-
-	public String getVisibility() {
-		return visibility;
-	}
-
-	public void setVisibility(String visibility) {
-		this.visibility = visibility;
 	}
 }

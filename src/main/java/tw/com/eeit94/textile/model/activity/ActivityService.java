@@ -35,13 +35,22 @@ public class ActivityService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<ActivityBean> customeSelect(ActivityBean bean) {
-		List<ActivityBean> result = null;
-		try {
-			result = activityDao.selectByOthers(bean);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	public List<ActivityBean> customeSelect(ActivityBean bean) throws ParseException {
+		List<ActivityBean> result = activityDao.selectByOthers(bean);
+		return result;
+	}
+
+	@Transactional(readOnly = true)
+	public List<ActivityBean> nowActivitySelect() throws ParseException {
+		ActivityBean bean = new ActivityBean();
+		bean.setActivityno(0);
+		bean.setActivityname("");
+		bean.setBegintime(new java.sql.Timestamp(System.currentTimeMillis()));
+		bean.setEndtime(new java.sql.Timestamp(0));
+		bean.setInterpretation("");
+		bean.setPlace("");		
+		List<ActivityBean> result = activityDao.selectByOthers(bean);
+		System.out.println(result);
 		return result;
 	}
 

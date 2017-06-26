@@ -126,6 +126,11 @@ public class SpringJavaConfiguration {
 	/**
 	 * 發送郵件專用。
 	 * 
+	 * 更多的JavaMailProperties的設定請按：<a href=
+	 * "https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html">連結</a>。
+	 * 
+	 * 必須有自己的STMP伺服器，也可以使用網路上假的STMP伺服器作代理，例如Google的STMP伺服器，需要Gmail帳號。
+	 * 
 	 * @author 共同
 	 * @version 2017/06/19
 	 */
@@ -133,14 +138,15 @@ public class SpringJavaConfiguration {
 	public org.springframework.mail.javamail.JavaMailSender javaMailSender() {
 		org.springframework.mail.javamail.JavaMailSenderImpl javaMailSender = new org.springframework.mail.javamail.JavaMailSenderImpl();
 		Properties javaMailProperties = new Properties();
-		javaMailProperties.put("mail.transport.protocol", "smtp");
-		javaMailProperties.put("mail.smtp.host", "localhost");
-		javaMailProperties.put("mail.smtp.port", "8081");
-		javaMailProperties.put("mail.smtp.from", "system@textile.com");
-		javaMailProperties.put("mail.smtp.auth", "false");
-		javaMailProperties.put("mail.smtp.starttls.enable", "false");
-		javaMailProperties.put("mail.debug", "true");
+		javaMailProperties.put("mail.smtp.host", "smtp.gmail.com");
+		javaMailProperties.put("mail.smtp.auth", "true");
+		javaMailProperties.put("mail.smtp.socketFactory.port", "465");
+		javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		javaMailProperties.put("mail.smtp.port", "465");
 		javaMailSender.setJavaMailProperties(javaMailProperties);
+		javaMailSender.setUsername("textilesystem11");
+		javaMailSender.setPassword("SQLP@ssw0rd");
+		javaMailSender.setDefaultEncoding("UTF-8");
 		return javaMailSender;
 	}
 
@@ -156,7 +162,7 @@ public class SpringJavaConfiguration {
 	public freemarker.template.Configuration freeMarkerConfiguration() {
 		org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean = new org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean();
 		freeMarkerConfigurationFactoryBean.setDefaultEncoding("UTF-8");
-		freeMarkerConfigurationFactoryBean.setTemplateLoaderPath("/template/");
+		freeMarkerConfigurationFactoryBean.setTemplateLoaderPath("/emailtemplate/");
 		freemarker.template.Configuration configuration = null;
 		try {
 			configuration = freeMarkerConfigurationFactoryBean.createConfiguration();

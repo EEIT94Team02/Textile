@@ -15,7 +15,7 @@ public class GiftDetailList {
 		this.giftDetailBeans = giftDetailBeans;
 	}
 
-	public List<GiftDetailBean> getGiftDetailBeanS() {
+	public List<GiftDetailBean> getGiftDetailBeans() {
 		return giftDetailBeans;
 	}
 }

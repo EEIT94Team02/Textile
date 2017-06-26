@@ -30,11 +30,11 @@ public class SecureDAOHibernate implements SecureDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	private final String SELECT_ALL = "from SecureBean";
+	private static final String SELECT_ALL = "from SecureBean";
 
 	@Override
 	public List<SecureBean> selectAll() {
-		Query<SecureBean> query = this.getSession().createQuery(this.SELECT_ALL, SecureBean.class);
+		Query<SecureBean> query = this.getSession().createQuery(SELECT_ALL, SecureBean.class);
 		return query.list();
 	}
 

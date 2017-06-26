@@ -15,11 +15,11 @@
 </style>
 </head>
 <body>
-	<c:if test="${sessionScope.user.mId == 11}">
-		<<h3><a href=" <c:url value='pShowMaintain.do'/> ">Maintain</a></h3>
+	<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+		<h3><a href=" <c:url value='/manager/pShowMaintain.do'/> ">Maintain</a></h3>
 	</c:if>
+	<h3><a href=" <c:url value='/store/cart.v' /> ">Cart</a></h3>
 	<c:if test="${not empty pList}">
-	<form method="POST" action="">
 		<table class="mainList">
 			<thead>
 				<tr>
@@ -34,7 +34,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${sessionScope.pList}" var="pBean" varStatus="pStatus">
+				<c:forEach items="${pList}" var="pBean" varStatus="pStatus">
 					<c:url value="pSingle.do" var="link" scope="page">
 						<c:param name="productId" value="${pBean.productId}" />
 						<c:param name="productName" value="${pBean.productName}" />
@@ -48,6 +48,7 @@
 						<c:param name="productId" value="${pBean.productId}"/>
 					</c:url>
 					<c:if test="${pBean.status}">
+					<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/cart.do'>" escapeXml="false" />
 						<tr>
 							<td><a href="${link}">詳細資訊</a></td>
 							<td>${pBean.productName}</td>
@@ -57,7 +58,7 @@
 							<td><img src="${showImg}" height="200" /></td>
 							<td>${pBean.rewardPoints}</td>
 							<td>
-								<select style="display: block">
+								<select name="amount" style="display: block">
 									<option value="1">1</option>
 									<option value="2">2</option>
 									<option value="3">3</option>
@@ -69,14 +70,15 @@
 									<option value="9">9</option>
 									<option value="10">10</option>
 								</select>
-								<input type="button" value="add to kart"/>
+								<input type="hidden" name="productId" value="${pBean.productId}" />
+								<input type="submit" name="cartAction" value="add to cart" />
 							</td>
 						</tr>
+					<c:out value="</form>" escapeXml="false" />
 					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>
-	</form>
 	</c:if>
 </body>
 </html>

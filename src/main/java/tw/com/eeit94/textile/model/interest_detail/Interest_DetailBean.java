@@ -21,7 +21,6 @@ public class Interest_DetailBean implements java.io.Serializable {
 	private Integer mId;
 	// Java沒有unsigned byte，所以使用範圍稍大的Integer。
 	private Integer i_dMain;
-	private String i_dOther;
 	private Integer i_dRecreation;
 	private String i_dOtherRecreation;
 	private Integer i_dExercises;
@@ -53,14 +52,6 @@ public class Interest_DetailBean implements java.io.Serializable {
 
 	public void setI_dMain(Integer i_dMain) {
 		this.i_dMain = i_dMain;
-	}
-
-	public String getI_dOther() {
-		return i_dOther;
-	}
-
-	public void setI_dOther(String i_dOther) {
-		this.i_dOther = i_dOther;
 	}
 
 	public Integer getI_dRecreation() {
@@ -196,7 +187,6 @@ public class Interest_DetailBean implements java.io.Serializable {
 		LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
 		linkedHashMap.put("mId", this.getmId().toString());
 		linkedHashMap.put("i_dMain", this.getI_dMain().toString());
-		linkedHashMap.put("i_dOther", this.getI_dOther());
 		linkedHashMap.put("i_dRecreation", this.getI_dRecreation().toString());
 		linkedHashMap.put("i_dOtherRecreation", this.getI_dOtherRecreation());
 		linkedHashMap.put("i_dExercises", this.getI_dExercises().toString());

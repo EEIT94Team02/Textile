@@ -49,12 +49,11 @@ public class PhotoService {
 	public List<PhotoBean> selectByAlbumno(PhotoBean bean) {
 		return photoDAO.selectByAlbumno(bean);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public PhotoBean selectByphotono(PhotoBean bean) {
 		return photoDAO.selectByPrimarykey(bean);
-	}	
-	
+	}
 
 	public String getTimeString() {
 		Calendar today = Calendar.getInstance();
@@ -66,10 +65,10 @@ public class PhotoService {
 		String date = dd.toString();
 		if (month.length() == 1) {
 			month = "0" + month;
-		}		
+		}
 		if (date.length() == 1) {
 			date = "0" + date;
-		}	
+		}
 		return sb.append(yy).append(month).append(date).toString();
 	}
 
@@ -88,7 +87,7 @@ public class PhotoService {
 		int max = Integer.parseInt(temp) + 1;
 		return max;
 	}
-	
+
 	@Transactional
 	public PhotoBean insertDataToPhoto(PhotoBean bean) {
 		return photoDAO.insert(bean);
@@ -101,7 +100,6 @@ public class PhotoService {
 		if (phonebean != null) {
 			phonebean.setPhotoname(bean.getPhotoname() == "" ? phonebean.getPhotoname() : bean.getPhotoname());
 			phonebean.setPosition(bean.getPosition() == "" ? phonebean.getPosition() : bean.getPosition());
-			phonebean.setVisibility(bean.getVisibility() == "" ? phonebean.getVisibility() : bean.getVisibility());
 			phonebean.setAlbumno(bean.getAlbumno() == 0 ? phonebean.getAlbumno() : bean.getAlbumno());
 			phonebean.setInterpretation(
 					bean.getInterpretation() == "" ? phonebean.getInterpretation() : bean.getInterpretation());
@@ -119,6 +117,22 @@ public class PhotoService {
 			if (result) {
 				File file = new File(phonebean.getRespath());
 				result = file.delete();
+			}
+		}
+		return result;
+	}
+
+	@Transactional
+	public boolean removeAllPhoto(PhotoBean bean) {
+		boolean result = false;
+		List<PhotoBean> phonebean = photoDAO.selectByAlbumno(bean);
+		if (phonebean != null && !phonebean.isEmpty()) {
+			for (PhotoBean aaa : phonebean) {
+				result = photoDAO.delete(aaa);
+				if (result) {
+					File file = new File(aaa.getRespath());
+					result = file.delete();
+				}
 			}
 		}
 		return result;

@@ -3,7 +3,9 @@ package tw.com.eeit94.textile.controller.activity;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -109,14 +111,36 @@ public class CUDActivityController {
 			man.setActivityBean(result);
 			man.setMemberBean(user);
 			man.setPosition("發起人");
-			Activity_memberBean create = getActivity_memberService().addNewActivityMember(man);
-			if (create != null) {
-				model.addAttribute("actInsertOK", "新建活動成功");
-				model.addAttribute("ActivityList", getActivityService().selectAll());
-				return "Activity.default";
+			getActivity_memberService().addNewActivityMember(man);
+			Activity_memberBean ActMemberBean = new Activity_memberBean();
+			Activity_memberPK pk = new Activity_memberPK();
+			pk.setmId(user.getmId());
+			ActMemberBean.setActivity_memberPK(pk);
+			List<Activity_memberBean> activities = getActivity_memberService().findActivityNoByMemberId(ActMemberBean);
+			Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
+			List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
+			List<Activity_memberBean> notcommit = new ArrayList<Activity_memberBean>();
+			List<Activity_memberBean> owner = new ArrayList<Activity_memberBean>();
+			List<Activity_memberBean> old = new ArrayList<Activity_memberBean>();
+			myAct.put("owner", owner);
+			myAct.put("ready", ready);
+			myAct.put("notcommit", notcommit);
+			myAct.put("old", old);
+			for (Activity_memberBean aaa : activities) {
+				if (aaa.getActivityBean().getBegintime().getTime() < System.currentTimeMillis()) {
+					old.add(aaa);
+				} else {
+					if ("待確認".equals(aaa.getPosition())) {
+						notcommit.add(aaa);
+					} else if ("發起人".equals(aaa.getPosition())) {
+						owner.add(aaa);
+					} else {
+						ready.add(aaa);
+					}
+				}
 			}
-			errors.put("create", "活動創建失敗");
-			return "actInsert.error";
+			session.setAttribute("myActivityList", myAct);
+			return "Activity.default";
 		}
 	}
 
@@ -207,8 +231,7 @@ public class CUDActivityController {
 		return "actUpdate.error";
 	}
 
-	@RequestMapping(method = { RequestMethod.POST }, path = { "/delete.do" }, consumes = {
-			"application/x-www-form-urlencoded ; charset=UTF-8" })
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/delete.do" })
 	public String deleteprocess(HttpServletRequest request, Model model) {
 
 		// 接收資料
@@ -236,7 +259,6 @@ public class CUDActivityController {
 		memberBeanPK.setmId(user.getmId());
 		man.setActivity_memberPK(memberBeanPK);
 		Activity_memberBean check = getActivity_memberService().findByPK(man);
-
 		if (check != null && check.getPosition().equals("發起人")) {
 			// 先刪活動成員
 			memberBeanPK = new Activity_memberPK();
@@ -249,14 +271,40 @@ public class CUDActivityController {
 			bean.setActivityno(actNo);
 			boolean result = getActivityService().deleteActivity(bean);
 			if (result) {
-				model.addAttribute("actDeleteOK", "移除活動成功");
-				model.addAttribute("ActivityList", getActivityService().selectAll());
-				return "Activity.default";
+				Activity_memberBean member = new Activity_memberBean();
+				Activity_memberPK pk = new Activity_memberPK();
+				pk.setmId(user.getmId());
+				member.setActivity_memberPK(pk);
+				List<Activity_memberBean> activities = getActivity_memberService().findActivityNoByMemberId(member);
+				Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
+				List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
+				List<Activity_memberBean> notcommit = new ArrayList<Activity_memberBean>();
+				List<Activity_memberBean> owner = new ArrayList<Activity_memberBean>();
+				List<Activity_memberBean> old = new ArrayList<Activity_memberBean>();
+				myAct.put("owner", owner);
+				myAct.put("ready", ready);
+				myAct.put("notcommit", notcommit);
+				myAct.put("old", old);
+				for (Activity_memberBean aaa : activities) {
+					if (aaa.getActivityBean().getBegintime().getTime() < System.currentTimeMillis()) {
+						old.add(aaa);
+					} else {
+						if ("待確認".equals(aaa.getPosition())) {
+							notcommit.add(aaa);
+						} else if ("發起人".equals(aaa.getPosition())) {
+							owner.add(aaa);
+						} else {
+							ready.add(aaa);
+						}
+					}
+				}
+				session.setAttribute("myActivityList", myAct);
+				return "Activity.delete";
 			}
 			errors.put("delete", "刪除失敗，請再次確認");
 			return "actDelete.error";
 		}
 		errors.put("delete", "您不是此活動發起人，無法取消此活動");
 		return "actDelete.error";
-	}	
+	}
 }

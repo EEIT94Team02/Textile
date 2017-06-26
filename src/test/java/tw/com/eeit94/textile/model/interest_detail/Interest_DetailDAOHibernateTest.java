@@ -41,7 +41,6 @@ public class Interest_DetailDAOHibernateTest {
 		Interest_DetailBean i_dbean = new Interest_DetailBean();
 		i_dbean.setmId(mbean.getmId());
 		i_dbean.setI_dMain(25);
-		i_dbean.setI_dOther("[57,63]");
 		i_dbean.setI_dRecreation(233);
 		i_dbean.setI_dOtherRecreation("[45]");
 		i_dbean.setI_dExercises(35);
@@ -69,7 +68,6 @@ public class Interest_DetailDAOHibernateTest {
 		TestUtils.printResult("修改一筆interest_detail的資料");
 		i_dbean.setI_dMain(149);
 		i_dbean.setI_dMusic(57);
-		i_dbean.setI_dOther("[2,5,87,296,3842]");
 		sessionFactory.getCurrentSession().beginTransaction();
 		interest_DetailDAO.update(i_dbean);
 		sessionFactory.getCurrentSession().getTransaction().commit();

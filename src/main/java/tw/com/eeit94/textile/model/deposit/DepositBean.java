@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -32,8 +32,8 @@ public class DepositBean implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer depositId;
 	
-	@JoinColumn(name="memberId")
-	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="memberId", insertable = true)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private MemberBean memberBean;
 	
 	private Timestamp depositDate;
@@ -50,12 +50,11 @@ public class DepositBean implements Serializable {
 	public void setDepositId(int depositId) {
 		this.depositId = depositId;
 	}
-
 	public Integer getDepositId() {
 		return depositId;
 	}
-
-	// memberId getter setter
+	
+	// memberBean getter setter
 	public void setMemberBean(MemberBean memberBean) {
 		this.memberBean = memberBean;
 	}
@@ -69,7 +68,7 @@ public class DepositBean implements Serializable {
 		this.depositDate = depositDate;
 	}
 
-	public Timestamp getDespositDate() {
+	public Timestamp getDepositDate() {
 		return depositDate;
 	}
 

@@ -55,14 +55,25 @@ public class ShowPhotoController {
 		PhotoBean bean = new PhotoBean();
 		bean.setPhotono(photono);
 		PhotoBean result =  getPhotoService().selectByphotono(bean);
-		FileInputStream fis = new FileInputStream(new File(result.getRespath()));
+		File orgin = new File(result.getRespath());
+		FileInputStream fis = new FileInputStream(orgin);
+		
+		String target = "C:/Users/Student/Desktop/Textile-etc/Textile/src/main/webapp/album/"+result.getPhoto_albumBean().getmId()+"/"+orgin.getName();
+		File temp = new File(target);
+		if (!temp.getParentFile().exists()) {
+			temp.getParentFile().mkdirs();
+		}	
+		FileOutputStream fos = new FileOutputStream(temp);
+		
 		response.setContentType("image/*");
 		OutputStream os = response.getOutputStream();
 		int data;
 		while ((data = fis.read()) != -1) {
 			os.write(data);
+			fos.write(data);
 		}
 		os.close();
+		fos.close();
 		fis.close();
 	}
 }

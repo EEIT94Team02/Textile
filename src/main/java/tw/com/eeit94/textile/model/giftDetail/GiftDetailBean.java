@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.stereotype.Component;
 
 import tw.com.eeit94.textile.model.gift.GiftBean;
@@ -25,6 +26,7 @@ import tw.com.eeit94.textile.model.product.ProductBean;
 @Entity
 @Table(name = "gift_detail")
 @Component
+@DynamicInsert
 public class GiftDetailBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
