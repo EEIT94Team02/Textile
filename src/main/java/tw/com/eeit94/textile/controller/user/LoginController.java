@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.service.MailFindPasswordService;
 import tw.com.eeit94.textile.model.member.util.ConstMemberKey;
+import tw.com.eeit94.textile.model.member.util.ConstMemberParameter;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.common.ConstCookieParameter;
@@ -43,6 +45,10 @@ public class LoginController {
 	private SecureService secureService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private MailFindPasswordService mailFindPasswordService;
+	private static final String NONEXISTENT_EMAIL = "帳號錯誤或不存在";
+	private static final String WRONG_HINTANSWER = "提示答案不正確";
 
 	/**
 	 * 登入系統驗證的過程：
@@ -145,14 +151,16 @@ public class LoginController {
 	/**
 	 * 驗證信箱，將會員資料欄的mValidEmail改為「Y」，如果已經是「Y」，則回傳錯誤網頁。
 	 * 
+	 * 注意：外來加密的字串可能含有「 」，必須轉為原先的「+」。
+	 * 
 	 * @author 賴
 	 * @version 2017/06/19
 	 * @throws Exception
 	 */
 	@RequestMapping(path = { "/emailCheck.do" }, method = { RequestMethod.GET })
 	public String checkValidEmailProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String mEmail = this.secureService.getDecryptedText(request.getParameter(ConstHelperKey.QUERY.key()),
-				ConstSecureParameter.EMAIL.param());
+		String mEmail = request.getParameter(ConstHelperKey.QUERY.key()).replace(' ', '+');
+		mEmail = this.secureService.getDecryptedText(mEmail, ConstSecureParameter.EMAIL.param());
 		MemberBean mbean = this.memberService.selectByEmail(mEmail);
 		if (mbean.getmValidEmail().equals(ConstUserParameter.VALIDEMAIL_YES.param())) {
 			return ConstMapping.ERROR_PAGE.path();
@@ -160,5 +168,60 @@ public class LoginController {
 		mbean.setmValidEmail(ConstUserParameter.VALIDEMAIL_YES.param());
 		this.memberService.update(mbean);
 		return ConstMapping.LOGIN_EMAILCHECKSUCCESS.path();
+	}
+
+	/**
+	 * 找回密碼的第一步驟，先搜尋該信箱是否存在。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	@RequestMapping(path = { "/findPassword.do" }, method = { RequestMethod.POST })
+	public String hintPasswordViewProcess(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
+		String mEmail = request.getParameter(ConstMemberKey.Email.key());
+		dataAndErrorsMap.put(ConstMemberKey.Email.key(), mEmail);
+
+		MemberBean mbean = this.memberService.selectByEmail(mEmail);
+		if (mbean == null) {
+			dataAndErrorsMap.put(ConstMemberKey.Email.key() + ConstMemberParameter._ERROR.param(), NONEXISTENT_EMAIL);
+			return ConstMapping.LOGIN_FINDPASSWORD_ERROR.path();
+		} else {
+			request.setAttribute(ConstFilterKey.USER.key(), mbean);
+			return ConstMapping.LOGIN_FINDPASSWORD_SHOW.path();
+		}
+	}
+
+	/**
+	 * 找回密碼的第二步驟，驗證密碼提示答案是否正確。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	@RequestMapping(path = { "/findPassword.do" }, method = { RequestMethod.POST }, params = { "mHintAnswer" })
+	public String findPasswordProcess(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> dataAndErrorsMap = new HashMap<>();
+		request.setAttribute(ConstUserKey.DATAANDERRORSMAP.key(), dataAndErrorsMap);
+		String mEmail = request.getParameter(ConstMemberKey.Email.key());
+		String mHintAnswer = request.getParameter(ConstMemberKey.HintAnswer.key());
+		dataAndErrorsMap.put(ConstMemberKey.Email.key(), mEmail);
+		dataAndErrorsMap.put(ConstMemberKey.HintAnswer.key(), mHintAnswer);
+
+		MemberBean mbean = this.memberService.selectByEmail(mEmail);
+		if (mbean == null) {
+			dataAndErrorsMap.put(ConstMemberKey.Email.key() + ConstMemberParameter._ERROR.param(), NONEXISTENT_EMAIL);
+			return ConstMapping.LOGIN_FINDPASSWORD_ERROR.path();
+		}
+		request.setAttribute(ConstFilterKey.USER.key(), mbean);
+
+		if (!mbean.getmHintAnswer().equals(mHintAnswer)) {
+			dataAndErrorsMap.put(ConstMemberKey.HintAnswer.key() + ConstMemberParameter._ERROR.param(),
+					WRONG_HINTANSWER);
+			return ConstMapping.LOGIN_FINDPASSWORD_ERROR.path();
+		} else {
+			this.mailFindPasswordService.doSendEmail(dataAndErrorsMap);
+			return ConstMapping.LOGIN_FINDPASSWORD_SUCCESS.path();
+		}
 	}
 }

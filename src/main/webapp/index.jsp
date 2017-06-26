@@ -29,6 +29,7 @@
 				<li><a href="<c:url value ='/activity/' />">活動</a></li>
 				<li><a href="<c:url value ='/store/' />">商店</a></li>
 				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
 				<li><c:if test="${empty user}">
 						<a href="check/register.v">註冊</a>
 						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
@@ -41,8 +42,16 @@
 	<div id="center">
 		<div id="body">
 			<p>暫時存放</p>
-			<p><a href="theme/">主題(要登入)</a></p>
-			<p><a href="socail/">社交名單(要登入)</a></p> <input type="button" onclick="doMyAlbum()" value="test">
+			<p>
+				<a href="theme/">主題(要登入)</a>
+			</p>
+			<p>
+				<a href="social/">社交名單(要登入)</a>
+			</p>
+			<p>
+				<a href="announcement/">公告維護(要登入)</a>
+			</p>
+			<input type="button" onclick="doMyAlbum()" value="test">
 		</div>
 	</div>
 	<div id="footer">this is footer</div>

@@ -13,40 +13,42 @@ package tw.com.eeit94.textile.model.member.util;
  * @version 2017/06/18
  */
 public enum ConstMemberKey {
-	Id("mId", false, false, false),
-	CreateTime("mCreateTime", false, false, false),
-	ValidEmail("mValidEmail", false, false, false),
-	ValidPhone("mValidPhone", false, false, false),
-	ValidManager("mValidManager", false, false, false),
-	KeepLogin("mKeepLogin", false, false, false),
-	Email("mEmail", true, true, false),
-	Password("mPassword", true, true, true),
-	Name("mName", true, true, true),
-	Birthday("mBirthday", true, true, true),
-	IdentityCardNumber("mIdentityCardNumber", true, true, true),
-	Gender("mGender", true, false, false),
-	Address("mAddress", true, true, true),
-	PhoneNumber("mPhoneNumber", true, true, true),
-	HintPassword("mHintPassword", true, true, true),
-	HintAnswer("mHintAnswer", true, true, true),
-	Scores("mScores", false, false, false),
-	Points("mPoints", false, false, false),
-	Career("mCareer", false, false, false),
-	Education("mEducation", false, false, false),
-	Economy("mEconomy", false, false, false), 
-	Marriage("mMarriage", false, false, false),
-	Family("mFamily", false, false, false),
-	BloodType("mBloodType", false, false, false),
-	Constellation("mConstellation", false, false, false),
-	Religion("mReligion", false, false, false),
-	SelfIntroduction("mSelfIntroduction", false, false, true),
+	Id("mId", false, false, false, false),
+	CreateTime("mCreateTime", false, false, false, false),
+	ValidEmail("mValidEmail", false, false, false, false),
+	ValidPhone("mValidPhone", false, false, false, false),
+	ValidManager("mValidManager", false, false, false, false),
+	KeepLogin("mKeepLogin", false, false, false, false),
+	Email("mEmail", true, true, false, false),
+	Password("mPassword", true, true, false, false), // 改密碼用其它的Key
+	Name("mName", true, true, true, true),
+	Birthday("mBirthday", true, true, true, true),
+	IdentityCardNumber("mIdentityCardNumber", true, true, true, true),
+	Gender("mGender", true, false, true, false),
+	Adrress_County("mAddress_County", true, false, true, false),
+	Adrress_Region("mAddress_Region", true, false, true, false),
+	Address("mAddress", true, true, true, true),
+	PhoneNumber("mPhoneNumber", true, true, true, true),
+	HintPassword("mHintPassword", true, true, true, true),
+	HintAnswer("mHintAnswer", true, true, true, true),
+	Scores("mScores", false, false, false, false),
+	Points("mPoints", false, false, false, false),
+	Career("mCareer", false, false, true, false),
+	Education("mEducation", false, false, true, false),
+	Economy("mEconomy", false, false, true, false), 
+	Marriage("mMarriage", false, false, true, false),
+	Family("mFamily", false, false, true, false),
+	BloodType("mBloodType", false, false, true, false),
+	Constellation("mConstellation", false, false, false, false), // 這格在表單被disable，不會有值。
+	Religion("mReligion", false, false, true, false),
+	SelfIntroduction("mSelfIntroduction", false, false, true, true),
 	
-	// 特例：需用其它方式驗證
-	EmailExist("mEmailExist", true, false, false),
-	Password_Again("mPassword_again", true, false, false),
-	Adrress_County("mAddress_county", true, false, false),
-	Adrress_Region("mAddress_region", true, false, false);
-	
+	// 特例：註冊時，驗證障
+	EmailExist("mEmailExist", true, false, false, false),
+	Password_Again("mPassword_again", true, false, false, false),
+	OldPassword("mOldPassword", false, false, true, true),
+	NewPassword("mNewPassword", false, false, true, true),
+	NewPassword_Again("mNewPassword_Again", false, false, true, true);
 
 	/**
 	 * key: MemberBean的屬性名稱。 
@@ -61,13 +63,15 @@ public enum ConstMemberKey {
 	private final String key;
 	private final boolean needToBackInMapWhenRegistering;
 	private final boolean needToCheckWhenRegistering;
-	private final boolean NeedToCheckAfterRegistering;
+	private final boolean needToBackInMapWhenModifying;
+	private final boolean needToCheckWhenModifying;
 
-	ConstMemberKey(String key, boolean needToBackInMapWhenRegistering, boolean needToCheckWhenRegistering, boolean NeedToCheckAfterRegistering) {
+	ConstMemberKey(String key, boolean needToBackInMapWhenRegistering, boolean needToCheckWhenRegistering,boolean needToBackInMapWhenModifying, boolean needToCheckWhenModifying) {
 		this.key = key;
 		this.needToBackInMapWhenRegistering = needToBackInMapWhenRegistering;
 		this.needToCheckWhenRegistering = needToCheckWhenRegistering;
-		this.NeedToCheckAfterRegistering = NeedToCheckAfterRegistering;
+		this.needToBackInMapWhenModifying = needToBackInMapWhenModifying;
+		this.needToCheckWhenModifying = needToCheckWhenModifying;
 	}
 
 	public String key() {
@@ -81,8 +85,12 @@ public enum ConstMemberKey {
 	public boolean needToCheckWhenRegistering() {
 		return this.needToCheckWhenRegistering;
 	}
+	
+	public boolean needToBackInMapWhenModifying() {
+		return this.needToBackInMapWhenModifying;
+	}
 
-	public boolean NeedToCheckAfterRegistering() {
-		return this.NeedToCheckAfterRegistering;
+	public boolean needToCheckWhenModifying() {
+		return this.needToCheckWhenModifying;
 	}
 }

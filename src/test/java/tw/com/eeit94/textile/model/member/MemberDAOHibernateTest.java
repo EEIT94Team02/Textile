@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import tw.com.eeit94.textile.model.member.util.MemberKeyWordsBean;
+import tw.com.eeit94.textile.model.member.service.MemberKeyWordsBean;
 import tw.com.eeit94.textile.model.test.TestUtils;
 import tw.com.eeit94.textile.system.spring.SpringJavaConfiguration;
 
@@ -73,9 +73,10 @@ public class MemberDAOHibernateTest {
 		// mkwbean.setmGender("F");
 		// mkwbean.setmBirthdayBegin(sdf.parse("1990-10-23"));
 		// mkwbean.setmBirthdayEnd(sdf.parse("2000-10-23"));
-		java.util.List<String> mAddress = new ArrayList<>();
-		mAddress.add("永和區");
-		// mkwbean.setmAddress(mAddress);
+		// mkwbean.setmAddress_Region("臺北市");
+		java.util.List<String> mAddress_County = new ArrayList<>();
+		mAddress_County.add("永和區");
+		// mkwbean.setmAddress_County(mAddress_County);
 		// mkwbean.setmScores(500);
 		mkwbean.setmCreateTimeBegin(new java.sql.Timestamp(sdf.parse("2016-01-01").getTime()));
 		mkwbean.setmCreateTimeEnd(new java.sql.Timestamp(sdf.parse("2016-06-30").getTime()));

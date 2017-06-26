@@ -31,7 +31,7 @@
 					<td>${particular.unitPrice}</td>
 					<td>${particular.category}</td>
 					<td>${particular.intro}</td>
-					<td><img src="${link}"/></td>
+					<td><img src="${link}" height="200"/></td>
 					<td>${particular.rewardPoints}</td>
 				</tr>
 			</tbody>

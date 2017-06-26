@@ -11,10 +11,14 @@
 </head>
 <body>
 	<h1>Textile</h1>
-	<p>(管理員帳號textile@gmail.com，密碼Aa!12345)</p>
 	<p>
 		<a href="logs.do">系統記錄</a>
 	</p>
-	<p><a href="http://localhost:8080/Textile/user/index.v?q=vKMkmrCqfhwV+4T6SjgsKg==">1號會員主頁</a></p>
+	<p>
+		<a href="users.do">會員列表</a>
+	</p>
+	<p>
+		<a href="tests.do">在線測試</a>
+	</p>
 </body>
 </html>

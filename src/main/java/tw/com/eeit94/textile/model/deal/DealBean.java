@@ -10,12 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
 import tw.com.eeit94.textile.model.dealDetail.DealDetailBean;
+import tw.com.eeit94.textile.model.member.MemberBean;
 
 /**
  * 封裝deal表格資料的bean元件。
@@ -32,7 +34,11 @@ public class DealBean implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer dealId;
-	private Integer memberId;
+	
+	@JoinColumn(name="memberId")
+	@ManyToOne(fetch=FetchType.EAGER)
+	private MemberBean memberBean;
+	
 	private Timestamp dealDate;
 	private Integer totalCost;
 	
@@ -42,7 +48,7 @@ public class DealBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DealBean=[" + dealId + ", " + memberId + ", " + dealDate + ", " + totalCost + "]";
+		return "DealBean=[" + dealId + ", " + memberBean.getmName() + ", " + dealDate + ", " + totalCost + "]";
 	}
 
 	// dealId getter setter
@@ -53,12 +59,12 @@ public class DealBean implements Serializable {
 		return this.dealId;
 	}
 
-	// memberId getter setter
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
+	// memberBean getter setter
+	public void setMemberBean(MemberBean memberBean) {
+		this.memberBean = memberBean;
 	}
-	public Integer getMemberId() {
-		return memberId;
+	public MemberBean getMemberBean() {
+		return memberBean;
 	}
 
 	// dealDate getter setter

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.system.common.ConstHelperKey;
 
 /**
@@ -20,6 +21,33 @@ import tw.com.eeit94.textile.system.common.ConstHelperKey;
 public class Chatroom_MemberService {
 	@Autowired
 	private Chatroom_MemberDAO chatroom_MemberDAO;
+
+	/**
+	 * 搜索自己所在的聊天室，交易統一由MemberRollbackRroviderService管理。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 * @see {@link MemberRollbackProviderService}
+	 */
+	public List<Chatroom_MemberBean> selectByMId(Integer mId) {
+		return this.chatroom_MemberDAO.selectByMId(mId);
+	}
+
+	/**
+	 * 藉由聊天室會員明細實體清單取得聊天室主鍵清單。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	public List<Long> getChatroomPrimaryKeys(List<Chatroom_MemberBean> chatroom_MemberList) {
+		List<Long> primaryKeys = new ArrayList<>();
+		Chatroom_MemberPK chatroom_MemberPK;
+		for (int i = 0; i < chatroom_MemberList.size(); i++) {
+			chatroom_MemberPK = chatroom_MemberList.get(i).getChatroom_MemberPK();
+			primaryKeys.add(chatroom_MemberPK.getcId());
+		}
+		return primaryKeys;
+	}
 
 	/**
 	 * 註冊成功時，新增一提供系統公告和使用者的聊天室，交易統一由MemberRollbackRroviderService管理。

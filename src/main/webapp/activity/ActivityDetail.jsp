@@ -117,11 +117,11 @@
 					<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
 					<label>邀請好友:</label>
 					<select name="mId">
-						<c:forEach var="Friend" items="${FriendList}">
+						<c:forEach var="Friend" items="${friendList}">
 							<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
 						</c:forEach>
-					</select> 
-					<input type="submit" value="邀請"/>
+					</select>
+					<input type="submit" value="邀請" />
 				</form>
 			</c:if>
 		</div>

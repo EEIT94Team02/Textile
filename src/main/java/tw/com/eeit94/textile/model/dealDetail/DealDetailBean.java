@@ -45,7 +45,7 @@ public class DealDetailBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DealDetailBean=[" + dealDetailPK.getDealId() + ", " + dealBean.getMemberId() + ", "
+		return "DealDetailBean=[" + dealDetailPK.getDealId() + ", " + dealBean.getMemberBean().getmName() + ", "
 				+ dealDetailPK.getProductId() + ", " + productBean.getProductName() + ", " + productBean.getUnitPrice()
 				+ ", " + amount + "]";
 	}

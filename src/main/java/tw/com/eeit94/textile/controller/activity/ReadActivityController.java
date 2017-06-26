@@ -169,13 +169,23 @@ public class ReadActivityController {
 		Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
 		List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
 		List<Activity_memberBean> notcommit = new ArrayList<Activity_memberBean>();
+		List<Activity_memberBean> owner = new ArrayList<Activity_memberBean>();
+		List<Activity_memberBean> old = new ArrayList<Activity_memberBean>();
+		myAct.put("owner", owner);
 		myAct.put("ready", ready);
 		myAct.put("notcommit", notcommit);
+		myAct.put("old", old);
 		for (Activity_memberBean aaa : activities) {
-			if ("待確認".equals(aaa.getPosition())) {
-				notcommit.add(aaa);
+			if (aaa.getActivityBean().getBegintime().getTime() < System.currentTimeMillis()) {
+				old.add(aaa);
 			} else {
-				ready.add(aaa);
+				if ("待確認".equals(aaa.getPosition())) {
+					notcommit.add(aaa);
+				} else if ("發起人".equals(aaa.getPosition())) {
+					owner.add(aaa);
+				} else {
+					ready.add(aaa);
+				}
 			}
 		}
 		session.setAttribute("myActivityList", myAct);
@@ -198,11 +208,13 @@ public class ReadActivityController {
 		bean.setActivity_memberPK(pk);
 		List<Activity_memberBean> activities = getActivity_memberService().findActivityNoByMemberId(bean);
 		
-		List<String> s_type = new ArrayList<>();
-		MemberBean memberBean = (MemberBean) session.getAttribute("user");
-		Integer userId = memberBean.getmId();
-		s_type.add("好友");
-		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
+		System.out.println(activities);
+		
+//		List<String> s_type = new ArrayList<>();
+//		MemberBean memberBean = (MemberBean) session.getAttribute("user");
+//		Integer userId = memberBean.getmId();
+//		s_type.add("好友");
+//		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
 
 		Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
 		List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
@@ -226,7 +238,7 @@ public class ReadActivityController {
 				}
 			}
 		}
-		session.setAttribute("FriendList", friendsBean);
+//		session.setAttribute("FriendList", friendsBean);
 		session.setAttribute("myActivityList", myAct);
 		return "Activity.default";
 	}

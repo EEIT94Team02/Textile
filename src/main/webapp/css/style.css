@@ -41,7 +41,6 @@ body {
 	padding: 0;
 	z-index: 1000;
 }
-
 #left {
 	position: fixed;
 	top: 60px;
@@ -63,18 +62,19 @@ body {
 }
 
 #body {
-	position: absolute;
+	position:absolute;
 	top: 60px;
 	left: 21%;
 	bottom: 40px;
 	min-height: 1000px;
 	background: #FFE8E8;
 	width: 63%;
+	
 }
 
 #footer {
-	position: fixed;
-	bottom: 0;
+	position:fixed;
+	bottom:0;
 	background: #F5E8FF;
 	border-top: 1px solid #9bd9e0;
 	width: 100%;
@@ -186,11 +186,6 @@ body {
 
 #header .section ul li.selected a {
 	background: url(../images/bg-nav-left-selected.gif) no-repeat top left;
-}
-
-.activity {
-	padding: 0 15px;
-	border: 1px solid #CFCFCF;
 }
 
 /* #header .article { */

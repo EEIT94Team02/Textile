@@ -68,16 +68,16 @@ public class ReadAlbumController {
 		if (index == null || index.isEmpty()) {
 			session.setAttribute("Albumresult", "目前無相簿資訊");
 		}
-		List<String> s_type = new ArrayList<>();
-		s_type.add("好友");
-		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
+//		List<String> s_type = new ArrayList<>();
+//		s_type.add("好友");
+//		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
 		
 		String securemId = getSecureService().getEncryptedText(String.valueOf(userId), "mId");
 		session.setAttribute("mysecuremId", securemId);
 		for(Photo_albumBean each : index){
 			each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId"));
 		}
-		session.setAttribute("FriendList", friendsBean);
+//		session.setAttribute("FriendList", friendsBean);
 		session.setAttribute("AlbumList", index);
 		return "album.my";
 	}

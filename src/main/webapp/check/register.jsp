@@ -71,18 +71,18 @@
 				<p></p>
 			</div>
 			<div>
-				<label for="mAddress">*地址：</label> <select id="mAddress_county" name="mAddress_county">
+				<label for="mAddress">*地址：</label> <select id="mAddress_County" name="mAddress_County">
 					<c:set var="address_Taiwan"
 						value="臺北市,基隆市,新北市,桃園市,新竹市,新竹縣,苗栗縣,臺中市,彰化縣,南投縣,雲林縣,嘉義市,嘉義縣,臺南市,高雄市,屏東縣,宜蘭縣,花蓮縣,臺東縣,澎湖縣,金門縣,連江縣" />
 					<c:forEach items="${address_Taiwan.split(',')}" var="address_TaiwanArray">
 						<option value="${address_TaiwanArray}"
-							${dataAndErrorsMap.mAddress_county == address_TaiwanArray ? 'selected' : ''}>${address_TaiwanArray}</option>
+							${dataAndErrorsMap.mAddress_County == address_TaiwanArray ? 'selected' : ''}>${address_TaiwanArray}</option>
 					</c:forEach>
-				</select> <select id="mAddress_region" name="mAddress_region">
+				</select> <select id="mAddress_Region" name="mAddress_Region">
 					<c:set var="address_Taipei" value="中正區,大同區,中山區,松山區,大安區,萬華區,信義區,士林區,北投區,內湖區,南港區,文山區" />
 					<c:forEach items="${address_Taipei.split(',')}" var="address_TaipeiArray">
 						<option value="${address_TaipeiArray}"
-							${dataAndErrorsMap.mAddress_region == address_TaipeiArray ? 'selected' : ''}>${address_TaipeiArray}</option>
+							${dataAndErrorsMap.mAddress_Region == address_TaipeiArray ? 'selected' : ''}>${address_TaipeiArray}</option>
 					</c:forEach>
 				</select> <input id="mAddress" name="mAddress" value="${dataAndErrorsMap.mAddress}" type="text" size="65" maxlength="60"
 					placeholder="" required /> <img src="" /><span>${dataAndErrorsMap.mAddress_error}</span> <br />
@@ -138,7 +138,9 @@
     }
 
     function changeImageFor(id) {
-      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
+      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
+        $('#' + id + ' + img').attr('src', '');
+      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
         $('#' + id + ' + img').attr('src', imgsrc_correct16);
       } else {
         $('#' + id + ' + img').attr('src', imgsrc_error16);
@@ -259,15 +261,15 @@
     var address_AllArray = [address_TaipeiCityArray, address_KeelungCityArray, address_NewTaipeiCityArray, address_TaoyuanCityArray, address_HsinchuCityArray, address_HsinchuCountyArray, address_MiaoliCountyArray, address_TaichungCityArray, address_ChanghuaCountyArray, address_NantouCountyArray, address_YunlinCountyArray, address_ChiayiCityArray, address_ChiayiCountyArray, address_TainanCityArray, address_KaohsiungCityArray, address_PingtungCountyArray, address_YilanCountyArray, address_HualienCountyArray, address_TaitungCountyArray, address_PenghuCountyArray, address_KinmenCountyArray, address_LianjiangCountyArray];
 
     // 當縣市更動時，鄉鎮區亦要更動
-    function changeOptionOfmAddress_region() {
-      var county = $('#mAddress_county').val();
+    function changeOptionOfmAddress_Region() {
+      var county = $('#mAddress_County').val();
       var regionArray;
       for (var i = 0; i < address_TaiwanArray.length; i++) {
         if (county === address_TaiwanArray[i]) {
           regionArray = address_AllArray[i];
         }
       }
-      var selectJOb = $('#mAddress_region');
+      var selectJOb = $('#mAddress_Region');
       selectJOb.empty();
       for (var i = 0; i < regionArray.length; i++) {
         var optionJOb = $('<option></option>').text(regionArray[i]);
@@ -276,39 +278,27 @@
       }
     }
 
-    $('#mAddress_county').on('change', changeOptionOfmAddress_region);
+    $('#mAddress_County').on('change', changeOptionOfmAddress_Region);
 
-    function initializeImageFor(id) {
-      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
-        $('#' + id + ' + img').attr('src', '');
-      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
-        $('#' + id + ' + img').attr('src', imgsrc_correct16);
-      } else {
-        $('#' + id + ' + img').attr('src', imgsrc_error16);
-      }
-    }
-
+    // 設定提交表單後，要將按鈕功能取消。
+    $('#mForm').on('submit', function() {
+      $(this).find('input[type="submit"]').prop('disabled', true);
+    });
+    
     // 設定提交表單後如果還有錯誤要做圖示覆蓋
     $(document).ready(function() {
       var idCheckArray = ['mEmail', 'mPassword', 'mPassword_again', 'mName', 'mIdentityCardNumber', 'mBirthday', 'mPhoneNumber', 'mAddress', 'mHintPassword', 'mHintAnswer'];
       for (var i = 0; i < idCheckArray.length; i++) {
         var id = idCheckArray[i];
-        initializeImageFor(id);
+        changeImageFor(id);
       }
     });
 
     // 設定註冊錯誤回傳後，表單地址鄉鎮區必須跟原來所選的值一樣。
     $(document).ready(function() {
-      changeOptionOfmAddress_region();
-      var mAddress_region = '${dataAndErrorsMap.mAddress_region}';
-      $('#mAddress_region option[value="' + mAddress_region + '"]').prop('selected', true);
-    });
-    
-    // 設定提交表單後，要將按鈕功能取消。
-    $(document).ready(function() {
-      $('#mForm').on('submit', function() {
-        $(this).find('input[type="submit"]').prop('disabled', true);
-      });
+      changeOptionOfmAddress_Region();
+      var mAddress_Region = '${dataAndErrorsMap.mAddress_Region}';
+      $('#mAddress_Region option[value="' + mAddress_Region + '"]').prop('selected', true);
     });
   </script>
 </body>

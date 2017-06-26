@@ -13,7 +13,12 @@
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
+	<c:url value="/photo/album/list.do" var="album">
+		<c:param name="mId" value="${mysecuremId}"></c:param>
+	</c:url>
 	<c:url value="/activity/myAct.do" var="myAct">
+	</c:url>
+	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
 		<div class="section">
@@ -75,11 +80,11 @@
 					</c:forEach>
 				</div>
 			</c:if>
-<%-- 			<c:if test="${not empty FriendList}"> --%>
-<%-- 				<c:forEach var="Friend" items="${FriendList}"> --%>
-<%-- 					${Friend.mbean.mName} --%>
-<%-- 				</c:forEach> --%>
-<%-- 			</c:if> --%>
+			<%-- 			<c:if test="${not empty FriendList}"> --%>
+			<%-- 				<c:forEach var="Friend" items="${FriendList}"> --%>
+			<%-- 					${Friend.mbean.mName} --%>
+			<%-- 				</c:forEach> --%>
+			<%-- 			</c:if> --%>
 		</div>
 	</div>
 	<div id="footer">this is footer</div>

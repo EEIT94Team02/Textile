@@ -89,7 +89,7 @@
 									<td>${owner.activityBean.activityname}</td>
 									<td>${owner.activityBean.place}</td>
 									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
-									<td><img src='<c:url value ="/image/join.png"/>' width="25"></td>
+									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
 								</tr>
 							</c:forEach>

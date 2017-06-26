@@ -36,7 +36,7 @@ public class Interest_DetailDAOHibernate implements Interest_DetailDAO {
 	@Override
 	public List<Interest_DetailBean> select(Interest_DetailBean i_dbean) {
 		this.results = new ArrayList<>();
-		this.results.add(this.getSession().load(Interest_DetailBean.class, i_dbean.getmId()));
+		this.results.add(this.getSession().get(Interest_DetailBean.class, i_dbean.getmId()));
 		return this.results;
 	}
 
