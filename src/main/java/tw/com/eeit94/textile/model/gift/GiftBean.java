@@ -35,11 +35,11 @@ public class GiftBean implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer giftId;
 
-	@JoinColumn(name = "giverId", insertable = false)
+	@JoinColumn(name = "giverId", insertable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MemberBean giverBean;
 	
-	@JoinColumn(name = "recipientId", insertable = false)
+	@JoinColumn(name = "recipientId", insertable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MemberBean recipientBean;
 	

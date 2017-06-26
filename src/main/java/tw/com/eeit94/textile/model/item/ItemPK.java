@@ -27,11 +27,17 @@ public class ItemPK implements Serializable {
 		this.productId = productId;
 	}
 
-	// Getter for composite primary key
+	// Setter Getter for composite primary key
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}
 	public Integer getMemberId() {
 		return this.memberId;
 	}
-
+	
+	public void getProductId(Integer productId) {
+		this.productId = productId;
+	}
 	public Integer getProductId() {
 		return this.productId;
 	}

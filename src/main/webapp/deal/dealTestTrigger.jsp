@@ -8,10 +8,7 @@
 <title>Deal Test Trigger</title>
 </head>
 <body>
-	<c:url var="showList" value="dealList.do" >
-		<c:param name="memberId" value="${sessionScope.user.mId}"/>
-	</c:url>
-	<h3><a href="${showList}">deal</a></h3><hr/>
+	<h3><a href="dealList.do">deal</a></h3><hr/>
 	<h3><a href="../">home</a></h3>
 </body>
 </html>

@@ -72,13 +72,15 @@
 
 	<div id="center">
 		<div id="body">
-			<form id="queryName" class="ui-widget" action="queryName.do" method="post">
-				<input type="hidden" name="m" value="queryName" />請輸入會員名稱：<input id="q" name="q" value="${dataAndErrorsMap.mName}"
-					type="text" size="21" maxlength="20" placeholder="王小明" /><img src="" /><span>${dataAndErrorsMap.mName_error}</span><br />
-				<p></p>
-				<input id="submit" name="submit" value="搜尋" type="submit" /> <br />
-				<p></p>
-			</form>
+			<fieldset>
+				<form id="queryName" class="ui-widget" action="queryName.do" method="post">
+					<input type="hidden" name="m" value="queryName" />請輸入會員名稱：<input id="q" name="q" value="${dataAndErrorsMap.mName}"
+						type="text" size="21" maxlength="20" placeholder="王小明" /><img src="" /><span>${dataAndErrorsMap.mName_error}</span><br />
+					<p></p>
+					<input id="submit" name="submit" value="搜尋" type="submit" /> <br />
+					<p></p>
+				</form>
+			</fieldset>
 		</div>
 	</div>
 	<script type="text/javascript">

@@ -46,8 +46,12 @@ public class DealDetailDAOHibernate implements DealDetailDAO {
 		if (bean != null) {
 			result = getSession().get(DealDetailBean.class, bean.getDealDetailPK());
 			if (result == null) {
-				bean.setDealBean(getSession().get(DealBean.class, bean.getDealDetailPK().getDealId()));
-				bean.setProductBean(getSession().get(ProductBean.class, bean.getDealDetailPK().getProductId()));
+				if (bean.getDealBean() == null) {
+					bean.setDealBean(getSession().get(DealBean.class, bean.getDealDetailPK().getDealId()));
+				}
+				if (bean.getProductBean() == null) {
+					bean.setProductBean(getSession().get(ProductBean.class, bean.getDealDetailPK().getProductId()));
+				}
 				getSession().save(bean);
 				result = bean;
 			}

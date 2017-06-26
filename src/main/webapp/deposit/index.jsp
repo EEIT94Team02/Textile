@@ -5,32 +5,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Deposit</title>
+<title>Deposit Index</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<c:if test="${not empty dList}">
-		<table>
-			<thead>
-				<tr>
-					<td>depositId</td>
-					<td>memberName</td>
-					<td>depositDate</td>
-					<td>depositAmount</td>
-					<td>virtualPoints</td>
-				</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${dList}" var="dBean" varStatus="dStatus">
-				<tr>
-					<td>${dBean.depositId}</td>
-					<td>${dBean.memberBean.mName}</td>
-					<td>${dBean.depositDate}</td>
-					<td>${dBean.depositAmount}</td>
-					<td>${dBean.virtualPoints}</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
+	<form id="depositForm">
+		<button type="button" class="btn btn-info btn-lg" id="deposit">我要儲值</button>
+		<button type="button" class="btn btn-info btn-lg" id="showRecord">儲值紀錄</button>
+		<input type="hidden" name="memberId" value="${sessionScope.user.mId}" />
+	</form>
 </body>
+<script>
+$('button').on('click', function() {
+	var action = $(this).attr('id')
+	if (action == 'showRecord') {
+		$('#depositForm').attr('action', 'dList.do').attr('method', 'POST').submit();
+	} else {
+		location.href='depositProceed.v';
+	}
+	
+});
+</script>
 </html>
