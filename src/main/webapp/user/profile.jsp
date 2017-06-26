@@ -458,7 +458,7 @@
 				<tbody>
 					<c:forEach var="row" items="${blackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

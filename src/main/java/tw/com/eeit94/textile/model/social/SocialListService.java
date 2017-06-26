@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.eeit94.textile.model.member.MemberBean;
+import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
-import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
@@ -30,6 +30,8 @@ public class SocialListService {
 	private SocialListDAO socialListDAO;
 	@Autowired
 	private SecureService secureService;
+	@Autowired
+	private MemberService memberService;
 	@Autowired
 	private MemberRollbackProviderService memberRollbackProviderService;
 
@@ -159,11 +161,10 @@ public class SocialListService {
 		List<LinksBean> linksList = new ArrayList<>();
 		for (SocialListBean sbean : socialList) {
 			LinksBean linksBean = new LinksBean();
+			linksBean.setmName(sbean.getMbean().getmName());
+			linksBean.setProfileURL(this.memberService.getOtherProfileUrl(mbean, request));
 			linksBean.setChatroomURL(this.memberRollbackProviderService.getChatUrlWithRollbackProvider(mbean,
 					sbean.getSocialListPK().getAcquaintenceId(), request));
-			linksBean.setProfileURL(this.secureService.getEncryptedText(
-					sbean.getSocialListPK().getAcquaintenceId().toString(), ConstSecureParameter.MEMBERID.param()));
-			linksBean.setmName(sbean.getMbean().getmName());
 			linksList.add(linksBean);
 		}
 		return linksList;
