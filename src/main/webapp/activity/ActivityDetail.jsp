@@ -117,7 +117,7 @@
 					<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
 					<label>邀請好友:</label>
 					<select name="mId">
-						<c:forEach var="Friend" items="${friendList}">
+						<c:forEach var="Friend" items="${FriendList}">
 							<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
 						</c:forEach>
 					</select>
