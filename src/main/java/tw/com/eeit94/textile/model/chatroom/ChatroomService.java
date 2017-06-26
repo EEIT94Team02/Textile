@@ -48,12 +48,17 @@ public class ChatroomService {
 	 * @throws Exception
 	 */
 	public String getOtherUserChatUrl(ChatroomBean cbean, HttpServletRequest request) throws Exception {
-		String encryptedCId = this.secureService.getEncryptedText(cbean.getcId().toString(),
-				ConstSecureParameter.CHATROOMID.param());
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getContextPath()).append(ConstMapping.CHAT.path()).append(ConstHelperKey.QUESTION.key())
-				.append(ConstHelperKey.QUERY_EQUAL.key()).append(encryptedCId);
-		return sBuffer.toString();
+		if (cbean == null) {
+			return ConstHelperKey.SPACE.key();
+		} else {
+			String encryptedCId = this.secureService.getEncryptedText(cbean.getcId().toString(),
+					ConstSecureParameter.CHATROOMID.param());
+			StringBuffer sBuffer = new StringBuffer();
+			sBuffer.append(request.getContextPath()).append(ConstMapping.CHAT.path())
+					.append(ConstHelperKey.QUESTION.key()).append(ConstHelperKey.QUERY_EQUAL.key())
+					.append(encryptedCId);
+			return sBuffer.toString();
+		}
 	}
 
 	/**
