@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import tw.com.eeit94.textile.model.logs.LogsService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.system.common.ConstMapping;
 
 /**
@@ -40,6 +42,8 @@ public class ManagerController {
 	private LogsService logsService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private MemberRollbackProviderService memberRollbackProviderService;
 
 	/**
 	 * 列出所有系統記錄。
@@ -106,7 +110,10 @@ public class ManagerController {
 		out.write(output.getBytes());
 
 		// 以下為測試內容
-		output = "";
+		MemberBean mbean = new MemberBean();
+		mbean.setmId(new Integer(3));
+		Integer acquaintenceId = new Integer(4);
+		output = this.memberRollbackProviderService.getChatUrlWithRollbackProvider(mbean, acquaintenceId, request);
 		// 以上為測試內容
 		out.write(output.getBytes());
 		out.close();

@@ -414,6 +414,14 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/user/queryCondition.jsp");
 		return internalResourceView;
 	}
+	
+	// 開啟聊天室頁面。
+	@Bean(name = { "chat.show" })
+	public org.springframework.web.servlet.view.InternalResourceView chat_page() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/user/chat.jsp");
+		return internalResourceView;
+	}
 
 	/**
 	 * ****** View ******

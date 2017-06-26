@@ -17,7 +17,7 @@ package tw.com.eeit94.textile.controller.user;
  * @see {@link LoginController}
  * @See {@link RegisterController}
  * @see {@link ModifyController}
- * @see {@link QueryUserController}l
+ * @see {@link QueryUserController}
  */
 public enum ConstUserKey {
 	KEEPLOGIN("keepLogin"),
