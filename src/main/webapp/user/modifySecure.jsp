@@ -24,6 +24,7 @@
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
+<script src="<c:url value = '/js/social.list.js'/>"></script>
 </head>
 <body>
 	<div id="header">
@@ -121,35 +122,25 @@
 			<c:out value="您的好友列表" />
 			<div>
 				<table>
-					<c:forEach var="row" items="${friendList}">
-						<c:url value="/user/index.v" var="member">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<c:url value="/user/chat.v" var="chatroom">
-							<c:param name="q" value="${row.chatroomURL}"></c:param>
-						</c:url>
-						<br />
-						<figure style="display: inline-block">
-							<a href="${member}">${row.linkname}</a>
-						</figure>
-						<figure style="display: inline-block">
-							<a href="${chatroom}">聊天</a>
-						</figure>
-					</c:forEach>
-				</table>
-				<table>
 					<thead>
 						<tr>
 							<th>好友</th>
-
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="row" items="${select}">
-
-							<tr>
-								<td>${row.mbean.mName}</td>
-							</tr>
+						<c:forEach var="row" items="${friendList}">
+							<c:url value="/user/index.v" var="member">
+								<c:param name="q" value="${row.profileURL}"></c:param>
+							</c:url>
+							<c:url value="/user/chat.v" var="chatroom">
+								<c:param name="q" value="${row.chatroomURL}"></c:param>
+							</c:url>
+							<figure style="display: inline-block">
+									<a href="${member}">${row.mName}</a>
+							</figure>
+							<figure style="display: inline-block">
+								<a href="${chatroom}">聊天</a>
+							</figure>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -165,10 +156,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="row" items="${Tselect}">
-
+					<c:forEach var="row" items="${trackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -182,24 +172,21 @@
 				<thead>
 					<tr>
 						<th>邀請人</th>
-						<th></th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 
-					<c:forEach var="row" items="${unconfirmed}">
+					<c:forEach var="row" items="${unconfirmedList}">
 						<c:url value="/social/insert.do" var="insert">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<c:url value="/social/refuse.do" var="refuseDelete">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<tr>
-							<td>${row.ibean.mName}</td>
-							<td><input onclick="getInviteId('${insert}')" type="button" value="確認邀請"></td>
-							<td><input onclick="refuse('${refuseDelete}')" type="button" value="拒絕邀請"></td>
-							<td><input type="hidden" value="${row.mbean.mId}" /></td>
+							<td>${row.mName}</td>
+							<td><input onclick="getInviteId('${insert}')" type="button" value="加好友"></td>
+							<td><input onclick="refuse('${refuseDelete}')" type="button" value="取消"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -216,7 +203,7 @@
 				<tbody>
 					<c:forEach var="row" items="${blackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

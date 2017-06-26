@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<script src="<c:url value = '/js/social.list.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
@@ -47,6 +48,7 @@
 	</div>
 	<div id="center">
 		<div id="body">
+		<fieldset>
 			<div>
 				<label>查詢公告</label>
 			</div>
@@ -62,7 +64,6 @@
 			<div>
 				<label>公告時間</label> <input type="text" name="startTime" value=""> <span>${errors.ooo}</span> <input
 					type="submit" name="announcement" value="開始查詢">
-
 			</div>
 			<br>
 			<div>
@@ -79,54 +80,40 @@
 				<label>新增修改公告</label>
 
 			</div>
-
+			</fieldset>
 		</div>
 	</div>
+	
 	<div id="left">
-		<p>
-			<a href='<c:url value="insert.v"/>'>新增公告</a>
-		</p>
-		<p>
-			<a href='<c:url value="list.v"/>'>查詢公告</a>
-		</p>
-		<p>
-			<a href='<c:url value="update.v"/>'>修改公告</a>
-		</p>
-
+		<div class="actions">
+		<ul>
+				<li class="list"><a href='<c:url value="insert.v"/>'>新增公告</a></li>
+				<li class="list"><a href='<c:url value="list.v"/>'>查詢公告</a></li>
+				<li class="list"><a href='<c:url value="update.v"/>'>修改公告</a></li>
+			</ul>
+		</div>
 	</div>
 	<div id="right">
 		<fieldset>
 			<c:out value="您的好友列表" />
 			<div>
 				<table>
-					<c:forEach var="row" items="${friendList}">
-						<c:url value="/user/index.v" var="member">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<c:url value="/user/chat.v" var="chatroom">
-							<c:param name="q" value="${row.chatroomURL}"></c:param>
-						</c:url>
-						<br />
-						<figure style="display: inline-block">
-							<a href="${member}">${row.linkname}</a>
-						</figure>
-						<figure style="display: inline-block">
-							<a href="${chatroom}">聊天</a>
-						</figure>
-					</c:forEach>
-				</table>
-				<table>
 					<thead>
 						<tr>
 							<th>好友</th>
-
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="row" items="${select}">
-
+						<c:forEach var="row" items="${friendList}">
+							<c:url value="/user/index.v" var="member">
+								<c:param name="q" value="${row.profileURL}"></c:param>
+							</c:url>
+							<c:url value="/user/chat.v" var="chatroom">
+								<c:param name="q" value="${row.chatroomURL}"></c:param>
+							</c:url>
 							<tr>
-								<td>${row.mbean.mName}</td>
+								<td><a href="${member}">${row.mName}</a></td>
+								<td><a href="${chatroom}">聊天</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -143,10 +130,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="row" items="${Tselect}">
-
+					<c:forEach var="row" items="${trackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -160,24 +146,21 @@
 				<thead>
 					<tr>
 						<th>邀請人</th>
-						<th></th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 
-					<c:forEach var="row" items="${unconfirmed}">
+					<c:forEach var="row" items="${unconfirmedList}">
 						<c:url value="/social/insert.do" var="insert">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<c:url value="/social/refuse.do" var="refuseDelete">
-							<c:param name="q" value="${row.ibean.mId}"></c:param>
+							<c:param name="q" value="${row.profileURL}"></c:param>
 						</c:url>
 						<tr>
-							<td>${row.ibean.mName}</td>
-							<td><input onclick="getInviteId('${insert}')" type="button" value="確認邀請"></td>
-							<td><input onclick="refuse('${refuseDelete}')" type="button" value="拒絕邀請"></td>
-							<td><input type="hidden" value="${row.mbean.mId}" /></td>
+							<td>${row.mName}</td>
+							<td><input onclick="getInviteId('${insert}')" type="button" value="加好友"></td>
+							<td><input onclick="refuse('${refuseDelete}')" type="button" value="取消"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -194,7 +177,7 @@
 				<tbody>
 					<c:forEach var="row" items="${blackList}">
 						<tr>
-							<td>${row.mbean.mName}</td>
+							<td>${row.mName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

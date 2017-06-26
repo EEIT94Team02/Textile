@@ -17,19 +17,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
-<script type="text/javascript">
-
-function getInviteId(obj) {
-	answer = confirm("確定要加好友嗎？");
-	if (answer)
-		location.href = obj;
-};
-function refuse(obj) {
-	answer = confirm("確定要拒絕嗎？");
-	if (answer)
-		location.href = obj;
-};
-</script>
+<script type="text/javascript"></script>
 <body>
 	<h1>Textile</h1>
 
