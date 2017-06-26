@@ -61,7 +61,6 @@
 
 		<!--預留給聊天室的區塊-->
 		<div id="right">預留給聊天室的區塊</div>
-
 		<div id="body">
 			<c:if test="${not empty AlbumList}">
 				<div>

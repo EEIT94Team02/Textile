@@ -140,29 +140,19 @@
 	<div id="footer">this is footer</div>
 	<script>
 		function joinMyAct(obj) {
-			answer = confirm("確定要參加嗎？");
-			if (answer)
+			swal({
+				title : "你確定要參加嗎？？",
+				text : "是否要參加此活動?",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "",
+				confirmButtonText : "確認參加",
+				closeOnConfirm : false
+			}, function() {
+				swal("成功執行!", "你已加入此活動", "success");
 				location.href = obj;
+			});
 		};
-		$(function() {
-			$("#dialog").dialog({
-				autoOpen : false,
-				show : {
-					effect : "blind",
-					duration : 500
-				},
-				hide : {
-					effect : "explode",
-					duration : 500
-				},
-				height : 400,
-				width : 300,
-				modal : true,
-			});
-			$("#opener").click(function() {
-				$("#dialog").dialog("open");
-			});
-		});
 		function findActMember(obj) {
 			location.href = obj;
 		};

@@ -24,6 +24,7 @@ import tw.com.eeit94.textile.model.activity_member.Activity_memberBean;
 import tw.com.eeit94.textile.model.activity_member.Activity_memberPK;
 import tw.com.eeit94.textile.model.activity_member.Activity_memberService;
 import tw.com.eeit94.textile.model.member.MemberBean;
+import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.social.SocialListBean;
 import tw.com.eeit94.textile.model.social.SocialListService;
 
@@ -42,6 +43,13 @@ public class ReadActivityController {
 
 	public ActivityService getActivityService() {
 		return activityService;
+	}
+
+	@Autowired
+	private MemberService memberService;
+
+	public MemberService getMemberService() {
+		return memberService;
 	}
 
 	@Autowired
@@ -158,9 +166,18 @@ public class ReadActivityController {
 		int mId = Integer.parseInt(mIdstring);
 		int activityno = Integer.parseInt(activitynostring);
 		Activity_memberBean joinbean = new Activity_memberBean();
-		joinbean.setActivity_memberPK(new Activity_memberPK(activityno, mId));
-		joinbean.setPosition("參與者");
-		getActivity_memberService().changePosition(joinbean);
+		joinbean.setActivity_memberPK(new Activity_memberPK(activityno, mId));		
+		if(getActivity_memberService().findByPK(joinbean) != null){
+			joinbean.setPosition("參與者");
+			getActivity_memberService().changePosition(joinbean);
+		} else{
+			joinbean.setPosition("參與者");
+			ActivityBean insertbean = new ActivityBean();
+			insertbean.setActivityno(activityno);			
+			joinbean.setActivityBean(getActivityService().selectByActivityNO(insertbean));
+			joinbean.setMemberBean(getMemberService().selectByPrimaryKey(mId));
+			getActivity_memberService().addNewActivityMember(joinbean);
+		}
 		Activity_memberBean bean = new Activity_memberBean();
 		Activity_memberPK pk = new Activity_memberPK();
 		pk.setmId(mId);
@@ -210,11 +227,11 @@ public class ReadActivityController {
 		
 		System.out.println(activities);
 		
-//		List<String> s_type = new ArrayList<>();
-//		MemberBean memberBean = (MemberBean) session.getAttribute("user");
-//		Integer userId = memberBean.getmId();
-//		s_type.add("好友");
-//		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
+		List<String> s_type = new ArrayList<>();
+		MemberBean memberBean = (MemberBean) session.getAttribute("user");
+		Integer userId = memberBean.getmId();
+		s_type.add("好友");
+		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
 
 		Map<String, List<Activity_memberBean>> myAct = new HashMap<String, List<Activity_memberBean>>();
 		List<Activity_memberBean> ready = new ArrayList<Activity_memberBean>();
@@ -238,7 +255,7 @@ public class ReadActivityController {
 				}
 			}
 		}
-//		session.setAttribute("FriendList", friendsBean);
+		session.setAttribute("FriendList", friendsBean);
 		session.setAttribute("myActivityList", myAct);
 		return "Activity.default";
 	}

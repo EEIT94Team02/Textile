@@ -456,7 +456,7 @@
 		</fieldset>
 	</div>
 	<script type="text/javascript">
-		
-	</script>
+    
+  </script>
 </body>
 </html>
