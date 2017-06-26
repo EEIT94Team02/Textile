@@ -35,7 +35,6 @@ public class DepositDAOHibernate implements DepositDAO {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	
 	// deposit表格的查詢
 	// 以使用者會員Id為主，時間區間為輔做條件查詢。
 	@Override
@@ -73,6 +72,7 @@ public class DepositDAOHibernate implements DepositDAO {
 		DepositBean result = null;
 		if (bean != null) {
 			if (bean.getDepositId() == null) {
+//				bean.setMemberBean(getSession().get(MemberBean.class, bean.get));
 				getSession().save(bean);
 				result = bean;
 			}

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Deal</title>
+<title>Deposit</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui-1.12.1.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
@@ -20,51 +20,45 @@ fieldset {
 </head>
 <body>
 	<input type="button" class="btn btn-info btn-lg" id="condition" value="條件查詢" />
-	<form id="dealCondition" action="dealList.do" method="POST">
+	<form id="depositCondition" action="dList.do">
 		<fieldset>
 			<legend>Select a date if need be:</legend>
 			<label for="afterDate">此日期之後</label>
-			<input type="text" id="afterDate" name="dealDateAfter" autocomplete="off" />
+			<input type="text" id="afterDate" name="depositDateAfter" autocomplete="off" />
 			<label for="beforeDate">此日期之前</label>
-			<input type="text" id="beforeDate" name="dealDateBefore" autocomplete="off" />
+			<input type="text" id="beforeDate" name="depositDateBefore" autocomplete="off" />
 		</fieldset>
 		<input type="submit" value="開始查詢" />
 		<input type="reset" value="清除條件" />		
 	</form>
 	<c:choose>
-		<c:when test="${not empty dealList}">
+		<c:when test="${not empty dList}">
 			<table>
 			<thead>
 				<tr>
-					<td>dealId</td>
-					<td>memberName</td>
-					<td>dealDate</td>
-					<td>totalCost</td>
-					<td></td>
+					<th>depositId</th>
+					<th>memberName</th>
+					<th>depositDate</th>
+					<th>depositAmount</th>
+					<th>virtualPoints</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${dealList}" var="dealBean" varStatus="dealStatus">
-					<tr>
-						<td>${dealBean.dealId}</td>
-						<td>${dealBean.memberBean.mName}</td>
-						<td>${dealBean.dealDate}</td>
-						<td>${dealBean.totalCost}</td>
-						<td>
-							<input type="button" name="submit" value="交易明細" />
-						</td>
-					</tr>
-				</c:forEach>
+			<c:forEach items="${dList}" var="dBean" varStatus="dStatus">
+				<tr>
+					<td>${dBean.depositId}</td>
+					<td>${dBean.memberBean.mName}</td>
+					<td>${dBean.depositDate}</td>
+					<td>${dBean.depositAmount}</td>
+					<td>${dBean.virtualPoints}</td>
+				</tr>
+			</c:forEach>
 			</tbody>
 		</table>
-		<form id="dealDetailForm" action="dealDetail.do" method="POST">
-				<input type="hidden" name="dealId" value="${dealBean.dealId}" />
-				<input type="hidden" name="memberId" value="${sessionScope.user.mId}" />
-		</form>
 		</c:when>
 		<c:otherwise>
 			<h2>查無紀錄</h2>
-			<h3><a href="${pageContext.request.contextPath}/store/pList.do">前往購物</a></h3>
+			<h3><a href="index.v">前往儲值</a></h3>
 			<h3><a href="${pageContext.request.contextPath}/">返回首頁</a></h3>
 		</c:otherwise>
 	</c:choose>
@@ -72,14 +66,15 @@ fieldset {
 <script>
 $(function() {
 	// default
-	$('#dealCondition').hide();
+	var depositCondition = $('#depositCondition');
+	depositCondition.hide();
 	
 	// action
 	$('#condition').on('click', function() {
-		$('#dealCondition').slideToggle();
+		depositCondition.slideToggle();
 	});
 	
-	// datepicker related config
+	// date related
 	$(':text[name*="After"]').datepicker({
 		dateFormat:'yy-mm-dd',
 		contrainInput:false,
@@ -103,15 +98,8 @@ $(function() {
 	
 	// reinforce reset
 	$(':reset').on('click', function() {
-		$(':text[name*="dealDate"]').datepicker('option', 'maxDate', null)
+		$(':text[name*="depositDate"]').datepicker('option', 'maxDate', null)
 		.datepicker('option', 'minDate', null).val('');
-	});
-	
-	// deal detail query
-	$(':button[name="submit"]').on('click', function() {
-		var dealId = $(this).parents('tr').find('td:eq(0)').text();
-		$(':hidden[name="dealId"]').val(dealId);
-		$('#dealDetailForm').submit();
 	});
 });
 </script>

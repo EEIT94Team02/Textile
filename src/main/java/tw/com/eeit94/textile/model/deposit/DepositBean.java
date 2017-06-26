@@ -32,7 +32,7 @@ public class DepositBean implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer depositId;
 	
-	@JoinColumn(name="memberId")
+	@JoinColumn(name="memberId", insertable = true)
 	@ManyToOne(fetch=FetchType.EAGER)
 	private MemberBean memberBean;
 	
@@ -50,12 +50,11 @@ public class DepositBean implements Serializable {
 	public void setDepositId(int depositId) {
 		this.depositId = depositId;
 	}
-
 	public Integer getDepositId() {
 		return depositId;
 	}
-
-	// memberId getter setter
+	
+	// memberBean getter setter
 	public void setMemberBean(MemberBean memberBean) {
 		this.memberBean = memberBean;
 	}

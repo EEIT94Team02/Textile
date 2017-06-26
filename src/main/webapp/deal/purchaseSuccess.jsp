@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Deposit Test Trigger</title>
+<title>Purchase Success</title>
 </head>
 <body>
-	<c:url var="showList" value="dList.do" >
-		<c:param name="memberId" value="${sessionScope.user.mId}"/>
-	</c:url>
-	<h3><a href="${showList}">deposit</a></h3><hr/>
-	<h3><a href="../">home</a></h3>
+	<c:if test="${not empty purchaseSuccess}">
+		<h2>${purchaseSuccess}</h2>
+		<h3><a href="${pageContext.request.contextPath}/item/iList.do">前往物品欄</a></h3>
+		<h3><a href="${pageContext.request.contextPath}/">返回首頁</a></h3>
+	</c:if>
 </body>
 </html>

@@ -117,6 +117,18 @@ public class PathFilter implements Filter {
 			case ".gif":
 				chain.doFilter(request, response);
 				break;
+			case ".ttf":
+				chain.doFilter(request, response);
+				break;
+			case ".woff":
+				chain.doFilter(request, response);
+				break;
+			case ".woff2":
+				chain.doFilter(request, response);
+				break;
+			case ".map":
+				chain.doFilter(request, response);
+				break;
 			default:
 				response.sendRedirect(contextPath + ConstMapping.ERROR_PAGE.path());
 			}

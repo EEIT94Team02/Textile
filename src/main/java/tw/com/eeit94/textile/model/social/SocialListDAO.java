@@ -22,12 +22,12 @@ public interface SocialListDAO {
 
 	public boolean delete(SocialListBean bean);
 
+	public List<SocialListBean> getRelativeToMeList(Integer acquaintenceId, String s_type);
+
+	public List<SocialListBean> selectAllFriend(Integer userId, List<String> s_type);
+
 	List<SocialListBean> selectByFriend(SocialListBean bean, Timestamp date) throws ParseException;
 
-	
+	List<SocialListBean> searchFriend(Integer userId, String s_type, String s_group, Timestamp s_login);
 
-	
-	
 }
-
-	

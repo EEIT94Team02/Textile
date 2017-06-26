@@ -29,9 +29,9 @@ public class ProductController {
 	private ProductService productService;
 
 	@InitBinder
-	public void controllerInit(WebDataBinder webDataBinder) {
+	public void controllerInit(WebDataBinder binder) {
 		PrimitiveNumberEditor integerEditor = new PrimitiveNumberEditor(Integer.class, true);
-		webDataBinder.registerCustomEditor(Integer.class, integerEditor);
+		binder.registerCustomEditor(Integer.class, integerEditor);
 	}
 
 	public ProductService getProductService() {
@@ -89,7 +89,6 @@ public class ProductController {
 				dataError.put("pRP", "請輸入整數。");
 			}
 		}
-		System.out.println(bean.getImg());
 		// 驗證圖片
 		if (imgFileContent != null && imgFileContent.trim().length() != 0) {
 			String imgSub = imgFileContent.substring(imgFileContent.lastIndexOf(',') + 1);
