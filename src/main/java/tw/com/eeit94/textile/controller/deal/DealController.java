@@ -136,6 +136,7 @@ public class DealController {
 			return "deal.success";
 		} else {
 			model.addAttribute("purchaseError", "餘額不足。");
+			model.addAttribute("notEnough", cart.getSubtotal() - memberBean.getmPoints());
 			return "deal.error";
 		}
 	}
