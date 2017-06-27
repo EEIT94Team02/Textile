@@ -80,7 +80,7 @@ public class ProfileController {
 			request.setAttribute(ConstFilterKey.OTHERUSER.key(), mbean);
 			return ConstMapping.PROFILE_OTHERUSER_SUCCESS.path();
 		} else {
-			return ConstMapping.ERROR_PAGE.path();
+			return ConstMapping.ERROR_PAGE_REDIRECT.path();
 		}
 	}
 }

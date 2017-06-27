@@ -13,8 +13,12 @@
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
+	<c:url value="/photo/album/list.do" var="album">
+		<c:param name="mId" value="${user.mId}"></c:param>
+	</c:url>
+
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -34,10 +38,9 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
-
-
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty OthersAlbum}">
 				${Albumresult}
@@ -59,6 +62,8 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

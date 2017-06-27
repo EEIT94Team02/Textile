@@ -26,5 +26,50 @@
 		<input type="button" id="button" name="button" value="送出" />
 	</div>
 	${chat.cId}
+	<script type="text/javascript">
+    var wsUri = "/port";
+    var echo_websocket;
+    var textNode;
+    var outputNode;
+
+    function init() {
+      outputNode = document.getElementById("outputId");
+      textNode = document.getElementById("textId");
+    }
+
+    function send_echo() {
+      writeToScreen("Connecting to " + wsUri);
+      echo_websocket = new WebSocket(wsUri);
+
+      echo_websocket.onopen = function(evt) {
+        writeToScreen("Connected!");
+        doSend(textNode.value);
+      };
+
+      echo_websocket.onmessage = function(evt) {
+        writeToScreen("Received message: " + evt.data);
+        echo_websocket.close();
+      };
+
+      echo_websocket.onerror = function(evt) {
+        writeToScreen("<span style='color: red'>ERROR:</span> " + evt.data);
+        echo_websocket.close();
+      };
+    }
+
+    function doSend(message) {
+      echo_websocket.send(message);
+      writeToScreen("Sent message: " + message);
+    }
+
+    function writeToScreen(message) {
+      var pre = document.createElement("p");
+      pre.style.wordWrap = "break-word";
+      pre.innerHTML = message;
+      outputNode.appendChild(pre);
+    }
+
+    window.addEventListener("load", init, false);
+  </script>
 </body>
 </html>

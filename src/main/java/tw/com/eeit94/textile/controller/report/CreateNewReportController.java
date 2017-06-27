@@ -74,18 +74,18 @@ public class CreateNewReportController {
 		}
 
 		if (errors != null && !errors.isEmpty()) {
-			return "Report.error";
+			return "report.error";
 		}
 
-		if (request.getParameter("reptType") == null) {
-			errors.put("reportType", "請選擇回報種類");
-		}
-		if (request.getParameter("reptDetail").trim().isEmpty()) {
-			errors.put("message", "請輸入回報內容");
-		}
+//		if (request.getParameter("reptType") == null) {
+//			errors.put("reportType", "請選擇回報種類");
+//		}
+//		if (request.getParameter("reptDetail").trim().isEmpty()) {
+//			errors.put("message", "請輸入回報內容2");
+//		}
 
 		if (errors != null && !errors.isEmpty()) {
-			return "Report.error";
+			return "report.error";
 		}
 
 		// 新增回報測試用

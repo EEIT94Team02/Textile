@@ -41,24 +41,7 @@
 	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
-		<div class="section">
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="${myAct}">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -72,8 +55,9 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty AllActivitise}">
 				<form action='<c:url value="/activity/select.do"/>' method="post">
@@ -137,7 +121,9 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 	<script>
 		function joinMyAct(obj) {
 			swal({

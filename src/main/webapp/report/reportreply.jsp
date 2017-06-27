@@ -1,46 +1,203 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>        
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <title>Welcome, Textile</title>
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/lightbox.css"/>'>
+<link href="/css/lightbox.css" rel="stylesheet">
+<script src='<c:url value="/js/lightbox.js"/>'></script>
+<script src="/js/lightbox.js"></script>
+<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
-<center>
-<h3>管理員回覆</h3>
-<form action='<c:url value="replysuccess.do" />' method="post" >
-<table border="1">
-	<tbody>
-		<thead>
-		<tr>
-			<th>回報編號</th>
-			<th>會員編號</th>
-			<th>回報日期</th>
-			<th>回報種類</th>		
-			<th>回報內容</th>
-			<th>回報圖片</th>
-		</tr>
-	</thead>
-		<tr>
-			<th>${report.reptNo}<input type="hidden" name="reptNo" value="${report.reptNo}"></th>
-			<th>${report.mId}<input type="hidden" name="mId" value="${report.mId}"></th>
-			<th>${report.reptDate}<input type="hidden" name="reptDate" value="${report.reptDate}"></th>
-			<th>${report.reptType}<input type="hidden" name="reptType" value="${report.reptType}"></th>		
-			<th>${report.reptDetail}<input type="hidden" name="reptDetail" value="${report.reptDetail}"></th>
-			<th>
-				<c:forEach var="rImg" items="${reportImg}">
-					<img src="..${rImg.imgPath}">
+	<div id="header">
+		<div class="section">
+			<c:url value="/photo/album/list.do" var="album">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<ul>
+				<li><c:if test="${not empty user}">
+						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+							<a href="manager/">後臺</a>
+						</c:if>
+					</c:if></li>
+				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
+				<li><a href="<c:url value ='/user/' />">會員</a></li>
+				<li><a href="${album}">相簿</a></li>
+				<li><a href="<c:url value ='/activity/' />">活動</a></li>
+				<li><a href="<c:url value ='/store/' />">商店</a></li>
+				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><c:if test="${not empty user}">
+						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
+					</c:if></li>
+			</ul>
+		</div>
+	</div>
+	<div id="center">
+		<div id="left">
+			<div class="actions">
+				<ul>
+					<c:url value="/photo/album/select.do" var="selectalbum">
+						<c:param name="albumno" value="${user.mId}"></c:param>
+					</c:url>
+					<li class="list" id="reportcreate"><a href="createreport.v">填寫回報單</a></li>
+					<li class="list" id="reportcreate"><a href="reportlist.do">查詢個人回報資訊</a></li>
+					<c:if test="${user.mValidManager=='Y'}">
+						<li class="list" id="reportcreate"><a href="../report/situationlist.do">查詢所有未處理回報單</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</div>
+		<!--預留給聊天室的區塊-->
+		<div id="right">預留給聊天室的區塊</div>
+		<div id="body" style="font-family:Microsoft JhengHei">
+			<div style="padding-top:40px;padding-bottom:40px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
+				<table style="padding-top:40px;border:1px">
+					<tbody>
+					<thead>
+						<tr>
+							<th style="border-bottom: 1px solid #ddd">回報編號</th>
+							<th style="border-bottom: 1px solid #ddd">回報日期</th>
+							<th style="border-bottom: 1px solid #ddd">回報種類</th>
+						</tr>
+					</thead>
+					<tr>
+						<c:url value="../report/reportreply.do" var="link" scope="page">
+							<c:param name="reptNo" value="${report.reptNo}"></c:param>
+							<c:param name="mId" value="${report.mId}"></c:param>
+							<c:param name="reptDate" value="${report.reptDate}"></c:param>
+							<c:param name="reptType" value="${report.reptType}"></c:param>
+							<c:param name="reptDetail" value="${report.reptDetail}"></c:param>
+							<c:param name="replyDetail" value="${report.reptDetail}"></c:param>
+							<c:param name="situation" value="${report.situation}"></c:param>
+						</c:url>
+						<th style="border-bottom: 1px solid #ddd; width: 6%; text-align: center; vertical-align: middle">${report.reptNo}</th>
+						<th style="border-bottom: 1px solid #ddd; width: 6%; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></th>
+						<th style="border-bottom: 1px solid #ddd; width: 10%; text-align: center; vertical-align: middle">${report.reptType}</th>
+					</tr>
+					</tbody>
+				</table>
+				<!-- 	圖片	 -->
+				<center>
+					<div>
+						<table style="width: 100%">
+							<tr>
+								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
+								<c:if test="${not empty reportImg}">
+									<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
+								</c:if>
+							</tr>
+							<tr>
+								<td style="width: 50%;" id="reportlistfont">${report.reptDetail}</td>
+								<c:if test="${not empty reportImg}">
+									<td><c:forEach var="rImg" items="${reportImg}">
+											<figure style="display: inline-block"> <a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> <img src='..${rImg.imgPath}' width="150" height="100"></a> </figure>
+										</c:forEach></td>
+								</c:if>
+							</tr>
+						</table>
+					</div>
+				</center>
+				<!-- 	客服回覆	 -->
+				<div>
+					<table width="100%">
+						<tr style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle">
+							<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle; font-size: 23px;">客服回覆</th>
+						</tr>
+						<tr>
+							<c:choose>
+								<c:when test="${not empty report.replyDetail}">
+									<th style="border-bottom: 1px solid #ddd; width: 8%; text-align: center; vertical-align: middle">${report.replyDetail}</th>
+								</c:when>
+								<c:otherwise>
+									<th style="border-bottom: 1px solid #ddd; width: 8%; text-align: center; vertical-align: middle;font-size: 22px;" id="report"><a href="${link}">回覆</a></th>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</table>
+				</div>
+				<c:if test="${not empty reportDetail}">
+					<center>
+						<h3 style="color: #FE2E64;padding-top:40px;">回報單後續處理內容</h3>
+					</center>
+				</c:if>
+
+				<c:forEach var="rDetail" items="${reportDetail}">
+					<div style="width: 100%">
+						<table border="1">
+							<tbody>
+							<thead>
+								<tr>
+									<th style="border-bottom: 1px solid #ddd">回報日期</th>
+									<th style="border-bottom: 1px solid #ddd">回報內容</th>
+								</tr>
+							</thead>
+							<tr>
+								<c:url value="../report/reportreplyfollowup.do" var="follow" scope="page">
+									<c:param name="reptUpNo" value="${rDetail.reptUpNo}"></c:param>
+									<c:param name="reptUpDate" value="${rDetail.reptUpDate}"></c:param>
+									<c:param name="reptUpDetail" value="${rDetail.reptUpDetail}"></c:param>
+									<c:param name="replyUpDetail" value="${rDetail.replyUpDetail}"></c:param>
+									<c:param name="reptNo" value="${rDetail.reptNo}"></c:param>
+								</c:url>
+								<td style="border-bottom: 1px solid #ddd; width: 6%; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${rDetail.reptUpDate}" /></td>
+								<td style="border-bottom: 1px solid #ddd; width: 39%; text-align: left; vertical-align: middle">${rDetail.reptUpDetail}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- 圖片 -->
+					<c:if test="${not empty reportDetailImg}">	
+					<center>
+						<div>
+							<table border="1" width="100%">					
+										<tr>
+											<th>回報圖片</th>
+										</tr>	
+								<td>
+								<c:forEach var="rImg" items="${reportDetailImg}">
+									<c:if test="${rDetail.reptUpNo==rImg.reptUpNo}">
+											<figure style="display: inline-block">
+											<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="Detail">
+											<img src='..${rImg.imgUpPath}' width="300" height="250">
+											</a> 
+											</figure>
+									</c:if>
+								</c:forEach>
+								</td>
+							</table>
+						</div>
+					</center>
+					</c:if>
+					<!-- 管理員回覆 -->
+						<table style="padding-bottom:40px;width:100%">
+							<tr>
+								<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle;font-size: 23px">客服回覆</th>
+							</tr>
+							<tr>
+								<c:choose>
+									<c:when test="${not empty rDetail.replyUpDetail}">
+										<th style="text-align: justify; vertical-align: middle">${rDetail.replyUpDetail}</th>
+									</c:when>
+									<c:otherwise>
+										<th style="text-align: center; vertical-align: middle;font-size: 22px;" id="report"><a href="${follow}">回覆</a></th>
+									</c:otherwise>
+								</c:choose>
+							</tr>
+						</table>
 				</c:forEach>
-			</th>
-	   </tr>
-	</tbody>
-</table>
-	<textarea name="replyDetail" rows="10" cols="50">test</textarea>
-	<br>
-	<input type="Submit" id="ButtonSubmit" value="Save" />
-</form>
-</center>
+			</div>
+		</div>
+	</div>
+	<div id="footer">this is footer</div>
 </body>
 </html>

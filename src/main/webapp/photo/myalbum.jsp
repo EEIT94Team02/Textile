@@ -21,7 +21,7 @@
 	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -41,8 +41,9 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty AlbumList}">
 				<div>
@@ -62,14 +63,11 @@
 					</c:forEach>
 				</div>
 			</c:if>
-			<%-- 			<c:if test="${not empty FriendList}"> --%>
-			<%-- 				<c:forEach var="Friend" items="${FriendList}"> --%>
-			<%-- 					${Friend.mbean.mName} --%>
-			<%-- 				</c:forEach> --%>
-			<%-- 			</c:if> --%>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 	<script>
 		function doCheck(obj) {
 			answer = confirm("你確定要刪除嗎？");
