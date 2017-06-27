@@ -9,7 +9,6 @@
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <style type="text/css">
 
 body {
