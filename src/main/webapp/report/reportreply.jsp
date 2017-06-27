@@ -37,19 +37,20 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
 		<div id="body" style="font-family:Microsoft JhengHei">
+			<center>
 			<div style="padding-top:40px;padding-bottom:40px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
-				<table style="padding-top:40px;border:1px">
+				<table style="padding-top:40px;border:1px;width:80%;padding-bottom:20px">
 					<tbody>
 					<thead>
-						<tr>
-							<th style="border-bottom: 1px solid #ddd">回報編號</th>
-							<th style="border-bottom: 1px solid #ddd">回報日期</th>
-							<th style="border-bottom: 1px solid #ddd">回報種類</th>
+						<tr style="font-size: 22px">
+							<th style="border-bottom: 1px solid #ddd;background-color: black;color: white">回報編號</th>
+							<th style="border-bottom: 1px solid #ddd;background-color: black;color: white">回報日期</th>
+							<th style="border-bottom: 1px solid #ddd;background-color: black;color: white">回報種類</th>
 						</tr>
 					</thead>
-					<tr>
+					<tr style="font-size: 20px">
 						<c:url value="../report/reportreply.do" var="link" scope="page">
 							<c:param name="reptNo" value="${report.reptNo}"></c:param>
 							<c:param name="mId" value="${report.mId}"></c:param>
@@ -59,27 +60,31 @@
 							<c:param name="replyDetail" value="${report.reptDetail}"></c:param>
 							<c:param name="situation" value="${report.situation}"></c:param>
 						</c:url>
-						<th style="border-bottom: 1px solid #ddd; width: 6%; text-align: center; vertical-align: middle">${report.reptNo}</th>
-						<th style="border-bottom: 1px solid #ddd; width: 6%; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></th>
-						<th style="border-bottom: 1px solid #ddd; width: 10%; text-align: center; vertical-align: middle">${report.reptType}</th>
+						<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle">${report.reptNo}</th>
+						<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></th>
+						<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle">${report.reptType}</th>
 					</tr>
 					</tbody>
 				</table>
 				<!-- 	圖片	 -->
 				<center>
 					<div>
-						<table style="width: 100%">
-							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
+						<table style="width: 80%;padding-bottom:40px">
+							<tr style="font-size: 22px">
+								<th style="width: 33%; text-align: center; vertical-align: middle">回報內容</th>
+								<th style="width: 33%; text-align: center; vertical-align: middle"></th>
 								<c:if test="${not empty reportImg}">
-									<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
+									<th style="width: 33%; text-align: center; vertical-align: middle">回報圖片</th>
 								</c:if>
 							</tr>
 							<tr>
-								<td style="width: 50%;" id="reportlistfont">${report.reptDetail}</td>
+								<td style="width: 33%;text-align: center; vertical-align: middle;font-size: 18px" id="reportlistfont">${report.reptDetail}</td>
+								<td style="width: 33%;text-align: center; vertical-align: middle" id="reportlistfont"></td>
 								<c:if test="${not empty reportImg}">
 									<td><c:forEach var="rImg" items="${reportImg}">
-											<figure style="display: inline-block"> <a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> <img src='..${rImg.imgPath}' width="150" height="100"></a> </figure>
+											<figure style="display: inline-block"> 
+											<a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> 
+											<img src='..${rImg.imgPath}' width="150" height="100" style="margin-right:-100px;padding-top:15px"></a> </figure>
 										</c:forEach></td>
 								</c:if>
 							</tr>
@@ -88,17 +93,17 @@
 				</center>
 				<!-- 	客服回覆	 -->
 				<div>
-					<table width="100%">
-						<tr style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle">
-							<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle; font-size: 23px;">客服回覆</th>
-						</tr>
+					<table width="80%">
+<!-- 						<tr style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle"> -->
+<!-- 							<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle; font-size: 23px;">客服回覆</th> -->
+<!-- 						</tr> -->
 						<tr>
 							<c:choose>
 								<c:when test="${not empty report.replyDetail}">
-									<th style="border-bottom: 1px solid #ddd; width: 8%; text-align: center; vertical-align: middle">${report.replyDetail}</th>
+									<th style="text-align: center; vertical-align: middle">${report.replyDetail}</th>
 								</c:when>
 								<c:otherwise>
-									<th style="border-bottom: 1px solid #ddd; width: 8%; text-align: center; vertical-align: middle;font-size: 22px;" id="report"><a href="${link}">回覆</a></th>
+									<th style="text-align: center; vertical-align: middle;font-size: 22px;" id="report"><a href="${link}">回覆</a></th>
 								</c:otherwise>
 							</c:choose>
 						</tr>
@@ -176,8 +181,9 @@
 						</table>
 				</c:forEach>
 			</div>
+			</center>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>

@@ -12,7 +12,6 @@
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
-<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
 <script src="<c:url value = '/js/social.list.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">

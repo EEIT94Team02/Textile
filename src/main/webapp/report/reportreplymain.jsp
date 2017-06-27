@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
 		<div id="body" style="background-image: url(../image/background/reportbackground.jpg)">
 			<div style="opacity: 0.7; background-color: #1C1C1C; color: #FFFFFF; width: 100% ;height: 500%">
 				<br> <br> <br> <br> <br>
@@ -91,6 +91,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>
