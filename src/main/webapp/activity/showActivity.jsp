@@ -61,7 +61,7 @@
 		<div id="body">
 			<c:if test="${not empty AllActivitise}">
 				<form action='<c:url value="/activity/select.do"/>' method="post">
-					<table border="1" style="text-align: center; width: 100%">
+					<table border="1" style="text-align: center; width: 100% ; margin:auto">
 						<thead style="font-size: 16px">
 							<tr>
 								<th>活動編號</th>

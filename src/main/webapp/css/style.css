@@ -49,6 +49,7 @@ body {
 	width: 20%;
 	background: #FFF7E8;
 	float: left;
+	opacity:0.7;
 }
 
 #right {
@@ -69,7 +70,7 @@ body {
 	min-height: 1000px;
 	background: #FFE8E8;
 	width: 63%;
-	
+
 }
 
 #footer {
@@ -792,11 +793,11 @@ body {
 
 
 #report a:link {
-	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */
+	color:#00FF00;}    /* 閮剖��暺�����蝯見撘� */
 #report a:visited {
-	color:#01DFD7;} /* 設定過去曾經閱過的連結 */
+	color:#01DFD7;} /* 閮剖���蝬�����蝯� */
 #report a:hover {
-	color:#F78181;}   /* 設定滑鼠游標指在連結位置上的樣式 */
+	color:#F78181;}   /* 閮剖���虜璅���蝯�蔭銝�見撘� */
 #report a:active {
-	color:#0000BB;}  /* 設定上點擊過的連結樣式 */
+	color:#0000BB;}  /* 閮剖��������蝯見撘� */
 
