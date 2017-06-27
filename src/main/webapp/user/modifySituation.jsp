@@ -27,32 +27,7 @@
 </head>
 <body>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
-				<li><c:if test="${empty user}">
-						<a href="check/register.v">註冊</a>
-						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
-					</c:if> <c:if test="${not empty user}">
-						<c:url var="x" value="/check/logout.do" />
-						<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp"/>
 	</div>
 
 	<div id="left">
@@ -221,7 +196,7 @@
 						</select> <span></span> <br />
 						<p></p>
 					</div>
-					<div>
+					<div >
 						<c:choose>
 							<c:when test="${not empty dataAndErrorsMap.mSelfIntroduction}">
 								<c:set var="x" value="${dataAndErrorsMap.mSelfIntroduction}" />
@@ -230,8 +205,8 @@
 								<c:set var="x" value="${user.mSelfIntroduction}" />
 							</c:otherwise>
 						</c:choose>
-						<label for="mSelfIntroduction">自我介紹：</label>
-						<textarea id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
+						<label for="mSelfIntroduction" style="float: left;">自我介紹：</label>
+						<textarea  rows="10" cols="120" id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
 						<img src="" /><span>${dataAndErrorsMap.mSelfIntroduction_error}</span> <br />
 						<p></p>
 					</div>
@@ -244,64 +219,67 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-    var imgsrc_correct16 = '../image/check/check_correct16.png';
-    var imgsrc_error16 = '../image/check/check_error16.png';
-    var imgsrc_close16 = '../image/check/check_close16.png';
-    var imgsrc_loading16 = '../image/check/check_loading16.gif';
+		var imgsrc_correct16 = '../image/check/check_correct16.png';
+		var imgsrc_error16 = '../image/check/check_error16.png';
+		var imgsrc_close16 = '../image/check/check_close16.png';
+		var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
-    // 自動驗證的AJAX
-    function checkField(event) {
-      var id = $(event.currentTarget).attr('id');
-      $('#' + id + ' + img').attr('src', imgsrc_loading16);
-      $.get('modify.do', {
-        'm': id,
-        'q': $('#' + id).val()
-      }, function(output) {
-        $('#' + id).parent().find('span').text(output);
-      });
-    }
+		// 自動驗證的AJAX
+		function checkField(event) {
+			var id = $(event.currentTarget).attr('id');
+			$('#' + id + ' + img').attr('src', imgsrc_loading16);
+			$.get('modify.do', {
+				'm' : id,
+				'q' : $('#' + id).val()
+			}, function(output) {
+				$('#' + id).parent().find('span').text(output);
+			});
+		}
 
-    function checkFieldOnblur(event) {
-      var id = $(event.currentTarget).attr('id');
-      $('#' + id + ' + img').attr('src', imgsrc_loading16);
-      $.get('modify.do', {
-        'm': id,
-        'q': $('#' + id).val()
-      }, function(output) {
-        $('#' + id).parent().find('span').text(output);
-      }).done(function() {
-        changeImageFor(id);
-      });
-    }
+		function checkFieldOnblur(event) {
+			var id = $(event.currentTarget).attr('id');
+			$('#' + id + ' + img').attr('src', imgsrc_loading16);
+			$.get('modify.do', {
+				'm' : id,
+				'q' : $('#' + id).val()
+			}, function(output) {
+				$('#' + id).parent().find('span').text(output);
+			}).done(function() {
+				changeImageFor(id);
+			});
+		}
 
-    function changeImageFor(id) {
-      if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() == '') {
-        $('#' + id + ' + img').attr('src', '');
-      } else if ($('#' + id).parent().find('span').text() == '' && $('#' + id).val() != '') {
-        $('#' + id + ' + img').attr('src', imgsrc_correct16);
-      } else {
-        $('#' + id + ' + img').attr('src', imgsrc_error16);
-      }
-    }
+		function changeImageFor(id) {
+			if ($('#' + id).parent().find('span').text() == ''
+					&& $('#' + id).val() == '') {
+				$('#' + id + ' + img').attr('src', '');
+			} else if ($('#' + id).parent().find('span').text() == ''
+					&& $('#' + id).val() != '') {
+				$('#' + id + ' + img').attr('src', imgsrc_correct16);
+			} else {
+				$('#' + id + ' + img').attr('src', imgsrc_error16);
+			}
+		}
 
-    // 自動驗證自我介紹
-    $('#mSelfIntroduction').on('keyup', checkField).on('blur', checkFieldOnblur);
+		// 自動驗證自我介紹
+		$('#mSelfIntroduction').on('keyup', checkField).on('blur',
+				checkFieldOnblur);
 
-    // 設定提交表單後，要將按鈕功能取消。
-    function disableSubmit() {
-      $(document).find('input[type="submit"]').prop('disabled', true);
-    }
+		// 設定提交表單後，要將按鈕功能取消。
+		function disableSubmit() {
+			$(document).find('input[type="submit"]').prop('disabled', true);
+		}
 
-    $('#situation').on('submit', disableSubmit);
+		$('#situation').on('submit', disableSubmit);
 
-    // 設定提交表單後如果還有錯誤要做圖示覆蓋
-    $(document).ready(function() {
-      var idCheckArray = ['mSelfIntroduction'];
-      for (var i = 0; i < idCheckArray.length; i++) {
-        var id = idCheckArray[i];
-        changeImageFor(id);
-      }
-    });
-  </script>
+		// 設定提交表單後如果還有錯誤要做圖示覆蓋
+		$(document).ready(function() {
+			var idCheckArray = [ 'mSelfIntroduction' ];
+			for (var i = 0; i < idCheckArray.length; i++) {
+				var id = idCheckArray[i];
+				changeImageFor(id);
+			}
+		});
+	</script>
 </body>
 </html>

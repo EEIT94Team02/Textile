@@ -108,7 +108,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
-		registry.addViewController("/store/pSingle.v").setViewName("/store/pSingle.v");
 		registry.addViewController("/store/cart.v").setViewName("/store/cart.v");
 		registry.addViewController("/item/index.v").setViewName("/item/index.v");
 		registry.addViewController("/deposit/index.v").setViewName("/deposit/index.v");
@@ -638,14 +637,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public InternalResourceView productList() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/store/index.jsp");
-		return view;
-	}
-
-	// 個別商品頁面
-	@Bean(name = { "/store/pSingle.v" })
-	public InternalResourceView productSingle() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/store/pSingle.jsp");
 		return view;
 	}
 
