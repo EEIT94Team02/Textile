@@ -1,7 +1,7 @@
 package tw.com.eeit94.textile.controller.user;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailService;
 import tw.com.eeit94.textile.model.logs.LogsService;
@@ -134,14 +133,14 @@ public class ModifyController {
 	 * @version 2017/06/21
 	 * @throws IOException
 	 */
-	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, produces = { "text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void checkProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws IOException {
+	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET })
+	public void checkProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.memberService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 
@@ -152,17 +151,16 @@ public class ModifyController {
 	 * @version 2017/06/21
 	 * @throws Exception
 	 */
-	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "m=mOldPassword" }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void checkOldPasswordProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws Exception {
+	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "m=mOldPassword" })
+	public void checkOldPasswordProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap.put(request.getParameter(ConstHelperKey.METHOD.key()),
 				request.getParameter(ConstHelperKey.QUERY.key()));
 		dataAndErrorsMap = this.memberService.checkOldPassword(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 
@@ -173,17 +171,16 @@ public class ModifyController {
 	 * @version 2017/06/21
 	 * @throws Exception
 	 */
-	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "m=mNewPassword" }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void checkNewPasswordProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws Exception {
+	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "m=mNewPassword" })
+	public void checkNewPasswordProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap.put(request.getParameter(ConstHelperKey.METHOD.key()),
 				request.getParameter(ConstHelperKey.QUERY.key()));
 		dataAndErrorsMap = this.memberService.checkNewPassword(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 
@@ -195,17 +192,18 @@ public class ModifyController {
 	 * @throws Exception
 	 */
 	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "mNewPassword",
-			"mNewPassword_Again" }, produces = { "text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void checkNewPassword_AgainProcess(HttpServletRequest request, HttpServletResponse response,
-			OutputStream out) throws Exception {
+			"mNewPassword_Again" })
+	public void checkNewPassword_AgainProcess(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap.put(ConstMemberKey.NewPassword.key(), request.getParameter(ConstMemberKey.NewPassword.key()));
 		dataAndErrorsMap.put(ConstMemberKey.NewPassword_Again.key(),
 				request.getParameter(ConstMemberKey.NewPassword_Again.key()));
 		dataAndErrorsMap = this.memberService.checkNewPassword_Again(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 
@@ -216,15 +214,14 @@ public class ModifyController {
 	 * @version 2017/06/22
 	 * @throws Exception
 	 */
-	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "n=interest" }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void checkInterestProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws Exception {
+	@RequestMapping(path = { "/modify.do" }, method = { RequestMethod.GET }, params = { "n=interest" })
+	public void checkInterestProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.interest_DetailService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 

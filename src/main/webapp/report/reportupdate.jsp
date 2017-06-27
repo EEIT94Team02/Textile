@@ -15,7 +15,6 @@
 <link href="/css/lightbox.css" rel="stylesheet">
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src="/js/lightbox.js"></script>
-<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
 	<div id="header">

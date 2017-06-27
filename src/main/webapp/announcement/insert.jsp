@@ -26,50 +26,57 @@
 </script>
 </head>
 <body>
-	<h1>Textile</h1>	
-		<form action='<c:url value="insert.do"/>' method="post">
-			<table>
-				
-				<tr>
-					<td>公告主旨：</td>
-					<td><input type="text" name="gist" value="${param.gist}" /></td>
-					<td>${AnnouncementInsertErrors.gist}</td>
-				</tr>
-				<tr>
-					<td>公告內容：</td>
-					<td><input type="text" name="msg" value="${param.msg}" /></td>
-					<td>${AnnouncementInsertErrors.introduction}</td>
-				</tr>
-				<tr>
-					<td>開始時間：</td>
-					<td><input type="text" id="start" name="startTime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間" /></td>
-					<td>${AnnouncementInsertErrors.startTime}</td>
-				</tr>
-				<tr>
-					<td>結束時間：</td>
-					<td><input type="text" id="end" name="endTime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間"/></td>
-					<td>${AnnouncementInsertErrors.endTime}</td>
-				</tr>
-				<tr>
-					<td>發布時間：</td>
-					<td><input type="hidden" name="relTime" value="${param.relTime}" /></td>
-				</tr>
-				
-				<tr>
-					<td>公告種類：</td>
-					<td><select name="a_type">
-							<option value="新聞" selected="selected">新聞</option>
-							<option value="系統" >系統</option>
-							<option value="活動" >活動</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="建立"></td>
-					<td>${AnnouncementInsertErrors.insert}</td>
-				</tr>
-			</table>
-		</form>
+	<div id="header">
+		<jsp:include page="/headerInclude.jsp" />
+	</div>
+	<h1>Textile</h1>
+	<div id="center">
+		<div id="body">
+	<form action='<c:url value="insert.do"/>' method="post">
+		<table>
+
+			<tr>
+				<td>公告主旨：</td>
+				<td><input type="text" name="gist" value="${param.gist}" /></td>
+				<td>${AnnouncementInsertErrors.gist}</td>
+			</tr>
+			<tr>
+				<td>公告內容：</td>
+				<td><input type="text" name="msg" value="${param.msg}" /></td>
+				<td>${AnnouncementInsertErrors.introduction}</td>
+			</tr>
+			<tr>
+				<td>開始時間：</td>
+				<td><input type="text" id="start" name="startTime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間" /></td>
+				<td>${AnnouncementInsertErrors.startTime}</td>
+			</tr>
+			<tr>
+				<td>結束時間：</td>
+				<td><input type="text" id="end" name="endTime" class="ui-datetimepicker" placeholder="請點擊選擇結束時間" /></td>
+				<td>${AnnouncementInsertErrors.endTime}</td>
+			</tr>
+			<tr>
+				<td>發布時間：</td>
+				<td><input type="hidden" name="relTime" value="${param.relTime}" /></td>
+			</tr>
+
+			<tr>
+				<td>公告種類：</td>
+				<td><select name="a_type">
+						<option value="新聞" selected="selected">新聞</option>
+						<option value="系統">系統</option>
+						<option value="活動">活動</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="建立"></td>
+				<td>${AnnouncementInsertErrors.insert}</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	</div>
 
 </body>
 </html>

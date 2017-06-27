@@ -196,7 +196,7 @@
 						</select> <span></span> <br />
 						<p></p>
 					</div>
-					<div>
+					<div >
 						<c:choose>
 							<c:when test="${not empty dataAndErrorsMap.mSelfIntroduction}">
 								<c:set var="x" value="${dataAndErrorsMap.mSelfIntroduction}" />
@@ -205,8 +205,8 @@
 								<c:set var="x" value="${user.mSelfIntroduction}" />
 							</c:otherwise>
 						</c:choose>
-						<label for="mSelfIntroduction">自我介紹：</label>
-						<textarea id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
+						<label for="mSelfIntroduction" style="float: left;">自我介紹：</label>
+						<textarea  rows="10" cols="120" id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
 						<img src="" /><span>${dataAndErrorsMap.mSelfIntroduction_error}</span> <br />
 						<p></p>
 					</div>

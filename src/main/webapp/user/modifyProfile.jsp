@@ -198,7 +198,7 @@
 						<p></p>
 					</div>
 					<div>
-						<input id="submit" name="submit" value="修改" type="submit" /> <br />
+						<input id="submit"  name="submit" value="修改" type="submit" /> <br />
 						<p></p>
 					</div>
 				</fieldset>
