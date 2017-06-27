@@ -56,6 +56,16 @@ public class SecureService {
 	}
 
 	/**
+	 * 重建加密的文字，讓「 」變回「+」。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/25
+	 */
+	public String getRebuiltEncryptedText(String encryptedText) {
+		return encryptedText.replace(' ', '+');
+	}
+
+	/**
 	 * 得到加密的文字。
 	 * 
 	 * ※注意：使用時，輸入的sTarget資料必須在資料庫Secure表格中存在，否則會拋出例外。
@@ -170,14 +180,14 @@ public class SecureService {
 					}
 				}
 			}
-			
+
 			randomPassword = sBuffer.toString();
 			Map<String, String> dataAndErrorsMap = new HashMap<>();
 			dataAndErrorsMap.put(ConstHelperKey.KEY.key(), ConstMemberKey.Password.key());
 			dataAndErrorsMap.put(ConstMemberKey.Password.key(), randomPassword);
 			dataAndErrorsMap = this.memberService.checkFormData(dataAndErrorsMap);
 			String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-			if(output.equals(ConstHelperKey.SPACE.key())){
+			if (output.equals(ConstHelperKey.SPACE.key())) {
 				return randomPassword;
 			}
 		}

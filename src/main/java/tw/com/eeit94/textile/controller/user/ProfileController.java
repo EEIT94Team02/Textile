@@ -71,6 +71,7 @@ public class ProfileController {
 	@RequestMapping(path = { "/index.v" }, method = { RequestMethod.GET }, params = { "q" })
 	public String otheruserViewProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String query = request.getParameter(ConstHelperKey.QUERY.key());
+		query = this.secureService.getRebuiltEncryptedText(query);
 		String mId = this.secureService.getDecryptedText(query.replace(' ', '+'),
 				ConstSecureParameter.MEMBERID.param());
 		MemberBean mbean = this.memberService.selectByPrimaryKey(Integer.parseInt(mId));
@@ -79,7 +80,7 @@ public class ProfileController {
 			request.setAttribute(ConstFilterKey.OTHERUSER.key(), mbean);
 			return ConstMapping.PROFILE_OTHERUSER_SUCCESS.path();
 		} else {
-			return ConstMapping.ERROR_PAGE.path();
+			return ConstMapping.ERROR_PAGE_REDIRECT.path();
 		}
 	}
 }

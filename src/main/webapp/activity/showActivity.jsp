@@ -41,24 +41,7 @@
 	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
-		<div class="section">
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="${myAct}">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -72,8 +55,9 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty AllActivitise}">
 				<form action='<c:url value="/activity/select.do"/>' method="post">
@@ -137,32 +121,24 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 	<script>
 		function joinMyAct(obj) {
-			answer = confirm("確定要參加嗎？");
-			if (answer)
+			swal({
+				title : "你確定要參加嗎？？",
+				text : "是否要參加此活動?",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "",
+				confirmButtonText : "確認參加",
+				closeOnConfirm : false
+			}, function() {
+				swal("成功執行!", "你已加入此活動", "success");
 				location.href = obj;
+			});
 		};
-		$(function() {
-			$("#dialog").dialog({
-				autoOpen : false,
-				show : {
-					effect : "blind",
-					duration : 500
-				},
-				hide : {
-					effect : "explode",
-					duration : 500
-				},
-				height : 400,
-				width : 300,
-				modal : true,
-			});
-			$("#opener").click(function() {
-				$("#dialog").dialog("open");
-			});
-		});
 		function findActMember(obj) {
 			location.href = obj;
 		};

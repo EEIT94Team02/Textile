@@ -27,24 +27,7 @@
 	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
-		<div class="section">
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="${myAct}">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -57,9 +40,9 @@
 				</ul>
 			</div>
 		</div>
-
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty myActivityList}">
 				<c:if test="${not empty myActivityList.owner}">
@@ -82,6 +65,9 @@
 								<c:url value="/activity/partner.do" var="findActMember">
 									<c:param name="activityno" value="${owner.activity_memberPK.activityno}"></c:param>
 								</c:url>
+								<c:url value="/activity/delete.do" var="cancelBean">
+									<c:param name="activityno" value="${owner.activity_memberPK.activityno}"></c:param>
+								</c:url>
 								<tr>
 									<td>${owner.activityBean.activityno}</td>
 									<td><fmt:formatDate value="${owner.activityBean.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
@@ -90,14 +76,14 @@
 									<td>${owner.activityBean.place}</td>
 									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
-									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
+									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="cancelMyAct('${cancelBean}')"></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</c:if>
 				<c:if test="${not empty myActivityList.ready}">
-					<h3>已參加的活動</h3>
+					<h3>${user.mName}已參加的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
@@ -132,7 +118,7 @@
 									<td>${row.activityBean.activityname}</td>
 									<td>${row.activityBean.place}</td>
 									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
-									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="inviteFriend('${inviteMember}')"></td>
+									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
 								</tr>
 							</c:forEach>
@@ -140,7 +126,7 @@
 					</table>
 				</c:if>
 				<c:if test="${not empty myActivityList.notcommit}">
-					<h3>受邀請的活動</h3>
+					<h3>${user.mName}受邀請的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
@@ -181,7 +167,9 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 
 	<script>
 		function deleteMyAct(obj) {
@@ -197,8 +185,22 @@
 				swal("成功執行!", "你已退出此活動", "success");
 				location.href = obj;
 			});
-
 		};
+		function cancelMyAct(obj) {
+			swal({
+				title : "你確定要取消嗎？",
+				text : "是否要取消此活動?",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-danger",
+				confirmButtonText : "確認取消",
+				closeOnConfirm : false
+			}, function() {
+				swal("成功執行!", "你已取消此活動", "success");
+				location.href = obj;
+			});
+		};
+
 		function joinMyAct(obj) {
 			swal({
 				title : "你確定要參加嗎？？",
@@ -240,8 +242,7 @@
 				swal("成功執行!", "你已退出此活動", "success");
 				location.href = obj;
 			});
-		};		
-
+		};
 
 		function findActMember(obj) {
 			location.href = obj;

@@ -12,51 +12,11 @@
 </style>
 </head>
 <body>
+	<c:url value="/photo/album/list.do" var="album">
+		<c:param name="mId" value="${user.mId}"></c:param>
+	</c:url>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
-	</div>
-	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -73,34 +33,36 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
-		
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
+
 		<div id="body">
 			<c:if test="${not empty user}">
 				<div>
-				<p style="color:black ; font-size: 20px"><c:out value="創建一個屬於  ${user.mName} 的相簿"/></p></div>
+					<p style="color: black; font-size: 20px"><c:out value="創建一個屬於  ${user.mName} 的相簿" /></p>
+				</div>
 				<form action='<c:url value="/photo/album/create.do"/>' method="post">
 					<table>
-						<tr style="margin: 5px ; padding: 5px">
-							<td><label style="color:black ; font-size: 20px">相簿名稱：</label></td>
+						<tr style="margin: 5px; padding: 5px">
+							<td><label style="color: black; font-size: 20px">相簿名稱：</label></td>
 							<td><input type="text" name="albumname" placeholder="請輸入相簿名稱" value="${param.albumname}" /></td>
 							<td>${albumCRDErrors.albumname}</td>
 						</tr>
-						<tr style="margin: 5px ; padding: 5px">
-							<td><label style="color:black ; font-size: 20px">相簿簡介：</label></td>
+						<tr style="margin: 5px; padding: 5px">
+							<td><label style="color: black; font-size: 20px">相簿簡介：</label></td>
 							<td><input type="text" name="introduction" placeholder="請輸入相簿簡介" value="${param.introduction}" /></td>
 							<td>${albumCRDErrors.introduction}</td>
 						</tr>
-						<tr style="margin: 5px ; padding: 5px">
-							<td><label style="color:black ; font-size: 20px">隱私設定：</label></td>
+						<tr style="margin: 5px; padding: 5px">
+							<td><label style="color: black; font-size: 20px">隱私設定：</label></td>
 							<td><select name="visibility">
 									<option value="公開" selected="selected">公開</option>
 									<option value="好友">好友</option>
 									<option value="私人">私人</option>
 							</select></td>
 						</tr>
-						<tr style="margin: 5px ; padding: 5px">
+						<tr style="margin: 5px; padding: 5px">
 							<td></td>
 							<td><input type="submit" value="建立"></td>
 							<td>${albumCRDErrors.create}</td>
@@ -110,6 +72,8 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

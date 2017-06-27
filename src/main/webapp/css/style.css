@@ -35,7 +35,7 @@ body {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	height: 60px;
+	min-height: 60px;
 	background-color: #F5E8FF;
 	color: #000000;
 	padding: 0;
@@ -187,6 +187,8 @@ body {
 	background: url(../images/bg-nav-left-selected.gif) no-repeat top left;
 }
 
+
+
 /* #header .article { */
 /* 	background: #fff; */
 /* 	border: 2px solid #5fb3bd; */
@@ -312,16 +314,7 @@ body {
 /* 	top: -14px; */
 /* } */
 
-/* #body h3 { */
-/* 	color: #2f394e; */
-/* 	margin: 0; */
-/* 	padding: 0; */
-/* 	font-size: 20px; */
-/* 	font-weight: normal; */
-/* 	margin: 0; */
-/* 	padding: 25px 10px 40px; */
-/* 	text-transform: capitalize; */
-/* } */
+
 
 /* #body>b { */
 /* 	color: #2f394e; */
@@ -785,3 +778,26 @@ body {
 /* #footer div .connect #pinterest:hover { */
 /* 	background-position: -25px -107px; */
 /* } */
+
+#reportcreate {
+	 font-size:20px;
+	 font-family:Microsoft JhengHei;
+	 font-weight:bold;
+}
+
+#reportlistfont {
+	 font-size:14px;
+	 font-family:Microsoft JhengHei;
+	 font-weight:bold;
+}
+
+
+#report a:link {
+	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */
+#report a:visited {
+	color:#01DFD7;} /* 設定過去曾經閱過的連結 */
+#report a:hover {
+	color:#F78181;}   /* 設定滑鼠游標指在連結位置上的樣式 */
+#report a:active {
+	color:#0000BB;}  /* 設定上點擊過的連結樣式 */
+

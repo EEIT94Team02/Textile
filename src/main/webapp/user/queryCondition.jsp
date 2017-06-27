@@ -35,31 +35,7 @@ div.otherInterestDiv div {
 </head>
 <body>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
-				<li><c:if test="${empty user}">
-						<a href="check/register.v">註冊</a>
-						<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
-					</c:if> <c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp"/>
 	</div>
 
 	<div id="left">
@@ -78,6 +54,7 @@ div.otherInterestDiv div {
 
 	<div id="center">
 		<div id="body">
+			<fieldset>
 			<form id="queryCondition" action="queryCondition.do" method="post">
 				<input type="hidden" name="m" value="queryCondition" />
 				<p>個人資料</p>
@@ -428,6 +405,7 @@ div.otherInterestDiv div {
 							</tr>
 						</tbody>
 					</table>
+					
 				</div>
 				<div>
 					<input id="submit" name="submit" value="搜尋" type="submit" /><img src="" /><span>${dataAndErrorsMap.queryCondition_error}</span>
@@ -435,6 +413,7 @@ div.otherInterestDiv div {
 					<p></p>
 				</div>
 			</form>
+			</fieldset>
 			<c:if test="${not empty mAddress_RegionList}">
 				<c:set var="start" value="${false}" />
 				<c:forEach var="mAddress_RegionArray" items="${mAddress_RegionList}" varStatus="status">

@@ -51,24 +51,7 @@
 	<c:url value="/activity/allAct.do" var="allAct">
 	</c:url>
 	<div id="header">
-		<div class="section">
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="${myAct}">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -82,17 +65,18 @@
 			</div>
 		</div>
 
-		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 		<div id="body">
 			<c:if test="${not empty user}">
 				<div>
 					<p style="color: black; font-size: 20px"><c:out value="${user.mName} 準備發起一個活動:" /></p>
 				</div>
 				<form action='<c:url value="/activity/create.do"/>' method="post">
-					<table>
+					<table style="font-size: 14px; text-align: left;">
 						<tr>
-							<td>活動名稱：</td>
+							<td style="">活動名稱：</td>
 							<td><input type="text" name="activityname" value="${param.activityname}" /></td>
 							<td>${activityCRDErrors.activityname}</td>
 						</tr>
@@ -113,7 +97,7 @@
 						</tr>
 						<tr>
 							<td>活動內容：</td>
-							<td><textarea name="interpretation">${param.interpretation}</textarea></td>
+							<td><textarea name="interpretation" cols="40" rows="10">${param.interpretation}</textarea></td>
 							<td>${activityCRDErrors.interpretation}</td>
 						</tr>
 						<tr>
@@ -126,6 +110,8 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

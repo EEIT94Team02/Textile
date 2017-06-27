@@ -14,51 +14,11 @@
 <title>Welcome, Textile</title>
 </head>
 <body>
+	<c:url value="/photo/album/list.do" var="album">
+		<c:param name="mId" value="${user.mId}"></c:param>
+	</c:url>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
-	</div>
-	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -74,18 +34,9 @@
 				</ul>
 			</div>
 		</div>
-
-		<!--預留給聊天室的區塊-->
 		<div id="right">
-			<p>預留給聊天室的區塊</p>
-			<p><a href='<c:url value="/photo/index.v"/>'>首頁</a></p>
-			<p><a href='<c:url value="/photo/select.v"/>'>搜尋照片(要登入)</a></p>
-			<p><a href='<c:url value="/photo/upload.v"/>'>上傳照片(要登入)</a></p>
-			<p><a href='<c:url value="/photo/update.v"/>'>更新照片(要登入)</a></p>
-			<p><a href='<c:url value="/photo/delete.v"/>'>刪除照片(要登入)</a></p>
+			<jsp:include page="/rightInclude.jsp" />
 		</div>
-
-
 		<div id="body">
 			<c:if test="${not empty PhotoList}">
 				<div>
@@ -106,6 +57,8 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

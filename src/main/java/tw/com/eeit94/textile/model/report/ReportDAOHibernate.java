@@ -154,6 +154,16 @@ public class ReportDAOHibernate implements ReportDAO {
 		return false;
 	}
 
+	@Override //修改回覆狀態
+	public ReportBean situationChange(Integer reptNo, Boolean situation) {
+		ReportBean bean = this.select(reptNo);
+		if (bean != null) {
+			bean.setSituation(situation);
+			return bean;
+		}
+		return null;
+	}
+
 	// private final String SELECT_BY_PRICE_LESS_THAN = "select name from
 	// ExampleBean where price<";
 	//
