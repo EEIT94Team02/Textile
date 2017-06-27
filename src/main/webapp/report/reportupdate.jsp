@@ -19,27 +19,7 @@
 </head>
 <body>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -57,21 +37,22 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
 		<div id="body">
 			<div style="padding-top:40px;padding-bottom:40px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<center>
+					<h2>先前回報內容</h2>
 					<form action='<c:url value="reportUpDate.do" />' enctype="multipart/form-data" method="post">
-						<table border="1" width="100%">
+						<table style="width:80%;border-style: solid;">
 							<tbody>
 							<thead>
-								<tr>
-									<th>會員暱稱</th>
-									<th>回報日期</th>
-									<th>回報種類</th>
+								<tr style="font-size: 22px">
+									<th style="width: 26%">會員暱稱</th>
+									<th style="width: 26%">回報日期</th>
+									<th style="width: 26%">回報種類</th>
 								</tr>
 							</thead>
-							<tr>
+							<tr style="font-size: 20px">
 								<th>${user.mName}<input type="hidden" name="reptNo" value="${report.reptNo}"><input type="hidden" name="mId" value="${report.mId}"></th>
 								<th><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /> <input type="hidden" name="reptDate" value="${report.reptDate}"></th>
 								<th>${report.reptType}<input type="hidden" name="reptType" value="${report.reptType}"><input type="hidden" name="reptDetail" value="${report.reptDetail}"></th>
@@ -80,19 +61,24 @@
 						<center>
 						
 					<div>
-						<table style="width:100%">
+						<table style="width:80%;padding-top:30px;font-size:20px">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
+								<th style="width: 26%; text-align: center; vertical-align: middle">回報內容</th>
+								<th style="width: 26%; text-align: center; vertical-align: middle"></th>
 								<c:if test="${not empty reportImg}">
-								<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
+								<th style="width: 26%; text-align: center; vertical-align: middle">回報圖片</th>
 								</c:if>
 							</tr>
 							<tr>
-								<td style="width: 50%;" id="reportlistfont">${report.reptDetail}</td>
+								<td style="width: 26%;" id="reportlistfont">${report.reptDetail}</td>
+								<td style="width: 26%;" id="reportlistfont"></td>
 								<c:if test="${not empty reportImg}">
 									<td><c:forEach var="rImg" items="${reportImg}">
 											<c:if test="${rImg.reptNo==report.reptNo}">
-												<img src="..${rImg.imgPath}" width="290" height="225">
+<%-- 												<img src="..${rImg.imgPath}" width="290" height="225"> --%>
+													<figure style="display: inline-block"> 
+													<a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> 
+													<img src='..${rImg.imgPath}' width="150" height="100" style="margin:-50px;padding-top:50px"></a> </figure>
 											</c:if>
 										</c:forEach></td>
 								</c:if>
@@ -163,7 +149,7 @@
 					
 					
 					</c:forEach>
-						<br> <br> <br>							
+						<br> <br> <br>						
 						<textarea name="reptUpDetail" rows="10" cols="100" placeholder="請詳述您的問題。" ></textarea>
 						<span class="error">${errors.message}</span><br> <label class="fontSize">
 						上傳圖片：</label> <Input Type="file" name="file" multiple accept="image/*">
@@ -177,6 +163,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>

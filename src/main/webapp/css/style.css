@@ -793,11 +793,11 @@ body {
 
 
 #report a:link {
-	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */
+	color:#d0ff00;}    /* 設定尚未點閱過的連結樣式 */
 #report a:visited {
 	color:#01DFD7;} /* 設定過去曾經閱過的連結 */
 #report a:hover {
-	color:#F78181;}   /* 設定滑鼠游標指在連結位置上的樣式 */
+	color:#ff0000;}   /* 設定滑鼠游標指在連結位置上的樣式 */
 #report a:active {
 	color:#0000BB;}  /* 設定上點擊過的連結樣式 */
 
