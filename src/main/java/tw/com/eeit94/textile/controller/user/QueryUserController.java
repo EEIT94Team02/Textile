@@ -1,7 +1,7 @@
 package tw.com.eeit94.textile.controller.user;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.interest.InterestBean;
 import tw.com.eeit94.textile.model.interest.InterestService;
@@ -59,11 +58,8 @@ public class QueryUserController {
 	 * @version 2017/06/23
 	 * @throws IOException
 	 */
-	@RequestMapping(path = { "/queryName.do" }, method = { RequestMethod.GET }, params = { "m=q" }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void querySimilarNameProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws IOException {
+	@RequestMapping(path = { "/queryName.do" }, method = { RequestMethod.GET }, params = { "m=q" })
+	public void querySimilarNameProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String mName = request.getParameter(ConstHelperKey.QUERY.key());
 		List<MemberBean> list = this.memberService.selectBySimilarName(mName);
 		// 除去內定名為「系統」的會員
@@ -72,7 +68,9 @@ public class QueryUserController {
 		for (int i = 0; i < list.size(); i++) {
 			jsonArray.put(list.get(i).getmName());
 		}
-		out.write(jsonArray.toString().getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(jsonArray.toString());
 		out.close();
 	}
 
@@ -124,10 +122,8 @@ public class QueryUserController {
 	 * @version 2017/06/24
 	 * @throws IOException
 	 */
-	@RequestMapping(path = { "/queryCondition.do" }, method = { RequestMethod.GET }, params = {
-			"m=mOtherInterest" }, produces = { "text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void querySimilarInterestProcess(HttpServletRequest request, HttpServletResponse response, OutputStream out)
+	@RequestMapping(path = { "/queryCondition.do" }, method = { RequestMethod.GET }, params = { "m=mOtherInterest" })
+	public void querySimilarInterestProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		String mOtherInterest = request.getParameter(ConstHelperKey.QUERY.key());
 		List<InterestBean> list = this.interestService.selectBySimilarName(mOtherInterest);
@@ -135,7 +131,9 @@ public class QueryUserController {
 		for (int i = 0; i < list.size(); i++) {
 			jsonArray.put(list.get(i).getiName());
 		}
-		out.write(jsonArray.toString().getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(jsonArray.toString());
 		out.close();
 	}
 
@@ -187,7 +185,7 @@ public class QueryUserController {
 	 * @throws IOException
 	 */
 	@RequestMapping(path = { "/queryRandom.do" }, method = { RequestMethod.GET })
-	public void querySimilarInterestProcess(HttpServletRequest request, HttpServletResponse response)
+	public void queryRandomProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, Exception {
 		HttpSession session = request.getSession();
 		MemberBean usermBean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
