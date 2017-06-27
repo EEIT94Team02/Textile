@@ -50,14 +50,14 @@
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>邀請</th>
-								<th>修改</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">邀請</th>
+								<th style="text-align: center; width: 5%">修改</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -82,19 +82,21 @@
 						</tbody>
 					</table>
 				</c:if>
+				<br>
+				<br>
 				<c:if test="${not empty myActivityList.ready}">
 					<h3>${user.mName}已參加的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>邀請</th>
-								<th>退出</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">邀請</th>
+								<th style="text-align: center; width: 5%">退出</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -125,19 +127,21 @@
 						</tbody>
 					</table>
 				</c:if>
+				<br>
+				<br>
 				<c:if test="${not empty myActivityList.notcommit}">
 					<h3>${user.mName}受邀請的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>參加</th>
-								<th>拒絕</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">參加</th>
+								<th style="text-align: center; width: 5%">拒絕</th>
 							</tr>
 						</thead>
 						<tbody>

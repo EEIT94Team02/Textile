@@ -40,68 +40,68 @@
 				</ul>
 			</div>
 		</div>
-
-		<!--預留給聊天室的區塊-->
 		<div id="right">
 			<jsp:include page="/rightInclude.jsp" />
 		</div>
 		<div id="body">
 			<c:if test="${not empty Activity}">
-				<h2>活動:</h2>
-				<div style="font-size: 18px; width: 100%; border: 1px solid black">
+				<h2 style="margin-left: 10px">活動:</h2>
+				<div style="font-size: 18px; width: 100%">
 					<table>
-						<tr>
-							<td width="80px"><label>活動名稱:</label></td>
+						<tr style="padding: 15px; width: 80px">
+							<td style="padding: 15px; width: 80px"><label style="font-weight: bold">活動名稱:</label></td>
 							<td style="font-size: 16px">${Activity.activityname}</td>
 						</tr>
-						<tr>
-							<td width="80px"><label>開始時間:</label></td>
+						<tr style="padding: 15px; width: 80px">
+							<td style="padding: 15px; width: 80px"><label style="font-weight: bold">開始時間:</label></td>
 							<td style="font-size: 16px"><fmt:formatDate value="${Activity.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
-						<tr>
-							<td width="80px"><label>結束時間:</label></td>
+						<tr style="padding: 15px; width: 80px">
+							<td style="padding: 15px; width: 80px"><label style="font-weight: bold">結束時間:</label></td>
 							<td style="font-size: 16px"><fmt:formatDate value="${Activity.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 						</tr>
-						<tr>
-							<td width="80px"><label>活動地點:</label></td>
+						<tr style="padding: 15px; width: 80px">
+							<td style="padding: 15px; width: 80px"><label style="font-weight: bold">活動地點:</label></td>
 							<td style="font-size: 16px">${Activity.place}</td>
 						</tr>
-						<tr>
-							<td width="80px"><label>活動敘述:</label></td>
+						<tr style="padding: 15px; width: 80px">
+							<td style="padding: 15px; width: 80px"><label style="font-weight: bold">活動敘述:</label></td>
 							<td style="font-size: 16px"></td>
 						</tr>
-						<tr>
+						<tr style="padding: 15px; width: 80px">
 						</tr>
-						<tr>
-							<td colspan="2">${Activity.interpretation}</td>
+						<tr style="padding: 15px; width: 80px">
+							<td colspan="2" style="padding: 15px">${Activity.interpretation}</td>
 						</tr>
 					</table>
 				</div>
 			</c:if>
+			<br> <br> <br> <br>
 			<c:if test="${not empty partner}">
-				<h2>活動成員:</h2>
+				<h2 style="margin-left: 10px">活動成員:</h2>
 				<div style="font-size: 18px">
 					<table>
-						<thead style="font-size: 14px">
+						<thead style="font-size: 16px">
 							<tr>
-								<th>參與成員</th>
+								<th></th>
 								<th></th>
 							</tr>
 						</thead>
-						<tbody style="font-size: 14px; font-family: inherit; text-align: center; margin-right: 10px">
+						<tbody style="font-size: 16px; font-family: inherit; text-align: center; margin-right: 10px">
 							<c:forEach var="row" items="${partner}">
 								<tr>
-									<td style="width: 120px">${row.memberBean.mName}</td>
-									<td style="width: 120px">${row.position}</td>
+									<td style="width: 120px; padding: 5px">${row.memberBean.mName}</td>
+									<td style="width: 120px; padding: 5px">${row.position}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 				<br>
+				<br>
 				<form action='<c:url value="/activity/invite.do"/>' method="post">
 					<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
-					<label>邀請好友一起加入:</label>
+					<label style="padding: 15px; font-weight: bold; font-size: 16px">邀請好友一起加入:</label>
 					<select name="mId">
 						<c:forEach var="Friend" items="${FriendList}">
 							<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
@@ -111,10 +111,9 @@
 				</form>
 			</c:if>
 		</div>
-		<div id="footer">
-			<jsp:include page="/footerInclude.jsp" />
-		</div>
-
-		</script>
+	</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

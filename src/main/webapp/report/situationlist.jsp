@@ -11,10 +11,11 @@
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
+<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
 	<div id="header">
-	<jsp:include page="/headerInclude.jsp" />
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -32,8 +33,8 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
-		<div id="body" >
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
+		<div id="body" style="padding-top:40px;background-image: url(../image/background/reportbackground.jpg);">
 			<div style="opacity: 0.6; position: absolute; background-color: #1C1C1C; color: #FFFFFF; width: 100%">
 				<table style="border:1px">
 					<tbody>
@@ -77,6 +78,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>

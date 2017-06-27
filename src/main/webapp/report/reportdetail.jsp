@@ -7,10 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <title>Welcome, Textile</title>
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/lightbox.css"/>'>
+<link href="/css/lightbox.css" rel="stylesheet">
+<script src='<c:url value="/js/lightbox.js"/>'></script>
+<script src="/js/lightbox.js"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
@@ -33,7 +37,7 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
 		<div id="body" style="font-size: 18px;">
 			<div style="padding-top:40px;padding-bottom:40px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<div>
@@ -41,18 +45,28 @@
 						<tbody>
 						<thead>
 							<tr>
-								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle">會員暱稱</th>
-								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle">回報日期</th>
-								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle">回報類別</th>
-								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle">回覆狀況</th>
+								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: white">會員暱稱</th>
+								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: white">回報日期</th>
+								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: white">回報類別</th>
+								<th style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: white">回覆狀況</th>
 								<!-- 								<th>管理員回覆</th> -->
 							</tr>
 						</thead>
 						<tr>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle" id="reportlistfont">${user.mName}</td>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle" id="reportlistfont"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></td>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle" id="reportlistfont">${report.reptType}</td>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle" id="reportlistfont">${report.situation?'已回覆':'未回覆'}</td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${user.mName}</td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${report.reptType}</td>
+<%-- 							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${report.situation?'已回覆':'未回覆'}</td> --%>
+							<c:choose>
+            					<c:when test="${report.situation}">
+                					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">已回覆</td>
+            					</c:when>
+           				 		<c:otherwise>
+                 					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #ff0000" id="reportlistfont">未回覆</td>
+           					 </c:otherwise>
+        					</c:choose>
+							
+							
 							<%-- 							<td>${report.replyDetail}</td> --%>
 						</tr>
 						</tbody>
@@ -60,19 +74,22 @@
 				</div>
 				<center>
 					<div>
-						<table style="width:100%">
-							<tr>
+						<table style="width:100%;padding-top:15px;">
+							<tr style="font-size:22px">
 								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
 								<c:if test="${not empty reportImg}">
 								<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
 								</c:if>
 							</tr>
-							<tr>
-								<td style="width: 50%;" id="reportlistfont">${report.reptDetail}</td>
+							<tr style="font-size:20px">
+								<td style="width: 50%; text-align: center; vertical-align: middle" id="reportlistfont">${report.reptDetail}</td>
 								<c:if test="${not empty reportImg}">
 									<td><c:forEach var="rImg" items="${reportImg}">
 											<c:if test="${rImg.reptNo==report.reptNo}">
-												<img src="..${rImg.imgPath}" width="290" height="225">
+<%-- 												<img src="..${rImg.imgPath}" width="290" height="225"> --%>
+												<figure style="display: inline-block"> 
+												<a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> 
+												<img src='..${rImg.imgPath}' width="150" height="100" style="margin-right:-100px;padding-top:15px"></a> </figure>
 											</c:if>
 										</c:forEach></td>
 								</c:if>
@@ -80,8 +97,9 @@
 						</table>
 					</div>
 				</center>
+				<c:if test="${not empty report.replyDetail}">
 				<div>
-					<table width="100%">
+					<table style="width:100%;border-style: ridge">
 						<tr style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle">
 							<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle; font-size: 18px;">管理員回覆</th>
 						</tr>
@@ -90,6 +108,7 @@
 						</tr>
 					</table>
 				</div>
+				</c:if>
 				<br> <br> <br>
 				<c:if test="${not empty reportDetail}">
 					<center>
@@ -131,27 +150,19 @@
 					</center>
 					<!-- 管理員回覆 -->
 					<c:if test="${not empty rDetail.replyUpDetail}">
-							<table width="100%">
+							<table width="100%;border-style: ridge">
 								<tr>
-									<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle">管理員回覆</th>
+									<th style="text-align: center; vertical-align: middle">管理員回覆</th>
 								</tr>
 								<tr>
 									<td style="text-align: center; vertical-align: middle">${rDetail.replyUpDetail}</td>
 								</tr>
 							</table>
 					</c:if>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
 				</c:forEach>
 			</div>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>
