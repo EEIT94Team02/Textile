@@ -96,6 +96,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/photo/showphoto.v").setViewName("/photo/showphoto.v");
 		registry.addViewController("/activity/secede.v").setViewName("/activity/secede.v");
 		registry.addViewController("/activity/allAct.v").setViewName("/activity/allAct.v");
+		registry.addViewController("/activity/calendar.v").setViewName("/activity/calendar.v");
 		/*
 		 * 李
 		 */
@@ -569,6 +570,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	public org.springframework.web.servlet.view.InternalResourceView ActDetail() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/ActivityDetail.jsp");
+		return internalResourceView;
+	}
+	// 顯示行事曆
+	@Bean(name = { "/activity/calendar.v"})
+	public org.springframework.web.servlet.view.InternalResourceView calendar() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/activity/activityCalendar.jsp");
 		return internalResourceView;
 	}
 
