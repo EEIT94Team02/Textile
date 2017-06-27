@@ -11,20 +11,24 @@
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <style type="text/css">
-.center {
-	background-image: url("../image/background/crs-ne-news-Textile.jpg");
+
+body {
+	background-image: url("<c:url value = '/image/background/4.jpg'/>");
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
 }
 </style>
 </head>
 <body>
+
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
-		<div id="body" >
-		</div>
-	</div>
+
+	<div id="center"></div>
+
 	<div id="footer">this is footer</div>
-	
+
 </body>
 </html>

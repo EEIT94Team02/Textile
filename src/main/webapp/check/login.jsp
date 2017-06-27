@@ -8,11 +8,14 @@
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <link rel=stylesheet type="text/css" href="<c:url value = '/css/jacky.css'/>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
 body {
 	background-image:
 		url("../image/background/Alien_Ink_2560X1600_Abstract_Background_1.jpg");
 }
+
+
 
 .formDiv {
 	margin: auto;
@@ -21,16 +24,17 @@ body {
 	margin-right: 38%;
 	font-family: Microsoft JhengHei;
 	width: 350px;
-	height:250px;
-	border: 2px ;
-	background-color:#34c2bb;
-	text-align:center;
-	line-height:50px;
+	height: 250px;
+	border: 2px;
+	background-color: #34c2bb;
+	text-align: center;
+	line-height: 50px;
 }
 </style>
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
+	
 	<div class="formDiv">
 		<form action="login.do" method="post">
 			<table>
@@ -51,11 +55,13 @@ body {
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="right"><input class="btn" type="submit" value="登入" /></td>
-					<td></td>
+					<td colspan="2" align="right"><input class="btn" type="submit" value="登入" />
+					<td><i class="fa fa-spinner fa-spin"></i>Loading</td>
+
 				</tr>
 			</table>
 		</form>
 	</div>
+	
 </body>
 </html>

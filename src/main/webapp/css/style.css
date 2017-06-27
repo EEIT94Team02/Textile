@@ -33,13 +33,14 @@ body {
 
 #header {
 	position: fixed;
+	color:white;
 	top: 0;
 	width: 100%;
 	min-height: 60px;
-	background-color: #F5E8FF;
-	color: #000000;
 	padding: 0;
 	z-index: 1000;
+	background-image: url("../image/background/7.jpg");
+	background-size: cover;
 }
 #left {
 	position: fixed;
@@ -126,12 +127,15 @@ body {
 	padding: 0;
 	overflow: hidden;
 	heigth: 100%;
+	
+	
 }
 
 #header .section .logo {
 	float: left;
 	margin: 0;
 	heigth: 100%;
+	
 }
 
 #header .section .logo a {
@@ -160,10 +164,13 @@ body {
 	margin: 0 10px;
 	padding: 0;
 	heigth: 100%;
+
 }
 
 #header .section ul li a {
-	color: #000000;
+	background-image: url("../image/background/6.jpg");
+	background-size:cover;
+	color: #ffffff;
 	display: inline-block;
 	font-size: 16px;
 	height: 30px;
@@ -174,10 +181,12 @@ body {
 	text-align: center;
 	text-decoration: none;
 	text-transform: uppercase;
+	font-size: 2em;
+	font-weight: 600;
 }
 
 #header .section ul li a:hover {
-	color: #ccc;
+	color: 	#AAAAFF;
 }
 
 #header .section ul li.selected {
