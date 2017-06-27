@@ -10,6 +10,7 @@
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <style>
 #body {
@@ -17,7 +18,6 @@
 }
 .productList {
 	justify-content: space-around;
-/* 	align-content: center; */
 	display: flex;
 }
 .container {
@@ -59,37 +59,7 @@
 </head>
 <body>
 	<div id="header">
-			<div class="section">
-				<c:url value="/photo/album/list.do" var="album">
-					<c:param name="mId" value="${user.mId}"></c:param>
-				</c:url>
-				<ul>
-					<li>
-						<c:if test="${not empty user}">
-							<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-								<a href="manager/">後臺</a>
-							</c:if>
-						</c:if>
-					</li>
-					<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-					<li><a href="<c:url value ='/user/' />">會員</a></li>
-					<li><a href="${album}">相簿</a></li>
-					<li><a href="<c:url value ='/activity/' />">活動</a></li>
-					<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
-					<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
-					<li><a href="<c:url value ='/report/' />">回報</a></li>
-					<li><a href="<c:url value ='/announcement/' />">公告</a></li>
-					<li>
-						<c:if test="${empty user}">
-							<a href="check/register.v">註冊</a>
-							<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
-						</c:if>
-						<c:if test="${not empty user}">
-							<c:out escapeXml="false" value="<a href='check/logout.do'>${user.mName}</a>" />
-						</c:if>
-					</li>
-				</ul>
-			</div>
+		<jsp:include page="/headerInclude.jsp"/>
 		</div>
 		<div id="center">
 			<div id="body">
@@ -110,7 +80,7 @@
 										<div class="middle">
 											<div class="info">
 												<p>${pBean.productName}</p>
-												<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;每個可獲得&nbsp;${pBean.rewardPoints}&nbsp;積分</p>
+												<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;每個可獲得&nbsp;${pBean.rewardPoints}&nbsp;點積分</p>
 												<p>${pBean.category}</p>
 												<p>${pBean.intro}</p>
 												<p>
@@ -138,7 +108,12 @@
 					</div>
 				</c:if>
 			</div>
+			<div id="right">
+				<jsp:include page="/rightInclude.jsp" />
+			</div>
 		</div>
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>

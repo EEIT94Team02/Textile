@@ -66,9 +66,10 @@ body {
 	top: 60px;
 	left: 21%;
 	bottom: 40px;
-	min-height: 1000px;
+ 	min-height: 1000px;
 	background: #FFE8E8;
 	width: 63%;
+	overflow: auto;
 }
 
 #footer {

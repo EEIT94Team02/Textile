@@ -23,8 +23,12 @@
 	<div id="center">
 		<div id="body" >
 		</div>
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
 	</div>
-	<div id="footer">this is footer</div>
-	
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
 </html>
