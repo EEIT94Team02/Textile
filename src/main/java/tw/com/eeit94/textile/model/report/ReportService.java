@@ -24,7 +24,7 @@ public class ReportService {
 	private DateFormat sdf;
 
 	public ReportService(ReportDAO reportDAO) {
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		this.reportDAO = reportDAO;
 		this.sdf = sdf;
 	}
@@ -68,7 +68,8 @@ public class ReportService {
 			if (bean.getmId() != null) {
 				bean.setmId(bean.getmId());
 				bean.setReptDate(new java.sql.Timestamp(new Date().getTime()));
-				bean.setReptDetail(bean.getReptDetail() + new java.sql.Timestamp(new Date().getTime()));
+//				bean.setReptDetail(bean.getReptDetail() + new java.sql.Timestamp(new Date().getTime()));
+				bean.setReptDetail(bean.getReptDetail());
 				bean.setSituation(false);
 				//System.out.println("service="+bean.getmId()+bean.getReptDate()+bean.getSituation());
 				return reportDAO.insert(bean);
@@ -92,8 +93,8 @@ public class ReportService {
 					for (ReportBean reportBean : list) {
 						// 判斷該會員是否有該筆回報
 						if (bean.getReptNo() == reportBean.getReptNo()) {
-							result.setReptDetail(
-									result.getReptDetail() + sdf.format(new Date()) + bean.getReptDetail());
+//							result.setReptDetail(
+//									result.getReptDetail() + sdf.format(new Date()) + bean.getReptDetail());
 							result.setReptNo(bean.getReptNo());
 							return reportDAO.custUpdate(result);
 						}
@@ -109,9 +110,18 @@ public class ReportService {
 		ReportBean reportBean = reportDAO.select(bean.getReptNo());
 		if (reportBean != null) {
 			reportBean.setReplyDetail(
-					reportBean.getReplyDetail() + bean.getReplyDetail() + "管理員於" + sdf.format(new Date()) + "回應");
-
+					//reportBean.getReplyDetail() + bean.getReplyDetail() + "管理員於" + sdf.format(new Date()) + "回應");
+					bean.getReplyDetail());
 			return reportDAO.mgrUpdate(reportBean.getReplyDetail(), reportBean.getReptNo());
+		}
+		return null;
+	}
+	
+	// 修改回覆狀態
+	public ReportBean stateChange(ReportBean bean){
+		ReportBean reportBean = reportDAO.select(bean.getReptNo());
+		if(reportBean != null){
+			return reportDAO.situationChange(bean.getReptNo(), bean.getSituation());
 		}
 		return null;
 	}

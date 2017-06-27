@@ -33,6 +33,9 @@ public interface ReportDAO {
 
 	// 回覆回報內容
 	public ReportBean mgrUpdate(String replyDetail, Integer reptNo);
+	
+	// 修改回報狀態
+	public ReportBean situationChange ( Integer reptNo, Boolean situation);
 
 	// 刪除回報單 接收回報編號
 	public boolean delete(Integer reptNo);
