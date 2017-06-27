@@ -1,7 +1,7 @@
 package tw.com.eeit94.textile.controller.user;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.UserCentralService;
@@ -41,14 +40,14 @@ public class InspectController {
 	 * @throws IOException
 	 * @see {@link LoginController}
 	 */
-	@RequestMapping(path = { "/inspect.do" }, method = { RequestMethod.GET }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void inspect(HttpServletRequest request, HttpServletResponse response, OutputStream out) throws IOException {
+	@RequestMapping(path = { "/inspect.do" }, method = { RequestMethod.GET })
+	public void inspect(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.memberService.encapsulateAndCheckOneData(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 
@@ -59,15 +58,14 @@ public class InspectController {
 	 * @version 2017/06/16
 	 * @throws IOException
 	 */
-	@RequestMapping(path = { "/inspectTheSamePassword.do" }, method = { RequestMethod.GET }, produces = {
-			"text/plain; charset=UTF-8" })
-	@ResponseBody
-	public void inspectTheSamePassword(HttpServletRequest request, HttpServletResponse response, OutputStream out)
-			throws IOException {
+	@RequestMapping(path = { "/inspectTheSamePassword.do" }, method = { RequestMethod.GET })
+	public void inspectTheSamePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, String> dataAndErrorsMap = new HashMap<>();
 		dataAndErrorsMap = this.memberService.checkTheSamePassword(dataAndErrorsMap, request);
 		String output = this.userCentralService.getAJAXCheckResult(dataAndErrorsMap);
-		out.write(output.getBytes());
+		response.setContentType("text/plain; charset=UTF-8");
+		Writer out = response.getWriter();
+		out.write(output);
 		out.close();
 	}
 }

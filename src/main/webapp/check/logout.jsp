@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 <style type="text/css">
 body {
-	background-image: url("../image/background/Alien_Ink_2560X1600_Abstract_Background_1.jpg");
+	background-image: url("../image/background/10.jpg");
 	margin: auto;
 	margin-top: 15%;
 	margin-left: 40%;
@@ -20,12 +20,13 @@ body {
 	width: 350px;
 	height:250px;
 	border: 2px ;
-	background-color:#34c2bb;
 	text-align:center;
 	line-height:50px;
+	font-weight:bolder;
+	font-size: 30px;
 }
 </style>
 </head>
-<body style="color:#EAC100">您已登出成功，3秒後自動轉向首頁。
+<body style="color:#00DDAA">您已登出成功，3秒後自動轉向首頁。
 </body>
 </html>

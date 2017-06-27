@@ -32,193 +32,196 @@ div.otherInterestDiv div {
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 
-	<div id="left">
-		<div class="actions">
-			<ul>
-				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
-				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
-				<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
-				<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
-				<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
-				<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
-				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
-			</ul>
-		</div>
-	</div>
 
 	<div id="center">
+		<div id="left">
+			<div class="actions">
+				<ul>
+					<li class="list"><a href="modifySecure.v">修改密碼</a></li>
+					<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
+					<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
+					<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
+					<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
+					<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
+					<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
+				</ul>
+			</div>
+		</div>
+
 		<div id="body">
-			<form id="interest" action="modify.do" method="post">
-				<input type="hidden" name="m" value="interest" />
-				<fieldset>
-					<legend>興趣喜好</legend>
-					<div>
-						<table>
-							<tbody>
-								<tr>
-									<td>戶外休閒：</td>
-									<td><input type="checkbox" name="i1" value="${user.i_d.items.i1.selected}"
-										${user.i_d.items.i1.selected == 1 ? 'checked' : ''} />${user.i_d.items.i1.value}<input type="checkbox"
-										name="i2" value="${user.i_d.items.i2.selected}" ${user.i_d.items.i2.selected == 1 ? 'checked' : ''} />${user.i_d.items.i2.value}<input
-										type="checkbox" name="i3" value="${user.i_d.items.i3.selected}"
-										${user.i_d.items.i3.selected == 1 ? 'checked' : ''} />${user.i_d.items.i3.value}<input type="checkbox"
-										name="i4" value="${user.i_d.items.i4.selected}" ${user.i_d.items.i4.selected == 1 ? 'checked' : ''} />${user.i_d.items.i4.value}<br />
-										<input type="checkbox" name="i5" value="${user.i_d.items.i5.selected}"
-										${user.i_d.items.i5.selected == 1 ? 'checked' : ''} />${user.i_d.items.i5.value}<input type="checkbox"
-										name="i6" value="${user.i_d.items.i6.selected}" ${user.i_d.items.i6.selected == 1 ? 'checked' : ''} />${user.i_d.items.i6.value}<input
-										type="checkbox" name="i7" value="${user.i_d.items.i7.selected}"
-										${user.i_d.items.i7.selected == 1 ? 'checked' : ''} />${user.i_d.items.i7.value}<input type="checkbox"
-										name="i8" value="${user.i_d.items.i8.selected}" ${user.i_d.items.i8.selected == 1 ? 'checked' : ''} />${user.i_d.items.i8.value}</td>
-									<td></td>
-									<td><input id="mOtherRecreation" name="mOtherRecreation" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherRecreation_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>運動健身：</td>
-									<td><input type="checkbox" name="i9" value="${user.i_d.items.i9.selected}"
-										${user.i_d.items.i9.selected == 1 ? 'checked' : ''} />${user.i_d.items.i9.value}<input type="checkbox"
-										name="i10" value="${user.i_d.items.i10.selected}" ${user.i_d.items.i10.selected == 1 ? 'checked' : ''} />${user.i_d.items.i10.value}<input
-										type="checkbox" name="i11" value="${user.i_d.items.i11.selected}"
-										${user.i_d.items.i11.selected == 1 ? 'checked' : ''} />${user.i_d.items.i11.value}<input type="checkbox"
-										name="i12" value="${user.i_d.items.i12.selected}" ${user.i_d.items.i12.selected == 1 ? 'checked' : ''} />${user.i_d.items.i12.value}<br />
-										<input type="checkbox" name="i13" value="${user.i_d.items.i13.selected}"
-										${user.i_d.items.i13.selected == 1 ? 'checked' : ''} />${user.i_d.items.i13.value}<input type="checkbox"
-										name="i14" value="${user.i_d.items.i14.selected}" ${user.i_d.items.i14.selected == 1 ? 'checked' : ''} />${user.i_d.items.i14.value}<input
-										type="checkbox" name="i15" value="${user.i_d.items.i15.selected}"
-										${user.i_d.items.i15.selected == 1 ? 'checked' : ''} />${user.i_d.items.i15.value}<input type="checkbox"
-										name="i16" value="${user.i_d.items.i16.selected}" ${user.i_d.items.i16.selected == 1 ? 'checked' : ''} />${user.i_d.items.i16.value}</td>
-									<td></td>
-									<td><input id="mOtherExercises" name="mOtherExercises" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherExercises_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>飲食料理：</td>
-									<td><input type="checkbox" name="i17" value="${user.i_d.items.i17.selected}"
-										${user.i_d.items.i17.selected == 1 ? 'checked' : ''} />${user.i_d.items.i17.value}<input type="checkbox"
-										name="i18" value="${user.i_d.items.i18.selected}" ${user.i_d.items.i18.selected == 1 ? 'checked' : ''} />${user.i_d.items.i18.value}<input
-										type="checkbox" name="i19" value="${user.i_d.items.i19.selected}"
-										${user.i_d.items.i19.selected == 1 ? 'checked' : ''} />${user.i_d.items.i19.value}<input type="checkbox"
-										name="i20" value="${user.i_d.items.i20.selected}" ${user.i_d.items.i20.selected == 1 ? 'checked' : ''} />${user.i_d.items.i20.value}<br />
-										<input type="checkbox" name="i21" value="${user.i_d.items.i21.selected}"
-										${user.i_d.items.i21.selected == 1 ? 'checked' : ''} />${user.i_d.items.i21.value}<input type="checkbox"
-										name="i22" value="${user.i_d.items.i22.selected}" ${user.i_d.items.i22.selected == 1 ? 'checked' : ''} />${user.i_d.items.i22.value}<input
-										type="checkbox" name="i23" value="${user.i_d.items.i23.selected}"
-										${user.i_d.items.i23.selected == 1 ? 'checked' : ''} />${user.i_d.items.i23.value}<input type="checkbox"
-										name="i24" value="${user.i_d.items.i24.selected}" ${user.i_d.items.i24.selected == 1 ? 'checked' : ''} />${user.i_d.items.i24.value}</td>
-									<td></td>
-									<td><input id="mOtherDiet" name="mOtherDiet" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherDiet_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>文學藝術：</td>
-									<td><input type="checkbox" name="i25" value="${user.i_d.items.i25.selected}"
-										${user.i_d.items.i25.selected == 1 ? 'checked' : ''} />${user.i_d.items.i25.value}<input type="checkbox"
-										name="i26" value="${user.i_d.items.i26.selected}" ${user.i_d.items.i26.selected == 1 ? 'checked' : ''} />${user.i_d.items.i26.value}<input
-										type="checkbox" name="i27" value="${user.i_d.items.i27.selected}"
-										${user.i_d.items.i27.selected == 1 ? 'checked' : ''} />${user.i_d.items.i27.value}<input type="checkbox"
-										name="i28" value="${user.i_d.items.i28.selected}" ${user.i_d.items.i28.selected == 1 ? 'checked' : ''} />${user.i_d.items.i28.value}<br />
-										<input type="checkbox" name="i29" value="${user.i_d.items.i29.selected}"
-										${user.i_d.items.i29.selected == 1 ? 'checked' : ''} />${user.i_d.items.i29.value}<input type="checkbox"
-										name="i30" value="${user.i_d.items.i30.selected}" ${user.i_d.items.i30.selected == 1 ? 'checked' : ''} />${user.i_d.items.i30.value}<input
-										type="checkbox" name="i31" value="${user.i_d.items.i31.selected}"
-										${user.i_d.items.i31.selected == 1 ? 'checked' : ''} />${user.i_d.items.i31.value}<input type="checkbox"
-										name="i32" value="${user.i_d.items.i32.selected}" ${user.i_d.items.i32.selected == 1 ? 'checked' : ''} />${user.i_d.items.i32.value}</td>
-									<td></td>
-									<td><input id="mOtherArt" name="mOtherArt" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherArt_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>設計藝術：</td>
-									<td><input type="checkbox" name="i33" value="${user.i_d.items.i33.selected}"
-										${user.i_d.items.i33.selected == 1 ? 'checked' : ''} />${user.i_d.items.i33.value}<input type="checkbox"
-										name="i34" value="${user.i_d.items.i34.selected}" ${user.i_d.items.i34.selected == 1 ? 'checked' : ''} />${user.i_d.items.i34.value}<input
-										type="checkbox" name="i35" value="${user.i_d.items.i35.selected}"
-										${user.i_d.items.i35.selected == 1 ? 'checked' : ''} />${user.i_d.items.i35.value}<input type="checkbox"
-										name="i36" value="${user.i_d.items.i36.selected}" ${user.i_d.items.i36.selected == 1 ? 'checked' : ''} />${user.i_d.items.i36.value}<br />
-										<input type="checkbox" name="i37" value="${user.i_d.items.i37.selected}"
-										${user.i_d.items.i37.selected == 1 ? 'checked' : ''} />${user.i_d.items.i37.value}<input type="checkbox"
-										name="i38" value="${user.i_d.items.i38.selected}" ${user.i_d.items.i38.selected == 1 ? 'checked' : ''} />${user.i_d.items.i38.value}<input
-										type="checkbox" name="i39" value="${user.i_d.items.i39.selected}"
-										${user.i_d.items.i39.selected == 1 ? 'checked' : ''} />${user.i_d.items.i39.value}<input type="checkbox"
-										name="i40" value="${user.i_d.items.i40.selected}" ${user.i_d.items.i40.selected == 1 ? 'checked' : ''} />${user.i_d.items.i40.value}</td>
-									<td></td>
-									<td><input id="mOtherDesign" name="mOtherDesign" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherDesign_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>音樂藝術：</td>
-									<td><input type="checkbox" name="i41" value="${user.i_d.items.i41.selected}"
-										${user.i_d.items.i41.selected == 1 ? 'checked' : ''} />${user.i_d.items.i41.value}<input type="checkbox"
-										name="i42" value="${user.i_d.items.i42.selected}" ${user.i_d.items.i42.selected == 1 ? 'checked' : ''} />${user.i_d.items.i42.value}<input
-										type="checkbox" name="i43" value="${user.i_d.items.i43.selected}"
-										${user.i_d.items.i43.selected == 1 ? 'checked' : ''} />${user.i_d.items.i43.value}<input type="checkbox"
-										name="i44" value="${user.i_d.items.i44.selected}" ${user.i_d.items.i44.selected == 1 ? 'checked' : ''} />${user.i_d.items.i44.value}<br />
-										<input type="checkbox" name="i45" value="${user.i_d.items.i45.selected}"
-										${user.i_d.items.i45.selected == 1 ? 'checked' : ''} />${user.i_d.items.i45.value}<input type="checkbox"
-										name="i46" value="${user.i_d.items.i46.selected}" ${user.i_d.items.i46.selected == 1 ? 'checked' : ''} />${user.i_d.items.i46.value}<input
-										type="checkbox" name="i47" value="${user.i_d.items.i47.selected}"
-										${user.i_d.items.i47.selected == 1 ? 'checked' : ''} />${user.i_d.items.i47.value}<input type="checkbox"
-										name="i48" value="${user.i_d.items.i48.selected}" ${user.i_d.items.i48.selected == 1 ? 'checked' : ''} />${user.i_d.items.i48.value}</td>
-									<td></td>
-									<td><input id="mOtherMusic" name="mOtherMusic" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherMusic_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>興趣嗜好：</td>
-									<td><input type="checkbox" name="i49" value="${user.i_d.items.i49.selected}"
-										${user.i_d.items.i49.selected == 1 ? 'checked' : ''} />${user.i_d.items.i49.value}<input type="checkbox"
-										name="i50" value="${user.i_d.items.i50.selected}" ${user.i_d.items.i50.selected == 1 ? 'checked' : ''} />${user.i_d.items.i50.value}<input
-										type="checkbox" name="i51" value="${user.i_d.items.i51.selected}"
-										${user.i_d.items.i51.selected == 1 ? 'checked' : ''} />${user.i_d.items.i51.value}<input type="checkbox"
-										name="i52" value="${user.i_d.items.i52.selected}" ${user.i_d.items.i52.selected == 1 ? 'checked' : ''} />${user.i_d.items.i52.value}<br />
-										<input type="checkbox" name="i53" value="${user.i_d.items.i53.selected}"
-										${user.i_d.items.i53.selected == 1 ? 'checked' : ''} />${user.i_d.items.i53.value}<input type="checkbox"
-										name="i54" value="${user.i_d.items.i54.selected}" ${user.i_d.items.i54.selected == 1 ? 'checked' : ''} />${user.i_d.items.i54.value}<input
-										type="checkbox" name="i55" value="${user.i_d.items.i55.selected}"
-										${user.i_d.items.i55.selected == 1 ? 'checked' : ''} />${user.i_d.items.i55.value}<input type="checkbox"
-										name="i56" value="${user.i_d.items.i56.selected}" ${user.i_d.items.i56.selected == 1 ? 'checked' : ''} />${user.i_d.items.i56.value}</td>
-									<td></td>
-									<td><input id="mOtherHobbies" name="mOtherHobbies" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherHobbies_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-								<tr>
-									<td>其它活動：</td>
-									<td><input type="checkbox" name="i57" value="${user.i_d.items.i57.selected}"
-										${user.i_d.items.i57.selected == 1 ? 'checked' : ''} />${user.i_d.items.i57.value}<input type="checkbox"
-										name="i58" value="${user.i_d.items.i58.selected}" ${user.i_d.items.i58.selected == 1 ? 'checked' : ''} />${user.i_d.items.i58.value}<input
-										type="checkbox" name="i59" value="${user.i_d.items.i59.selected}"
-										${user.i_d.items.i59.selected == 1 ? 'checked' : ''} />${user.i_d.items.i59.value}<input type="checkbox"
-										name="i60" value="${user.i_d.items.i60.selected}" ${user.i_d.items.i60.selected == 1 ? 'checked' : ''} />${user.i_d.items.i60.value}<br />
-										<input type="checkbox" name="i61" value="${user.i_d.items.i61.selected}"
-										${user.i_d.items.i61.selected == 1 ? 'checked' : ''} />${user.i_d.items.i61.value}<input type="checkbox"
-										name="i62" value="${user.i_d.items.i62.selected}" ${user.i_d.items.i62.selected == 1 ? 'checked' : ''} />${user.i_d.items.i62.value}<input
-										type="checkbox" name="i63" value="${user.i_d.items.i63.selected}"
-										${user.i_d.items.i63.selected == 1 ? 'checked' : ''} />${user.i_d.items.i63.value}<input type="checkbox"
-										name="i64" value="${user.i_d.items.i64.selected}" ${user.i_d.items.i64.selected == 1 ? 'checked' : ''} />${user.i_d.items.i64.value}</td>
-									<td></td>
-									<td><input id="mOtherActivities" name="mOtherActivities" value="" type="text" size="21" maxlength="20"
-										placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherActivities_error}</span> <br />
-										<div class="otherInterestDiv"></div></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div>
-						<input id="submit" name="submit" value="修改" type="submit" /> <br />
-						<p></p>
-					</div>
-				</fieldset>
-			</form>
+			<div class="background">
+				<form id="interest" action="modify.do" method="post">
+					<input type="hidden" name="m" value="interest" />
+					<fieldset>
+						<legend>興趣喜好</legend>
+						<div>
+							<table>
+								<tbody>
+									<tr>
+										<td>戶外休閒：</td>
+										<td><input type="checkbox" name="i1" value="${user.i_d.items.i1.selected}"
+											${user.i_d.items.i1.selected == 1 ? 'checked' : ''} />${user.i_d.items.i1.value}<input type="checkbox"
+											name="i2" value="${user.i_d.items.i2.selected}" ${user.i_d.items.i2.selected == 1 ? 'checked' : ''} />${user.i_d.items.i2.value}<input
+											type="checkbox" name="i3" value="${user.i_d.items.i3.selected}"
+											${user.i_d.items.i3.selected == 1 ? 'checked' : ''} />${user.i_d.items.i3.value}<input type="checkbox"
+											name="i4" value="${user.i_d.items.i4.selected}" ${user.i_d.items.i4.selected == 1 ? 'checked' : ''} />${user.i_d.items.i4.value}<br />
+											<input type="checkbox" name="i5" value="${user.i_d.items.i5.selected}"
+											${user.i_d.items.i5.selected == 1 ? 'checked' : ''} />${user.i_d.items.i5.value}<input type="checkbox"
+											name="i6" value="${user.i_d.items.i6.selected}" ${user.i_d.items.i6.selected == 1 ? 'checked' : ''} />${user.i_d.items.i6.value}<input
+											type="checkbox" name="i7" value="${user.i_d.items.i7.selected}"
+											${user.i_d.items.i7.selected == 1 ? 'checked' : ''} />${user.i_d.items.i7.value}<input type="checkbox"
+											name="i8" value="${user.i_d.items.i8.selected}" ${user.i_d.items.i8.selected == 1 ? 'checked' : ''} />${user.i_d.items.i8.value}</td>
+										<td></td>
+										<td><input id="mOtherRecreation" name="mOtherRecreation" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherRecreation_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>運動健身：</td>
+										<td><input type="checkbox" name="i9" value="${user.i_d.items.i9.selected}"
+											${user.i_d.items.i9.selected == 1 ? 'checked' : ''} />${user.i_d.items.i9.value}<input type="checkbox"
+											name="i10" value="${user.i_d.items.i10.selected}" ${user.i_d.items.i10.selected == 1 ? 'checked' : ''} />${user.i_d.items.i10.value}<input
+											type="checkbox" name="i11" value="${user.i_d.items.i11.selected}"
+											${user.i_d.items.i11.selected == 1 ? 'checked' : ''} />${user.i_d.items.i11.value}<input type="checkbox"
+											name="i12" value="${user.i_d.items.i12.selected}" ${user.i_d.items.i12.selected == 1 ? 'checked' : ''} />${user.i_d.items.i12.value}<br />
+											<input type="checkbox" name="i13" value="${user.i_d.items.i13.selected}"
+											${user.i_d.items.i13.selected == 1 ? 'checked' : ''} />${user.i_d.items.i13.value}<input type="checkbox"
+											name="i14" value="${user.i_d.items.i14.selected}" ${user.i_d.items.i14.selected == 1 ? 'checked' : ''} />${user.i_d.items.i14.value}<input
+											type="checkbox" name="i15" value="${user.i_d.items.i15.selected}"
+											${user.i_d.items.i15.selected == 1 ? 'checked' : ''} />${user.i_d.items.i15.value}<input type="checkbox"
+											name="i16" value="${user.i_d.items.i16.selected}" ${user.i_d.items.i16.selected == 1 ? 'checked' : ''} />${user.i_d.items.i16.value}</td>
+										<td></td>
+										<td><input id="mOtherExercises" name="mOtherExercises" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherExercises_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>飲食料理：</td>
+										<td><input type="checkbox" name="i17" value="${user.i_d.items.i17.selected}"
+											${user.i_d.items.i17.selected == 1 ? 'checked' : ''} />${user.i_d.items.i17.value}<input type="checkbox"
+											name="i18" value="${user.i_d.items.i18.selected}" ${user.i_d.items.i18.selected == 1 ? 'checked' : ''} />${user.i_d.items.i18.value}<input
+											type="checkbox" name="i19" value="${user.i_d.items.i19.selected}"
+											${user.i_d.items.i19.selected == 1 ? 'checked' : ''} />${user.i_d.items.i19.value}<input type="checkbox"
+											name="i20" value="${user.i_d.items.i20.selected}" ${user.i_d.items.i20.selected == 1 ? 'checked' : ''} />${user.i_d.items.i20.value}<br />
+											<input type="checkbox" name="i21" value="${user.i_d.items.i21.selected}"
+											${user.i_d.items.i21.selected == 1 ? 'checked' : ''} />${user.i_d.items.i21.value}<input type="checkbox"
+											name="i22" value="${user.i_d.items.i22.selected}" ${user.i_d.items.i22.selected == 1 ? 'checked' : ''} />${user.i_d.items.i22.value}<input
+											type="checkbox" name="i23" value="${user.i_d.items.i23.selected}"
+											${user.i_d.items.i23.selected == 1 ? 'checked' : ''} />${user.i_d.items.i23.value}<input type="checkbox"
+											name="i24" value="${user.i_d.items.i24.selected}" ${user.i_d.items.i24.selected == 1 ? 'checked' : ''} />${user.i_d.items.i24.value}</td>
+										<td></td>
+										<td><input id="mOtherDiet" name="mOtherDiet" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherDiet_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>文學藝術：</td>
+										<td><input type="checkbox" name="i25" value="${user.i_d.items.i25.selected}"
+											${user.i_d.items.i25.selected == 1 ? 'checked' : ''} />${user.i_d.items.i25.value}<input type="checkbox"
+											name="i26" value="${user.i_d.items.i26.selected}" ${user.i_d.items.i26.selected == 1 ? 'checked' : ''} />${user.i_d.items.i26.value}<input
+											type="checkbox" name="i27" value="${user.i_d.items.i27.selected}"
+											${user.i_d.items.i27.selected == 1 ? 'checked' : ''} />${user.i_d.items.i27.value}<input type="checkbox"
+											name="i28" value="${user.i_d.items.i28.selected}" ${user.i_d.items.i28.selected == 1 ? 'checked' : ''} />${user.i_d.items.i28.value}<br />
+											<input type="checkbox" name="i29" value="${user.i_d.items.i29.selected}"
+											${user.i_d.items.i29.selected == 1 ? 'checked' : ''} />${user.i_d.items.i29.value}<input type="checkbox"
+											name="i30" value="${user.i_d.items.i30.selected}" ${user.i_d.items.i30.selected == 1 ? 'checked' : ''} />${user.i_d.items.i30.value}<input
+											type="checkbox" name="i31" value="${user.i_d.items.i31.selected}"
+											${user.i_d.items.i31.selected == 1 ? 'checked' : ''} />${user.i_d.items.i31.value}<input type="checkbox"
+											name="i32" value="${user.i_d.items.i32.selected}" ${user.i_d.items.i32.selected == 1 ? 'checked' : ''} />${user.i_d.items.i32.value}</td>
+										<td></td>
+										<td><input id="mOtherArt" name="mOtherArt" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherArt_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>設計藝術：</td>
+										<td><input type="checkbox" name="i33" value="${user.i_d.items.i33.selected}"
+											${user.i_d.items.i33.selected == 1 ? 'checked' : ''} />${user.i_d.items.i33.value}<input type="checkbox"
+											name="i34" value="${user.i_d.items.i34.selected}" ${user.i_d.items.i34.selected == 1 ? 'checked' : ''} />${user.i_d.items.i34.value}<input
+											type="checkbox" name="i35" value="${user.i_d.items.i35.selected}"
+											${user.i_d.items.i35.selected == 1 ? 'checked' : ''} />${user.i_d.items.i35.value}<input type="checkbox"
+											name="i36" value="${user.i_d.items.i36.selected}" ${user.i_d.items.i36.selected == 1 ? 'checked' : ''} />${user.i_d.items.i36.value}<br />
+											<input type="checkbox" name="i37" value="${user.i_d.items.i37.selected}"
+											${user.i_d.items.i37.selected == 1 ? 'checked' : ''} />${user.i_d.items.i37.value}<input type="checkbox"
+											name="i38" value="${user.i_d.items.i38.selected}" ${user.i_d.items.i38.selected == 1 ? 'checked' : ''} />${user.i_d.items.i38.value}<input
+											type="checkbox" name="i39" value="${user.i_d.items.i39.selected}"
+											${user.i_d.items.i39.selected == 1 ? 'checked' : ''} />${user.i_d.items.i39.value}<input type="checkbox"
+											name="i40" value="${user.i_d.items.i40.selected}" ${user.i_d.items.i40.selected == 1 ? 'checked' : ''} />${user.i_d.items.i40.value}</td>
+										<td></td>
+										<td><input id="mOtherDesign" name="mOtherDesign" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherDesign_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>音樂藝術：</td>
+										<td><input type="checkbox" name="i41" value="${user.i_d.items.i41.selected}"
+											${user.i_d.items.i41.selected == 1 ? 'checked' : ''} />${user.i_d.items.i41.value}<input type="checkbox"
+											name="i42" value="${user.i_d.items.i42.selected}" ${user.i_d.items.i42.selected == 1 ? 'checked' : ''} />${user.i_d.items.i42.value}<input
+											type="checkbox" name="i43" value="${user.i_d.items.i43.selected}"
+											${user.i_d.items.i43.selected == 1 ? 'checked' : ''} />${user.i_d.items.i43.value}<input type="checkbox"
+											name="i44" value="${user.i_d.items.i44.selected}" ${user.i_d.items.i44.selected == 1 ? 'checked' : ''} />${user.i_d.items.i44.value}<br />
+											<input type="checkbox" name="i45" value="${user.i_d.items.i45.selected}"
+											${user.i_d.items.i45.selected == 1 ? 'checked' : ''} />${user.i_d.items.i45.value}<input type="checkbox"
+											name="i46" value="${user.i_d.items.i46.selected}" ${user.i_d.items.i46.selected == 1 ? 'checked' : ''} />${user.i_d.items.i46.value}<input
+											type="checkbox" name="i47" value="${user.i_d.items.i47.selected}"
+											${user.i_d.items.i47.selected == 1 ? 'checked' : ''} />${user.i_d.items.i47.value}<input type="checkbox"
+											name="i48" value="${user.i_d.items.i48.selected}" ${user.i_d.items.i48.selected == 1 ? 'checked' : ''} />${user.i_d.items.i48.value}</td>
+										<td></td>
+										<td><input id="mOtherMusic" name="mOtherMusic" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherMusic_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>興趣嗜好：</td>
+										<td><input type="checkbox" name="i49" value="${user.i_d.items.i49.selected}"
+											${user.i_d.items.i49.selected == 1 ? 'checked' : ''} />${user.i_d.items.i49.value}<input type="checkbox"
+											name="i50" value="${user.i_d.items.i50.selected}" ${user.i_d.items.i50.selected == 1 ? 'checked' : ''} />${user.i_d.items.i50.value}<input
+											type="checkbox" name="i51" value="${user.i_d.items.i51.selected}"
+											${user.i_d.items.i51.selected == 1 ? 'checked' : ''} />${user.i_d.items.i51.value}<input type="checkbox"
+											name="i52" value="${user.i_d.items.i52.selected}" ${user.i_d.items.i52.selected == 1 ? 'checked' : ''} />${user.i_d.items.i52.value}<br />
+											<input type="checkbox" name="i53" value="${user.i_d.items.i53.selected}"
+											${user.i_d.items.i53.selected == 1 ? 'checked' : ''} />${user.i_d.items.i53.value}<input type="checkbox"
+											name="i54" value="${user.i_d.items.i54.selected}" ${user.i_d.items.i54.selected == 1 ? 'checked' : ''} />${user.i_d.items.i54.value}<input
+											type="checkbox" name="i55" value="${user.i_d.items.i55.selected}"
+											${user.i_d.items.i55.selected == 1 ? 'checked' : ''} />${user.i_d.items.i55.value}<input type="checkbox"
+											name="i56" value="${user.i_d.items.i56.selected}" ${user.i_d.items.i56.selected == 1 ? 'checked' : ''} />${user.i_d.items.i56.value}</td>
+										<td></td>
+										<td><input id="mOtherHobbies" name="mOtherHobbies" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherHobbies_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+									<tr>
+										<td>其它活動：</td>
+										<td><input type="checkbox" name="i57" value="${user.i_d.items.i57.selected}"
+											${user.i_d.items.i57.selected == 1 ? 'checked' : ''} />${user.i_d.items.i57.value}<input type="checkbox"
+											name="i58" value="${user.i_d.items.i58.selected}" ${user.i_d.items.i58.selected == 1 ? 'checked' : ''} />${user.i_d.items.i58.value}<input
+											type="checkbox" name="i59" value="${user.i_d.items.i59.selected}"
+											${user.i_d.items.i59.selected == 1 ? 'checked' : ''} />${user.i_d.items.i59.value}<input type="checkbox"
+											name="i60" value="${user.i_d.items.i60.selected}" ${user.i_d.items.i60.selected == 1 ? 'checked' : ''} />${user.i_d.items.i60.value}<br />
+											<input type="checkbox" name="i61" value="${user.i_d.items.i61.selected}"
+											${user.i_d.items.i61.selected == 1 ? 'checked' : ''} />${user.i_d.items.i61.value}<input type="checkbox"
+											name="i62" value="${user.i_d.items.i62.selected}" ${user.i_d.items.i62.selected == 1 ? 'checked' : ''} />${user.i_d.items.i62.value}<input
+											type="checkbox" name="i63" value="${user.i_d.items.i63.selected}"
+											${user.i_d.items.i63.selected == 1 ? 'checked' : ''} />${user.i_d.items.i63.value}<input type="checkbox"
+											name="i64" value="${user.i_d.items.i64.selected}" ${user.i_d.items.i64.selected == 1 ? 'checked' : ''} />${user.i_d.items.i64.value}</td>
+										<td></td>
+										<td><input id="mOtherActivities" name="mOtherActivities" value="" type="text" size="21" maxlength="20"
+											placeholder="這裡可以輸入其它興趣哦..." /> <img src="" /><span>${dataAndErrorsMap.mOtherActivities_error}</span> <br />
+											<div class="otherInterestDiv"></div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div>
+							<input id="submit" name="submit" value="修改" type="submit" /> <br />
+							<p></p>
+						</div>
+					</fieldset>
+				</form>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
