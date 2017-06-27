@@ -12,6 +12,7 @@
 		<c:when test="${not empty sessionScope.cartList && sessionScope.cartList.size != 0}">
 			<c:if test="${not empty purchaseError}">
 				<h3>${purchaseError}</h3>
+				<h3>尚不足&nbsp;${notEnough}&nbsp;點數</h3>
 				<h4><a href="${pageContext.request.contextPath}/deposit/">前往儲值</a></h4>
 				<h4><a href="${pageContext.request.contextPath}/store/index.v">返回商店</a></h4><hr/>
 			</c:if>
