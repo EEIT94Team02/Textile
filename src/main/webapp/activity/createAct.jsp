@@ -71,7 +71,7 @@
 		<div id="body">
 			<c:if test="${not empty user}">
 				<div>
-					<p style="color: black; font-size: 20px"><c:out value="發起人:${user.mName}" /></p>
+					<p style="font-weight: bold; color: black; font-size: 20px"><c:out value="發起人:${user.mName}" /></p>
 				</div>
 				<form action='<c:url value="/activity/create.do"/>' method="post">
 					<table style="font-size: 16px; text-align: left; font-weight: bold;">
