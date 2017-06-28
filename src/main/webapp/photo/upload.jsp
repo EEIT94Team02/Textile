@@ -106,6 +106,7 @@ td {
 			</div>
 		</div>
 	</div>
+	
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />
 	</div>

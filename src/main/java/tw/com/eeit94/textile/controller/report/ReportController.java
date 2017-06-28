@@ -182,6 +182,11 @@ public class ReportController {
 		}
 
 		List<ReportBean> beans = reportService.selectReptBySituation(false);
+		for(ReportBean bean:beans){
+			System.out.println("bean="+bean.getReptNo());
+			System.out.println("bean="+bean.getReptNo());
+			System.out.println("bean="+bean.getReptNo());
+		}
 		
 		// 設定來源
 		File source = null;

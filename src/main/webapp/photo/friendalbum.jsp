@@ -74,6 +74,9 @@
 			</c:if>
 		</div>
 	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
+	</div>
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />
 	</div>

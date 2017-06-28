@@ -40,7 +40,7 @@
 			<li><a href="<c:url value ='/announcement/' />">公告</a></li>
 			<li><c:if test="${empty user}">
 					<a href="check/register.v">註冊</a>
-					<c:out escapeXml="false" value="<a href='check/login.r'>(登入)</a>" />
+					<c:out escapeXml="false" value="<a href='check/login.r'>登入</a>" />
 				</c:if> <c:if test="${not empty user}">
 					<c:url var="x" value="/check/logout.do" />
 					<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
