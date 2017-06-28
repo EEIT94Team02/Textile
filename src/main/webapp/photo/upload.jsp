@@ -11,6 +11,13 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<style type="text/css">
+td {
+	width: 100px;
+}
+
+
+</style>
 </head>
 <body>
 	<div id="header">

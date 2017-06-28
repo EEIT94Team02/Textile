@@ -15,18 +15,18 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
  */
 @Configuration
 @EnableWebSocketMessageBroker
-@ComponentScan(basePackages = { "tw.com.eeit94.textile.endpoint" })
-public class SpringWebsocketJavaConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
-
-	@Override
-	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/port").withSockJS();
-	}
+@ComponentScan(basePackages = { "tw.com.eeit94.textile.controller" })
+public class SpringWebSocketJavaConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.setApplicationDestinationPrefixes("/message");
 		registry.enableSimpleBroker("/passage");
 		super.configureMessageBroker(registry);
+	}
+
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/endpoint.do");
 	}
 }

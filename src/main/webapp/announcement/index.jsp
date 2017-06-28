@@ -60,9 +60,10 @@
 	<div id="left">
 		<div class="actions">
 			<ul>
-				<li class="list"><a href='<c:url value="insert.v"/>'>新增公告</a></li>
-				<li class="list"><a href='<c:url value="list.v"/>'>查詢公告</a></li>
-				<li class="list"><a href='<c:url value="update.v"/>'>修改公告</a></li>
+				<li class="list">公告</li>
+				<li class="list"><a href='<c:url value="/manager/insert.v"/>'>新增</a></li>
+				<li class="list"><a href='<c:url value="list.v"/>'>查詢</a></li>
+				<li class="list"><a href='<c:url value="/manager/update.v"/>'>修改</a></li>
 			</ul>
 		</div>
 	</div>

@@ -5,29 +5,70 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Gift Detail</title>
+<title>送禮明細</title>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 </head>
+<style>
+#body {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.container {
+	padding: 7px;
+	margin: 5px;
+	width: 30%;
+	height: 30%;
+	border: .5px solid #778899;
+	box-shadow: 5px 5px 5px #778899;
+}
+#left li {
+	list-style-type: none;
+	line-height: 5em;
+}
+</style>
 <body>
-	<h3><a href="gListAll.do">返回送禮記錄</a></h3>
-	<c:if test="${not empty giftDetailList}">
-		<table>
-			<thead>
-				<tr>
-					<th>giftId</th>
-					<th>productName</th>
-					<th>amount</th>
-				</tr>
-			</thead>
-			<c:forEach items="${giftDetailList}" var="gdBean" varStatus="gdStatus">
-				<tbody>
-					<tr>
-						<td>${gdBean.giftDetailPK.giftId}</td>
-						<td>${gdBean.productBean.productName}</td>
-						<td>${gdBean.amount}</td>
-					</tr>
-				</tbody>
-			</c:forEach>
-		</table>
-	</c:if>
+	<div id="header">
+		<jsp:include page="/headerInclude.jsp"/>
+	</div>
+		<div id="center">
+			<div id="body">
+				<c:if test="${not empty giftDetailList}">
+					<c:forEach items="${giftDetailList}" var="gdBean" varStatus="gdStatus">
+						<c:url value="/store/pShowImg.do" var="showImg" scope="page">
+							<c:param name="productId" value="${gdBean.productBean.productId}"/>
+						</c:url>
+						<div class="container">
+							<img src="${showImg}" width="200" />
+							<p>${gdBean.productBean.productName}</p>
+							<p>${gdBean.amount}&nbsp;個</p>
+						</div>
+					</c:forEach>
+				</c:if>
+			</div>
+			<div id="right">
+				<jsp:include page="/rightInclude.jsp" />
+			</div>
+			<div id="left">
+				<ul>
+					<li>
+						<input type="button" class="btn btn-info btn-lg" name="returnGift" value="返回送禮記錄" />
+					</li>
+				</ul>
+			</div>
+		</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 </body>
+<script>
+$(function() {
+	$(':button[name="returnGift"]').on('click', function() {
+		location.href='gListAll.do';
+	});
+});
+</script>
 </html>

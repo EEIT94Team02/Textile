@@ -162,7 +162,7 @@ public class SocialListService {
 			acquaintenceBean.setmId(acquaintenceId);
 			LinksBean linksBean = new LinksBean();
 			linksBean.setmName(sbean.getMbean().getmName());
-			linksBean.setProfileURL(this.memberService.getOtherProfileUrl(acquaintenceBean, request));
+			linksBean.setProfileURL(this.memberService.getOtherProfileURL(acquaintenceBean, request));
 			linksBean.setChatroomURL(this.memberRollbackProviderService.getChatUrlWithRollbackProvider(mbean,
 					sbean.getSocialListPK().getAcquaintenceId(), request));
 			linksList.add(linksBean);

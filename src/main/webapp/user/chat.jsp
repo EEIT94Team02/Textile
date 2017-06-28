@@ -13,63 +13,70 @@
 </style>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '../js/stomp.js'/>"></script>
 </head>
 <body>
 	<h3>${chat.acquaintenceName}</h3>
-	<hr />
+	<hr/>
+	
 	<div id="response"></div>
 	<div>
 		<p>
 			<textarea id="input" rows="5" placeholder="請在此輸入訊息..."></textarea>
 		</p>
-		<input type="button" id="button" name="button" value="送出" />
+		<input id="button" type="button" name="button" value="送出" />
 	</div>
-	${chat.cId}
+	${chat.websocketURI}
 	<script type="text/javascript">
-    var wsUri = "/port";
-    var echo_websocket;
-    var textNode;
-    var outputNode;
-
-    function init() {
-      outputNode = document.getElementById("outputId");
-      textNode = document.getElementById("textId");
-    }
-
-    function send_echo() {
-      writeToScreen("Connecting to " + wsUri);
-      echo_websocket = new WebSocket(wsUri);
-
-      echo_websocket.onopen = function(evt) {
-        writeToScreen("Connected!");
-        doSend(textNode.value);
-      };
-
-      echo_websocket.onmessage = function(evt) {
-        writeToScreen("Received message: " + evt.data);
-        echo_websocket.close();
-      };
-
-      echo_websocket.onerror = function(evt) {
-        writeToScreen("<span style='color: red'>ERROR:</span> " + evt.data);
-        echo_websocket.close();
-      };
-    }
-
-    function doSend(message) {
-      echo_websocket.send(message);
-      writeToScreen("Sent message: " + message);
-    }
+    var stompClient;
 
     function writeToScreen(message) {
-      var pre = document.createElement("p");
-      pre.style.wordWrap = "break-word";
-      pre.innerHTML = message;
-      outputNode.appendChild(pre);
+      var divJOb = $('<div></div>').text(message);
+      $('#response').append(divJOb);
     }
 
-    window.addEventListener("load", init, false);
+    $(document).ready(function() {
+      var websocket = new WebSocket('ws://localhost:8080/Textile/endpoint.do');
+      stompClient = Stomp.over(websocket);
+
+      var onconnect = function(frame) {
+        console.log('開啟連線：' + frame);
+        init();
+      };
+
+      var onerror = function(error) {
+        console.log('發生錯誤：' + error);
+      };
+
+      stompClient.connect({}, onconnect, onerror);
+    });
+
+    function init() {
+      var onmessage = function(message) {
+        writeToScreen(message.body);
+      };
+
+      stompClient.subscribe('/passage/out', onmessage);
+
+      // var ondisconnect = function() {
+      // console.log('關閉連線。');
+      // };
+      // stompClient.disconnect(ondisconnect);
+    }
+
+    function doSend() {
+      var header = {
+        'cId': '${chat.cId}'
+      };
+      var body = $('#input').val();
+      stompClient.send('/message/in', header, body);
+      $('#input').text('');
+    }
+
+    $('#button').on('click', doSend);
   </script>
 </body>
 </html>

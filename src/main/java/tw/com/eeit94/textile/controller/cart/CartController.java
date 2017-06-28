@@ -70,7 +70,7 @@ public class CartController {
 			}
 		}
 		// 驗證
-		if ("Update".equals(adjustAction)) {
+		if ("修改".equals(adjustAction)) {
 			if (amount != null && amount == 0) {
 				errorDetail.put("nAmount", "請輸入大於零的數量或是移除此商品。");
 			}
@@ -82,10 +82,10 @@ public class CartController {
 			return "adjust.error";
 		}
 		// 呼叫model view
-		if ("Update".equals(adjustAction)) {
+		if ("修改".equals(adjustAction)) {
 			cart.adjustAmount(productId, amount);
 			return "adjust.success";
-		} else if ("Delete".equals(adjustAction)) {
+		} else if ("刪除".equals(adjustAction)) {
 			cart.removeProduct(productId);
 			return "adjust.success";
 		} else {

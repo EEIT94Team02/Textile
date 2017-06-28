@@ -7,10 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.headbackground {
-	background-image: url("<c:url value = '/image/background/4.jpg'/>");
-
-	
+.img {
+	border-radius: 20px;
+	height: 70px;
 }
 </style>
 </head>
@@ -21,10 +20,11 @@
 		</c:url>
 		<c:url value="/activity/myAct.do" var="myAct">
 		</c:url>
+		<img src="<c:url value ='/image/background/logo2.jpg' />" class="img"/>
 		<ul>
 			<li><c:if test="${not empty user}">
 					<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-						<a href="manager/">後臺</a>
+						<a href="<c:url value='/manager/'/>">後臺</a>
 					</c:if>
 				</c:if></li>
 			<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
@@ -32,7 +32,10 @@
 			<li><a href="${album}">相簿</a></li>
 			<li><a href="${myAct}">活動</a></li>
 			<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
-			<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
+			<li><a href="<c:url value ='/item/iList.do' />">物品欄</a></li>
+			<li><a href="<c:url value ='/gift/gListAll.do' />">禮物</a></li>
+			<li><a href="<c:url value ='/deposit/dList.do' />">儲值</a></li>
+			<li><a href="<c:url value ='/deal/dealList.do' />">交易紀錄</a></li>
 			<li><a href="<c:url value ='/report/' />">回報</a></li>
 			<li><a href="<c:url value ='/announcement/' />">公告</a></li>
 			<li><c:if test="${empty user}">

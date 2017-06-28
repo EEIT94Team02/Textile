@@ -66,9 +66,16 @@ public class ChatController {
 		MemberBean acquaintenceBean = this.memberService.selectByPrimaryKey(acquaintenceId);
 		String acquaintenceName = acquaintenceBean.getmName();
 
+		String websocketURI = this.chatroomService.getWebsocketUri(request);
+		String sendURI = ConstMapping.MESSAGE_IN.path();
+		String subscribeURI = ConstMapping.MESSAGE_OUT.path();
+
 		ChatViewBean cvbean = new ChatViewBean();
 		cvbean.setcId(encryptedCId);
 		cvbean.setAcquaintenceName(acquaintenceName);
+		cvbean.setWebsocketURI(websocketURI);
+		cvbean.setSendURI(sendURI);
+		cvbean.setSubscribeURI(subscribeURI);
 		session.setAttribute(ConstChatKey.CHAT.key(), cvbean);
 		return ConstMapping.CHAT_SHOW.path();
 	}

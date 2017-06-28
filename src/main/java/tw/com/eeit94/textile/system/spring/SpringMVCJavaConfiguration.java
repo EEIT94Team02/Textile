@@ -49,8 +49,8 @@ import org.springframework.web.servlet.view.RedirectView;
  * @version 2017/06/14
  */
 @Configuration
-@ComponentScan(basePackages = { "tw.com.eeit94.textile.controller" })
 @EnableWebMvc
+@ComponentScan(basePackages = { "tw.com.eeit94.textile.controller" })
 public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
@@ -100,12 +100,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 李
 		 */
-		// trigger，測試用
-		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
-		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
-		registry.addViewController("/deal/dealTestTrigger.v").setViewName("/deal/dealTestTrigger.v");
-		registry.addViewController("/gift/gTestTrigger.v").setViewName("/gift/gTestTrigger.v");
-		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/cart.v").setViewName("/store/cart.v");
@@ -142,8 +136,8 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/social/search.v").setViewName("/social/search.v");
 		registry.addViewController("/announcement/index.v").setViewName("/announcement/index.v");
 		registry.addViewController("/announcement/list.v").setViewName("/announcement/list.v");
-		registry.addViewController("/announcement/insert.v").setViewName("/announcement/insert.v");
-		registry.addViewController("/announcement/update.v").setViewName("/announcement/update.v");
+		registry.addViewController("/manager/insert.v").setViewName("/manager/insert.v");
+		registry.addViewController("/manager/update.v").setViewName("/manager/update.v");
 
 		super.addViewControllers(registry);
 	}
@@ -553,8 +547,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "/photo/myActivity.v", "/activity/secede.v" })
-	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
+	@Bean(name = { "/activity/index.v", "/photo/myActivity.v" , "/activity/secede.v" })	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/myActivity.jsp");
 		return internalResourceView;
@@ -632,38 +625,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 李
 	 * @version 2017/06/14
 	 */
-
-	// 測試用，為product頁面呼叫controller取得資料。
-	@Bean(name = { "/store/pTestTrigger.v" })
-	public InternalResourceView productTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/store/pTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為item頁面呼叫controller取得資料。
-	@Bean(name = { "/item/iTestTrigger.v" })
-	public InternalResourceView itemTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/item/iTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為deal頁面呼叫controller取得資料。
-	@Bean(name = { "/deal/dealTestTrigger.v" })
-	public InternalResourceView dealTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deal/dealTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為gift頁面呼叫controller取得資料。
-	@Bean(name = { "/gift/gTestTrigger.v" })
-	public InternalResourceView giftTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/gift/gTestTrigger.jsp");
-		return view;
-	}
 
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
@@ -1072,83 +1033,5 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 公告首頁
-	@Bean(name = { "/announcement/index.v", "alist.show" })
-	public InternalResourceView announcementIndex() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/index.jsp");
-		return internalResourceView;
+		}
 	}
-
-	@Bean(name = { "/announcement/list.v", "alist.error" })
-	public InternalResourceView announcementList() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/list.jsp");
-		return internalResourceView;
-	}
-
-	// 成功頁面
-	@Bean(name = { "/announcement/success.v", "announcement.success", "social.success" })
-	public InternalResourceView announcementsuccess() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/success.jsp");
-		return internalResourceView;
-	}
-
-	// 失敗頁面
-	@Bean(name = { "/announcement/error.v", "announcement.error", "social.error" })
-	public InternalResourceView announcementerror() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/error.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/announcement/insert.v" })
-	public InternalResourceView announcementinsert() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/insert.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/announcement/update.v" })
-	public InternalResourceView announcementupdate() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/announcement/update.jsp");
-		return internalResourceView;
-	}
-
-	// 社交名單首頁
-	@Bean(name = { "/social/index.v" })
-	public InternalResourceView socialList() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/index.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/social/invite.v", "s_invite" })
-	public InternalResourceView socialinvite() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/invite.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/social/insert.v", "s_insert" })
-	public InternalResourceView socialinsert() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/insert.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/social/select.v", "s_select.v" })
-	public InternalResourceView socialListselect() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/select.jsp");
-		return internalResourceView;
-	}
-
-	@Bean(name = { "/social/search.v", "s_search.v" })
-	public InternalResourceView socialListsearch() {
-		InternalResourceView internalResourceView = new InternalResourceView();
-		internalResourceView.setUrl("/social/search.jsp");
-		return internalResourceView;
-	}
-}

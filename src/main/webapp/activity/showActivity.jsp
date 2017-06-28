@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
@@ -101,7 +102,7 @@
 									<td><fmt:formatDate value="${row.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${row.activityname}</td>
 									<td>${row.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" class="btn" type="button" value="查看明細"></td>
 									<td><img onclick="joinMyAct('${joinbean}')" src='<c:url value ="/image/invite.png"/>' width="25"></td>
 								</tr>
 							</c:forEach>

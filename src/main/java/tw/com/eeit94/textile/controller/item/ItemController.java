@@ -28,7 +28,7 @@ public class ItemController {
 		return itemService;
 	}
 	
-	@RequestMapping(path = { "/iList.do" }, method = { RequestMethod.POST })
+	@RequestMapping(path = { "/iList.do" } )
 	public String itemList(HttpServletRequest request, ItemPK itemPK, Model model) {
 		HttpSession session = request.getSession();
 		MemberBean userBean = (MemberBean) session.getAttribute("user");
