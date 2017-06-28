@@ -9,6 +9,8 @@
 <style type="text/css">
 .headbackground {
 	background-image: url("<c:url value = '/image/background/4.jpg'/>");
+
+	
 }
 </style>
 </head>

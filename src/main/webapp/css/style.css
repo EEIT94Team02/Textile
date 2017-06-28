@@ -169,28 +169,42 @@ body {
 }
 
 #header .section ul li a {
-	background-image: url("../image/background/6.jpg");
-	background-size: cover;
-	color: #ffffff;
-	display: inline-block;
-	font-size: 16px;
-	height: 30px;
-	letter-spacing: 0.05em;
-	line-height: 30px;
-	margin: 0;
-	padding: 0 15px;
-	text-align: center;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 2em;
-	font-weight: 600;
-	border-radius: 15px ;
-	border: 1px solid #eeb44f;
-	border-color: #000000;
+	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	box-shadow: 0px 0px 0px 2px #9fb4f2;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d47744), color-stop(1, #a1765f));
+	background:-moz-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-webkit-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-o-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-ms-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:linear-gradient(to bottom, #d47744 5%, #a1765f 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d47744', endColorstr='#a1765f',GradientType=0);
+	background-color:#d47744;
+	-moz-border-radius:23px;
+	-webkit-border-radius:23px;
+	border-radius:23px;
+	border:2px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-weight:bold;
+	padding:8px 26px;
+	text-decoration:none;
+	text-shadow:-2px 1px 0px #283966;
+	
 }
 
 #header .section ul li a:hover {
-	color: #AAAAFF;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a1765f), color-stop(1, #d47744));
+	background:-moz-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-webkit-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-o-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-ms-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:linear-gradient(to bottom, #a1765f 5%, #d47744 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a1765f', endColorstr='#d47744',GradientType=0);
+	background-color:#a1765f;
 }
 
 #header .section ul li.selected {
@@ -238,6 +252,7 @@ body {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb9e25', endColorstr='#ffc477',GradientType=0);
 	background-color:#fb9e25;
 }
+
 
 /* #header .article { */
 /* 	background: #fff; */
