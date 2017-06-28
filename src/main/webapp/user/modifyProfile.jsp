@@ -27,7 +27,7 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 
 	<div id="left">
@@ -198,7 +198,7 @@
 						<p></p>
 					</div>
 					<div>
-						<input id="submit"  name="submit" value="修改" type="submit" /> <br />
+						<input id="submit" name="submit" value="修改" type="submit" /> <br />
 						<p></p>
 					</div>
 				</fieldset>
@@ -213,6 +213,9 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
+	</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
 	</div>
 	<script type="text/javascript">
 		var imgsrc_correct16 = '../image/check/check_correct16.png';
@@ -400,5 +403,6 @@
 									+ '"]').prop('selected', true);
 				});
 	</script>
+
 </body>
 </html>

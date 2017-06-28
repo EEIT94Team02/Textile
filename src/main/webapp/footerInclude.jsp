@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2 align="center">this is footer</h2>	
+	<h2 align="center">Copyright © 2012 Apple Inc. All rights reserved</h2>	
 </body>
 </html>
