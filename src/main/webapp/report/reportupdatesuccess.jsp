@@ -42,18 +42,18 @@
 				<br> <br> <br> <br> <br>
 				<center>
 					<c:if test="${not empty success}">
-						<h1>回報成功</h1>
-						<table style="border-bottom: 1px solid #ddd;width: 100%">
+						<h1 style="color: #ff0f5e">回報成功</h1>
+						<table style="width:80%;border-style: solid">
 						<thead>
-							<tr>
-								<th style="border-bottom: 1px solid #ddd;width: 50%; text-align: center; vertical-align: middle;font-size: 16px">會員暱稱</th>
-								<th style="border-bottom: 1px solid #ddd;width: 50%; text-align: center; vertical-align: middle;font-size: 16px">回報日期</th>
+							<tr style="font-size: 22px">
+								<th style="width: 50%;background-color: black;color: white">會員暱稱</th>
+								<th style="width: 50%;background-color: black;color: white">回報日期</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px">${user.mName}</td>
-								<td style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${success.reptUpDate}" /></td>
+							<tr style="font-size: 20px">
+								<td style="background-color: black;color: #94f200; text-align: center; vertical-align: middle">${user.mName}</td>
+								<td style="background-color: black;color: #94f200; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${success.reptUpDate}" /></td>
 							<tr>
 						</tbody>
 						</table>
@@ -61,25 +61,42 @@
 										<!-- 	圖片	 -->
 					<br><br><br><br>
 				<center>
-					<div width="100%">
-						<table style="width: 100%">
+					<div>
+						<table style="width:80%;padding-top:30px;font-size:20px">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px;color:#FF5151">回報內容</th>
+								<th style="text-align: center; vertical-align: middle;color:#ffd70f">回報內容</th>
 								<c:if test="${not empty image}">
-									<th style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px">回報圖片</th>
+									<th style="text-align: center; vertical-align: middle;color:#ffd70f">回報圖片</th>
 								</c:if>
 							</tr>
 							<tr>
-								<td style="width: 50%;color:#FF5151" id="reportlistfont">${success.reptUpDetail}</td>
-								<c:if test="${not empty image}">
+<%-- 								<td style="width: 50%;color:#FF5151" id="reportlistfont">${success.reptUpDetail}</td> --%>
+<%-- 								<c:if test="${not empty image}"> --%>
+<!-- 									<td> -->
+<%-- 									<c:forEach var="rImg" items="${image}"> --%>
+<!-- 										<figure style="display: inline-block">  -->
+<%-- 										<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main">  --%>
+<%-- 										<img src='..${rImg.imgUpPath}' width="150" height="100"></a> </figure> --%>
+<%-- 									</c:forEach> --%>
+<!-- 									</td> -->
+<%-- 								</c:if> --%>
+								
+								<c:choose>
+								<c:when test="${not empty image}">
+									<td style="color:#FF5151;text-align: center; vertical-align: middle;font-size:18px" id="reportlistfont">${success.reptUpDetail}</td>
 									<td>
 									<c:forEach var="rImg" items="${image}">
 										<figure style="display: inline-block"> 
-										<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
-										<img src='..${rImg.imgUpPath}' width="150" height="100"></a> </figure>
+										<a href='<c:url value="../${rImg.imgUpPath}"/>' data-lightbox="main"> 
+										<img src='../${rImg.imgUpPath}' width="150" height="100"></a> </figure>
 									</c:forEach>
 									</td>
-								</c:if>
+								</c:when>
+								<c:otherwise>
+									<td style="color:#FF5151;text-align: center; vertical-align: middle" id="reportlistfont">${success.reptUpDetail}</td>
+								</c:otherwise>
+								</c:choose>
+								
 							</tr>
 						</table>
 					</div>
