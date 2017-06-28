@@ -1074,6 +1074,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 公告首頁
+	@Bean(name = { "/announcement/index.v", "alist.show" })
+	public InternalResourceView announcementIndex() {
+		InternalResourceView internalResourceView = new InternalResourceView();
+		internalResourceView.setUrl("/announcement/index.jsp");
+		return internalResourceView;
+	}
+
 	@Bean(name = { "/announcement/list.v", "alist.error" })
 	public InternalResourceView announcementList() {
 		InternalResourceView internalResourceView = new InternalResourceView();
