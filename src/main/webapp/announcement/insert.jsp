@@ -5,11 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="application/x-www-form-urlencoded; charset=UTF-8">
 <title>Welcome, Textile.</title>
-<link rel="stylesheet" href="../css/jquery-ui-1.12.1.css">
-<link rel="stylesheet" href="../css/jquery-ui-timepicker-addon.css">
-<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-1.12.1.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
+<link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
+<link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<script src="<c:url value = '/js/social.list.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script type="text/javascript">
 	$(function() {
 		$('#start').datetimepicker({
