@@ -99,7 +99,7 @@ public class ReadAlbumController {
 		List<SocialListBean> friendBean = new ArrayList<SocialListBean>();
 		friendBean = getSocialListService().selectAllFriend(userId, "好友");
 		List<Map<String, Object>> allfriendAlbums = new ArrayList<Map<String, Object>>();
-		List<Photo_albumBean> friendAlbums = null;		
+		List<Photo_albumBean> friendAlbums = null;
 		for (SocialListBean friend : friendBean) {
 			Photo_albumBean bean = new Photo_albumBean();
 			friendAlbums = new ArrayList<Photo_albumBean>();
@@ -116,7 +116,7 @@ public class ReadAlbumController {
 			myfriendAlbums.put("mName", friend.getMbean().getmName());
 			myfriendAlbums.put("friendAlbums", friendAlbums);
 			allfriendAlbums.add(myfriendAlbums);
-		}		
+		}
 		session.setAttribute("allfriendAlbums", allfriendAlbums);
 		return "album.friendlist";
 	}
@@ -137,12 +137,12 @@ public class ReadAlbumController {
 		bean.setmId(mBean.getmId());
 		List<Photo_albumBean> check = getPhoto_albumService().findPhotoAlbumByOthers(bean);
 		if (check != null && check.size() != 0) {
-			session.setAttribute("OthersAlbum", check);
 			String secureAlbumno = "";
 			for (Photo_albumBean each : check) {
 				secureAlbumno = getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()), "mId");
 				each.setIntroduction(secureAlbumno);
 			}
+			session.setAttribute("OthersAlbum", check);
 		} else {
 			session.setAttribute("OthersAlbum", check);
 		}

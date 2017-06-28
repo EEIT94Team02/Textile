@@ -52,11 +52,14 @@
 			<jsp:include page="/rightInclude.jsp" />
 		</div>
 		<div id="body">
+			<h3>
+				<c:out value="上傳照片至  ${user.mName}的相簿 " />
+			</h3>
 			<form action='<c:url value="upload.do"/>' enctype="multipart/form-data" method="post">
 				<table>
 					<tr>
-						<td><label style="color: black; font-size: 20px">選擇相簿 :</label></td>
-						<td><select name="albumno">
+						<td><label style="color: black; font-size: 16px">選擇相簿 :</label></td>
+						<td><select name="albumno" style="" >
 								<c:forEach var="row" items="${AlbumList}">
 									<option value="${row.albumno}">${row.albumname}</option>
 								</c:forEach>
@@ -64,26 +67,26 @@
 						<td>${photoCRDErrors.albumno}</td>
 					</tr>
 					<tr>
-						<td><label style="color: black; font-size: 20px">照片名稱 :</label></td>
+						<td><label style="color: black; font-size: 16px">照片名稱 :</label></td>
 						<td><input type="text" name="photoname" maxlength="10" placeholder="10個字內的照片名稱" value="${param.photoname}"></td>
 						<td>${photoCRDErrors.photoname}</td>
 					</tr>
 					<tr>
-						<td><label style="color: black; font-size: 20px">照片類別 :</label></td>
+						<td><label style="color: black; font-size: 16px">照片類別 :</label></td>
 						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">設為大頭貼</td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><label style="color: black; font-size: 20px">上傳檔案 :</label></td>
+						<td><label style="color: black; font-size: 16px">上傳檔案 :</label></td>
 						<td><input type="file" name="file" multiple accept="image/*"></td>
 						<td>${photoCRDErrors.file}</td>
 					</tr>
 					<tr>
-						<td><label style="color: black; font-size: 20px">照片敘述 :</label></td>
+						<td><label style="color: black; font-size: 16px">照片敘述 :</label></td>
 						<td><textarea name="interpretation" placeholder="照片說明"></textarea></td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="upload"></td>
+						<td><input type="submit" value="upload" height="15px"></td>
 					</tr>
 				</table>
 			</form>

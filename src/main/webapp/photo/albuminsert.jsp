@@ -8,8 +8,6 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <title>Welcome, Textile</title>
-<style>
-</style>
 </head>
 <body>
 	<div id="header">
@@ -34,7 +32,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -54,36 +52,38 @@
 
 		<div id="body">
 			<c:if test="${not empty user}">
-				<div>
-					<p style="color: black; font-size: 20px"><c:out value="創建一個屬於  ${user.mName} 的相簿" /></p>
+				<div align="center">
+					<h3>
+						<c:out value="創建一個屬於  ${user.mName} 的相簿" />
+					</h3>
+					<form action='<c:url value="/photo/album/create.do"/>' method="post">
+						<table style="padding: 10px">
+							<tr style="margin: 10px; padding: 5px; height: 3em;">
+								<td><label style="color: black; font-size: 16px">相簿名稱：</label></td>
+								<td><input type="text" name="albumname" placeholder="請輸入相簿名稱" value="${param.albumname}" /></td>
+								<td>${albumCRDErrors.albumname}</td>
+							</tr>
+							<tr style="margin: 10px; padding: 5px; height: 3em;">
+								<td><label style="color: black; font-size: 16px">相簿簡介：</label></td>
+								<td><input type="text" name="introduction" placeholder="請輸入相簿簡介" value="${param.introduction}" /></td>
+								<td>${albumCRDErrors.introduction}</td>
+							</tr>
+							<tr style="margin: 10px; padding: 5px; height: 3em;">
+								<td><label style="color: black; font-size: 16px">隱私設定：</label></td>
+								<td><select name="visibility">
+										<option value="公開" selected="selected">公開</option>
+										<option value="好友">好友</option>
+										<option value="私人">私人</option>
+								</select></td>
+							</tr>
+							<tr style="margin: 10px; padding: 5px; height: 3em;">
+								<td></td>
+								<td><input type="submit" value="建立"></td>
+								<td>${albumCRDErrors.create}</td>
+							</tr>
+						</table>
+					</form>
 				</div>
-				<form action='<c:url value="/photo/album/create.do"/>' method="post">
-					<table>
-						<tr style="margin: 5px; padding: 5px">
-							<td><label style="color: black; font-size: 20px">相簿名稱：</label></td>
-							<td><input type="text" name="albumname" placeholder="請輸入相簿名稱" value="${param.albumname}" /></td>
-							<td>${albumCRDErrors.albumname}</td>
-						</tr>
-						<tr style="margin: 5px; padding: 5px">
-							<td><label style="color: black; font-size: 20px">相簿簡介：</label></td>
-							<td><input type="text" name="introduction" placeholder="請輸入相簿簡介" value="${param.introduction}" /></td>
-							<td>${albumCRDErrors.introduction}</td>
-						</tr>
-						<tr style="margin: 5px; padding: 5px">
-							<td><label style="color: black; font-size: 20px">隱私設定：</label></td>
-							<td><select name="visibility">
-									<option value="公開" selected="selected">公開</option>
-									<option value="好友">好友</option>
-									<option value="私人">私人</option>
-							</select></td>
-						</tr>
-						<tr style="margin: 5px; padding: 5px">
-							<td></td>
-							<td><input type="submit" value="建立"></td>
-							<td>${albumCRDErrors.create}</td>
-						</tr>
-					</table>
-				</form>
 			</c:if>
 		</div>
 	</div>
