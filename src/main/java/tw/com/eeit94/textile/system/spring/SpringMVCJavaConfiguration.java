@@ -466,7 +466,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	@Bean(name = {"album.friendlist"})
+	@Bean(name = { "album.friendlist" })
 	public org.springframework.web.servlet.view.RedirectView friendalbumRefresh() {
 		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
 		redirectView.setUrl("/photo/friendalbum.v");
@@ -553,8 +553,10 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		redirectView.setContextRelative(true);
 		return redirectView;
 	}
+
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "Activity.default" , "/activity/secede.v" })	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
+	@Bean(name = { "/activity/index.v", "Activity.default", "/activity/secede.v" })
+	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/myActivity.jsp");
 		return internalResourceView;
@@ -1072,49 +1074,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 公告首頁
-
-
-		@Bean(name = { "/announcement/list.v","alist.error" })
-		public InternalResourceView announcementList() {
-			InternalResourceView internalResourceView = new InternalResourceView();
-			internalResourceView.setUrl("/announcement/list.jsp");
-			return internalResourceView;
-		}
-
-		//成功頁面
-		@Bean(name = { "/announcement/success.v","announcement.success","social.success" })
-		public InternalResourceView announcementsuccess() {
-			InternalResourceView internalResourceView = new InternalResourceView();
-			internalResourceView.setUrl("/announcement/success.jsp");
-			return internalResourceView;
-		}
-
-		//失敗頁面
-		@Bean(name = { "/announcement/error.v","announcement.error","social.error" })
-		public InternalResourceView announcementerror() {
-			InternalResourceView internalResourceView = new InternalResourceView();
-			internalResourceView.setUrl("/announcement/error.jsp");
-			return internalResourceView;
-		}
-		
-		@Bean(name = { "/manager/insert.v" })
-		public InternalResourceView announcementinsert() {
-			InternalResourceView internalResourceView = new InternalResourceView();
-			internalResourceView.setUrl("/announcement/insert.jsp");
-			return internalResourceView;
-		}
-
-		@Bean(name = { "/manager/update.v" })
-		public InternalResourceView announcementupdate() {
-			InternalResourceView internalResourceView = new InternalResourceView();
-			internalResourceView.setUrl("/announcement/update.jsp");
-			return internalResourceView;
-		}
-
-
-
-
-		}
 	@Bean(name = { "/announcement/list.v", "alist.error" })
 	public InternalResourceView announcementList() {
 		InternalResourceView internalResourceView = new InternalResourceView();
@@ -1145,7 +1104,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		return internalResourceView;
 	}
 
-	@Bean(name = { "/announcement/update.v" })
+	@Bean(name = { "/manager/update.v" })
 	public InternalResourceView announcementupdate() {
 		InternalResourceView internalResourceView = new InternalResourceView();
 		internalResourceView.setUrl("/announcement/update.jsp");
