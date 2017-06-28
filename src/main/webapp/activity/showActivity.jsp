@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
@@ -33,35 +34,48 @@
 </script>
 </head>
 <body>
-	<c:url value="/photo/album/list.do" var="album">
-		<c:param name="mId" value="${mysecuremId}"></c:param>
-	</c:url>
-	<c:url value="/activity/myAct.do" var="myAct">
-	</c:url>
-	<c:url value="/activity/allAct.do" var="allAct">
-	</c:url>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
 			<div class="actions">
+				<c:url value="/photo/album/list.do" var="myalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/select.do" var="selectalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/friend.do" var="friendalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/list.do" var="album">
+					<c:param name="mId" value="${mysecuremId}"></c:param>
+				</c:url>
+				<c:url value="/activity/myAct.do" var="myAct">
+				</c:url>
+				<c:url value="/activity/allAct.do" var="allAct">
+				</c:url>
 				<ul>
-					<li class="list"><a href="${myAct}">我的活動</a></li>
+					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
+					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
+					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
+					<li class="list"><a href="${selectalbum}">瀏覽相簿</a></li>
+					<li class="list"><a href="<c:url value='/photo/upload.v'/>">上傳照片</a></li>
+					<li class="list"><a href="${myAct}">我的活動列表</a></li>
 					<li class="list"><a href="${allAct}">活動列表</a></li>
 					<li class="list"><a href="<c:url value='/activity/createAct.v'/>">開團招募</a></li>
 					<li class="list"><a href="<c:url value='/activity/historyActivity.v'/>">歷史活動</a></li>
 				</ul>
 			</div>
 		</div>
-
 		<div id="right">
 			<jsp:include page="/rightInclude.jsp" />
 		</div>
 		<div id="body">
 			<c:if test="${not empty AllActivitise}">
 				<form action='<c:url value="/activity/select.do"/>' method="post">
-					<table border="1" style="text-align: center; width: 100%">
+					<table border="1" style="text-align: center; width: 100%; margin: auto">
 						<thead style="font-size: 16px">
 							<tr>
 								<th>活動編號</th>
@@ -88,7 +102,7 @@
 									<td><fmt:formatDate value="${row.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${row.activityname}</td>
 									<td>${row.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" class="btn" type="button" value="查看明細"></td>
 									<td><img onclick="joinMyAct('${joinbean}')" src='<c:url value ="/image/invite.png"/>' width="25"></td>
 								</tr>
 							</c:forEach>

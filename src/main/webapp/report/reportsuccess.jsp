@@ -15,31 +15,10 @@
 <link href="/css/lightbox.css" rel="stylesheet">
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src="/js/lightbox.js"></script>
-<script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
 	<div id="header">
-		<div class="section">
-			<c:url value="/photo/album/list.do" var="album">
-				<c:param name="mId" value="${user.mId}"></c:param>
-			</c:url>
-			<ul>
-				<li><c:if test="${not empty user}">
-						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-							<a href="manager/">後臺</a>
-						</c:if>
-					</c:if></li>
-				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-				<li><a href="<c:url value ='/user/' />">會員</a></li>
-				<li><a href="${album}">相簿</a></li>
-				<li><a href="<c:url value ='/activity/' />">活動</a></li>
-				<li><a href="<c:url value ='/store/' />">商店</a></li>
-				<li><a href="<c:url value ='/report/' />">回報</a></li>
-				<li><c:if test="${not empty user}">
-						<c:out escapeXml="false" value="<a href='../check/logout.do'>${user.mName}</a>" />
-					</c:if></li>
-			</ul>
-		</div>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
@@ -57,43 +36,51 @@
 			</div>
 		</div>
 		<!--預留給聊天室的區塊-->
-		<div id="right">預留給聊天室的區塊</div>
+		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
 		<div id="body" style="background-image: url(../image/background/reportbackground.jpg); opacity: 0.8; background-color: #1C1C1C; color: #9D9D9D">
 			<div>
 				<br> <br> <br> <br> <br>
 				<center>
 					<c:if test="${not empty success}">
-						<h1>回報成功</h1>
-						<table style="border-bottom: 1px solid #ddd;width: 100%">
+						<h1 style="color:#ffcc00">回報成功</h1>
+						<table style="border-bottom: 1px solid #ddd;width: 80%">
 						<thead>
 							<tr>
-								<th style="border-bottom: 1px solid #ddd;width: 33%; text-align: center; vertical-align: middle;font-size: 16px">會員暱稱</th>
-								<th style="border-bottom: 1px solid #ddd;width: 33%; text-align: center; vertical-align: middle;font-size: 16px">回報類別</th>
-								<th style="border-bottom: 1px solid #ddd;width: 33%; text-align: center; vertical-align: middle;font-size: 16px">回報日期</th>	
+								<th style="border-bottom: 1px solid #ddd;width: 26%; text-align: center; vertical-align: middle;font-size: 20px;background-color: black;color: white">會員暱稱</th>
+								<th style="border-bottom: 1px solid #ddd;width: 26%; text-align: center; vertical-align: middle;font-size: 20px;background-color: black;color: white">回報類別</th>
+								<th style="border-bottom: 1px solid #ddd;width: 26%; text-align: center; vertical-align: middle;font-size: 20px;background-color: black;color: white">回報日期</th>	
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td style="width: 33%; text-align: center; vertical-align: middle;font-size: 18px">${user.mName}</td>
-								<td style="width: 33%; text-align: center; vertical-align: middle;font-size: 18px">${success.reptType}</td>
-								<td style="width: 33%; text-align: center; vertical-align: middle;font-size: 18px"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${success.reptDate}" /></td>
+								<td style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;background-color: black;color: #ed6600">${user.mName}</td>
+								<td style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;background-color: black;color: #ed6600">${success.reptType}</td>
+								<td style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;background-color: black;color: #ed6600"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${success.reptDate}" /></td>
 							<tr>
 						</tbody>
 						</table>
 					</c:if>			
-						<br><br><br><br>
+						<br><br>
 				<center>
 					<div width="100%">
-						<table style="width: 100%">
+						<table style="border-color:#ff0000;width:80%;height: 250px">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px;color:#FF5151">回報內容</th>
-								<c:if test="${not empty image}">
-									<th style="width: 50%; text-align: center; vertical-align: middle;font-size: 18px">回報圖片</th>
-								</c:if>
+								<c:choose>
+								<c:when test="${not empty image}">
+									<th style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;color:#a7f400">回報內容</th>
+									<th style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;color:#FF5151"></th>
+									<th style="width: 26%; text-align: center; vertical-align: middle;font-size: 18px;color:#a7f400">回報圖片</th>
+								</c:when>
+								<c:otherwise>
+									<th style="text-align: center; vertical-align: middle;font-size: 23px;color:#94f200">回報內容</th>
+								</c:otherwise>
+								</c:choose>
 							</tr>
 							<tr>
-								<td style="width: 50%;color:#FF5151" id="reportlistfont">${success.reptDetail}</td>
-								<c:if test="${not empty image}">
+								<c:choose>
+								<c:when test="${not empty image}">
+									<td style="width: 26%;color:#c8f4e3;font-size: 18px" id="reportlistfont">${success.reptDetail}</td>
+									<td style="width: 26%" id="reportlistfont"></td>
 									<td>
 									<c:forEach var="rImg" items="${image}">
 										<figure style="display: inline-block"> 
@@ -101,19 +88,23 @@
 										<img src='../${rImg.imgPath}' width="150" height="100"></a> </figure>
 									</c:forEach>
 									</td>
-								</c:if>
+								</c:when>
+								<c:otherwise>
+									<td style="color:#FF5151; text-align: center;font-size: 20px" id="reportlistfont">${success.reptDetail}</td>
+								</c:otherwise>
+								</c:choose>
 							</tr>
 						</table>
 					</div>
 				</center>
 					<br><br><br><br>
-					<p>
+					<p id="report">
 						<a href="../index.v">回首頁</a>
 					</p>
 				</center>
 			</div>
 		</div>
 	</div>
-	<div id="footer">this is footer</div>
+	<div id="footer"><jsp:include page="/footerInclude.jsp" /></div>
 </body>
 </html>

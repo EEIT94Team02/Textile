@@ -29,11 +29,14 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
+	background-image: url("../image/background/9.jpg");
+	background-size: cover;
+	
 }
 
 #header {
 	position: fixed;
-	color:white;
+	color: white;
 	top: 0;
 	width: 100%;
 	min-height: 60px;
@@ -42,40 +45,41 @@ body {
 	background-image: url("../image/background/7.jpg");
 	background-size: cover;
 }
+
 #left {
 	position: fixed;
-	top: 60px;
+	top: 70px;
 	left: 0;
 	min-height: 512px;
 	width: 20%;
-	background: #FFF7E8;
 	float: left;
 }
 
 #right {
 	position: fixed;
-	top: 60px;
+	top: 70px;
 	right: 0;
 	width: 15%;
 	height: 660px;
-	background: #FFF7E8;
 	float: right;
 }
 
 #body {
-	position:absolute;
-	top: 60px;
+	position: absolute;
+	top: 70px;
 	left: 21%;
 	bottom: 40px;
- 	min-height: 1000px;
-	background: #FFE8E8;
+	min-height: 1000px;
+	background: #FFD1A4;
 	width: 63%;
 	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
 }
 
 #footer {
-	position:fixed;
-	bottom:0;
+	position: fixed;
+	bottom: 0;
 	background: #F5E8FF;
 	border-top: 1px solid #9bd9e0;
 	width: 100%;
@@ -127,15 +131,12 @@ body {
 	padding: 0;
 	overflow: hidden;
 	heigth: 100%;
-	
-	
 }
 
 #header .section .logo {
 	float: left;
 	margin: 0;
 	heigth: 100%;
-	
 }
 
 #header .section .logo a {
@@ -152,7 +153,7 @@ body {
 #header .section ul {
 	display: inline-block;
 	float: right;
-	margin: 0;
+	margin-top:center ;
 	overflow: hidden;
 	heigth: 100%;
 }
@@ -164,29 +165,46 @@ body {
 	margin: 0 10px;
 	padding: 0;
 	heigth: 100%;
-
+	font-size: 10px;
 }
 
 #header .section ul li a {
-	background-image: url("../image/background/6.jpg");
-	background-size:cover;
-	color: #ffffff;
-	display: inline-block;
-	font-size: 16px;
-	height: 30px;
-	letter-spacing: 0.05em;
-	line-height: 30px;
-	margin: 0;
-	padding: 0 15px;
-	text-align: center;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 2em;
-	font-weight: 600;
+	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	box-shadow: 0px 0px 0px 2px #9fb4f2;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d47744), color-stop(1, #a1765f));
+	background:-moz-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-webkit-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-o-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:-ms-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background:linear-gradient(to bottom, #d47744 5%, #a1765f 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d47744', endColorstr='#a1765f',GradientType=0);
+	background-color:#d47744;
+	-moz-border-radius:23px;
+	-webkit-border-radius:23px;
+	border-radius:23px;
+	border:2px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-weight:bold;
+	padding:8px 26px;
+	text-decoration:none;
+	text-shadow:-2px 1px 0px #283966;
+	
 }
 
 #header .section ul li a:hover {
-	color: 	#AAAAFF;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a1765f), color-stop(1, #d47744));
+	background:-moz-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-webkit-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-o-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:-ms-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background:linear-gradient(to bottom, #a1765f 5%, #d47744 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a1765f', endColorstr='#d47744',GradientType=0);
+	background-color:#a1765f;
 }
 
 #header .section ul li.selected {
@@ -197,6 +215,45 @@ body {
 	background: url(../images/bg-nav-left-selected.gif) no-repeat top left;
 }
 
+#submit {
+	-moz-box-shadow: inset 0px 1px 0px 0px #fff6af;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #fff6af;
+	box-shadow: inset 0px 1px 0px 0px #fff6af;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64
+		), color-stop(1, #ffab23));
+	background: -moz-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background: -webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background: -o-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background: -ms-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64',
+		endColorstr='#ffab23', GradientType=0);
+	background-color: #ffec64;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #ffaa22;
+	display: inline-block;
+	cursor: pointer;
+	color: #333333;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 18px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #ffee66;
+}
+
+#submit:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64));
+	background:-moz-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-o-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-ms-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffec64',GradientType=0);
+	background-color:#ffab23;
+}
 
 
 /* #header .article { */
@@ -323,8 +380,6 @@ body {
 /* 	text-transform: capitalize; */
 /* 	top: -14px; */
 /* } */
-
-
 
 /* #body>b { */
 /* 	color: #2f394e; */
@@ -788,26 +843,23 @@ body {
 /* #footer div .connect #pinterest:hover { */
 /* 	background-position: -25px -107px; */
 /* } */
-
 #reportcreate {
-	 font-size:20px;
-	 font-family:Microsoft JhengHei;
-	 font-weight:bold;
+	font-size: 20px;
+	font-family: Microsoft JhengHei;
+	font-weight: bold;
 }
 
 #reportlistfont {
-	 font-size:14px;
-	 font-family:Microsoft JhengHei;
-	 font-weight:bold;
+	font-size: 14px;
+	font-family: Microsoft JhengHei;
+	font-weight: bold;
 }
 
-
 #report a:link {
-	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */
-#report a:visited {
-	color:#01DFD7;} /* 設定過去曾經閱過的連結 */
+	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */#report a:visited {
+	color: #01DFD7;
+} /* 設定過去曾經閱過的連結 */
 #report a:hover {
-	color:#F78181;}   /* 設定滑鼠游標指在連結位置上的樣式 */
-#report a:active {
-	color:#0000BB;}  /* 設定上點擊過的連結樣式 */
-
+	color:#ff0000;}   /* 設定滑鼠游標指在連結位置上的樣式 */#report a:active {
+	color: #0000BB;
+} /* 設定上點擊過的連結樣式 */

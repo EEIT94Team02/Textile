@@ -11,13 +11,6 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
-<style type="text/css">
-td {
-	width: 100px;
-}
-
-
-</style>
 </head>
 <body>
 	<div id="header">
@@ -55,45 +48,30 @@ td {
 				</ul>
 			</div>
 		</div>
+
 		<div id="right">
 			<jsp:include page="/rightInclude.jsp" />
 		</div>
 		<div id="body">
-			<form action='<c:url value="upload.do"/>' enctype="multipart/form-data" method="post">
-				<table>
-					<tr>
-						<td><label style="color: black; font-size: 20px">選擇相簿 :</label></td>
-						<td><select name="albumno">
-								<c:forEach var="row" items="${AlbumList}">
-									<option value="${row.albumno}">${row.albumname}</option>
-								</c:forEach>
-						</select></td>
-						<td>${photoCRDErrors.albumno}</td>
-					</tr>
-					<tr>
-						<td><label style="color: black; font-size: 20px">照片名稱 :</label></td>
-						<td><input type="text" name="photoname" maxlength="10" placeholder="10個字內的照片名稱" value="${param.photoname}"></td>
-						<td>${photoCRDErrors.photoname}</td>
-					</tr>
-					<tr>
-						<td><label style="color: black; font-size: 20px">照片類別 :</label></td>
-						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">設為大頭貼</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><label style="color: black; font-size: 20px">上傳檔案 :</label></td>
-						<td><input type="file" name="file" multiple accept="image/*"></td>
-						<td>${photoCRDErrors.file}</td>
-					</tr>
-					<tr>
-						<td><label style="color: black; font-size: 20px">照片敘述 :</label></td>
-						<td><textarea name="interpretation" placeholder="照片說明"></textarea></td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="upload"></td>
-					</tr>
-				</table>
-			</form>
+			<c:if test="${not empty allfriendAlbums}">
+				<c:forEach var="friend" items="${allfriendAlbums}">
+					<c:if test="${not empty friend.friendAlbums}">
+						<div>
+							<h3>好友 ${friend.mName} 的所有相簿</h3>
+							<c:forEach var="friendAlbum" items="${friend.friendAlbums}">
+								<c:url value="/photo/list.do" var="album">
+									<c:param name="albumno" value="${friendAlbum.introduction}"></c:param>
+								</c:url>
+								<figure style="display: inline-block">
+									<a href="${album}"> <img src='<c:url value="/image/albumimg.jpg"/>' title="${friendAlbum.introduction}" alt="${friendAlbum.albumname}" width="80px">
+									</a>
+									<figcaption style="text-align: center; margin-top: 5px">${friendAlbum.albumname}</figcaption>
+								</figure>
+							</c:forEach>
+						</div>
+					</c:if>
+				</c:forEach>
+			</c:if>
 		</div>
 	</div>
 	<div id="footer">

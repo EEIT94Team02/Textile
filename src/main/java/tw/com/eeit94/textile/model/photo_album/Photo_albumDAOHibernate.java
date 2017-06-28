@@ -72,7 +72,7 @@ public class Photo_albumDAOHibernate implements Photo_albumDAO {
 				bean.getVisibility() == "" ? "%" : "%" + bean.getVisibility() + "%");
 		Predicate p4;
 		if (bean.getmId() != 0) {
-			p4 = cb.equal(root.<Integer>get("mId"), bean.getmId());
+			p4 = cb.notEqual(root.<Integer>get("mId"), bean.getmId());
 		} else {
 			p4 = cb.ge(root.<Integer>get("mId"), 0);
 		}		

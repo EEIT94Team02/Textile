@@ -43,7 +43,6 @@ $(function(){
 		$(this).parents('tr').find('input[name="img"]').remove();
 		$(this).parents('tr').find('input[name*="img"]').val('');
 		$(this).parents('tr').find('img').attr('src', '');
-		$(this).parents('tr').find('img').css("display", "none");
 	});
 });
 function setStatusIndex(pCount, index) {
@@ -64,7 +63,6 @@ function setCategoryIndex(pCount, index) {
 				<table class="mainList">
 					<thead>
 						<tr>
-							<th>productId</th>
 							<th>productName</th>
 							<th>unitPrice</th>
 							<th>category</th>
@@ -85,7 +83,6 @@ function setCategoryIndex(pCount, index) {
 							</c:if>
 							<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/pMaintain.do'>" escapeXml="false" />
 							<tr>
-								<td><input type="hidden" name="productId" value="${pBean.productId}" /></td>
 								<td>
 									<input type="text" name="productName" value="${pBean.productName}" maxlength="20" />
 									<span class="errorMessage">${errors[pBean.productId].pNa}</span>
@@ -134,13 +131,14 @@ function setCategoryIndex(pCount, index) {
 										<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 										<input type="file" id="imgUploadButton${pStatus.count}" accept="image/*" class="imgUpload" onchange="setImg(${pStatus.count})" style="display:none" />
 									</label>
-									<img class="pBeanImg" src="${showImg}" height="200" />
+									<img class="pBeanImg" src="${showImg}" width="200" />
 								</td>
 								<td>
 									<input type="text" name="rewardPoints" value="${pBean.rewardPoints}" maxlength="4" />
 									<span class="errorMessage">${errors[pBean.productId].pRP}</span>
 								</td>
 								<td>
+									<input type="hidden" name="productId" value="${pBean.productId}" />
 									<input type="submit" class="btn btn-success" name="maintainAction" value="Update" />
 									<input type="submit" class="btn btn-danger" name="maintainAction" value="Delete" />
 								</td>
@@ -149,7 +147,6 @@ function setCategoryIndex(pCount, index) {
 						</c:forEach>
 						<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/pMaintain.do'>" escapeXml="false" />
 							<tr>
-								<td><input type="hidden" name="insertCount" value="${insertCount}" /></td>
 								<td>
 									<input type="text" name="productName" value="${param.productName}" maxlength="20" placeholder="productName" />
 									<span class="errorMessage">${errors[icInteger].pNa}</span>
@@ -184,7 +181,7 @@ function setCategoryIndex(pCount, index) {
 									</label>
 									<span class="errorMessage">${errors[icInteger].pImg}</span>
 									
-									<img class="pBeanImg" src="" height="200" />
+									<img class="pBeanImg" src="" width="200" />
 								</td>
 								<td>
 									<input type="text" name="rewardPoints" value="${param.rewardPoints}"  maxlength="4" placeholder="rewardPoints" />

@@ -13,12 +13,15 @@
 </style>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '../js/stomp.js'/>"></script>
 </head>
 <body>
 	<h3>${chat.acquaintenceName}</h3>
-	<hr />
+	<hr/>
+	
 	<div id="response"></div>
 	<div>
 		<p>
