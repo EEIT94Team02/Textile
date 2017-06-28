@@ -60,88 +60,15 @@
 	<div id="left">
 		<div class="actions">
 			<ul>
-				<li class="list"><a href='<c:url value="insert.v"/>'>新增公告</a></li>
-				<li class="list"><a href='<c:url value="list.v"/>'>查詢公告</a></li>
-				<li class="list"><a href='<c:url value="update.v"/>'>修改公告</a></li>
+				<li class="list">公告</li>
+				<li class="list"><a href='<c:url value="/manager/insert.v"/>'>新增</a></li>
+				<li class="list"><a href='<c:url value="list.v"/>'>查詢</a></li>
+				<li class="list"><a href='<c:url value="/manager/update.v"/>'>修改</a></li>
 			</ul>
 		</div>
 	</div>
 	<div id="right">
-		<fieldset>
-			<c:out value="您的好友列表" />
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th>好友</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="row" items="${friendList}">
-							<tr>
-								<td><a href="${row.profileURL}">${row.mName}</a></td>
-								<td><a href="${row.chatroomURL}">聊天</a></td>
-							</tr>
-
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</fieldset>
-
-		<fieldset>
-			<c:out value="您的追蹤列表" />
-			<table>
-				<thead>
-					<tr>
-						<th>追蹤中</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="row" items="${trackList}">
-						<tr>
-							<td>${row.mName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</fieldset>
-		<fieldset>
-			<c:out value="您的邀請名單" />
-			<table>
-				<thead>
-					<tr>
-						<th>邀請人</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="row" items="${unconfirmedList}">
-						<tr>
-							<td>${row.mName}</td>
-							<td><input onclick="getInviteId('${row.profileURL}')" type="button" value="加好友"></td>
-							<td><input onclick="refuse('${row.profileURL}')" type="button" value="取消"></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</fieldset>
-		<fieldset>
-			<c:out value="您的黑名單列表" />
-			<table>
-				<thead>
-					<tr>
-						<th>黑單中</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="row" items="${blackList}">
-						<tr>
-							<td>${row.mName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</fieldset>
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 	<div id="footer">this is footer</div>
 </body>

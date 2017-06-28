@@ -59,7 +59,8 @@ public class SpringMVCDispatcherServletInitializer extends AbstractAnnotationCon
 	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration.class };
+		return new Class[] { tw.com.eeit94.textile.system.spring.SpringMVCJavaConfiguration.class,
+				tw.com.eeit94.textile.system.spring.SpringWebSocketJavaConfiguration.class };
 	}
 
 	/**

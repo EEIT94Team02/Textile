@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Store</title>
+<title>商店</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
@@ -17,18 +17,23 @@
 <style>
 #body {
 	padding: 15px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 .container {
 	position: relative;
-	width: 100%;
+	width: 30%;
+	height: 30%;
 }
 .image {
-	border: 5px solid pink;
+	border: 1px solid pink;
 	opacity: 1;
 	transition: 0.5s ease;
 	display: block;
 	width: 100%;
 	height: 100%;
+	box-shadow: 3px 3px 3px pink;
 }
 .middle {
 	opacity: 0;
@@ -61,48 +66,42 @@
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp"/>
-		</div>
+	</div>
 		<div id="center">
 			<div id="body">
 				<c:if test="${not empty pList}">
 					<c:forEach items="${pList}" var="pBean" varStatus="pStatus">
-						<c:if test="${pStatus.count %3 == 1}">
-							<c:out value='<div class="productList">' escapeXml="false" />
-						</c:if>
 						<c:url value="pShowImg.do" var="showImg" scope="page">
 							<c:param name="productId" value="${pBean.productId}"/>
 						</c:url>
 						<c:if test="${pBean.status}">
-							<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/cart.do'>" escapeXml="false" />
-								<div class="container">
-									<img class="image" src="${showImg}" />
-									<div class="middle">
-										<div class="info">
-											<p>${pBean.productName}</p>
-											<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;可獲得&nbsp;${pBean.rewardPoints}&nbsp;點積分</p>
-											<p>${pBean.category}</p>
-											<p>${pBean.intro}</p>
-											<p>
-												<label>選擇數量：</label>
-												<input type="text" class="spinner" name="amount" value="1" />
-											</p>
-											<p>
-												<input type="button" class="btn btn-info btn-sm" id="add10" name="10" value="增加 10 個" />
-												<input type="button" class="btn btn-info btn-sm" id="add50" name="50" value="增加 50 個" />
-												<input type="button" class="btn btn-info btn-sm" id="add100" name="100" value="增加 100 個" />
-												<input type="button" class="btn btn-info btn-sm" name="reset" value="重置" />
-											</p>
-											<p>
-												<input type="hidden" name="productId" value="${pBean.productId}" />
-												<input type="submit" class="btn btn-success btn-md" name="cartAction" value="加入購物車" />
-											</p>
-										</div>
+							<div class="container">
+								<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/cart.do'>" escapeXml="false" />
+								<img class="image" src="${showImg}" width="200" />
+								<div class="middle">
+									<div class="info">
+										<p>${pBean.productName}</p>
+										<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;可獲得&nbsp;${pBean.rewardPoints}&nbsp;點積分</p>
+										<p>${pBean.category}</p>
+										<p>${pBean.intro}</p>
+										<p>
+											<label>選擇數量：</label>
+											<input type="text" class="spinner" name="amount" value="1" />
+										</p>
+										<p>
+											<input type="button" class="btn btn-info btn-sm" id="add10" name="10" value="增加 10 個" />
+											<input type="button" class="btn btn-info btn-sm" id="add50" name="50" value="增加 50 個" />
+											<input type="button" class="btn btn-info btn-sm" id="add100" name="100" value="增加 100 個" />
+											<input type="button" class="btn btn-info btn-sm" name="reset" value="重置" />
+										</p>
+										<p>
+											<input type="hidden" name="productId" value="${pBean.productId}" />
+											<input type="submit" class="btn btn-success btn-md" name="cartAction" value="加入購物車" />
+										</p>
 									</div>
 								</div>
-							<c:out value="</form>" escapeXml="false" />
-						</c:if>
-						<c:if test="${pStatus.count %3 == 0}">
-							<c:out value="</div>" escapeXml="false" />
+								<c:out value="</form>" escapeXml="false" />
+							</div>
 						</c:if>
 					</c:forEach>
 				</c:if>
@@ -129,14 +128,12 @@
 </body>
 <script>
 $(function() {
-// 	$('#left').hide();
 	$(':button[name="maintain"]').on('click', function() {
 		location.href='${pageContext.request.contextPath}/manager/pShowMaintain.do';
 	});
 	$(':button[name="cart"]').on('click', function() {
 		location.href='cart.v';
 	});
-	$('.productList').css('justify-content', 'space-around').css('display', 'flex');
 	$('.spinner').spinner({
 		min: 1
 	});

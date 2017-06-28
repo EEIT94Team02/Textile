@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +8,9 @@
 <title>Welcome, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
-<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
-<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <body>
 	<div id="header">
@@ -59,45 +53,32 @@
 			<jsp:include page="/rightInclude.jsp" />
 		</div>
 		<div id="body">
-			<c:if test="${not empty myActivityList.old}">
-				<h3>歷史紀錄</h3>
-				<table border="1" style="text-align: center; width: 100%">
-					<thead>
-						<tr>
-							<th>活動</th>
-							<th>開始時間</th>
-							<th>結束時間</th>
-							<th>活動名稱</th>
-							<th>地點</th>
-							<th>成員名單</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="old" items="${myActivityList.old}">
-							<c:url value="/activity/partner.do" var="findActMember">
-								<c:param name="activityno" value="${old.activityBean.activityno}"></c:param>
-							</c:url>
-							<tr>
-								<td>${old.activityBean.activityno}</td>
-								<td><fmt:formatDate value="${old.activityBean.begintime}" pattern="yyyy/MM/dd HH:mm" /></td>
-								<td><fmt:formatDate value="${old.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
-								<td>${old.activityBean.activityname}</td>
-								<td>${old.activityBean.place}</td>
-								<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+			<c:if test="${not empty allfriendAlbums}">
+				<c:forEach var="friend" items="${allfriendAlbums}">
+					<c:if test="${not empty friend.friendAlbums}">
+						<div>
+							<h3>好友 ${friend.mName} 的所有相簿</h3>
+							<c:forEach var="friendAlbum" items="${friend.friendAlbums}">
+								<c:url value="/photo/list.do" var="album">
+									<c:param name="albumno" value="${friendAlbum.introduction}"></c:param>
+								</c:url>
+								<figure style="display: inline-block">
+									<a href="${album}"> <img src='<c:url value="/image/albumimg.jpg"/>' title="${friendAlbum.introduction}" alt="${friendAlbum.albumname}" width="80px">
+									</a>
+									<figcaption style="text-align: center; margin-top: 5px">${friendAlbum.albumname}</figcaption>
+								</figure>
+							</c:forEach>
+						</div>
+					</c:if>
+				</c:forEach>
 			</c:if>
 		</div>
+	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />
 	</div>
-	<script>
-		function findActMember(obj) {
-			location.href = obj;
-		};
-	</script>
 </body>
 </html>

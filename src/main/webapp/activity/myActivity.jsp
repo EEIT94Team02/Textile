@@ -13,27 +13,42 @@
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <body>
-	<c:url value="/photo/album/list.do" var="album">
-		<c:param name="mId" value="${mysecuremId}"></c:param>
-	</c:url>
-	<c:url value="/activity/myAct.do" var="myAct">
-	</c:url>
-	<c:url value="/activity/allAct.do" var="allAct">
-	</c:url>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
 		<div id="left">
 			<div class="actions">
+			<c:url value="/photo/album/list.do" var="myalbum">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<c:url value="/photo/album/select.do" var="selectalbum">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<c:url value="/photo/album/friend.do" var="friendalbum">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<c:url value="/photo/album/list.do" var="album">
+				<c:param name="mId" value="${mysecuremId}"></c:param>
+			</c:url>
+			<c:url value="/activity/myAct.do" var="myAct">
+			</c:url>
+			<c:url value="/activity/allAct.do" var="allAct">
+			</c:url>
 				<ul>
-					<li class="list"><a href="${myAct}">我的活動</a></li>
+					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
+					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
+					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
+					<li class="list"><a href="${selectalbum}">瀏覽相簿</a></li>
+					<li class="list"><a href="<c:url value='/photo/upload.v'/>">上傳照片</a></li>
+					<li class="list"><a href="${myAct}">我的活動列表</a></li>
 					<li class="list"><a href="${allAct}">活動列表</a></li>
 					<li class="list"><a href="<c:url value='/activity/createAct.v'/>">開團招募</a></li>
 					<li class="list"><a href="<c:url value='/activity/historyActivity.v'/>">歷史活動</a></li>
@@ -50,14 +65,14 @@
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>邀請</th>
-								<th>修改</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">邀請</th>
+								<th style="text-align: center; width: 5%">修改</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -74,7 +89,7 @@
 									<td><fmt:formatDate value="${owner.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${owner.activityBean.activityname}</td>
 									<td>${owner.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" type="button" class="btn" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="cancelMyAct('${cancelBean}')"></td>
 								</tr>
@@ -82,19 +97,21 @@
 						</tbody>
 					</table>
 				</c:if>
+				<br>
+				<br>
 				<c:if test="${not empty myActivityList.ready}">
 					<h3>${user.mName}已參加的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>邀請</th>
-								<th>退出</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">邀請</th>
+								<th style="text-align: center; width: 5%">退出</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -117,7 +134,7 @@
 									<td><fmt:formatDate value="${row.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${row.activityBean.activityname}</td>
 									<td>${row.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')"class="btn" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
 								</tr>
@@ -125,19 +142,21 @@
 						</tbody>
 					</table>
 				</c:if>
+				<br>
+				<br>
 				<c:if test="${not empty myActivityList.notcommit}">
 					<h3>${user.mName}受邀請的活動</h3>
 					<table border="1" style="text-align: center; width: 100%">
 						<thead>
 							<tr>
-								<th>活動</th>
-								<th>開始時間</th>
-								<th>結束時間</th>
-								<th>活動名稱</th>
-								<th>地點</th>
-								<th>成員名單</th>
-								<th>參加</th>
-								<th>拒絕</th>
+								<th style="text-align: center; width: 5%">活動</th>
+								<th style="text-align: center; width: 15%">開始時間</th>
+								<th style="text-align: center; width: 15%">結束時間</th>
+								<th style="text-align: center; width: 20%">活動名稱</th>
+								<th style="text-align: center; width: 30%">地點</th>
+								<th style="text-align: center; width: 5%">成員名單</th>
+								<th style="text-align: center; width: 5%">參加</th>
+								<th style="text-align: center; width: 5%">拒絕</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -156,7 +175,7 @@
 									<td><fmt:formatDate value="${notcommit.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${notcommit.activityBean.activityname}</td>
 									<td>${notcommit.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" class="btn" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/invite.png"/>' width="25" onclick="joinMyAct('${joinbean}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="refuseMyAct('${notcommitsecedebean}')"></td>
 								</tr>

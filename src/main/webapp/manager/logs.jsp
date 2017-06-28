@@ -7,6 +7,8 @@
 <title>Logs, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <style type="text/css">
 table {
 	border-collapse: collapse;
@@ -35,22 +37,36 @@ td {
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
-	<p>補充：網址結尾改成/logs.do可以列出記錄，改成/delogs.do可以刪除所有記錄。</p>
-	<table>
-		<thead>
-			<tr>
-				<th class="t1">紀錄編號</th>
-				<th class="t2">紀錄時間</th>
-				<th>紀錄內容</th>
-			</tr>
-		</thead>
-		<c:forEach var="lbean" items="${logs}">
-			<tr>
-				<td class="t1">${lbean.lId}</td>
-				<td>${lbean.lCreateTime}</td>
-				<td>${lbean.lLog}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<div id="header">
+		<jsp:include page="/headerInclude.jsp" />
+	</div>
+	<div id=left>
+		<div class="actions">
+			<ul>
+				<li class="list"><a href="<c:url value='logs.do'/>">系統記錄</a></li>
+				<li class="list"><a href="<c:url value='users.do'/>">會員列表</a></li>
+				<li class="list"><a href="<c:url value='tests.do'/>">在線測試</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id=body>
+		<p>補充：網址結尾改成/logs.do可以列出記錄，改成/delogs.do可以刪除所有記錄。</p>
+		<table>
+			<thead>
+				<tr>
+					<th class="t1">紀錄編號</th>
+					<th class="t2">紀錄時間</th>
+					<th>紀錄內容</th>
+				</tr>
+			</thead>
+			<c:forEach var="lbean" items="${logs}">
+				<tr>
+					<td class="t1">${lbean.lId}</td>
+					<td>${lbean.lCreateTime}</td>
+					<td>${lbean.lLog}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>

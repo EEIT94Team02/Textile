@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import tw.com.eeit94.textile.model.activity_member.Activity_memberBean;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumBean;
 import tw.com.eeit94.textile.model.photo_album.Photo_albumService;
@@ -41,6 +42,7 @@ public class ReadAlbumController {
 	public Photo_albumService getPhoto_albumService() {
 		return photo_albumService;
 	}
+
 	@Autowired
 	private SecureService secureService;
 
@@ -71,11 +73,11 @@ public class ReadAlbumController {
 		List<String> s_type = new ArrayList<>();
 		s_type.add("好友");
 		List<SocialListBean> friendsBean = getSocialListService().selectAllFriend(userId, s_type);
-		
+
 		String securemId = getSecureService().getEncryptedText(String.valueOf(userId), "mId");
 		session.setAttribute("mysecuremId", securemId);
-		for(Photo_albumBean each : index){
-			each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId"));
+		for (Photo_albumBean each : index) {
+			each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()), "mId"));
 		}
 		session.setAttribute("FriendList", friendsBean);
 		session.setAttribute("AlbumList", index);
@@ -87,76 +89,43 @@ public class ReadAlbumController {
 		return albumIndexProcess(request, model);
 	}
 
-	@RequestMapping(method = { RequestMethod.POST }, path = { "/default.do" })
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/friend.do" })
 	public String seclectMIdProcess(HttpServletRequest request, Model model) throws Exception {
 		// 接收資料
 		HttpSession session = request.getSession();
-		Map<String, String> errors = new HashMap<String, String>();
-		model.addAttribute("selectAlbumErrors", errors);
-		String IDstring = request.getParameter("mId");
 		MemberBean user = (MemberBean) session.getAttribute("user");
 		int userId = user.getmId();
 
-		// 轉換資料
-		// 驗證資料
-		int memberId = 0;
-		if (IDstring != null && IDstring != "") {
-			memberId = Integer.parseInt(IDstring);
-		} else {
-			errors.put("seclectAlbum", "請輸入條件");
-		}
-
-		if (errors != null && !errors.isEmpty()) {
-			return "select.album";
-		}
-
-		// 呼叫Model
-		SocialListBean friendBean = new SocialListBean();
-		Photo_albumBean bean = new Photo_albumBean();
-		List<Photo_albumBean> photo_albumBeans = new ArrayList<Photo_albumBean>();
-		List<Photo_albumBean> resultalbumBeans = new ArrayList<Photo_albumBean>();
-		bean.setmId(memberId);
-		photo_albumBeans = getPhoto_albumService().findPhotoAlbumBymId(bean);
-
-		if (photo_albumBeans != null && !photo_albumBeans.isEmpty()) {
-			if (memberId == userId) {
-				resultalbumBeans = photo_albumBeans;
-				for(Photo_albumBean each : resultalbumBeans){
-					each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId"));
-				}
-				model.addAttribute("AlbumList", resultalbumBeans);
-				return "album.list";
-			}
-			for (Photo_albumBean aaa : photo_albumBeans) {
-				if ("公開".equals(aaa.getVisibility())) {
-					resultalbumBeans.add(aaa);
-				} else {
-					friendBean = getSocialListService().select(new SocialListPK(userId, memberId));
-					if (friendBean != null && "好友".equals(friendBean.getS_type())) {
-						resultalbumBeans.add(aaa);
-					}
+		List<SocialListBean> friendBean = new ArrayList<SocialListBean>();
+		friendBean = getSocialListService().selectAllFriend(userId, "好友");
+		List<Map<String, Object>> allfriendAlbums = new ArrayList<Map<String, Object>>();
+		List<Photo_albumBean> friendAlbums = null;
+		for (SocialListBean friend : friendBean) {
+			Photo_albumBean bean = new Photo_albumBean();
+			friendAlbums = new ArrayList<Photo_albumBean>();
+			List<Photo_albumBean> temp = new ArrayList<Photo_albumBean>();
+			bean.setmId(friend.getSocialListPK().getAcquaintenceId());
+			temp = getPhoto_albumService().findPhotoAlbumBymId(bean);
+			for (Photo_albumBean aaa : temp) {
+				if ("公開".equals(aaa.getVisibility()) || "好友".equals(aaa.getVisibility())) {
+					aaa.setIntroduction(getSecureService().getEncryptedText(String.valueOf(aaa.getAlbumno()), "mId"));
+					friendAlbums.add(aaa);
 				}
 			}
-			if (resultalbumBeans != null && !resultalbumBeans.isEmpty()) {
-				for(Photo_albumBean each : resultalbumBeans){
-					each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId"));
-				}
-				model.addAttribute("AlbumList", resultalbumBeans);
-				
-			} else {
-				model.addAttribute("Albumresult", "找不到相簿，或沒有閱讀此相簿的權限");
-			}
-		} else {
-			model.addAttribute("Albumresult", "找不到相簿，或沒有閱讀此相簿的權限");
+			Map<String, Object> myfriendAlbums = new HashMap<String, Object>();
+			myfriendAlbums.put("mName", friend.getMbean().getmName());
+			myfriendAlbums.put("friendAlbums", friendAlbums);
+			allfriendAlbums.add(myfriendAlbums);
 		}
-		// 根據Model執行結果呼叫View
-		return "album.list";
+		session.setAttribute("allfriendAlbums", allfriendAlbums);
+		return "album.friendlist";
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/select.do" })
 	public String seclectAlbumProcess(HttpServletRequest request, Model model) throws Exception {
 		// 接收資料
 		HttpSession session = request.getSession();
+		MemberBean mBean = (MemberBean) session.getAttribute("user");
 		Map<String, String> errors = new HashMap<String, String>();
 		model.addAttribute("selectAlbumErrors", errors);
 		String visibility = "公開";
@@ -165,15 +134,15 @@ public class ReadAlbumController {
 		bean.setCreatetime(new Timestamp(0));
 		bean.setIntroduction("");
 		bean.setVisibility(visibility);
-		bean.setmId(0);
-		List<Photo_albumBean> check = getPhoto_albumService().findPhotoAlbumByOthers(bean);		
+		bean.setmId(mBean.getmId());
+		List<Photo_albumBean> check = getPhoto_albumService().findPhotoAlbumByOthers(bean);
 		if (check != null && check.size() != 0) {
-			session.setAttribute("OthersAlbum", check);
 			String secureAlbumno = "";
-			for(Photo_albumBean each: check ){
-				secureAlbumno = getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId");
+			for (Photo_albumBean each : check) {
+				secureAlbumno = getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()), "mId");
 				each.setIntroduction(secureAlbumno);
 			}
+			session.setAttribute("OthersAlbum", check);
 		} else {
 			session.setAttribute("OthersAlbum", check);
 		}
@@ -249,8 +218,8 @@ public class ReadAlbumController {
 		}
 		// 根據Model執行結果呼叫View
 		if (result != null && result.size() != 0) {
-			for(Photo_albumBean each : result){
-				each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()),"mId"));
+			for (Photo_albumBean each : result) {
+				each.setIntroduction(getSecureService().getEncryptedText(String.valueOf(each.getAlbumno()), "mId"));
 			}
 			model.addAttribute("AlbumList", result);
 		} else {

@@ -69,7 +69,9 @@ public enum ConstMapping {
 	QUERYCONDITION_SHOW("queryCondition.show"),
 	QUERYCONDITION_ERROR("queryCondition.error"),
 	CHAT("/user/chat.do"),
-	CHAT_SHOW("chat.show");
+	CHAT_SHOW("chat.show"),
+	MESSAGE_IN("/message/in"),
+	MESSAGE_OUT("/passage/out");
 
 	private final String path;
 
