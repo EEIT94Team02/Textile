@@ -13,6 +13,7 @@
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-1.12.1.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
@@ -88,7 +89,7 @@
 									<td><fmt:formatDate value="${owner.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${owner.activityBean.activityname}</td>
 									<td>${owner.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" type="button" class="btn" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="cancelMyAct('${cancelBean}')"></td>
 								</tr>
@@ -133,7 +134,7 @@
 									<td><fmt:formatDate value="${row.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${row.activityBean.activityname}</td>
 									<td>${row.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')"class="btn" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/join.png"/>' width="25" onclick="findActMember('${findActMember}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="deleteMyAct('${secedebean}')"></td>
 								</tr>
@@ -174,7 +175,7 @@
 									<td><fmt:formatDate value="${notcommit.activityBean.endtime}" pattern="yyyy/MM/dd HH:mm" /></td>
 									<td>${notcommit.activityBean.activityname}</td>
 									<td>${notcommit.activityBean.place}</td>
-									<td><input onclick="findActMember('${findActMember}')" type="button" value="查看明細"></td>
+									<td><input onclick="findActMember('${findActMember}')" class="btn" type="button" value="查看明細"></td>
 									<td><img src='<c:url value ="/image/invite.png"/>' width="25" onclick="joinMyAct('${joinbean}')"></td>
 									<td><img src='<c:url value ="/image/cancel.png"/>' width="25" onclick="refuseMyAct('${notcommitsecedebean}')"></td>
 								</tr>

@@ -118,7 +118,7 @@
 						</tr>
 						<tr style="padding: 15px">
 							<td></td>
-							<td><input type="submit" value="建立"></td>
+							<td><input type="submit"class="btn" value="建立"></td>
 							<td style="color: red">${activityCRDErrors.create}</td>
 						</tr>
 					</table>

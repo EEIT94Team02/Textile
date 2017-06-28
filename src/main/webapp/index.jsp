@@ -76,11 +76,21 @@ body {
 }
 
 p {
-	color: 	#C63300;
+	color: #C63300;
 	text-shadow: 0.05em 0.07em 0.01em #333;
 	font-size: 30px;
 	font-weight: bold;
 	font-family: Microsoft JhengHei;
+}
+
+.cover {
+	background: #FFD1A4;
+	padding:4px 50px;
+	opacity: 0.88;
+}
+.img {
+	border-radius: 20px;
+	height:75px;
 }
 </style>
 </head>
@@ -88,42 +98,44 @@ p {
 
 	<div id="header">
 		<div class="section">
-		<c:url value="/photo/album/list.do" var="album">
-			<c:param name="mId" value="${user.mId}"></c:param>
-		</c:url>
-		<c:url value="/activity/myAct.do" var="myAct">
-		</c:url>
-		<ul>
-			<li><c:if test="${not empty user}">
-					<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-						<a href="manager/">後臺</a>
-					</c:if>
-				</c:if></li>
-			<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
-			<li><a href="<c:url value ='/user/' />">會員</a></li>
-			<li><a href="${album}">相簿</a></li>
-			<li><a href="${myAct}">活動</a></li>
-			<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
-			<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
-			<li><a href="<c:url value ='/report/' />">回報</a></li>
-			<li><a href="<c:url value ='/announcement/' />">公告</a></li>
-		
-			<li><c:if test="${empty user}">
-					<c:out escapeXml="false" value="<a href='check/login.r'>登入</a>" />
-				</c:if> <c:if test="${not empty user}">
-					<c:url var="x" value="/check/logout.do" />
-					<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
-				</c:if></li>
-		</ul>
-	</div>
+			<c:url value="/photo/album/list.do" var="album">
+				<c:param name="mId" value="${user.mId}"></c:param>
+			</c:url>
+			<c:url value="/activity/myAct.do" var="myAct">
+			</c:url>
+			<img src="<c:url value ='/image/background/logo2.jpg' />" class="img"/>
+			<ul>
+				<li><c:if test="${not empty user}">
+						<c:if test='${sessionScope.user.mValidManager == "Y"}'>
+							<a href="manager/">後臺</a>
+						</c:if>
+					</c:if></li>
+				<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
+				<li><a href="<c:url value ='/user/' />">會員</a></li>
+				<li><a href="${album}">相簿</a></li>
+				<li><a href="${myAct}">活動</a></li>
+				<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
+				<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
+				<li><a href="<c:url value ='/report/' />">回報</a></li>
+				<li><a href="<c:url value ='/announcement/' />">公告</a></li>
+
+				<li><c:if test="${empty user}">
+						<c:out escapeXml="false" value="<a href='check/login.r'>登入</a>" />
+					</c:if> <c:if test="${not empty user}">
+						<c:url var="x" value="/check/logout.do" />
+						<c:out escapeXml="false" value="<a href='${x}'>${user.mName}</a>" />
+					</c:if></li>
+			</ul>
+		</div>
 	</div>
 
-	<div id="cover">
+	<div>
 		<div class="hero-text">
-			<h1 style="font-size: 50px">Wellcome to Textile!!</h1>
-			<p>想要認識誰嗎?</p>
-			<button onclick="location.href='check/register.v'">按我註冊!!</button>
-			
+			<div class="cover">
+				<h1 style="font-size: 50px">Wellcome to Textile!!</h1>
+				<p>想要認識誰嗎?</p>
+				<button onclick="location.href='check/register.v'">按我註冊!!</button>
+			</div>
 		</div>
 	</div>
 

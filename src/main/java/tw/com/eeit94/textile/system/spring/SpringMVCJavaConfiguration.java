@@ -144,8 +144,8 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/social/search.v").setViewName("/social/search.v");
 		registry.addViewController("/announcement/index.v").setViewName("/announcement/index.v");
 		registry.addViewController("/announcement/list.v").setViewName("/announcement/list.v");
-		registry.addViewController("/announcement/insert.v").setViewName("/announcement/insert.v");
-		registry.addViewController("/announcement/update.v").setViewName("/announcement/update.v");
+		registry.addViewController("/manager/insert.v").setViewName("/manager/insert.v");
+		registry.addViewController("/manager/update.v").setViewName("/manager/update.v");
 
 		super.addViewControllers(registry);
 	}
@@ -1074,13 +1074,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 			return internalResourceView;
 		}
 		
-		@Bean(name = { "/announcement/insert.v" })
+		@Bean(name = { "/manager/insert.v" })
 		public InternalResourceView announcementinsert() {
 			InternalResourceView internalResourceView = new InternalResourceView();
 			internalResourceView.setUrl("/announcement/insert.jsp");
 			return internalResourceView;
 		}
-		@Bean(name = { "/announcement/update.v" })
+		@Bean(name = { "/manager/update.v" })
 		public InternalResourceView announcementupdate() {
 			InternalResourceView internalResourceView = new InternalResourceView();
 			internalResourceView.setUrl("/announcement/update.jsp");

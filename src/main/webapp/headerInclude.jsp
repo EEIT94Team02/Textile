@@ -7,10 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.headbackground {
-	background-image: url("<c:url value = '/image/background/4.jpg'/>");
-
-	
+.img {
+	border-radius: 20px;
+	height: 70px;
 }
 </style>
 </head>
@@ -21,10 +20,11 @@
 		</c:url>
 		<c:url value="/activity/myAct.do" var="myAct">
 		</c:url>
+		<img src="<c:url value ='/image/background/logo2.jpg' />" class="img"/>
 		<ul>
 			<li><c:if test="${not empty user}">
 					<c:if test='${sessionScope.user.mValidManager == "Y"}'>
-						<a href="manager/">後臺</a>
+						<a href="<c:url value='/manager/'/>">後臺</a>
 					</c:if>
 				</c:if></li>
 			<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
