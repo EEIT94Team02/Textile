@@ -25,6 +25,7 @@ import tw.com.eeit94.textile.model.activity_member.Activity_memberPK;
 import tw.com.eeit94.textile.model.activity_member.Activity_memberService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.model.social.SocialListBean;
 import tw.com.eeit94.textile.model.social.SocialListService;
 
@@ -64,6 +65,13 @@ public class ReadActivityController {
 
 	public SocialListService getSocialListService() {
 		return socialListService;
+	}
+
+	@Autowired
+	private SecureService secureService;
+
+	public SecureService getSecureService() {
+		return secureService;
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/select.do" })
@@ -166,14 +174,14 @@ public class ReadActivityController {
 		int mId = Integer.parseInt(mIdstring);
 		int activityno = Integer.parseInt(activitynostring);
 		Activity_memberBean joinbean = new Activity_memberBean();
-		joinbean.setActivity_memberPK(new Activity_memberPK(activityno, mId));		
-		if(getActivity_memberService().findByPK(joinbean) != null){
+		joinbean.setActivity_memberPK(new Activity_memberPK(activityno, mId));
+		if (getActivity_memberService().findByPK(joinbean) != null) {
 			joinbean.setPosition("參與者");
 			getActivity_memberService().changePosition(joinbean);
-		} else{
+		} else {
 			joinbean.setPosition("參與者");
 			ActivityBean insertbean = new ActivityBean();
-			insertbean.setActivityno(activityno);			
+			insertbean.setActivityno(activityno);
 			joinbean.setActivityBean(getActivityService().selectByActivityNO(insertbean));
 			joinbean.setMemberBean(getMemberService().selectByPrimaryKey(mId));
 			getActivity_memberService().addNewActivityMember(joinbean);
@@ -210,7 +218,7 @@ public class ReadActivityController {
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/myAct.do" })
-	public String myActivity(HttpServletRequest request, Model model) throws ParseException {
+	public String myActivity(HttpServletRequest request, Model model) {
 
 		// 接收資料
 		HttpSession session = request.getSession();
@@ -224,9 +232,6 @@ public class ReadActivityController {
 		pk.setmId(user.getmId());
 		bean.setActivity_memberPK(pk);
 		List<Activity_memberBean> activities = getActivity_memberService().findActivityNoByMemberId(bean);
-		
-		System.out.println(activities);
-		
 		List<String> s_type = new ArrayList<>();
 		MemberBean memberBean = (MemberBean) session.getAttribute("user");
 		Integer userId = memberBean.getmId();
@@ -261,7 +266,7 @@ public class ReadActivityController {
 	}
 
 	@RequestMapping(method = { RequestMethod.GET }, path = { "/myAct.do" })
-	public String doGetmyActivity(HttpServletRequest request, Model model) throws ParseException {
+	public String doGetmyActivity(HttpServletRequest request, Model model) {
 		return myActivity(request, model);
 	}
 

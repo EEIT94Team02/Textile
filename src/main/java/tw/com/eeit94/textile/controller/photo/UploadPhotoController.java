@@ -92,7 +92,7 @@ public class UploadPhotoController {
 		if (albumString == null || albumString == "") {
 			errors.put("albumno", "請輸入相簿編號");
 		}
-		if (files == null || files.length == 0) {
+		if (files == null || "".equals(files[0].getOriginalFilename())) {
 			errors.put("file", "請選擇至少一張照片");
 		}
 

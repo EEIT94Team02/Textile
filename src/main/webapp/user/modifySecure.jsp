@@ -28,7 +28,7 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 
 	<div id="center">
@@ -94,97 +94,7 @@
 		</div>
 	</div>
 	<div id="right">
-		<fieldset>
-			<c:out value="您的好友列表" />
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th>好友</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="row" items="${friendList}">
-							<c:url value="/user/index.v" var="member">
-								<c:param name="q" value="${row.profileURL}"></c:param>
-							</c:url>
-							<c:url value="/user/chat.v" var="chatroom">
-								<c:param name="q" value="${row.chatroomURL}"></c:param>
-							</c:url>
-							<figure style="display: inline-block">
-									<a href="${member}">${row.mName}</a>
-							</figure>
-							<figure style="display: inline-block">
-								<a href="${chatroom}">聊天</a>
-							</figure>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</fieldset>
-
-		<fieldset>
-			<c:out value="您的追蹤列表" />
-			<table>
-				<thead>
-					<tr>
-						<th>追蹤中</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="row" items="${trackList}">
-						<tr>
-							<td>${row.mName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
-		</fieldset>
-
-		<fieldset>
-			<c:out value="您的邀請名單" />
-			<table>
-				<thead>
-					<tr>
-						<th>邀請人</th>
-					</tr>
-				</thead>
-				<tbody>
-
-					<c:forEach var="row" items="${unconfirmedList}">
-						<c:url value="/social/insert.do" var="insert">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<c:url value="/social/refuse.do" var="refuseDelete">
-							<c:param name="q" value="${row.profileURL}"></c:param>
-						</c:url>
-						<tr>
-							<td>${row.mName}</td>
-							<td><input onclick="getInviteId('${insert}')" type="button" value="加好友"></td>
-							<td><input onclick="refuse('${refuseDelete}')" type="button" value="取消"></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</fieldset>
-		<fieldset>
-			<c:out value="您的黑名單列表" />
-			<table>
-				<thead>
-					<tr>
-						<th>黑單中</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="row" items="${blackList}">
-						<tr>
-							<td>${row.mName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</fieldset>
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 
 	<script type="text/javascript">
