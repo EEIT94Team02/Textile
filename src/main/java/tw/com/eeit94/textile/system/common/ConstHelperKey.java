@@ -29,6 +29,7 @@ public enum ConstHelperKey {
 	METHOD("m"),
 	METHOD_EQUAL("m="),
 	CHATROOM_IDENTITIES("chatroom_identities"),
+	CHATROOM_PRIMARYKEYS("chatroom_primaryKeys"),
 	WEBSOCKET_PROTOCOL("ws");
 
 	private final String key;
