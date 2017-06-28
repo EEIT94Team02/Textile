@@ -97,6 +97,8 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/activity/secede.v").setViewName("/activity/secede.v");
 		registry.addViewController("/activity/allAct.v").setViewName("/activity/allAct.v");
 		registry.addViewController("/activity/calendar.v").setViewName("/activity/calendar.v");
+		registry.addViewController("/photo/myActivity.v").setViewName("/photo/myActivity.v");
+		registry.addViewController("/photo/friendalbum.v").setViewName("/photo/friendalbum.v");
 		/*
 		 * 李
 		 */
@@ -461,6 +463,19 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceView.setUrl("/photo/myalbum.jsp");
 		return internalResourceView;
 	}
+	@Bean(name = {"album.friendlist"})
+	public org.springframework.web.servlet.view.RedirectView friendalbumRefresh() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/photo/friendalbum.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}
+	@Bean(name = { "/photo/friendalbum.v" })
+	public org.springframework.web.servlet.view.InternalResourceView friendalbum() {
+		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
+		internalResourceView.setUrl("/photo/friendalbum.jsp");
+		return internalResourceView;
+	}
 	@Bean(name = { "/photo/showalbum.v" })
 	public org.springframework.web.servlet.view.InternalResourceView showalbum() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
@@ -518,8 +533,16 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		redirectView.setContextRelative(true);
 		return redirectView;
 	}
+	// 顯示照片頁面。
+	@Bean(name = { "Activity.default" })
+	public org.springframework.web.servlet.view.RedirectView myActivityIndex() {
+		org.springframework.web.servlet.view.RedirectView redirectView = new org.springframework.web.servlet.view.RedirectView();
+		redirectView.setUrl("/photo/myActivity.v");
+		redirectView.setContextRelative(true);
+		return redirectView;
+	}	
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "Activity.default" , "/activity/secede.v" })
+	@Bean(name = { "/activity/index.v", "/photo/myActivity.v" , "/activity/secede.v" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/myActivity.jsp");
