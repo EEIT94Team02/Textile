@@ -77,7 +77,7 @@ body {
 }
 
 #footer {
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	background: #F5E8FF;
 	border-top: 1px solid #9bd9e0;

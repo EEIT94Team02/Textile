@@ -100,12 +100,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 李
 		 */
-		// trigger，測試用
-		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
-		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
-		registry.addViewController("/deal/dealTestTrigger.v").setViewName("/deal/dealTestTrigger.v");
-		registry.addViewController("/gift/gTestTrigger.v").setViewName("/gift/gTestTrigger.v");
-		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/cart.v").setViewName("/store/cart.v");
@@ -591,38 +585,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 李
 	 * @version 2017/06/14
 	 */
-
-	// 測試用，為product頁面呼叫controller取得資料。
-	@Bean(name = { "/store/pTestTrigger.v" })
-	public InternalResourceView productTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/store/pTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為item頁面呼叫controller取得資料。
-	@Bean(name = { "/item/iTestTrigger.v" })
-	public InternalResourceView itemTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/item/iTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為deal頁面呼叫controller取得資料。
-	@Bean(name = { "/deal/dealTestTrigger.v" })
-	public InternalResourceView dealTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deal/dealTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為gift頁面呼叫controller取得資料。
-	@Bean(name = { "/gift/gTestTrigger.v" })
-	public InternalResourceView giftTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/gift/gTestTrigger.jsp");
-		return view;
-	}
 
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
