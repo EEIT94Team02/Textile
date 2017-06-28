@@ -65,7 +65,8 @@
 							<c:param name="position" value="${row.position}"></c:param>
 						</c:url>
 						<figure style="display: inline-block">
-							<a href='<c:url value="${row.respath}"/>' data-lightbox="photo" data-title="${row.photoname}"><img src='${photo}' title="${row.interpretation}" alt="${row.photoname}" width="120px"></a>
+							<a href='<c:url value="${row.respath}"/>' data-lightbox="photo" data-title="${row.photoname}"><img
+								src='${photo}' title="${row.interpretation}" alt="${row.photoname}" width="120px"></a>
 							<figcaption style="text-align: center;">${row.photoname}</figcaption>
 						</figure>
 					</c:forEach>

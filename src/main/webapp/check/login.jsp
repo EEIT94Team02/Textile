@@ -33,6 +33,11 @@ body {
 	padding: 5px;
 	border: 1px solid #eeb44f;
 }
+
+fieldset {
+	padding: 12px;
+	color:black;
+}
 </style>
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
@@ -54,8 +59,7 @@ body {
 					</tr>
 					<tr>
 						<c:set var="x" value="&nbsp;&nbsp;&nbsp;" />
-						<td colspan="3" align="center"><input type="checkbox" name="keepLogin"
-							value="1" />保持登入</td>
+						<td colspan="3" align="center"><input type="checkbox" name="keepLogin" value="1" />保持登入</td>
 					</tr>
 					<tr>
 						<td colspan="3" align="center"><input id="btn" class="btn" type="submit" value="登入" /></td>

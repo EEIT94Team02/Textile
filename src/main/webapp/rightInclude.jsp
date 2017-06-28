@@ -21,7 +21,7 @@
 	overflow: auto;
 	opacity: 0.8;
 	font-weight: bold;
-	border-style:solid;
+	border-style: solid;
 	border-color: #888888;
 }
 </style>
