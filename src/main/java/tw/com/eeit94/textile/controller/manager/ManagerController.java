@@ -83,7 +83,7 @@ public class ManagerController {
 
 		for (int i = 0; i < list.size(); i++) {
 			MemberBean mbean = list.get(i);
-			String mOtherProfileUrl = this.memberService.getOtherProfileUrl(mbean, request);
+			String mOtherProfileUrl = this.memberService.getOtherProfileURL(mbean, request);
 			mOtherProfileUrl.replace(ConstMapping.TRUE_MAIN_PAGE.path(), ConstMapping.REDIRECT_MAIN_PAGE.path());
 			mbean.setmOtherProfileUrl(mOtherProfileUrl);
 		}
