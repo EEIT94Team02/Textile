@@ -1,5 +1,6 @@
 package tw.com.eeit94.textile.controller.activity;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,24 @@ public class CUDActivityController {
 
 	public Activity_memberService getActivity_memberService() {
 		return activity_memberService;
+	}
+
+	@RequestMapping(path = { "/checkdate.do" })
+	public void checkprocess(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		String begintime = request.getParameter("begintime");
+		String endtime = request.getParameter("endtime");
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if (begintime == null || begintime == "") {
+			response.getWriter().append("請輸入活動開始時間");
+		}
+		if (endtime == null || endtime == "") {
+			response.getWriter().append("請輸入活動結束時間");
+		}
+		if (begintime != "" && endtime != "") {
+			if (sdf.parse(begintime).getTime() > sdf.parse(endtime).getTime()) {
+				response.getWriter().append("請確認活動時間");
+			}
+		}
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/create.do" }, consumes = {

@@ -17,19 +17,34 @@
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
-		<c:url value="/showphoto.v" var="photo">
-			<c:param name="photono" value="${user.mPhotono}"></c:param>
-		</c:url>
 		<div id="left">
 			<div class="actions">
+				<c:url value="/photo/album/list.do" var="myalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/select.do" var="selectalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/friend.do" var="friendalbum">
+					<c:param name="mId" value="${user.mId}"></c:param>
+				</c:url>
+				<c:url value="/photo/album/list.do" var="album">
+					<c:param name="mId" value="${mysecuremId}"></c:param>
+				</c:url>
+				<c:url value="/activity/myAct.do" var="myAct">
+				</c:url>
+				<c:url value="/activity/allAct.do" var="allAct">
+				</c:url>
 				<ul>
-					<c:url value="/photo/album/select.do" var="selectalbum">
-						<c:param name="albumno" value="${user.mId}"></c:param>
-					</c:url>
-					<li class="list"><a href="${album}">我的相簿</a></li>
+					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
+					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
 					<li class="list"><a href="${selectalbum}">瀏覽相簿</a></li>
 					<li class="list"><a href="<c:url value='/photo/upload.v'/>">上傳照片</a></li>
+					<li class="list"><a href="${myAct}">我的活動列表</a></li>
+					<li class="list"><a href="${allAct}">活動列表</a></li>
+					<li class="list"><a href="<c:url value='/activity/createAct.v'/>">開團招募</a></li>
+					<li class="list"><a href="<c:url value='/activity/historyActivity.v'/>">歷史活動</a></li>
 				</ul>
 			</div>
 		</div>
@@ -55,7 +70,7 @@
 					</tr>
 					<tr>
 						<td><label style="color: black; font-size: 20px">照片類別 :</label></td>
-						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">設為大頭貼 </td>
+						<td><input type="radio" checked="checked" name="position" value="一般">一般 <input type="radio" name="position" value="大頭貼">設為大頭貼</td>
 						<td></td>
 					</tr>
 					<tr>
