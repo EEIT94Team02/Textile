@@ -60,6 +60,39 @@ public class ChatroomService {
 	}
 
 	/**
+	 * 得到聊天室的所有主鍵。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	@Autowired
+	public List<Long> getAllChatroomPrimaryKeys() {
+		List<Long> primaryKeys = new ArrayList<>();
+		List<ChatroomBean> list = this.chatroomDAO.selectAll();
+		for (int i = 0; i < list.size(); i++) {
+			primaryKeys.add(list.get(i).getcId());
+		}
+		
+		return primaryKeys;
+	}
+
+	/**
+	 * 製作聊天室傳送訊息的Websocket URI。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/27
+	 */
+	public String getWebsocketUri(HttpServletRequest request) {
+		String websocketUri = request.getRequestURL().toString();
+		websocketUri = websocketUri.substring(0, websocketUri.lastIndexOf('/'));
+		websocketUri = websocketUri.substring(0, websocketUri.lastIndexOf('/'));
+		websocketUri = websocketUri.substring(websocketUri.indexOf(':'), websocketUri.length());
+		websocketUri = new StringBuffer().append(ConstHelperKey.WEBSOCKET_PROTOCOL.key()).append(websocketUri)
+				.toString();
+		return websocketUri;
+	}
+
+	/**
 	 * 藉由聊天室實體來製作redirect的url。
 	 * 
 	 * @author 賴

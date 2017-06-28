@@ -274,7 +274,7 @@ public class MemberService {
 	 * @version 2017/06/24
 	 * @throws Exception
 	 */
-	public String getOtherProfileUrl(MemberBean mbean, HttpServletRequest request) throws Exception {
+	public String getOtherProfileURL(MemberBean mbean, HttpServletRequest request) throws Exception {
 		String encryptedMId = this.secureService.getEncryptedText(mbean.getmId().toString(),
 				ConstSecureParameter.MEMBERID.param());
 		StringBuffer sBuffer = new StringBuffer();

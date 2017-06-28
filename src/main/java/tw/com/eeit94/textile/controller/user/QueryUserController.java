@@ -96,7 +96,7 @@ public class QueryUserController {
 			return ConstMapping.QUERYNAME_ERROR.path();
 		} else {
 			MemberBean mbean = list.get(0);
-			response.sendRedirect(this.memberService.getOtherProfileUrl(mbean, request));
+			response.sendRedirect(this.memberService.getOtherProfileURL(mbean, request));
 		}
 		return null;
 	}
@@ -172,7 +172,7 @@ public class QueryUserController {
 			return ConstMapping.QUERYCONDITION_SHOW.path();
 		}
 
-		response.sendRedirect(this.memberService.getOtherProfileUrl(mbean, request));
+		response.sendRedirect(this.memberService.getOtherProfileURL(mbean, request));
 		return null;
 	}
 
@@ -194,6 +194,6 @@ public class QueryUserController {
 			mbean = this.memberService.getQueryRandomResult(usermBean);
 			mbean = this.memberService.getRidOfSystemMBean(mbean);
 		} while (mbean == null);
-		response.sendRedirect(this.memberService.getOtherProfileUrl(mbean, request));
+		response.sendRedirect(this.memberService.getOtherProfileURL(mbean, request));
 	}
 }
