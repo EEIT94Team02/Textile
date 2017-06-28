@@ -89,8 +89,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/activity/historyActivity.v").setViewName("/activity/historyActivity.v");
 		registry.addViewController("/activity/select.v").setViewName("/activity/select.v");
 		registry.addViewController("/photo/upload.v").setViewName("/photo/upload.v");
-		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
-		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
 		registry.addViewController("/photo/myalbum.v").setViewName("/photo/myalbum.v");
 		registry.addViewController("/photo/showalbum.v").setViewName("/photo/showalbum.v");
 		registry.addViewController("/photo/showphoto.v").setViewName("/photo/showphoto.v");
@@ -549,7 +547,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "Activity.default", "/activity/secede.v" })
+	@Bean(name = { "/activity/index.v", "/photo/myActivity.v", "/activity/secede.v" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/myActivity.jsp");
