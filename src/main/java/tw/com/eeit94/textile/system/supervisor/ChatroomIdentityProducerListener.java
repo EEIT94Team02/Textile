@@ -28,18 +28,18 @@ public class ChatroomIdentityProducerListener implements ServletContextListener 
 	public void contextInitialized(ServletContextEvent sce) {
 		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, this.servletContext);
 		this.servletContext = sce.getServletContext();
-		produceChatroomIdentity();
+		produceChatroomMapsForWebSocket();
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 	}
 
-	private Map<Long, String> produceChatroomIdentity() {
-		Map<Long, String> ciMap = new HashMap<>();
-		this.servletContext.setAttribute(ConstHelperKey.CHATROOM_IDENTITIES.key(), ciMap);
+	private void produceChatroomMapsForWebSocket() {
+		Map<Long, String> chatroomIdentityGetter = new HashMap<>();
+		Map<String, Long> chatroomPrimaryKeyGetter = new HashMap<>();
+		this.servletContext.setAttribute(ConstHelperKey.CHATROOM_IDENTITIES.key(), chatroomIdentityGetter);
+		this.servletContext.setAttribute(ConstHelperKey.CHATROOM_IDENTITIES.key(), chatroomPrimaryKeyGetter);
 		List<Long> primaryKeys = this.chatroomService.getAllChatroomPrimaryKeys();
-
-		return null;
 	}
 }

@@ -32,7 +32,10 @@
 			<li><a href="${album}">相簿</a></li>
 			<li><a href="${myAct}">活動</a></li>
 			<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
-			<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
+			<li><a href="<c:url value ='/item/iList.do' />">物品欄</a></li>
+			<li><a href="<c:url value ='/gift/gListAll.do' />">禮物</a></li>
+			<li><a href="<c:url value ='/deposit/dList.do' />">儲值</a></li>
+			<li><a href="<c:url value ='/deal/dealList.do' />">交易紀錄</a></li>
 			<li><a href="<c:url value ='/report/' />">回報</a></li>
 			<li><a href="<c:url value ='/announcement/' />">公告</a></li>
 			<li><c:if test="${empty user}">

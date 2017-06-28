@@ -100,7 +100,7 @@ public class ProductController {
 			bean.setImg(getProductService().select(bean).get(0).getImg());
 		}
 		// 驗證其他不可空白或不可輸入null值的資料
-		if ("Update".equals(maintainAction) || "Insert".equals(maintainAction)) {
+		if ("修改".equals(maintainAction) || "新增".equals(maintainAction)) {
 			if (bean.getProductName() == null || bean.getProductName().trim().length() == 0) {
 				dataError.put("pNa", "請輸入商品名稱。");
 			}
@@ -124,17 +124,17 @@ public class ProductController {
 			return "pMaintenance.error";
 		}
 		// 呼叫model，根據model結果呼叫view
-		if ("Update".equals(maintainAction)) {
+		if ("修改".equals(maintainAction)) {
 			getProductService().update(bean);
 			result = getProductService().select(null);
 			model.addAttribute("pMList", result);
 			return "pMaintenance.show.r";
-		} else if ("Insert".equals(maintainAction)) {
+		} else if ("新增".equals(maintainAction)) {
 			getProductService().insert(bean);
 			result = getProductService().select(null);
 			model.addAttribute("pMList", result);
 			return "pMaintenance.show.r";
-		} else if ("Delete".equals(maintainAction)) {
+		} else if ("刪除".equals(maintainAction)) {
 			getProductService().delete(bean);
 			result = getProductService().select(null);
 			model.addAttribute("pMList", result);
