@@ -99,6 +99,7 @@ td {
 			</form>
 		</div>
 	</div>
+	
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />
 	</div>

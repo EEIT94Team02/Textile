@@ -105,7 +105,10 @@ p {
 			<div class="cover">
 				<h1 style="font-size: 50px">Wellcome to Textile!!</h1>
 				<p>想要認識誰嗎?</p>
-				<button onclick="location.href='check/register.v'">按我註冊!!</button>
+				<c:if test="${empty user}">
+						<button onclick="location.href='check/register.v'">按我註冊!!</button>
+				</c:if>
+				
 			</div>
 		</div>
 	</div>
