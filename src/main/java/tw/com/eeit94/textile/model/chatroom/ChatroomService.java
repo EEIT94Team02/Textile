@@ -65,14 +65,14 @@ public class ChatroomService {
 	 * @author 賴
 	 * @version 2017/06/28
 	 */
-	@Autowired
+	@Transactional
 	public List<Long> getAllChatroomPrimaryKeys() {
 		List<Long> primaryKeys = new ArrayList<>();
 		List<ChatroomBean> list = this.chatroomDAO.selectAll();
 		for (int i = 0; i < list.size(); i++) {
 			primaryKeys.add(list.get(i).getcId());
 		}
-		
+
 		return primaryKeys;
 	}
 
