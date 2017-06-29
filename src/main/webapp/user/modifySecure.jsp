@@ -30,9 +30,11 @@
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
+	</div>
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<form id="security" action="modify.do" method="post">
 				<input type="hidden" name="m" value="security" />
 				<fieldset>

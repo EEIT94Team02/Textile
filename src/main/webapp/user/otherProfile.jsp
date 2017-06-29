@@ -27,9 +27,11 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
-
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
+	</div>
 	<div id="left">
 		<div class="actions">
 			<ul>
@@ -46,7 +48,7 @@
 
 
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<fieldset>
 				<table class="dataBasic">
 					<thead>

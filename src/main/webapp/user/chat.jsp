@@ -19,64 +19,70 @@
 <script type="text/javascript" src="<c:url value = '../js/stomp.js'/>"></script>
 </head>
 <body>
-	<h3>${chat.acquaintenceName}</h3>
-	<hr/>
-	
-	<div id="response"></div>
-	<div>
-		<p>
-			<textarea id="input" rows="5" placeholder="請在此輸入訊息..."></textarea>
-		</p>
-		<input id="button" type="button" name="button" value="送出" />
+	<div id="header">
+		<jsp:include page="/headerInclude.jsp" />
+	</div>
+	<div id=body>
+		<h3>${chat.acquaintenceName}</h3>
+		<hr />
+		<div id="response"></div>
+		<div>
+			<p>
+				<textarea id="input" rows="5" placeholder="請在此輸入訊息..."></textarea>
+			</p>
+			<input id="button" type="button" name="button" value="送出" />
+		</div>
 	</div>
 	${chat.websocketURI}
 	<script type="text/javascript">
-    var stompClient;
+		var stompClient;
 
-    function writeToScreen(message) {
-      var divJOb = $('<div></div>').text(message);
-      $('#response').append(divJOb);
-    }
+		function writeToScreen(message) {
+			var divJOb = $('<div></div>').text(message);
+			$('#response').append(divJOb);
+		}
 
-    $(document).ready(function() {
-      var websocket = new WebSocket('ws://localhost:8080/Textile/endpoint.do');
-      stompClient = Stomp.over(websocket);
+		$(document).ready(
+				function() {
+					var websocket = new WebSocket(
+							'ws://localhost:8080/Textile/endpoint.do');
+					stompClient = Stomp.over(websocket);
 
-      var onconnect = function(frame) {
-        console.log('開啟連線：' + frame);
-        init();
-      };
+					var onconnect = function(frame) {
+						console.log('開啟連線：' + frame);
+						init();
+					};
 
-      var onerror = function(error) {
-        console.log('發生錯誤：' + error);
-      };
+					var onerror = function(error) {
+						console.log('發生錯誤：' + error);
+					};
 
-      stompClient.connect({}, onconnect, onerror);
-    });
+					stompClient.connect({}, onconnect, onerror);
+				});
 
-    function init() {
-      var onmessage = function(message) {
-        writeToScreen(message.body);
-      };
+		function init() {
+			var onmessage = function(message) {
+				writeToScreen(message.body);
+			};
 
-      stompClient.subscribe('/passage/out', onmessage);
+			stompClient.subscribe('/passage/out', onmessage);
 
-      // var ondisconnect = function() {
-      // console.log('關閉連線。');
-      // };
-      // stompClient.disconnect(ondisconnect);
-    }
+			// var ondisconnect = function() {
+			// console.log('關閉連線。');
+			// };
+			// stompClient.disconnect(ondisconnect);
+		}
 
-    function doSend() {
-      var header = {
-        'cId': '${chat.cId}'
-      };
-      var body = $('#input').val();
-      stompClient.send('/message/in', header, body);
-      $('#input').text('');
-    }
+		function doSend() {
+			var header = {
+				'cId' : '${chat.cId}'
+			};
+			var body = $('#input').val();
+			stompClient.send('/message/in', header, body);
+			$('#input').text('');
+		}
 
-    $('#button').on('click', doSend);
-  </script>
+		$('#button').on('click', doSend);
+	</script>
 </body>
 </html>

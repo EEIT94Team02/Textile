@@ -21,7 +21,7 @@ body {
 .hero-text {
 	text-align: center;
 	position: absolute;
-	top: 50%;
+	top: 10%;
 	left: 50%;
 	transform: translate(-45%, 150%);
 	color: #FFFF00;
@@ -85,35 +85,38 @@ p {
 
 .cover {
 	background: #FFD1A4;
-	padding:4px 50px;
+	padding: 4px 50px;
 	opacity: 0.88;
 }
+
 .img {
 	border-radius: 20px;
-	height:75px;
+	height: 75px;
 }
 </style>
 </head>
 <body>
 
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 
-	<div>
+	<div id="center">
 		<div class="hero-text">
 			<div class="cover">
 				<h1 style="font-size: 50px">Wellcome to Textile!!</h1>
 				<p>想要認識誰嗎?</p>
 				<c:if test="${empty user}">
-						<button onclick="location.href='check/register.v'">按我註冊!!</button>
+					<button onclick="location.href='check/register.v'">按我註冊!!</button>
 				</c:if>
-				
+
 			</div>
 		</div>
 	</div>
 
-	<div id="footer">this is footer</div>
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 
 </body>
 </html>

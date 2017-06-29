@@ -27,7 +27,10 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
+	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 
 	<div id="left">
@@ -45,7 +48,7 @@
 	</div>
 
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<form id="situation" action="modify.do" method="post">
 				<input type="hidden" name="m" value="situation" />
 				<fieldset>
@@ -196,7 +199,7 @@
 						</select> <span></span> <br />
 						<p></p>
 					</div>
-					<div >
+					<div>
 						<c:choose>
 							<c:when test="${not empty dataAndErrorsMap.mSelfIntroduction}">
 								<c:set var="x" value="${dataAndErrorsMap.mSelfIntroduction}" />
@@ -206,7 +209,7 @@
 							</c:otherwise>
 						</c:choose>
 						<label for="mSelfIntroduction" style="float: left;">自我介紹：</label>
-						<textarea  rows="10" cols="120" id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
+						<textarea rows="10" cols="120" id="mSelfIntroduction" name="mSelfIntroduction" placeholder="在這裡介紹你自己......">${x}</textarea>
 						<img src="" /><span>${dataAndErrorsMap.mSelfIntroduction_error}</span> <br />
 						<p></p>
 					</div>

@@ -50,8 +50,10 @@ div.otherInterestDiv div {
 				</ul>
 			</div>
 		</div>
-
-		<div id="body">
+		<div id="right">
+			<jsp:include page="/rightInclude.jsp" />
+		</div>
+		<div id="middle">
 			<div class="background">
 				<form id="interest" action="modify.do" method="post">
 					<input type="hidden" name="m" value="interest" />
@@ -401,15 +403,15 @@ div.otherInterestDiv div {
 				return;
 			}
 			if (innerDivs.length < 5) {
-				var cell1 = $('<img></img>').attr('src', imgsrc_close16);
+				var cell1 = $('_$tag_$tag_').attr('src', imgsrc_close16);
 				$(cell1).on('click', removeDivAndRearrangeAllInput);
-				var cell2 = $('<span></span>').text(' ');
-				var cell3 = $('<span></span>').text(inputJOb.val());
+				var cell2 = $('_$tag__$tag__').text(' ');
+				var cell3 = $('_$tag__$tag__').text(inputJOb.val());
 				var cell4 = $(
 						'<input type="hidden" name="o'
 								+ (i + innerDivs.length + 1) + '" />').val(
 						inputJOb.val());
-				var newDivJOb = $('<div></div>').append(
+				var newDivJOb = $('_$tag_$tag_').append(
 						[ cell1, cell2, cell3, cell4 ]);
 				otherInterestDivJOb.append(newDivJOb);
 			} else {
