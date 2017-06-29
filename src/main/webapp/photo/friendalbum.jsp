@@ -35,7 +35,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -73,6 +73,9 @@
 				</c:forEach>
 			</c:if>
 		</div>
+	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />

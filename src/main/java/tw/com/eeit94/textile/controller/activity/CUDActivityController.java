@@ -53,13 +53,16 @@ public class CUDActivityController {
 		String endtime = request.getParameter("endtime");
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		if (begintime == null || begintime == "") {
+			System.out.println("aaa");
 			response.getWriter().append("請輸入活動開始時間");
 		}
 		if (endtime == null || endtime == "") {
+			System.out.println("aaa");
 			response.getWriter().append("請輸入活動結束時間");
 		}
 		if (begintime != "" && endtime != "") {
 			if (sdf.parse(begintime).getTime() > sdf.parse(endtime).getTime()) {
+				System.out.println("aaa");
 				response.getWriter().append("請確認活動時間");
 			}
 		}

@@ -11,6 +11,9 @@
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
+<script src="<c:url value = '/js/sweetalert.min.js'/>"></script>
+<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
 <body>
 	<div id="header">
@@ -35,7 +38,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -65,7 +68,8 @@
 						</c:url>
 						<figure style="display: inline-block">
 							<a href="${album}"> <img src='<c:url value="/image/albumimg.jpg"/>' title="${row.introduction}" alt="${row.albumname}" width="80px"></a>
-							<figcaption style="text-align: center; margin-top: 5px">${row.albumname}<img onclick="doCheck('${albumdelete}')" src='<c:url value="/image/cancel.png"/>' title="${row.introduction}" alt="${row.albumname}" width="15px"></figcaption>
+							<figcaption style="text-align: center; margin-top: 5px">${row.albumname}<img onclick="doCheck('${albumdelete}')" src='<c:url value="/image/cancel.png"/>' title="${row.introduction}" alt="${row.albumname}" width="15px">
+							</figcaption>
 						</figure>
 					</c:forEach>
 				</div>
@@ -77,9 +81,18 @@
 	</div>
 	<script>
 		function doCheck(obj) {
-			answer = confirm("你確定要刪除嗎？");
-			if (answer)
+			swal({
+				title : "你確定要刪除相簿嗎？",
+				text : "確定要刪除相簿及所屬的所有照片嗎?",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-danger",
+				confirmButtonText : "確認刪除",
+				closeOnConfirm : false
+			}, function() {
+				swal("成功執行!", "你已刪除此相簿及所屬的照片", "success");
 				location.href = obj;
+			});
 		}
 	</script>
 </body>

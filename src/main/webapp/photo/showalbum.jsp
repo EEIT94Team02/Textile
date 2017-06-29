@@ -8,7 +8,7 @@
 <title>Welcome, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
-<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
@@ -35,7 +35,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -62,7 +62,7 @@
 						</c:url>
 						<figure style="display: inline-block">
 							<a href="${album}"><img src='<c:url value="/image/albumimg.jpg"/>' title="${row.introduction}" alt="${row.albumname}" width="80px"> </a>
-							<figcaption style="text-align: center;">${row.albumname}</figcaption>
+							<figcaption style="text-align: center; margin-top: 5px">${row.albumname}</figcaption>
 						</figure>
 					</c:forEach>
 				</div>

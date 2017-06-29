@@ -89,8 +89,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/activity/historyActivity.v").setViewName("/activity/historyActivity.v");
 		registry.addViewController("/activity/select.v").setViewName("/activity/select.v");
 		registry.addViewController("/photo/upload.v").setViewName("/photo/upload.v");
-		registry.addViewController("/photo/update.v").setViewName("/photo/update.v");
-		registry.addViewController("/photo/delete.v").setViewName("/photo/delete.v");
 		registry.addViewController("/photo/myalbum.v").setViewName("/photo/myalbum.v");
 		registry.addViewController("/photo/showalbum.v").setViewName("/photo/showalbum.v");
 		registry.addViewController("/photo/showphoto.v").setViewName("/photo/showphoto.v");
@@ -102,12 +100,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		/*
 		 * 李
 		 */
-		// trigger，測試用
-		registry.addViewController("/store/pTestTrigger.v").setViewName("/store/pTestTrigger.v");
-		registry.addViewController("/item/iTestTrigger.v").setViewName("/item/iTestTrigger.v");
-		registry.addViewController("/deal/dealTestTrigger.v").setViewName("/deal/dealTestTrigger.v");
-		registry.addViewController("/gift/gTestTrigger.v").setViewName("/gift/gTestTrigger.v");
-		//
 		registry.addViewController("/store/index.v").setViewName("/store/index.v");
 		registry.addViewController("/store/pMaintenance.v").setViewName("/store/pMaintenance.v");
 		registry.addViewController("/store/cart.v").setViewName("/store/cart.v");
@@ -135,6 +127,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/manager/reply.v").setViewName("/manager/reply.v");
 		registry.addViewController("/manager/replyfollowup.v").setViewName("/manager/replyfollowup.v");
 		registry.addViewController("/manager/replyfollowupsuccess.v").setViewName("/manager/replyfollowupsuccess.v");
+		registry.addViewController("/manager/createreport.v").setViewName("/manager/createreport.v");
 		/*
 		 * 周
 		 */
@@ -555,7 +548,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	// 活動首頁。
-	@Bean(name = { "/activity/index.v", "Activity.default", "/activity/secede.v" })
+	@Bean(name = { "/activity/index.v", "/photo/myActivity.v", "/activity/secede.v" })
 	public org.springframework.web.servlet.view.InternalResourceView activityIndex() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/activity/myActivity.jsp");
@@ -634,38 +627,6 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @author 李
 	 * @version 2017/06/14
 	 */
-
-	// 測試用，為product頁面呼叫controller取得資料。
-	@Bean(name = { "/store/pTestTrigger.v" })
-	public InternalResourceView productTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/store/pTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為item頁面呼叫controller取得資料。
-	@Bean(name = { "/item/iTestTrigger.v" })
-	public InternalResourceView itemTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/item/iTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為deal頁面呼叫controller取得資料。
-	@Bean(name = { "/deal/dealTestTrigger.v" })
-	public InternalResourceView dealTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/deal/dealTestTrigger.jsp");
-		return view;
-	}
-
-	// 測試用，為gift頁面呼叫controller取得資料。
-	@Bean(name = { "/gift/gTestTrigger.v" })
-	public InternalResourceView giftTrigger() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/gift/gTestTrigger.jsp");
-		return view;
-	}
 
 	// 商店首頁
 	@Bean(name = { "/store/index.v" })
@@ -923,8 +884,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	// }
 
 	// 回報失敗，轉向回報頁面。
-	@Bean(name = { "report.error", "/report/createreport.v", "/report/index.v" })
-	public org.springframework.web.servlet.view.InternalResourceView report_error() {
+	@Bean(name = { "report.error", "/report/createreport.v","/report/index.v", "/manager/createreport.v"})	public org.springframework.web.servlet.view.InternalResourceView report_error() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/createreport.jsp");
 		return internalResourceView;
@@ -1074,6 +1034,13 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	 * @version 2017/06/14
 	 */
 	// 公告首頁
+	@Bean(name = { "/announcement/index.v", "alist.show" })
+	public InternalResourceView announcementIndex() {
+		InternalResourceView internalResourceView = new InternalResourceView();
+		internalResourceView.setUrl("/announcement/index.jsp");
+		return internalResourceView;
+	}
+
 	@Bean(name = { "/announcement/list.v", "alist.error" })
 	public InternalResourceView announcementList() {
 		InternalResourceView internalResourceView = new InternalResourceView();

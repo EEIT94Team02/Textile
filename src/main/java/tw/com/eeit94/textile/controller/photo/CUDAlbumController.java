@@ -101,67 +101,6 @@ public class CUDAlbumController {
 		}
 	}
 
-//	@RequestMapping(method = { RequestMethod.POST }, path = { "/update.do" }, consumes = {
-//			"application/x-www-form-urlencoded ; charset=UTF-8" })
-//	public String updateprocess(HttpServletRequest request, Model model) {
-//
-//		// 接收資料
-//		Map<String, String> errors = new HashMap<String, String>();
-//		model.addAttribute("albumCRDErrors", errors);
-//		HttpSession session = request.getSession();
-//		MemberBean user = (MemberBean) session.getAttribute("user");
-//		int userID = user.getmId();
-//
-//		String albumnoString = request.getParameter("albumno");
-//		String albumname = request.getParameter("albumname");
-//		String introduction = request.getParameter("introduction");
-//		String visibility = request.getParameter("visibility");
-//
-//		int albumno = 0;
-//		// 轉換資料
-//		if (albumnoString != null && albumnoString != "") {
-//			albumno = Integer.parseInt(albumnoString);
-//		}
-//
-//		// 驗證資料
-//		if (albumname == null || albumname == "") {
-//			errors.put("albumname", "請輸入相簿名稱");
-//		}
-//		if (introduction == null || introduction == "") {
-//			errors.put("introduction", "請簡述相簿用途或向其他人介紹您的相簿");
-//		}
-//		if (errors != null && !errors.isEmpty()) {
-//			return "update.album";
-//		}
-//
-//		// 呼叫Model
-//		Photo_albumBean bean = new Photo_albumBean();
-//		bean.setAlbumno(albumno);
-//
-//		// 用相簿編號找到要修改的相簿資料
-//		Photo_albumBean photo_albumBean = getPhoto_albumService().findPhotoAlbumByAlbumNo(bean);
-//		Photo_albumBean result = null;
-//		// 修改相簿資訊
-//		if (photo_albumBean.getmId() == userID) {
-//			photo_albumBean.setAlbumname(albumname);
-//			photo_albumBean.setIntroduction(introduction);
-//			photo_albumBean.setVisibility(visibility);
-//			result = getPhoto_albumService().ChangePhotoAlbumColumn(photo_albumBean);
-//		} else {
-//			errors.put("update", "您只能更新屬於您自己的相簿");
-//			return "update.album";
-//		}
-//		// 根據Model執行結果呼叫View
-//		if (result == null) {
-//			errors.put("update", "更新資訊失敗");
-//			return "update.album";
-//		} else {
-//			model.addAttribute("Albumresult", photo_albumBean.getAlbumname() + "相簿更新成功");
-//			model.addAttribute("AlbumList", (getPhoto_albumService().findPhotoAlbumBymId(result)));
-//		}
-//		return "album.my";
-//	}
-
 	@RequestMapping(method = {RequestMethod.POST}, path = { "/delete.do" }, consumes = {
 			"application/x-www-form-urlencoded ; charset=UTF-8" })
 	public String deleteprocess(HttpServletRequest request, Model model) throws Exception {

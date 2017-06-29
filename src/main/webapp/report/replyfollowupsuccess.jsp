@@ -38,57 +38,67 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="background-image: url(../image/background/reportbackground.jpg); opacity: 0.8; background-color: #1C1C1C; color: #9D9D9D">
-			<div>
-				<br> <br> <br> <br> <br>
+		<div id="body">
+			<div style="padding-top:40px;padding-bottom:280px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<center>
-					<h3>客服覆成功</h3>
-					<table border="1" width="100%">
+					<table style="border-style: solid">
 						<thead>
-							<tr>
-								<th>回報日期</th>
+							<tr style="font-size: 22px">
+								<th style="background-color: black;color: #94f200;text-align:center">回報日期</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptUpDate}" /></th>							</tr>
+							<tr style="font-size: 20px">
+								<th style="background-color: black;color: #94f200;text-align:center"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptUpDate}" /></th>							</tr>
 						</tbody>
 					</table>
 					
 					<!-- 	圖片	 -->
 				<center>
-					<div width="100%">
-						<table style="width: 100%">
+					<div>
+						<table style="width:80%;padding-top:30px;font-size:20px">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
-								<c:if test="${not empty reportImg}">
-									<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
-								</c:if>
+								<c:choose>
+    								<c:when test="${not empty reportImg}">
+    									<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
+										<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
+    								</c:when>    						
+    							<c:otherwise>
+    									<th style="text-align: center; vertical-align: middle">回報內容</th>
+    							</c:otherwise>
+								</c:choose>
 							</tr>
 							<tr>
-								<td style="width: 50%;" id="reportlistfont">${report.reptUpDetail}</td>
-								<c:if test="${not empty reportImg}">
-									<td>
-									<c:forEach var="rImg" items="${reportImg}">
-										<figure style="display: inline-block"> 
-										<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
-										<img src='..${rImg.imgUpPath}' width="150" height="100"></a> </figure>
-									</c:forEach>
-									</td>
-								</c:if>
+								<c:choose>
+    								<c:when test="${not empty reportImg}">
+    									<td style="width: 50%; text-align: center; vertical-align: middle" id="reportlistfont">${report.reptUpDetail}</td>
+											<td>
+												<c:forEach var="rImg" items="${reportImg}">
+												<figure style="display: inline-block"> 
+												<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
+												<img src='..${rImg.imgUpPath}' width="150" height="100" style="margin:-50px;padding-top:50px"></a> </figure>
+												</c:forEach>
+											</td>
+    								</c:when>    						
+    							<c:otherwise>
+    									<td style="text-align: center; vertical-align: middle;font-size:20px" id="reportlistfont">${report.reptUpDetail}</td>
+    							</c:otherwise>
+								</c:choose>
+								
 							</tr>
 						</table>
 					</div>
 				</center>
-					<br><br><br><br>
+					<br><br>
 					<center>
-					<div width="100%">
-						<table border="1" style="width: 100%">
+					<div style="padding-top:25px">
+						<h2 style="color: #ff0f33">客服覆成功</h2>
+						<table style="height: 150px;width: 80%">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle;font-size: 25px;">回覆內容</th>
+								<th style="font-size: 20px;text-align:center">回覆內容</th>
 							</tr>
 							<tr>
-								<td style="width: 50%;text-align: justify; vertical-align: middle;font-size: 18px" id="reportlistfont">${report.replyUpDetail}</td>
+								<td style="font-size: 18px;text-align:initial" id="reportlistfont">${report.replyUpDetail}</td>
 							</tr>
 						</table>
 					</div>

@@ -41,7 +41,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -59,9 +59,9 @@
 		</div>
 		<div id="body">
 			<div style="display: inline-block;">
-				<div style="width: 60%">
+				<div style="width: 60%; display: inline-block; float:left">
 					<c:if test="${not empty Activity}">
-						<h2 style="margin-left: 10px">活動:</h2>
+						<h2 style="margin-left: 10px"></h2>
 						<div style="font-size: 18px; width: 100%">
 							<table>
 								<tr style="padding: 15px; width: 80px">
@@ -93,17 +93,11 @@
 						</div>
 					</c:if>
 				</div>
-				<div style="width: 25%">
+				<div style="width: 25%; display: inline-block; float:left">
 					<c:if test="${not empty partner}">
-						<h2 style="margin-left: 10px">活動成員:</h2>
+						<h3 style="margin-left: 10px">活動成員:</h3>
 						<div style="font-size: 18px">
 							<table>
-								<thead style="font-size: 16px">
-									<tr>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
 								<tbody style="font-size: 16px; font-family: inherit; text-align: center; margin-right: 10px">
 									<c:forEach var="row" items="${partner}">
 										<tr>
@@ -114,12 +108,12 @@
 								</tbody>
 							</table>
 						</div>
-						<form action='<c:url value="/activity/invite.do"/>' method="post">
+						<form style="margin-top: 30px" action='<c:url value="/activity/invite.do"/>' method="post">
 							<input type="text" hidden="hidden" name="activityno" value="${Activity.activityno}" />
-							<label style="padding: 15px; font-weight: bold; font-size: 16px">邀請好友一起加入:</label>
-							<select name="mId">
+							<label style="font-weight: bold; font-size: 16px">邀請好友一起加入:</label>
+							<select name="mId" style="font-size: 16px; margin-top: 10px">
 								<c:forEach var="Friend" items="${FriendList}">
-									<option value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
+									<option style="font-size: 16px" value="${Friend.mbean.mId}">${Friend.mbean.mName}</option>
 								</c:forEach>
 							</select>
 							<input type="submit" value="邀請" />

@@ -14,11 +14,13 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/jacky.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/sweetalert.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-timepicker-addon.js'/>"></script>
+
 
 <script type="text/javascript">
 	$(function() {
@@ -67,7 +69,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -86,43 +88,45 @@
 		</div>
 		<div id="body">
 			<c:if test="${not empty user}">
-				<div>
-					<p style="font-weight: bold; color: black; font-size: 20px"><c:out value="發起人:${user.mName}" /></p>
+				<div align="center">
+					<h3>
+						<c:out value="發起人:${user.mName}" />
+					</h3>
+					<form action='<c:url value="/activity/create.do"/>' method="post">
+						<table style="font-size: 16px; text-align: left; font-weight: bold;">
+							<tr style="margin: 5px; padding: 5px; height: 2em;">
+								<td>活動名稱：</td>
+								<td><input type="text" name="activityname" value="${param.activityname}" height="18px"/></td>
+								<td style="color: red">${activityCRDErrors.activityname}</td>
+							</tr>
+							<tr style="margin: 5px; padding: 5px; height: 2em;">
+								<td>開始時間：</td>
+								<td><input type="text" id="begin" name="begintime" height="18px" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
+								<td style="color: red">${activityCRDErrors.begintime}</td>
+							</tr>
+							<tr style="margin: 5px; padding: 5px; height: 2em;">
+								<td>結束時間：</td>
+								<td><input type="text" id="end" name="endtime" height="18px" class="ui-datetimepicker" onblur="checkdate()" placeholder="請點擊選擇結束時間"></td>
+								<td style="color: red">${activityCRDErrors.endtime}</td>
+							</tr>
+							<tr style="margin: 5px; padding: 5px; height: 2em;">
+								<td>活動地點：</td>
+								<td><input type="text" name="place" height="18px" value="${param.place}" /></td>
+								<td style="color: red">${activityCRDErrors.place}</td>
+							</tr>
+							<tr style="margin: 5px; padding: 5px; ">
+								<td style="float: left">活動內容：</td>
+								<td><textarea name="interpretation" cols="30" rows="8">${param.interpretation}</textarea></td>
+								<td style="color: red">${activityCRDErrors.interpretation}</td>
+							</tr>
+							<tr style="margin: 5px; padding: 5px; height: 3em;">
+								<td></td>
+								<td><input class="btn" type="submit" value="建立"></td>
+								<td style="color: red">${activityCRDErrors.create}</td>
+							</tr>
+						</table>
+					</form>
 				</div>
-				<form action='<c:url value="/activity/create.do"/>' method="post">
-					<table style="font-size: 16px; text-align: left; font-weight: bold;">
-						<tr style="padding: 15px">
-							<td style="">活動名稱：</td>
-							<td><input type="text" name="activityname" value="${param.activityname}" /></td>
-							<td style="color: red">${activityCRDErrors.activityname}</td>
-						</tr>
-						<tr style="padding: 15px">
-							<td>開始時間：</td>
-							<td><input type="text" id="begin" name="begintime" class="ui-datetimepicker" placeholder="請點擊選擇開始時間"></td>
-							<td style="color: red">${activityCRDErrors.begintime}</td>
-						</tr>
-						<tr style="padding: 15px">
-							<td>結束時間：</td>
-							<td><input type="text" id="end" name="endtime" class="ui-datetimepicker" onblur="checkdate()" placeholder="請點擊選擇結束時間"></td>
-							<td style="color: red">${activityCRDErrors.endtime}</td>
-						</tr>
-						<tr style="padding: 15px">
-							<td>活動地點：</td>
-							<td><input type="text" name="place" value="${param.place}" /></td>
-							<td style="color: red">${activityCRDErrors.place}</td>
-						</tr>
-						<tr style="padding: 15px">
-							<td style="float: left">活動內容：</td>
-							<td><textarea name="interpretation" cols="30" rows="8">${param.interpretation}</textarea></td>
-							<td style="color: red">${activityCRDErrors.interpretation}</td>
-						</tr>
-						<tr style="padding: 15px">
-							<td></td>
-							<td><input type="submit"class="btn" value="建立"></td>
-							<td style="color: red">${activityCRDErrors.create}</td>
-						</tr>
-					</table>
-				</form>
 			</c:if>
 		</div>
 	</div>

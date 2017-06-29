@@ -58,6 +58,7 @@
 						<tr>
 							<td>姓名：</td>
 							<td>${user.mName}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>性別：</td>
