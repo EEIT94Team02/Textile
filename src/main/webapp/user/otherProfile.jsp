@@ -33,7 +33,7 @@
 		<jsp:include page="/rightInclude.jsp" />
 	</div>
 	<div id="left">
-		<div class="actions">
+		<div class="actions" style="font-weight: bold;">
 			<ul>
 				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
 				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
@@ -45,7 +45,9 @@
 			</ul>
 		</div>
 	</div>
-
+	<div id="footer">
+		<jsp:include page="/footerInclude.jsp" />
+	</div>
 
 	<div id="center">
 		<div id="middle">
@@ -53,10 +55,10 @@
 				<table class="dataBasic">
 					<thead>
 						<tr>
-							<th colspan="2">基本資料</th>
+							<td>基本資料</td>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="line-height: 25px;">
 						<tr>
 							<td>姓名：</td>
 							<td>${otheruser.mName}</td>
@@ -98,10 +100,10 @@
 				<table class="dataSituation">
 					<thead>
 						<tr>
-							<th colspan="2">個人簡介</th>
+							<td>個人簡介</td>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="line-height: 25px;">
 						<tr>
 							<td>目前職業：</td>
 							<c:set var="careers"
@@ -187,10 +189,10 @@
 				<table>
 					<thead>
 						<tr>
-							<th colspan="2">興趣喜好</th>
+							<td>興趣喜好</td>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="line-height: 25px;">
 						<tr>
 							<td>戶外休閒：</td>
 							<td><c:set var="recreation"
