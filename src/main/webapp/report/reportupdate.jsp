@@ -29,10 +29,14 @@
 					<c:url value="/photo/album/select.do" var="selectalbum">
 						<c:param name="albumno" value="${user.mId}"></c:param>
 					</c:url>
+					<c:if test="${user.mValidManager!='Y'}">
 					<li class="list" id="reportcreate"><a href="createreport.v">填寫回報單</a></li>
 					<li class="list" id="reportcreate"><a href="reportlist.do">查詢個人回報資訊</a></li>
+					</c:if>
 					<c:if test="${user.mValidManager=='Y'}">
-						<li class="list" id="reportcreate"><a href="../report/situationlist.do">查詢所有未處理回報單</a></li>
+					<li class="list" id="reportcreate">
+					<a href="../report/situationlist.do">查詢所有未處理回報單</a>
+					</li>
 					</c:if>
 				</ul>
 			</div>
@@ -115,7 +119,7 @@
 <%-- 												<img src="..${rImg.imgPath}" width="290" height="225"> --%>
 													<figure style="display: inline-block"> 
 													<a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> 
-													<img src='..${rImg.imgPath}' width="150" height="100" style="margin:-50px;padding-top:50px"></a> </figure>
+													<img src='..${rImg.imgPath}' width="300" height="225" style="margin:-50px;padding-top:50px"></a> </figure>
 											</c:if>
 										</c:forEach>
 									</td>

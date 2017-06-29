@@ -15,7 +15,7 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-ui-1.12.1.js"></script>
 <style>
-#body {
+.father {
 	padding: 15px;
 	display: flex;
 	flex-wrap: wrap;
@@ -60,7 +60,7 @@
 #left li {
 	list-style-type: none;
 	line-height: 5em;
-}
+} 
 </style>
 </head>
 <body>
@@ -69,42 +69,44 @@
 	</div>
 		<div id="center">
 			<div id="body">
-				<c:if test="${not empty pList}">
-					<c:forEach items="${pList}" var="pBean" varStatus="pStatus">
-						<c:url value="pShowImg.do" var="showImg" scope="page">
-							<c:param name="productId" value="${pBean.productId}"/>
-						</c:url>
-						<c:if test="${pBean.status}">
-							<div class="container">
-								<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/cart.do'>" escapeXml="false" />
-								<img class="image" src="${showImg}" width="200" />
-								<div class="middle">
-									<div class="info">
-										<p>${pBean.productName}</p>
-										<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;可獲得&nbsp;${pBean.rewardPoints}&nbsp;點積分</p>
-										<p>${pBean.category}</p>
-										<p>${pBean.intro}</p>
-										<p>
-											<label>選擇數量：</label>
-											<input type="text" class="spinner" name="amount" value="1" />
-										</p>
-										<p>
-											<input type="button" class="btn btn-info btn-sm" id="add10" name="10" value="增加 10 個" />
-											<input type="button" class="btn btn-info btn-sm" id="add50" name="50" value="增加 50 個" />
-											<input type="button" class="btn btn-info btn-sm" id="add100" name="100" value="增加 100 個" />
-											<input type="button" class="btn btn-info btn-sm" name="reset" value="重置" />
-										</p>
-										<p>
-											<input type="hidden" name="productId" value="${pBean.productId}" />
-											<input type="submit" class="btn btn-success btn-md" name="cartAction" value="加入購物車" />
-										</p>
+				<div class="father">
+					<c:if test="${not empty pList}">
+						<c:forEach items="${pList}" var="pBean" varStatus="pStatus">
+							<c:url value="pShowImg.do" var="showImg" scope="page">
+								<c:param name="productId" value="${pBean.productId}"/>
+							</c:url>
+							<c:if test="${pBean.status}">
+								<div class="container">
+									<c:out value="<form method='POST' action='${pageContext.request.contextPath}/store/cart.do'>" escapeXml="false" />
+									<img class="image" src="${showImg}" width="200" />
+									<div class="middle">
+										<div class="info">
+											<p>${pBean.productName}</p>
+											<p>每個&nbsp;${pBean.unitPrice}&nbsp;點數&nbsp;&nbsp;&nbsp;可獲得&nbsp;${pBean.rewardPoints}&nbsp;點積分</p>
+											<p>${pBean.category}</p>
+											<p>${pBean.intro}</p>
+											<p>
+												<label>選擇數量：</label>
+												<input type="text" class="spinner" name="amount" value="1" />
+											</p>
+											<p>
+												<input type="button" class="btn btn-info btn-sm" id="add10" name="10" value="增加 10 個" />
+												<input type="button" class="btn btn-info btn-sm" id="add50" name="50" value="增加 50 個" />
+												<input type="button" class="btn btn-info btn-sm" id="add100" name="100" value="增加 100 個" />
+												<input type="button" class="btn btn-info btn-sm" name="reset" value="重置" />
+											</p>
+											<p>
+												<input type="hidden" name="productId" value="${pBean.productId}" />
+												<input type="submit" class="btn btn-success btn-md" name="cartAction" value="加入購物車" />
+											</p>
+										</div>
 									</div>
+									<c:out value="</form>" escapeXml="false" />
 								</div>
-								<c:out value="</form>" escapeXml="false" />
-							</div>
-						</c:if>
-					</c:forEach>
-				</c:if>
+							</c:if>
+						</c:forEach>
+					</c:if>
+				</div>
 			</div>
 			<div id="right">
 				<jsp:include page="/rightInclude.jsp" />
