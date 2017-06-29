@@ -7,8 +7,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Chat, Textile</title>
 <style type="text/css">
+.rightDiv {
+	text-align: right;
+}
+
+.leftDiv {
+	text-align: left;
+}
+
 #input {
-	width: 300px;
+	width: 90%;
+}
+
+#button {
+	
+}
+
+#beneathTop {
+	height: 10vh;
+	display: block;
+}
+
+#response {
+	height: 70vh;
+	display: block;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#onButtom {
+	height: 20vh;
+	display: block;
 }
 </style>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
@@ -19,70 +48,91 @@
 <script type="text/javascript" src="<c:url value = '../js/stomp.js'/>"></script>
 </head>
 <body>
-	<div id="header">
-		<jsp:include page="/headerInclude.jsp" />
-	</div>
-	<div id=body>
+	<div id="beneathTop">
 		<h3>${chat.acquaintenceName}</h3>
 		<hr />
-		<div id="response"></div>
-		<div>
-			<p>
-				<textarea id="input" rows="5" placeholder="請在此輸入訊息..."></textarea>
-			</p>
-			<input id="button" type="button" name="button" value="送出" />
-		</div>
 	</div>
-	${chat.websocketURI}
+	<div id="response">
+		<c:if test="${not empty chat.messageLogs}">
+			<c:forEach var="x" items="${chat.messageLogs}">
+				<c:choose>
+					<c:when test="${x.chatroom_LogPK.mId == chat.mId}">
+						<div class="rightDiv">${x.cContent}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="leftDiv">${x.cContent}</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</c:if>
+	</div>
+	<div id="onButtom">
+		<p>
+			<textarea id="input" rows="5" placeholder="請在此輸入訊息..."></textarea>
+			<input id="button" type="button" name="button" value="送出" />
+		</p>
+	</div>
 	<script type="text/javascript">
-		var stompClient;
+    var stompClient;
+    var q = '${chat.encryptedMId}';
 
-		function writeToScreen(message) {
-			var divJOb = $('<div></div>').text(message);
-			$('#response').append(divJOb);
-		}
+    function doRightAppend(message) {
+      var divJOb = $('<div></div>').text(message);
+      divJOb.attr('class', 'rightDiv');
+      $('#response').append(divJOb);
+    }
 
-		$(document).ready(
-				function() {
-					var websocket = new WebSocket(
-							'ws://localhost:8080/Textile/endpoint.do');
-					stompClient = Stomp.over(websocket);
+    function doLeftAppend(message) {
+      var divJOb = $('<div></div>').text(message);
+      divJOb.attr('class', 'leftDiv');
+      $('#response').append(divJOb);
+    }
 
-					var onconnect = function(frame) {
-						console.log('開啟連線：' + frame);
-						init();
-					};
+    $(document).ready(function() {
+      var websocket = new WebSocket('${chat.websocketURI}');
+      stompClient = Stomp.over(websocket);
 
-					var onerror = function(error) {
-						console.log('發生錯誤：' + error);
-					};
+      var onconnect = function(frame) {
+        console.log('開啟連線：' + frame);
+        init();
+      };
 
-					stompClient.connect({}, onconnect, onerror);
-				});
+      var onerror = function(error) {
+        console.log('發生錯誤：' + error);
+      };
 
-		function init() {
-			var onmessage = function(message) {
-				writeToScreen(message.body);
-			};
+      stompClient.connect({}, onconnect, onerror);
+    });
 
-			stompClient.subscribe('/passage/out', onmessage);
+    function init() {
+      var onmessage = function(message) {
+        var unrestoredQ = message.headers['q'];
+        var returnQ = unrestoredQ.substring(1, unrestoredQ.length - 1);
+        if (q == returnQ) {
+          doRightAppend(message.body);
+        } else {
+          doLeftAppend(message.body);
+        }
+      };
 
-			// var ondisconnect = function() {
-			// console.log('關閉連線。');
-			// };
-			// stompClient.disconnect(ondisconnect);
-		}
+      stompClient.subscribe('${chat.subscribeURI}', onmessage);
 
-		function doSend() {
-			var header = {
-				'cId' : '${chat.cId}'
-			};
-			var body = $('#input').val();
-			stompClient.send('/message/in', header, body);
-			$('#input').text('');
-		}
+      // var ondisconnect = function() {
+      // console.log('關閉連線。');
+      // };
+      // stompClient.disconnect(ondisconnect);
+    }
 
-		$('#button').on('click', doSend);
-	</script>
+    function doSend() {
+      var header = {
+        'q': '${chat.encryptedMId}'
+      };
+      var body = $('#input').val();
+      stompClient.send('${chat.sendURI}', header, body);
+      $('#input').text('');
+    }
+
+    $('#button').on('click', doSend);
+  </script>
 </body>
 </html>

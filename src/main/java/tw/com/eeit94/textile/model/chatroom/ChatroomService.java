@@ -2,7 +2,11 @@ package tw.com.eeit94.textile.model.chatroom;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +22,7 @@ import tw.com.eeit94.textile.system.common.ConstHelperKey;
 import tw.com.eeit94.textile.system.common.ConstMapping;
 
 /**
- * 控制聊天室資料的Service元件。
+ * 控制聊天室資料的Service元件，這個Service必須考慮到執行緒安全。
  * 
  * @author 賴
  * @version 2017/06/18
@@ -29,6 +33,16 @@ public class ChatroomService {
 	private ChatroomDAO chatroomDAO;
 	@Autowired
 	private SecureService secureService;
+	private ReadWriteLock lock;
+	private volatile Map<Long, String> chatroomIdentityGetter;
+	private volatile Map<String, Long> chatroomPrimaryKeyGetter;
+	private static final int RANDOM_CODE_AMOUNT = 16;
+
+	public ChatroomService() {
+		this.lock = new ReentrantReadWriteLock();
+		this.chatroomIdentityGetter = new HashMap<>();
+		this.chatroomPrimaryKeyGetter = new HashMap<>();
+	}
 
 	/**
 	 * 藉由聊天室的主鍵，搜尋對應的實體。
@@ -60,6 +74,55 @@ public class ChatroomService {
 	}
 
 	/**
+	 * 判斷是否該聊天室主鍵需要產生隨機辨識碼的配對，如果要則產生配對並存入Map物件。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	public String produceChatroomIdentity(Long cId) {
+		String identity = null;
+		if (!chatroomIdentityGetter.containsKey(cId)) {
+			this.lock.writeLock().lock();
+			// 鎖住後再判斷一次
+			try {
+				if (!chatroomIdentityGetter.containsKey(cId)) {
+					identity = this.secureService.getRandomCode(RANDOM_CODE_AMOUNT);
+					chatroomIdentityGetter.put(cId, identity);
+					chatroomPrimaryKeyGetter.put(identity, cId);
+				}
+			} finally {
+				this.lock.writeLock().unlock();
+			}
+		} else {
+			identity = chatroomIdentityGetter.get(cId);
+		}
+
+		return identity;
+	}
+
+	/**
+	 * 得到聊天室主鍵為Key、隨機辨識碼為Value的Map物件，
+	 * 
+	 * 這個物件主要用來讓伺服器傳送給使用者訊息時辨別應在哪一個被訂閱的聊天室。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	public Map<Long, String> getChatroomIdentityGetter() {
+		return this.chatroomIdentityGetter;
+	}
+
+	/**
+	 * 得到隨機辨識碼為Key、聊天室主鍵為Value的Map物件。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	public Map<String, Long> getChatroomPrimaryKeyGetter() {
+		return this.chatroomPrimaryKeyGetter;
+	}
+
+	/**
 	 * 得到聊天室的所有主鍵。
 	 * 
 	 * @author 賴
@@ -77,19 +140,43 @@ public class ChatroomService {
 	}
 
 	/**
-	 * 製作聊天室傳送訊息的Websocket URI。
+	 * 製作開啟聊天室傳送的Websocket URI。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/27
 	 */
-	public String getWebsocketUri(HttpServletRequest request) {
-		String websocketUri = request.getRequestURL().toString();
-		websocketUri = websocketUri.substring(0, websocketUri.lastIndexOf('/'));
-		websocketUri = websocketUri.substring(0, websocketUri.lastIndexOf('/'));
-		websocketUri = websocketUri.substring(websocketUri.indexOf(':'), websocketUri.length());
-		websocketUri = new StringBuffer().append(ConstHelperKey.WEBSOCKET_PROTOCOL.key()).append(websocketUri)
-				.toString();
-		return websocketUri;
+	public String getWebsocketURI(HttpServletRequest request) {
+		String websocketURI = request.getRequestURL().toString();
+		websocketURI = websocketURI.substring(0, websocketURI.lastIndexOf('/'));
+		websocketURI = websocketURI.substring(0, websocketURI.lastIndexOf('/'));
+		websocketURI = websocketURI.substring(websocketURI.indexOf(':'), websocketURI.length());
+		websocketURI = new StringBuffer().append(ConstHelperKey.WEBSOCKET_PROTOCOL.key()).append(websocketURI)
+				.append(ConstMapping.MESSAGE_SHOW.path()).toString();
+		return websocketURI;
+	}
+
+	/**
+	 * 製作聊天室傳送訊息的路徑。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	public String getSendURI(String identity) {
+		String sendURI = ConstMapping.MESSAGE_IN.path();
+		sendURI = new StringBuffer().append(sendURI).append("/").append(identity).toString();
+		return sendURI;
+	}
+
+	/**
+	 * 製作聊天室接收訊息的路徑。
+	 * 
+	 * @author 賴
+	 * @version 2017/06/28
+	 */
+	public String getSubscribeURI(String identity) {
+		String subscribeURI = ConstMapping.MESSAGE_OUT.path();
+		subscribeURI = new StringBuffer().append(subscribeURI).append("/").append(identity).toString();
+		return subscribeURI;
 	}
 
 	/**

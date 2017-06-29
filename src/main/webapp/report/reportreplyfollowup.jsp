@@ -13,8 +13,10 @@
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/lightbox.css"/>'>
 <link href="/css/lightbox.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src="/js/lightbox.js"></script>
+<script src='<c:url value="/js/bootstrap.min.js"/>'></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 </head>
 <body>
@@ -38,58 +40,67 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="background-image: url(../image/background/reportbackground.jpg);opacity: 0.9">
-			<div style="color: #FFFFFF">
-				<br> <br> <br> <br> <br>
+		<div id="body">
+			<div style="padding-top:40px;padding-bottom:320px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<center>
 					<h3>客服回覆</h3>
-				</center>	
+					
 					<form action='<c:url value="../report/replyfollowupsuccess.do" />' method="post">
-						<table border="1" style="width: 100%">
+						<table style="width:50%;border-style: ridge">
 							<tbody>
 							<thead>
-								<tr>
-									<th>回報日期</th>
+								<tr style="font-size: 22px">
+									<th style="background-color: black;color: white;text-align:center">回報日期</th>
 								</tr>
 							</thead>
-							<tr>
-								<th><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptUpDate}" /> <input type="hidden" name="reptUpNo" value="${report.reptUpNo}"> <input type="hidden" name="reptDate" value="${report.reptUpDate}"></th>
+							<tr style="font-size: 20px">
+								<th style="background-color: black;color: #94f200;text-align:center"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptUpDate}" /> <input type="hidden" name="reptUpNo" value="${report.reptUpNo}"> <input type="hidden" name="reptDate" value="${report.reptUpDate}"></th>
 							</tr>
 							</tbody>
 						</table>
 						
 						<!-- 	圖片	 -->
-				<center>
-					<div width="100%">
-						<table style="width: 100%">
+				
+					<div style="padding-bottom: 30px">
+						<table style="width:80%;padding-top:30px;font-size:20px">
 							<tr>
-								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
-								<c:if test="${not empty reportImg}">
-									<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
-								</c:if>
+								<c:choose>
+    								<c:when test="${not empty reportImg}">
+    									<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
+										<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
+    								</c:when>    						
+    							<c:otherwise>
+    									<th style="text-align: center; vertical-align: middle">回報內容</th>
+    							</c:otherwise>
+								</c:choose>
 							</tr>
 							<tr>
-								<td style="width: 50%;" id="reportlistfont">${report.reptUpDetail}</td>
-								<c:if test="${not empty reportImg}">
-									<td>
-									<c:forEach var="rImg" items="${reportImg}">
-										<figure style="display: inline-block"> 
-										<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
-										<img src='..${rImg.imgUpPath}' width="150" height="100"></a> </figure>
-									</c:forEach>
-									</td>
-								</c:if>
+								<c:choose>
+    								<c:when test="${not empty reportImg}">
+    									<td style="width: 50%;text-align: center; vertical-align: middle;font-size:20px" id="reportlistfont">${report.reptUpDetail}</td>
+										<td>
+											<c:forEach var="rImg" items="${reportImg}">
+												<figure style="display: inline-block"> 
+												<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
+												<img src='..${rImg.imgUpPath}' width="150" height="100"></a> </figure>
+											</c:forEach>
+										</td>
+											
+    								</c:when>    						
+    							<c:otherwise>
+    									<td style="text-align: center; vertical-align: middle;font-size:20px" id="reportlistfont">${report.reptUpDetail}</td>
+    							</c:otherwise>
+								</c:choose>
+							
+								
 							</tr>
 						</table>
 					</div>
-				</center>
-						
-				<center>
-					<h3>客服回覆</h3>
-					<textarea name="replyUpDetail" rows="10" cols="100" placeholder="請填寫回覆內容"></textarea>
-					<br> <input type="Submit" id="ButtonSubmit" value="送出" />
-				</center>		
+
+					<textarea name="replyUpDetail" rows="10" cols="100" placeholder="請填寫回覆內容" style="color: black"></textarea>
+					<br> <input type="Submit" id="ButtonSubmit" class="btn btn-success" value="送出" />		
 				</form>
+				</center>
 			</div>
 		</div>
 	</div>

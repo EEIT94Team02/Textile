@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/jacky.css"/>'>
 <title>Welcome, Textile</title>
 </head>
 <body>
@@ -78,7 +79,7 @@
 							</tr>
 							<tr style="margin: 10px; padding: 5px; height: 3em;">
 								<td></td>
-								<td><input type="submit" value="建立"></td>
+								<td><input class="btn" type="submit" value="建立"></td>
 								<td>${albumCRDErrors.create}</td>
 							</tr>
 						</table>

@@ -74,10 +74,38 @@
 					</c:url>
 					<tr>
 						<td style="border-bottom: 1px solid #ddd;width:5%"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${rList.reptDate}" /> <c:set var="rList" scope="session" value="${reportList}" /></td>
-						<td style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle">${rList.reptType}</td>
-<%-- 						<td valign="top">${rList.reptDetail}</td> --%>
-<%-- 						<td valign="top">${rList.replyDetail}</td> --%>
+<%-- 						<td style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle">${rList.reptType}</td> --%>
+						
+						<c:choose>
+    						<c:when test="${rList.reptType=='會員'}">
+    							<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #ff5b0f">${rList.reptType}</th>
+    							</c:when>
+    						<c:when test="${rList.reptType=='相簿'}">
+       							<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #00bdf1">${rList.reptType}</th>
+    							</c:when>
+    						<c:when test="${rList.reptType=='活動'}">
+       							<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #bf51ff">${rList.reptType}</th>
+    							</c:when>
+    						<c:when test="${rList.reptType=='商店'}">
+       							<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #ff4988">${rList.reptType}</th>
+    							</c:when>
+    						<c:otherwise>
+        						<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #ffdb0f">${rList.reptType}</th>
+    						</c:otherwise>
+						</c:choose>
+
 						<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle">${rList.situation?'已回覆':'未回覆'}</td>
+<%-- 							<c:choose> --%>
+<%--             					<c:when test="${report.situation==false}"> --%>
+<!--                 					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #94f200" id="reportlistfont">已回覆</td> -->
+<%--             					</c:when> --%>
+<%--            				 		<c:otherwise> --%>
+<!--                  					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #ff0000" id="reportlistfont">未回覆</td> -->
+<%--            					 </c:otherwise> --%>
+<%--         					</c:choose> --%>
+
+
+
 <%-- 						<td><c:forEach var="rImg" items="${reportimg}"> --%>
 <%-- 								<c:if test="${rImg.reptNo==rList.reptNo}"> --%>
 <%-- 									<img src="..${rImg.imgPath}" width="150" height="105"> --%>

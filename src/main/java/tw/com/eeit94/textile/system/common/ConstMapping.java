@@ -70,6 +70,7 @@ public enum ConstMapping {
 	QUERYCONDITION_ERROR("queryCondition.error"),
 	CHAT("/user/chat.do"),
 	CHAT_SHOW("chat.show"),
+	MESSAGE_SHOW("/endpoint.do"),
 	MESSAGE_IN("/message/in"),
 	MESSAGE_OUT("/passage/out");
 

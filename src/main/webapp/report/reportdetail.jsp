@@ -38,8 +38,8 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="font-size: 18px;">
-			<div style="padding-top:40px;padding-bottom:40px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
+		<div id="body" style="font-size: 20px">
+			<div style="padding-top:80px;padding-bottom:570px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<div>
 					<table width="100%">
 						<tbody>
@@ -53,16 +53,16 @@
 							</tr>
 						</thead>
 						<tr>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${user.mName}</td>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></td>
-							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${report.reptType}</td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200;font-size: 20px" id="reportlistfont">${user.mName}</td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200;font-size: 20px" id="reportlistfont"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${report.reptDate}" /></td>
+							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200;font-size: 20px" id="reportlistfont">${report.reptType}</td>
 <%-- 							<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">${report.situation?'已回覆':'未回覆'}</td> --%>
 							<c:choose>
             					<c:when test="${report.situation}">
-                					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200" id="reportlistfont">已回覆</td>
+                					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #94f200;font-size: 20px" id="reportlistfont">已回覆</td>
             					</c:when>
            				 		<c:otherwise>
-                 					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #ff0000" id="reportlistfont">未回覆</td>
+                 					<td style="border-bottom: 1px solid #ddd; width: 25%; text-align: center; vertical-align: middle;background-color: black;color: #ff0000;font-size: 20px" id="reportlistfont">未回覆</td>
            					 </c:otherwise>
         					</c:choose>
 							
@@ -74,15 +74,15 @@
 				</div>
 				<center>
 					<div>
-						<table style="width:100%;padding-top:15px;">
-							<tr style="font-size:22px">
+						<table style="width:100%;padding-top:40px;padding-bottom:40px">
+							<tr>
 								<th style="width: 50%; text-align: center; vertical-align: middle">回報內容</th>
 								<c:if test="${not empty reportImg}">
 								<th style="width: 50%; text-align: center; vertical-align: middle">回報圖片</th>
 								</c:if>
 							</tr>
-							<tr style="font-size:20px">
-								<td style="width: 50%; text-align: center; vertical-align: middle" id="reportlistfont">${report.reptDetail}</td>
+							<tr>
+								<td style="width: 50%; text-align: center; vertical-align: middle;font-size: 20px" id="reportlistfont">${report.reptDetail}</td>
 								<c:if test="${not empty reportImg}">
 									<td><c:forEach var="rImg" items="${reportImg}">
 											<c:if test="${rImg.reptNo==report.reptNo}">
@@ -98,41 +98,44 @@
 					</div>
 				</center>
 				<c:if test="${not empty report.replyDetail}">
-				<div>
-					<table style="width:100%;border-style: ridge">
-						<tr style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle">
-							<th style="border-bottom: 1px solid #ddd; text-align: center; vertical-align: middle; font-size: 18px;">管理員回覆</th>
+				<div style="padding-top:25px">
+				<center>
+					<table style="height: 150px;width: 80%">
+						<tr>
+							<th style="font-size: 20px;border-bottom: 1px solid #ddd">客服回覆</th>
 						</tr>
 						<tr>
-							<td style="font-size: 16px;">${report.replyDetail}</td>
+							<td style="font-size: 18px;text-align:initial">${report.replyDetail}</td>
 						</tr>
 					</table>
+				</center>
 				</div>
 				</c:if>
 				<br> <br> <br>
 				<c:if test="${not empty reportDetail}">
 					<center>
-					<h3 style="color:#FE2E64">回報單後續處理內容</h3>
+					<h3 style="color:#FE2E64">回報單後續內容</h3>
 					</center>
-				</c:if>	
+				</c:if>
+				<center>
 				<c:forEach var="rDetail" items="${reportDetail}">
-					<table width="100%">
+					<table style="border-style:ridge;widows: 80%">
 						<tbody>
 						<thead>
 							<tr>
-								<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle">回報日期</th>
-								<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle">主旨</th>
+								<th style="width: 50%; text-align: center; vertical-align: middle;background-color: black;color: white">回報日期</th>
+								<th style="width: 50%; text-align: center; vertical-align: middle;background-color: black;color: white">主旨</th>
 								<!-- 									<th style="border-bottom: 1px solid #ddd; width: 33%; text-align: center; vertical-align: middle"></th> -->
 							</tr>
 						</thead>
 						<tr>
-							<td style="width: 50%; text-align: center; vertical-align: middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${rDetail.reptUpDate}" /></td>
-							<td style="width: 50%; text-align: center; vertical-align: middle">${rDetail.reptUpDetail}</td>
+							<td style="width: 50%; text-align: center; vertical-align: middle;background-color: black;color: white;color: #94f200;font-size: 20px"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${rDetail.reptUpDate}" /></td>
+							<td style="width: 50%; text-align: center; vertical-align: middle;background-color: black;color: white;color: #0fff93;font-size: 20px">${rDetail.reptUpDetail}</td>
 					</table>
 					<!-- 圖片 -->
 					<center>
-						<div>
-							<table border="1" width="100%">
+						<div style="padding-top:40px">
+							<table>
 								<c:if test="${not empty reportDetailImg}">					
 										<tr>
 											<th>回報圖片</th>
@@ -141,7 +144,10 @@
 								<td>
 								<c:forEach var="rImg" items="${reportDetailImg}">
 									<c:if test="${rDetail.reptUpNo==rImg.reptUpNo}">
-											<img src="..${rImg.imgUpPath}" width="300" height="225">
+<%-- 											<img src="..${rImg.imgUpPath}" width="300" height="225"> --%>
+											<figure style="display: inline-block"> 
+											<a href='<c:url value="..${rImg.imgUpPath}"/>' data-lightbox="main"> 
+											<img src='..${rImg.imgUpPath}' width="300" height="225" style="margin-right:-100px;padding-top:15px"></a> </figure>
 									</c:if>
 								</c:forEach>
 								</td>
@@ -150,16 +156,17 @@
 					</center>
 					<!-- 管理員回覆 -->
 					<c:if test="${not empty rDetail.replyUpDetail}">
-							<table width="100%;border-style: ridge">
+							<table style="width: 80%;padding-bottom: 40px">
 								<tr>
-									<th style="text-align: center; vertical-align: middle">管理員回覆</th>
+									<th style="font-size: 20px;border-bottom: 1px solid #ddd">客服回覆</th>
 								</tr>
 								<tr>
-									<td style="text-align: center; vertical-align: middle">${rDetail.replyUpDetail}</td>
+									<td style="font-size: 18px;text-align:initial">${rDetail.replyUpDetail}</td>
 								</tr>
 							</table>
 					</c:if>
 				</c:forEach>
+				</center>
 			</div>
 		</div>
 	</div>

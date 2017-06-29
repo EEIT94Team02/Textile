@@ -127,6 +127,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 		registry.addViewController("/manager/reply.v").setViewName("/manager/reply.v");
 		registry.addViewController("/manager/replyfollowup.v").setViewName("/manager/replyfollowup.v");
 		registry.addViewController("/manager/replyfollowupsuccess.v").setViewName("/manager/replyfollowupsuccess.v");
+		registry.addViewController("/manager/createreport.v").setViewName("/manager/createreport.v");
 		/*
 		 * 周
 		 */
@@ -883,8 +884,7 @@ public class SpringMVCJavaConfiguration extends WebMvcConfigurerAdapter {
 	// }
 
 	// 回報失敗，轉向回報頁面。
-	@Bean(name = { "report.error", "/report/createreport.v", "/report/index.v" })
-	public org.springframework.web.servlet.view.InternalResourceView report_error() {
+	@Bean(name = { "report.error", "/report/createreport.v","/report/index.v", "/manager/createreport.v"})	public org.springframework.web.servlet.view.InternalResourceView report_error() {
 		org.springframework.web.servlet.view.InternalResourceView internalResourceView = new org.springframework.web.servlet.view.InternalResourceView();
 		internalResourceView.setUrl("/report/createreport.jsp");
 		return internalResourceView;
