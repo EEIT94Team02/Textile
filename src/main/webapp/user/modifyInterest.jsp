@@ -36,23 +36,24 @@ div.otherInterestDiv div {
 	</div>
 
 
+
+	<div id="left">
+		<div class="actions">
+			<ul style="font-weight: bold;">
+				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
+				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
+				<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
+				<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
+				<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
+				<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
+				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
+	</div>
 	<div id="center">
-		<div id="left">
-			<div class="actions">
-				<ul style="font-weight: bold;">
-					<li class="list"><a href="modifySecure.v">修改密碼</a></li>
-					<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
-					<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
-					<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
-					<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
-					<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
-					<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
-				</ul>
-			</div>
-		</div>
-		<div id="right">
-			<jsp:include page="/rightInclude.jsp" />
-		</div>
 		<div id="middle">
 			<div class="background">
 				<form id="interest" action="modify.do" method="post">
