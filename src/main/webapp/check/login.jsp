@@ -20,7 +20,7 @@ body {
 	margin-left: 40%;
 	margin-right: 38%;
 	font-family: Microsoft JhengHei;
-	width: 350px;
+	width: 400px;
 	height: 250px;
 	border: 2px;
 	background-color: #FFBB66;

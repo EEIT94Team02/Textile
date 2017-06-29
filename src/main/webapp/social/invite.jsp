@@ -27,7 +27,7 @@
 </head>
 <body>
 	<h1>Textile SocialList invite</h1>	
-		<form action='<c:url value="invite.do"/>' method="post">
+		<form action='<c:url value="/social/invite.do"/>' method="post">
 			<table>
 				
 				<tr>

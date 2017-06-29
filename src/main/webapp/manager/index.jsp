@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 	</div>
-	<div id=body></div>
+	<div id=center></div>
 
 </body>
 </html>

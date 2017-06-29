@@ -19,44 +19,43 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
 	</div>
 	<div id="center">
-		<div id="body">
-			<fieldset>
-				<div>
-					<label>查詢公告</label>
-				</div>
-				<div>
-					<label>公告類別</label>
-				</div>
+		<fieldset>
+			<div>
+				<label>查詢公告</label>
+			</div>
+			<div>
+				<label>公告類別</label>
+			</div>
 
-				<div>
-					<input type="radio" name="a_type" />系統 <input type="radio" name="a_type" />新聞 <input type="radio" name="a_type" />活動
-					<input type="radio" name="a_type" />商城
-					<c:out value=""></c:out>
-				</div>
-				<div>
-					<label>公告時間</label> <input type="text" name="startTime" value=""> <span>${errors.ooo}</span> <input
-						type="submit" name="announcement" value="開始查詢">
-				</div>
-				<br>
-				<div>
-					<label>列出活動中的公告</label> <input type="submit" name="announcement" value="Select">
-				</div>
+			<div>
+				<input type="radio" name="a_type" />系統 <input type="radio" name="a_type" />新聞 <input type="radio" name="a_type" />活動
+				<input type="radio" name="a_type" />商城
+				<c:out value=""></c:out>
+			</div>
+			<div>
+				<label>公告時間</label> <input type="text" name="startTime" value=""> <span>${errors.ooo}</span> <input
+					type="submit" name="announcement" value="開始查詢">
+			</div>
+			<br>
+			<div>
+				<label>列出活動中的公告</label> <input type="submit" name="announcement" value="Select">
+			</div>
 
-				<br>
-				<div>
-					<label>列出已結束公告活動</label> <input type="submit" name="endTime" value="Select">
-				</div>
-				<br>
-				<div>
-					<label>新增修改公告</label>
+			<br>
+			<div>
+				<label>列出已結束公告活動</label> <input type="submit" name="endTime" value="Select">
+			</div>
+			<br>
+			<div>
+				<label>新增修改公告</label>
 
-				</div>
-			</fieldset>
-		</div>
+			</div>
+		</fieldset>
 	</div>
+
 	<div id="left">
 		<div class="actions">
 			<ul>

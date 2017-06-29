@@ -78,6 +78,7 @@ public class ProfileController {
 		if (mbean != null) {
 			mbean = this.userCentralService.selectUserAllData(mbean);
 			request.setAttribute(ConstFilterKey.OTHERUSER.key(), mbean);
+			request.setAttribute(ConstHelperKey.QUERY.key(), query);
 			return ConstMapping.PROFILE_OTHERUSER_SUCCESS.path();
 		} else {
 			return ConstMapping.ERROR_PAGE_REDIRECT.path();

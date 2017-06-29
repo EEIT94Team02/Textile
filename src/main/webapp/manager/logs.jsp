@@ -40,7 +40,7 @@ td {
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id=left>
+	<div id="left">
 		<div class="actions">
 			<ul>
 				<li class="list"><a href="<c:url value='logs.do'/>">系統記錄</a></li>
@@ -49,7 +49,7 @@ td {
 			</ul>
 		</div>
 	</div>
-	<div id=body>
+	<div id=center>
 		<p>補充：網址結尾改成/logs.do可以列出記錄，改成/delogs.do可以刪除所有記錄。</p>
 		<table>
 			<thead>

@@ -84,7 +84,7 @@
 
 	<div id="left">
 		<div class="actions">
-			<ul>
+			<ul style="font-weight: bold;">
 				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
 				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
 				<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>

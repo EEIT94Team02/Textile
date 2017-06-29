@@ -55,14 +55,16 @@ public class SocialListController {
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/invite.do" }, consumes = {
 			"application/x-www-form-urlencoded ; charset=UTF-8" })
-	public String inviteprocess(HttpServletRequest request, Model model) throws IOException {
+	public String inviteprocess(HttpServletRequest request, Model model) throws Exception {
 		// 接收資料
 		Map<String, String> errors = new HashMap<String, String>();
 
 		HttpSession session = request.getSession();
 		MemberBean ibean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
 		model.addAttribute("SocialListInviteErrors", errors);
-		String socialfre = request.getParameter("acquaintenceId");
+		String socialfre = request.getParameter("q");
+		socialfre = this.secureService.getRebuiltEncryptedText(socialfre);
+		socialfre = this.secureService.getDecryptedText(socialfre, "mId");
 		String sb = request.getParameter("submit");
 		Integer userId = ibean.getmId();
 		Integer acquaintenceId = 0;

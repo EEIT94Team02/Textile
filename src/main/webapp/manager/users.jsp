@@ -75,7 +75,7 @@ td {
 			</ul>
 		</div>
 	</div>
-	<div id="body">
+	<div id="center">
 		<table>
 			<thead>
 				<tr>

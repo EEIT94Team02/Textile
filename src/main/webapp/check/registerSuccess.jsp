@@ -15,7 +15,7 @@
 body {
 	background-image: url("../image/background/10.jpg");
 	margin: auto;
-	margin-top: 15%; font-family : Microsoft JhengHei; width : 600px;
+	margin-top: 15%;
 	height: 250px;
 	border: 2px;
 	text-align: center;
@@ -23,11 +23,10 @@ body {
 	font-weight: bolder;
 	font-size: 30px;
 	font-family: Microsoft JhengHei;
-	width: 600px;
 }
 </style>
 </head>
 <body>
-	<div style="margin: 0 auto;">註冊成功，驗證信已送出，請到您的信箱收信驗證，3秒後自動轉向首頁。</div>
+	<div>註冊成功，驗證信已送出，請到您的信箱收信驗證，3秒後自動轉向首頁。</div>
 </body>
 </html>

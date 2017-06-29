@@ -34,7 +34,7 @@
 	</div>
 
 	<div id="left">
-		<div class="actions">
+		<div class="actions" style="font-weight: bold;">
 			<ul>
 				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
 				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
