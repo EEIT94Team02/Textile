@@ -21,7 +21,7 @@ body {
 .hero-text {
 	text-align: center;
 	position: absolute;
-	top: 10%;
+	top: -100px;
 	left: 50%;
 	transform: translate(-45%, 150%);
 	color: #FFFF00;
@@ -85,7 +85,7 @@ p {
 
 .cover {
 	background: #FFD1A4;
-	padding: 4px 50px;
+	padding: 15px 50px;
 	opacity: 0.88;
 }
 
