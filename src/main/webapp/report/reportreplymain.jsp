@@ -16,12 +16,27 @@
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src='<c:url value="/js/bootstrap.min.js"/>'></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 70px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
+	<div>
 		<div id="left">
 			<div class="actions">
 				<ul>
@@ -42,7 +57,7 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="background-image: url(../image/background/reportbackground.jpg)">
+		<div class="bodyDiv" style="background-image: url(../image/background/reportbackground.jpg)">
 			<center>
 			<div style="opacity: 0.8; color: #FFFFFF; width: 100% ;height: 500%">
 				<br> <br> <br> <br> <br>
@@ -90,7 +105,7 @@
 					</table>
 			<!-- 	圖片	 -->
 				<center>
-					<div>
+					<div style="padding-top: 50px">
 						<table style="width: 80%;padding-bottom:40px">
 							<tr style="font-size: 22px">
 								<c:choose>
@@ -115,7 +130,7 @@
 									<c:forEach var="rImg" items="${reportImg}">
 										<figure style="display: inline-block"> 
 										<a href='<c:url value="..${rImg.imgPath}"/>' data-lightbox="main"> 
-										<img src='..${rImg.imgPath}' width="150" height="100" style="margin-right:-100px;padding-top:15px"></a>
+										<img src='..${rImg.imgPath}' width="300" height="250" style="margin-right:-100px;padding-top:15px"></a>
 										</figure>
 									</c:forEach>
 									</td>
@@ -140,7 +155,7 @@
 					</div>
 				</center>
 				<center>
-					<h3>客服回覆</h3>
+					<h3 style="padding-top: 100px">客服回覆</h3>
 					<textarea name="replyDetail" style="color: black" rows="10" cols="100" placeholder="請填寫回覆內容"></textarea>
 					<br> <input type="Submit" class="btn btn-success" id="ButtonSubmit" value="送出" />
 				</center>
