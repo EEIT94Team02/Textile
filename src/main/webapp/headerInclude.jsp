@@ -27,7 +27,6 @@
 						<a href="<c:url value='/manager/'/>">後臺</a>
 					</c:if>
 				</c:if></li>
-			<li><a href="<c:url value ='/index.jsp' />">首頁</a></li>
 			<li><a href="<c:url value ='/user/' />">會員</a></li>
 			<li><a href="${album}">相簿</a></li>
 			<li><a href="${myAct}">活動</a></li>
