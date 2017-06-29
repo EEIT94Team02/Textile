@@ -228,239 +228,195 @@ div.otherInterestDiv div {
 		</div>
 	</div>
 	<script type="text/javascript">
-		var imgsrc_correct16 = '../image/check/check_correct16.png';
-		var imgsrc_error16 = '../image/check/check_error16.png';
-		var imgsrc_close16 = '../image/check/check_close16.png';
-		var imgsrc_loading16 = '../image/check/check_loading16.gif';
+    var imgsrc_correct16 = '../image/check/check_correct16.png';
+    var imgsrc_error16 = '../image/check/check_error16.png';
+    var imgsrc_close16 = '../image/check/check_close16.png';
+    var imgsrc_loading16 = '../image/check/check_loading16.gif';
 
-		// 自動驗證的AJAX
-		function checkInterest(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'n' : 'interest',
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).next().next().text(output);
-			});
-		}
+    // 自動驗證的AJAX
+    function checkInterest(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'n': 'interest',
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).next().next().text(output);
+      });
+    }
 
-		function checkInterestOnblur(event) {
-			var id = $(event.currentTarget).attr('id');
-			$('#' + id + ' + img').attr('src', imgsrc_loading16);
-			$.get('modify.do', {
-				'm' : id,
-				'n' : 'interest',
-				'q' : $('#' + id).val()
-			}, function(output) {
-				$('#' + id).next().next().text(output);
-			}).done(function() {
-				changeInterestImageFor(id);
-			});
-		}
+    function checkInterestOnblur(event) {
+      var id = $(event.currentTarget).attr('id');
+      $('#' + id + ' + img').attr('src', imgsrc_loading16);
+      $.get('modify.do', {
+        'm': id,
+        'n': 'interest',
+        'q': $('#' + id).val()
+      }, function(output) {
+        $('#' + id).next().next().text(output);
+      }).done(function() {
+        changeInterestImageFor(id);
+      });
+    }
 
-		function changeInterestImageFor(id) {
-			if ($('#' + id).next().next().text() == ''
-					&& $('#' + id).val() == '') {
-				$('#' + id + ' + img').attr('src', '');
-			} else if ($('#' + id).next().next().text() == ''
-					&& $('#' + id).val() != '') {
-				$('#' + id + ' + img').attr('src', imgsrc_correct16);
-			} else {
-				$('#' + id + ' + img').attr('src', imgsrc_error16);
-			}
-		}
+    function changeInterestImageFor(id) {
+      if ($('#' + id).next().next().text() == '' && $('#' + id).val() == '') {
+        $('#' + id + ' + img').attr('src', '');
+      } else if ($('#' + id).next().next().text() == '' && $('#' + id).val() != '') {
+        $('#' + id + ' + img').attr('src', imgsrc_correct16);
+      } else {
+        $('#' + id + ' + img').attr('src', imgsrc_error16);
+      }
+    }
 
-		// 自動驗證各種興趣
-		$('#mOtherRecreation').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherExercises').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherDiet').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherArt').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherDesign').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherMusic').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherHobbies').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
-		$('#mOtherActivities').on('keyup', checkInterest).on('blur',
-				checkInterestOnblur);
+    // 自動驗證各種興趣
+    $('#mOtherRecreation').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherExercises').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherDiet').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherArt').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherDesign').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherMusic').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherHobbies').on('keyup', checkInterest).on('blur', checkInterestOnblur);
+    $('#mOtherActivities').on('keyup', checkInterest).on('blur', checkInterestOnblur);
 
-		// 當興趣明細的checkbox被勾選或取消勾選時，要改變value的值。
-		function changeValueOfInterest(event) {
-			var checkboxJOb = $(event.target);
-			if (checkboxJOb.prop('checked')) {
-				checkboxJOb.val('1');
-			} else {
-				checkboxJOb.val('0');
-			}
-		}
+    // 當興趣明細的checkbox被勾選或取消勾選時，要改變value的值。
+    function changeValueOfInterest(event) {
+      var checkboxJOb = $(event.target);
+      if (checkboxJOb.prop('checked')) {
+        checkboxJOb.val('1');
+      } else {
+        checkboxJOb.val('0');
+      }
+    }
 
-		$('#interest input[type="checkbox"]').on('change',
-				changeValueOfInterest);
+    $('#interest input[type="checkbox"]').on('change', changeValueOfInterest);
 
-		// 當其它興趣輸入完成時，要在下方新增一個區塊。
-		function getBasicIndexOfHiddenInputName(inputName) {
-			var i = 0;
-			switch (inputName) {
-			case 'mOtherRecreation':
-				i = 5 * 0;
-				break;
-			case 'mOtherExercises':
-				i = 5 * 1;
-				break;
-			case 'mOtherDiet':
-				i = 5 * 2;
-				break;
-			case 'mOtherArt':
-				i = 5 * 3;
-				break;
-			case 'mOtherDesign':
-				i = 5 * 4;
-				break;
-			case 'mOtherMusic':
-				i = 5 * 5;
-				break;
-			case 'mOtherHobbies':
-				i = 5 * 6;
-				break;
-			case 'mOtherActivities':
-				i = 5 * 7;
-				break;
-			}
-			return i;
-		}
+    // 當其它興趣輸入完成時，要在下方新增一個區塊。
+    function getBasicIndexOfHiddenInputName(inputName) {
+      var i = 0;
+      switch (inputName) {
+      case 'mOtherRecreation':
+        i = 5 * 0;
+        break;
+      case 'mOtherExercises':
+        i = 5 * 1;
+        break;
+      case 'mOtherDiet':
+        i = 5 * 2;
+        break;
+      case 'mOtherArt':
+        i = 5 * 3;
+        break;
+      case 'mOtherDesign':
+        i = 5 * 4;
+        break;
+      case 'mOtherMusic':
+        i = 5 * 5;
+        break;
+      case 'mOtherHobbies':
+        i = 5 * 6;
+        break;
+      case 'mOtherActivities':
+        i = 5 * 7;
+        break;
+      }
+      return i;
+    }
 
-		function getInputNameByIndex(i) {
-			switch (parseInt(i / 5)) {
-			case 0:
-				return 'mOtherRecreation';
-				break;
-			case 1:
-				return 'mOtherExercises';
-				break;
-			case 2:
-				return 'mOtherDiet';
-				break;
-			case 3:
-				return 'mOtherArt';
-				break;
-			case 4:
-				return 'mOtherDesign';
-				break;
-			case 5:
-				return 'mOtherMusic';
-				break;
-			case 6:
-				return 'mOtherHobbies';
-				break;
-			case 7:
-				return 'mOtherActivities';
-				break;
-			}
-		}
+    function getInputNameByIndex(i) {
+      switch (parseInt(i / 5)) {
+      case 0:
+        return 'mOtherRecreation';
+        break;
+      case 1:
+        return 'mOtherExercises';
+        break;
+      case 2:
+        return 'mOtherDiet';
+        break;
+      case 3:
+        return 'mOtherArt';
+        break;
+      case 4:
+        return 'mOtherDesign';
+        break;
+      case 5:
+        return 'mOtherMusic';
+        break;
+      case 6:
+        return 'mOtherHobbies';
+        break;
+      case 7:
+        return 'mOtherActivities';
+        break;
+      }
+    }
 
-		function removeDivAndRearrangeAllInput(event) {
-			// 先找到父元素，再馬上移除該div，否則影響到div的剩餘數目。
-			var inputJOb = $(event.target).parents('td').find(
-					'input[type="text"]');
-			$(event.target).parent('div').remove();
-			var i = getBasicIndexOfHiddenInputName(inputJOb.attr('name'));
-			var otherInterestDivJOb = inputJOb.parent('td').find(
-					'div[class="otherInterestDiv"]');
-			var innerDivs = otherInterestDivJOb.children();
-			for (var j = 0; j < innerDivs.length; j++) {
-				var hiddenInputJOb = $(innerDivs[j]).find(
-						'input[type="hidden"]');
-				hiddenInputJOb.attr('name', 'o' + (i + j));
-			}
-		}
+    function removeDivAndRearrangeAllInput(event) {
+      // 先找到父元素，再馬上移除該div，否則影響到div的剩餘數目。
+      var inputJOb = $(event.target).parents('td').find('input[type="text"]');
+      $(event.target).parent('div').remove();
+      var i = getBasicIndexOfHiddenInputName(inputJOb.attr('name'));
+      var otherInterestDivJOb = inputJOb.parent('td').find('div[class="otherInterestDiv"]');
+      var innerDivs = otherInterestDivJOb.children();
+      for (var j = 0; j < innerDivs.length; j++) {
+        var hiddenInputJOb = $(innerDivs[j]).find('input[type="hidden"]');
+        hiddenInputJOb.attr('name', 'o' + (i + j));
+      }
+    }
 
-		function checkInterestNameExist(innerDivs, newInterestName) {
-			for (var i = 0; i < innerDivs.length; i++) {
-				var interestName = $(innerDivs[i]).find('span:eq(1)').text();
-				if (interestName == newInterestName) {
-					return true;
-				}
-			}
-			return false;
-		}
+    function checkInterestNameExist(innerDivs, newInterestName) {
+      for (var i = 0; i < innerDivs.length; i++) {
+        var interestName = $(innerDivs[i]).find('span:eq(1)').text();
+        if (interestName == newInterestName) { return true; }
+      }
+      return false;
+    }
 
-		function createOtherInterestDiv(event) {
-			var inputJOb = $(event.target);
-			// 有輸入且沒錯誤才能加入興趣
-			if (inputJOb.val() == '' || inputJOb.next().next().text() != '') {
-				return;
-			}
-			var i = getBasicIndexOfHiddenInputName(inputJOb.attr('name'));
-			var otherInterestDivJOb = inputJOb.parent('td').find(
-					'div[class="otherInterestDiv"]');
-			var innerDivs = otherInterestDivJOb.children();
-			if (checkInterestNameExist(innerDivs, inputJOb.val())) {
-				return;
-			}
-			if (innerDivs.length < 5) {
-				var cell1 = $('_$tag_$tag_').attr('src', imgsrc_close16);
-				$(cell1).on('click', removeDivAndRearrangeAllInput);
-				var cell2 = $('_$tag__$tag__').text(' ');
-				var cell3 = $('_$tag__$tag__').text(inputJOb.val());
-				var cell4 = $(
-						'<input type="hidden" name="o'
-								+ (i + innerDivs.length + 1) + '" />').val(
-						inputJOb.val());
-				var newDivJOb = $('_$tag_$tag_').append(
-						[ cell1, cell2, cell3, cell4 ]);
-				otherInterestDivJOb.append(newDivJOb);
-			} else {
-				alert('其它興趣最多只能輸入五個。');
-			}
-		}
+    function createOtherInterestDiv(event) {
+      var inputJOb = $(event.target);
+      // 有輸入且沒錯誤才能加入興趣
+      if (inputJOb.val() == '' || inputJOb.next().next().text() != '') { return; }
+      var i = getBasicIndexOfHiddenInputName(inputJOb.attr('name'));
+      var otherInterestDivJOb = inputJOb.parent('td').find('div[class="otherInterestDiv"]');
+      var innerDivs = otherInterestDivJOb.children();
+      if (checkInterestNameExist(innerDivs, inputJOb.val())) { return; }
+      if (innerDivs.length < 5) {
+        var cell1 = $('<img></img>').attr('src', imgsrc_close16);
+        $(cell1).on('click', removeDivAndRearrangeAllInput);
+        var cell2 = $('<span></span>').text(' ');
+        var cell3 = $('<span></span>').text(inputJOb.val());
+        var cell4 = $('<input type="hidden" name="o' + (i + innerDivs.length + 1) + '" />').val(inputJOb.val());
+        var newDivJOb = $('<div></div>').append([cell1, cell2, cell3, cell4]);
+        otherInterestDivJOb.append(newDivJOb);
+      } else {
+        alert('其它興趣最多只能輸入五個。');
+      }
+    }
 
-		$('#interest input[type="text"]').on('blur', createOtherInterestDiv);
+    $('#interest input[type="text"]').on('blur', createOtherInterestDiv);
 
-		// 設定提交表單後，要將按鈕功能取消。
-		function disableSubmit() {
-			$(document).find('input[type="submit"]').prop('disabled', true);
-		}
+    // 設定提交表單後，要將按鈕功能取消。
+    function disableSubmit() {
+      $(document).find('input[type="submit"]').prop('disabled', true);
+    }
 
-		$('#interest').on('submit', disableSubmit);
+    $('#interest').on('submit', disableSubmit);
 
-		// 設定其它興趣的初始化，方法為模擬手動新增興趣，每個興趣類別至多5個，共有8個類別。
-		var otherInterestTexts = [ '${user.i_d.items.o1.value}',
-				'${user.i_d.items.o2.value}', '${user.i_d.items.o3.value}',
-				'${user.i_d.items.o4.value}', '${user.i_d.items.o5.value}',
-				'${user.i_d.items.o6.value}', '${user.i_d.items.o7.value}',
-				'${user.i_d.items.o8.value}', '${user.i_d.items.o9.value}',
-				'${user.i_d.items.o10.value}', '${user.i_d.items.o11.value}',
-				'${user.i_d.items.o12.value}', '${user.i_d.items.o13.value}',
-				'${user.i_d.items.o14.value}', '${user.i_d.items.o15.value}',
-				'${user.i_d.items.o16.value}', '${user.i_d.items.o17.value}',
-				'${user.i_d.items.o18.value}', '${user.i_d.items.o19.value}',
-				'${user.i_d.items.o20.value}', '${user.i_d.items.o21.value}',
-				'${user.i_d.items.o22.value}', '${user.i_d.items.o23.value}',
-				'${user.i_d.items.o24.value}', '${user.i_d.items.o25.value}',
-				'${user.i_d.items.o26.value}', '${user.i_d.items.o27.value}',
-				'${user.i_d.items.o28.value}', '${user.i_d.items.o29.value}',
-				'${user.i_d.items.o30.value}', '${user.i_d.items.o31.value}',
-				'${user.i_d.items.o32.value}', '${user.i_d.items.o33.value}',
-				'${user.i_d.items.o34.value}', '${user.i_d.items.o35.value}',
-				'${user.i_d.items.o36.value}', '${user.i_d.items.o37.value}',
-				'${user.i_d.items.o38.value}', '${user.i_d.items.o39.value}',
-				'${user.i_d.items.o40.value}' ];
+    // 設定其它興趣的初始化，方法為模擬手動新增興趣，每個興趣類別至多5個，共有8個類別。
+    var otherInterestTexts = ['${user.i_d.items.o1.value}', '${user.i_d.items.o2.value}', '${user.i_d.items.o3.value}', '${user.i_d.items.o4.value}', '${user.i_d.items.o5.value}', '${user.i_d.items.o6.value}', '${user.i_d.items.o7.value}', '${user.i_d.items.o8.value}', '${user.i_d.items.o9.value}', '${user.i_d.items.o10.value}', '${user.i_d.items.o11.value}', '${user.i_d.items.o12.value}', '${user.i_d.items.o13.value}', '${user.i_d.items.o14.value}', '${user.i_d.items.o15.value}', '${user.i_d.items.o16.value}', '${user.i_d.items.o17.value}', '${user.i_d.items.o18.value}', '${user.i_d.items.o19.value}', '${user.i_d.items.o20.value}', '${user.i_d.items.o21.value}', '${user.i_d.items.o22.value}', '${user.i_d.items.o23.value}', '${user.i_d.items.o24.value}', '${user.i_d.items.o25.value}', '${user.i_d.items.o26.value}', '${user.i_d.items.o27.value}', '${user.i_d.items.o28.value}', '${user.i_d.items.o29.value}', '${user.i_d.items.o30.value}', '${user.i_d.items.o31.value}',
+        '${user.i_d.items.o32.value}', '${user.i_d.items.o33.value}', '${user.i_d.items.o34.value}', '${user.i_d.items.o35.value}', '${user.i_d.items.o36.value}', '${user.i_d.items.o37.value}', '${user.i_d.items.o38.value}', '${user.i_d.items.o39.value}', '${user.i_d.items.o40.value}'];
 
-		$(document).ready(function() {
-			for (var i = 0; i < otherInterestTexts.length; i++) {
-				var inputJOb = $('#' + getInputNameByIndex(i));
-				inputJOb.val(otherInterestTexts[i]);
-				var event = jQuery.Event('blur');
-				inputJOb.trigger(event);
-				inputJOb.val('');
-			}
-		});
-	</script>
+    $(document).ready(function() {
+      for (var i = 0; i < otherInterestTexts.length; i++) {
+        var inputJOb = $('#' + getInputNameByIndex(i));
+        inputJOb.val(otherInterestTexts[i]);
+        var event = jQuery.Event('blur');
+        inputJOb.trigger(event);
+        inputJOb.val('');
+      }
+    });
+  </script>
 </body>
 </html>
