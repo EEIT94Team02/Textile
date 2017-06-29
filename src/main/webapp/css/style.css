@@ -35,7 +35,6 @@ body {
 }
 
 #header {
-	display: block;
 	position: fixed;
 	color: white;
 	top: 0;
@@ -45,7 +44,6 @@ body {
 	z-index: 1000;
 	background-image: url("../image/background/7.jpg");
 	background-size: cover;
-	position: fixed;
 }
 
 #center {
@@ -66,7 +64,6 @@ body {
 }
 
 #middle {
-	
 	top: 100px;
 }
 
@@ -86,10 +83,6 @@ body {
 	width: 15%;
 	height: 660px;
 	float: right;
-}
-
-#body {
-	
 }
 
 #footer {
