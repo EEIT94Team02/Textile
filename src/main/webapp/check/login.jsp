@@ -59,7 +59,7 @@ fieldset {
 					</tr>
 					<tr>
 						<c:set var="x" value="&nbsp;&nbsp;&nbsp;" />
-						<td colspan="3" align="center"><input type="checkbox" name="keepLogin" value="1" />保持登入</td>
+						<td colspan="3" align="center"><label for="touch">保持登入</label><input type="checkbox" id="touch" name="keepLogin" value="1" /></td>
 					</tr>
 					<tr>
 						<td colspan="3" align="center"><input id="btn" class="btn" type="submit" value="登入" /></td>
