@@ -70,7 +70,7 @@ body {
 
 #left {
 	position: fixed;
-	top: 9%;
+	top: 12%;
 	left: 0;
 	min-height: 512px;
 	width: 20%;
@@ -79,7 +79,7 @@ body {
 
 #right {
 	position: fixed;
-	top: 9%;
+	top: 12%;
 	right: 0;
 	width: 15%;
 	height: 660px;
