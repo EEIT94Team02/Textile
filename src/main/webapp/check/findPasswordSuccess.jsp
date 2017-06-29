@@ -14,18 +14,17 @@ body {
 	background-image: url("../image/background/10.jpg");
 	margin: auto;
 	margin-top: 15%;
-	font-family: Microsoft JhengHei;
-	width: 600px;
 	height: 250px;
 	border: 2px;
 	text-align: center;
 	line-height: 50px;
 	font-weight: bolder;
 	font-size: 30px;
+	font-family: Microsoft JhengHei;
 }
 </style>
 </head>
 <body>
-	<div style="margin: 0 auto;">驗證成功，您的新密碼已設定完成，請到您的信箱領取新密碼，3秒後自動轉向登入頁面。</div>
+	<div>驗證成功，您的新密碼已設定完成，請到您的信箱領取新密碼，3秒後自動轉向登入頁面。</div>
 </body>
 </html>

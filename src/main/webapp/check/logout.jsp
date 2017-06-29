@@ -27,6 +27,6 @@ body {
 }
 </style>
 </head>
-<body style="color:#000000">您已登出成功，3秒後自動轉向首頁。
+<body>您已登出成功，3秒後自動轉向首頁。
 </body>
 </html>
