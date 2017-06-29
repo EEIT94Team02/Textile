@@ -35,7 +35,6 @@ body {
 }
 
 #header {
-	display: block;
 	position: fixed;
 	color: white;
 	top: 0;
