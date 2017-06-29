@@ -10,17 +10,20 @@
 <title>Chat, Textile</title>
 <style type="text/css">
 .rightDiv {
-	position: absolute;
+	word-wrap: break-word;
 	background: #FFFF77;
 	border: 0.5px solid black;
 	border-radius: 10px;
 	margin-top: 1vh;
 	right: 0px;
 	margin-bottom: 1vh;
-	width: 30%;
+	margin-right: 0; width : 30%;
 	text-align: right;
-	background: #FFFF77;
-	margin-bottom: 1vh;
+	padding: 10px;
+	width: 30%;
+	padding: 10px;
+	position:absolute;
+	box-sizing: border-box;
 }
 
 .centerDiv {
@@ -40,16 +43,14 @@
 }
 
 .leftDiv {
-	position: absolute;
-	left: 0px; background : #FFFF77;
-	border: 0.5px solid black;
+	word-wrap: break-word;	border: 0.5px solid black;
 	border-radius: 10px;
 	margin-top: 1vh;
 	margin-bottom: 1vh;
 	width: 30%;
 	text-align: left;
 	background: #FFFF77;
-}
+	padding: 10px;}
 
 #input {
 	width: 90%;
@@ -62,6 +63,7 @@
 #beneathTop {
 	height: 10vh;
 	display: block;
+	padding-left: 10px;
 }
 
 #response {
@@ -69,6 +71,7 @@
 	display: block;
 	overflow-x: hidden;
 	overflow-y: scroll;
+	padding: 10px;
 }
 
 #onButtom {
@@ -87,6 +90,20 @@
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
+	</div>
+
+	<div id="left">
+		<div class="actions">
+			<ul>
+				<li class="list"><a href="modifySecure.v">修改密碼</a></li>
+				<li class="list"><a href="modifyProfile.v">修改基本資料</a></li>
+				<li class="list"><a href="modifySituation.v">修改個人狀況</a></li>
+				<li class="list"><a href="modifyInterest.v">修改興趣喜好</a></li>
+				<li class="list"><a href="queryName.v">會員姓名查詢</a></li>
+				<li class="list"><a href="queryCondition.v">會員條件查詢</a></li>
+				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
+			</ul>
+		</div>
 	</div>
 	<div id="right">
 		<jsp:include page="/rightInclude.jsp" />
@@ -121,8 +138,8 @@
 		<jsp:include page="/footerInclude.jsp" />
 	</div>
 	<script type="text/javascript">
-		var stompClient;
-		var q = '${chat.encryptedMId}';
+    var stompClient;
+    var q = '${chat.encryptedMId}';
 
     function chatViewScrollToButtom() {
       $('#response').scrollTop($('#response').prop('scrollHeight'));
@@ -135,45 +152,42 @@
       chatViewScrollToButtom();
     }
 
+    $(document).ready(function() {
+      var websocket = new WebSocket('${chat.websocketURI}');
+      stompClient = Stomp.over(websocket);
+
+      var onconnect = function(frame) {
+        console.log('開啟連線：' + frame);
+        init();
+      };
+
+      var onerror = function(error) {
+        console.log('發生錯誤：' + error);
+      };
+
+      stompClient.connect({}, onconnect, onerror);
+    });
+
+    function init() {
+      var onmessage = function(message) {
+        var unrestoredQ = message.headers['q'];
+        var returnQ = unrestoredQ.substring(1, unrestoredQ.length - 1);
+        if (q == returnQ) {
+          doRightAppend(message.body);
+        } else {
+          doLeftAppend(message.body);
+        }
+      };
+
+      stompClient.subscribe('${chat.subscribeURI}', onmessage);
+
+      // var ondisconnect = function() {
+      // console.log('關閉連線。');
+      // };
+      // stompClient.disconnect(ondisconnect);
     }
-		$(document).ready(function() {
-			var websocket = new WebSocket('${chat.websocketURI}');
-			stompClient = Stomp.over(websocket);
 
-			var onconnect = function(frame) {
-				console.log('開啟連線：' + frame);
-				init();
-			};
-
-			var onerror = function(error) {
-				console.log('發生錯誤：' + error);
-			};
-
-			stompClient.connect({}, onconnect, onerror);
-		});
-
-		function init() {
-			var onmessage = function(message) {
-				var unrestoredQ = message.headers['q'];
-				var returnQ = unrestoredQ.substring(1, unrestoredQ.length - 1);
-				if (q == returnQ) {
-					doRightAppend(message.body);
-				} else {
-					doLeftAppend(message.body);
-				}
-			};
-
-			stompClient.subscribe('${chat.subscribeURI}', onmessage);
-
-			// var ondisconnect = function() {
-			// console.log('關閉連線。');
-			// };
-			// stompClient.disconnect(ondisconnect);
-		}
-
-
-
-	// 偵測Enter
+    // 偵測Enter
     function doEnterSend(event) {
       event.preventDefault();
       if (event.keyCode == 13) {
@@ -186,5 +200,6 @@
     $(document).ready(function() {
       chatViewScrollToButtom();
     });
-  </script></body>
+  </script>
+</body>
 </html>
