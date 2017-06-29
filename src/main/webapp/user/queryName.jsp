@@ -29,7 +29,10 @@
 </head>
 <body>
 	<div id="header">
-		<jsp:include page="/headerInclude.jsp"/>
+		<jsp:include page="/headerInclude.jsp" />
+	</div>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
 	</div>
 
 	<div id="left">
@@ -47,7 +50,7 @@
 	</div>
 
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<fieldset>
 				<form id="queryName" class="ui-widget" action="queryName.do" method="post">
 					<input type="hidden" name="m" value="queryName" />請輸入會員名稱：<input id="q" name="q" value="${dataAndErrorsMap.mName}"

@@ -41,16 +41,16 @@ public class SpringJavaConfiguration {
 		}
 		return (javax.sql.DataSource) jndiObjectFactoryBean.getObject();
 
-//		 org.springframework.jdbc.datasource.DriverManagerDataSource
-//		 driverManagerDataSource = new
-//		 org.springframework.jdbc.datasource.DriverManagerDataSource();
-//		 driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//		 driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
-//		 //driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.43.17:1433;DatabaseName=textile");
-//		 driverManagerDataSource.setUsername("sa");
-//		 // driverManagerDataSource.setPassword("sa123456");
-//		 driverManagerDataSource.setPassword("passw0rd");
-//		 return driverManagerDataSource;
+		// org.springframework.jdbc.datasource.DriverManagerDataSource
+		// driverManagerDataSource = new
+		// org.springframework.jdbc.datasource.DriverManagerDataSource();
+		// driverManagerDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		// driverManagerDataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=textile");
+		// //driverManagerDataSource.setUrl("jdbc:sqlserver://192.168.43.17:1433;DatabaseName=textile");
+		// driverManagerDataSource.setUsername("sa");
+		// // driverManagerDataSource.setPassword("sa123456");
+		// driverManagerDataSource.setPassword("passw0rd");
+		// return driverManagerDataSource;
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class SpringJavaConfiguration {
 		properties.setProperty("hibernate.transaction.coordinator_class",
 				"org.hibernate.transaction.JDBCTransactionFactory");
 		// 上線使用Spring的交易管理時，下一行要註解掉！
-//		 properties.setProperty("hibernate.current_session_context_class",
-//		 "thread");
+		// properties.setProperty("hibernate.current_session_context_class",
+		// "thread");
 		localSessionFactoryBean.setHibernateProperties(properties);
 
 		try {

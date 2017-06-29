@@ -8,9 +8,26 @@
 <title>Welcome, Textile</title>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="<c:url value = '/image/icon/favicon-16x16.png'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jacky.css'/>">
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
+<style type="text/css">
+body {
+	background-image: url("../image/background/10.jpg");
+	margin: auto;
+	margin-top: 15%; font-family : Microsoft JhengHei; width : 600px;
+	height: 250px;
+	border: 2px;
+	text-align: center;
+	line-height: 50px;
+	font-weight: bolder;
+	font-size: 30px;
+	font-family: Microsoft JhengHei;
+	width: 600px;
+}
+</style>
 </head>
 <body>
-註冊成功，驗證信已送出，請到您的信箱收信驗證，3秒後自動轉向首頁。
+	<div style="margin: 0 auto;">註冊成功，驗證信已送出，請到您的信箱收信驗證，3秒後自動轉向首頁。</div>
 </body>
 </html>

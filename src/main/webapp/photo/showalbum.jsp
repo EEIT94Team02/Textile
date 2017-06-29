@@ -35,7 +35,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -55,7 +55,7 @@
 		<div id="body">
 			<c:if test="${not empty OthersAlbum}">
 				<div>
-					<h3> 所有的相簿</h3>
+					<h3> 其他使用者公開的相簿</h3>
 					<c:forEach var="row" items="${OthersAlbum}">
 						<c:url value="/photo/list.do" var="album">
 							<c:param name="albumno" value="${row.introduction}"></c:param>

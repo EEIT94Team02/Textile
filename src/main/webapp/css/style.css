@@ -30,8 +30,8 @@ body {
 	margin: 0;
 	padding: 0;
 	background-image: url("../image/background/9.jpg");
-	background-size: cover;
-	
+	font-size: 14px;
+	overflow: hidden;
 }
 
 #header {
@@ -39,16 +39,37 @@ body {
 	color: white;
 	top: 0;
 	width: 100%;
-	min-height: 60px;
+	height: 70px;
 	padding: 0;
 	z-index: 1000;
 	background-image: url("../image/background/7.jpg");
 	background-size: cover;
 }
 
+#center {
+	display: block;
+	height: 70vh;
+	background-image: url("../image/background/9.jpg");
+	background-size: cover;
+	position: absolute;
+	top: 90px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 860px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+}
+
+#middle {
+	top: 100px;
+}
+
 #left {
 	position: fixed;
-	top: 70px;
+	top: 9%;
 	left: 0;
 	min-height: 512px;
 	width: 20%;
@@ -57,33 +78,22 @@ body {
 
 #right {
 	position: fixed;
-	top: 70px;
+	top: 9%;
 	right: 0;
 	width: 15%;
 	height: 660px;
 	float: right;
 }
 
-#body {
-	position: absolute;
-	top: 70px;
-	left: 21%;
-	bottom: 40px;
-	min-height: 1000px;
-	background: #FFD1A4;
-	width: 63%;
-	overflow: auto;
-	opacity: 0.8;
-	font-weight: bold;
-}
-
 #footer {
-	position: relative;
+	display: block;
+	position: fixed;
 	bottom: 0;
 	background: #F5E8FF;
 	border-top: 1px solid #9bd9e0;
-	width: 100%;
-	height: 35px;
+	width: 70%;
+	height: 3vh;
+	border-radius: 10px;
 }
 
 #left .actions {
@@ -153,7 +163,7 @@ body {
 #header .section ul {
 	display: inline-block;
 	float: right;
-	margin-top:center ;
+	margin-top: center;
 	overflow: hidden;
 	heigth: 100%;
 }
@@ -172,39 +182,42 @@ body {
 	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
 	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
 	box-shadow: 0px 0px 0px 2px #9fb4f2;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d47744), color-stop(1, #a1765f));
-	background:-moz-linear-gradient(top, #d47744 5%, #a1765f 100%);
-	background:-webkit-linear-gradient(top, #d47744 5%, #a1765f 100%);
-	background:-o-linear-gradient(top, #d47744 5%, #a1765f 100%);
-	background:-ms-linear-gradient(top, #d47744 5%, #a1765f 100%);
-	background:linear-gradient(to bottom, #d47744 5%, #a1765f 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d47744', endColorstr='#a1765f',GradientType=0);
-	background-color:#d47744;
-	-moz-border-radius:23px;
-	-webkit-border-radius:23px;
-	border-radius:23px;
-	border:2px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:17px;
-	font-weight:bold;
-	padding:8px 26px;
-	text-decoration:none;
-	text-shadow:-2px 1px 0px #283966;
-	
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d47744
+		), color-stop(1, #a1765f));
+	background: -moz-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background: -webkit-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background: -o-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background: -ms-linear-gradient(top, #d47744 5%, #a1765f 100%);
+	background: linear-gradient(to bottom, #d47744 5%, #a1765f 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d47744',
+		endColorstr='#a1765f', GradientType=0);
+	background-color: #d47744;
+	-moz-border-radius: 23px;
+	-webkit-border-radius: 23px;
+	border-radius: 23px;
+	border: 2px solid #4e6096;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 8px 20px;
+	text-decoration: none;
+	text-shadow: -2px 1px 0px #283966;
 }
 
 #header .section ul li a:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a1765f), color-stop(1, #d47744));
-	background:-moz-linear-gradient(top, #a1765f 5%, #d47744 100%);
-	background:-webkit-linear-gradient(top, #a1765f 5%, #d47744 100%);
-	background:-o-linear-gradient(top, #a1765f 5%, #d47744 100%);
-	background:-ms-linear-gradient(top, #a1765f 5%, #d47744 100%);
-	background:linear-gradient(to bottom, #a1765f 5%, #d47744 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a1765f', endColorstr='#d47744',GradientType=0);
-	background-color:#a1765f;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a1765f
+		), color-stop(1, #d47744));
+	background: -moz-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background: -webkit-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background: -o-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background: -ms-linear-gradient(top, #a1765f 5%, #d47744 100%);
+	background: linear-gradient(to bottom, #a1765f 5%, #d47744 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a1765f',
+		endColorstr='#d47744', GradientType=0);
+	background-color: #a1765f;
 }
 
 #header .section ul li.selected {
@@ -245,16 +258,17 @@ body {
 }
 
 #submit:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64));
-	background:-moz-linear-gradient(top, #ffab23 5%, #ffec64 100%);
-	background:-webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
-	background:-o-linear-gradient(top, #ffab23 5%, #ffec64 100%);
-	background:-ms-linear-gradient(top, #ffab23 5%, #ffec64 100%);
-	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffec64',GradientType=0);
-	background-color:#ffab23;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23
+		), color-stop(1, #ffec64));
+	background: -moz-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background: -webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background: -o-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background: -ms-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23',
+		endColorstr='#ffec64', GradientType=0);
+	background-color: #ffab23;
 }
-
 
 /* #header .article { */
 /* 	background: #fff; */
@@ -856,10 +870,14 @@ body {
 }
 
 #report a:link {
-	color:#00FF00;}    /* 設定尚未點閱過的連結樣式 */#report a:visited {
+	color: #00FF00;
+} /* 設定尚未點閱過的連結樣式 */
+#report a:visited {
 	color: #01DFD7;
 } /* 設定過去曾經閱過的連結 */
 #report a:hover {
-	color:#ff0000;}   /* 設定滑鼠游標指在連結位置上的樣式 */#report a:active {
+	color: #ff0000;
+} /* 設定滑鼠游標指在連結位置上的樣式 */
+#report a:active {
 	color: #0000BB;
 } /* 設定上點擊過的連結樣式 */

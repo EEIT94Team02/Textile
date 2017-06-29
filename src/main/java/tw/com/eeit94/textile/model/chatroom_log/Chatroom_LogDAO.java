@@ -19,4 +19,6 @@ public interface Chatroom_LogDAO {
 	public List<Chatroom_LogBean> update(Chatroom_LogBean c_lbean);
 
 	public List<Chatroom_LogBean> delete(Chatroom_LogBean c_lbean);
+
+	public List<Chatroom_LogBean> selectByPrimaryKey(Long cId);
 }

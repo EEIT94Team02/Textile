@@ -14,11 +14,13 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/sweetalert.css'/>">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value = '/css/jquery-ui-timepicker-addon.css'/>">
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/jacky.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-1.12.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/sweetalert.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value = '/js/jquery-ui-timepicker-addon.js'/>"></script>
+
 
 <script type="text/javascript">
 	$(function() {
@@ -67,7 +69,7 @@
 				</c:url>
 				<c:url value="/activity/allAct.do" var="allAct">
 				</c:url>
-				<ul>
+				<ul style="font-weight: bold;">
 					<li class="list"><a href="${myalbum}">我的相簿列表</a></li>
 					<li class="list"><a href="<c:url value='/photo/albuminsert.v'/>">創建相簿</a></li>
 					<li class="list"><a href="${friendalbum}">好友相簿</a></li>
@@ -119,7 +121,7 @@
 							</tr>
 							<tr style="margin: 5px; padding: 5px; height: 3em;">
 								<td></td>
-								<td><input type="submit" value="建立"></td>
+								<td><input class="btn" type="submit" value="建立"></td>
 								<td style="color: red">${activityCRDErrors.create}</td>
 							</tr>
 						</table>

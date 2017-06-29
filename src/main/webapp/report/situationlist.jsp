@@ -62,7 +62,29 @@
 						<tr>
 							<td style="border-bottom: 1px solid #ddd;width:6%;text-align:center;vertical-align:middle">${sList.reptNo}</td>
 							<td style="border-bottom: 1px solid #ddd;width:8%;text-align:center;vertical-align:middle"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${sList.reptDate}" /></td>
-							<td style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle">${sList.reptType}</td>
+							
+<%-- 							<td style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle">${sList.reptType}</td> --%>
+							
+							<c:choose>
+    						<c:when test="${sList.reptType=='會員'}">
+    							<th style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle;color: #ff5b0f">${sList.reptType}</th>
+    							</c:when>
+    						<c:when test="${sList.reptType=='相簿'}">
+       							<th style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle;color: #00bdf1">${sList.reptType}</th>
+    							</c:when>
+    						<c:when test="${sList.reptType=='活動'}">
+       							<th style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle;color: #bf51ff">${sList.reptType}</th>
+    							</c:when>
+    						<c:when test="${sList.reptType=='商店'}">
+       							<th style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle;color: #ff4988">${sList.reptType}</th>
+    							</c:when>
+    						<c:otherwise>
+        						<th style="border-bottom: 1px solid #ddd;width:10%;text-align:center;vertical-align:middle;color: #ffdb0f">${sList.reptType}</th>
+    						</c:otherwise>
+							</c:choose>
+							
+							
+							
 							<td style="border-bottom: 1px solid #ddd;width:45%">${sList.reptDetail}</td>
 							<td style="border-bottom: 1px solid #ddd;width:8%;text-align:center;vertical-align:middle" id="report"><a href="${link}">回覆</a></td>
 <%-- 							<td>${sList.situation?'已回覆':'未回覆'}</td> --%>

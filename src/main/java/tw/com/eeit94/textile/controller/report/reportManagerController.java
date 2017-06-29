@@ -185,7 +185,6 @@ public class reportManagerController {
 		}
 
 		for (Integer reptNo : setReptNo) {
-			System.out.println("123456789");
 			ReportBean bean = new ReportBean();
 			bean.setReptNo(reptNo);
 			bean.setSituation(false);
