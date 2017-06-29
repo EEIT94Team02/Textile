@@ -18,12 +18,27 @@
 <script src="/js/lightbox.js"></script>
 <script src='<c:url value="/js/bootstrap.min.js"/>'></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 70px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
+	<div>
 		<div id="left">
 			<div class="actions">
 				<ul>
@@ -44,7 +59,7 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body">
+		<div class="bodyDiv">
 			<div style="padding-top:40px;padding-bottom:320px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<center>
 					<h3>客服回覆</h3>

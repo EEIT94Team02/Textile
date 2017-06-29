@@ -16,12 +16,27 @@
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src="/js/lightbox.js"></script>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 70px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
+	<div>
 		<div id="left">
 			<div class="actions">
 				<ul>
@@ -42,7 +57,7 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="font-family:Microsoft JhengHei">
+		<div class="bodyDiv" style="font-family:Microsoft JhengHei">
 			<div style="padding-top:40px;padding-bottom:570px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackgroundvertical.jpg)">
 				<center>
 					<table style="padding-top:40px;border:1px;width:80%;padding-bottom:20px">
@@ -110,7 +125,7 @@
 					<center>
 					<h2 style="color:#ff0f33;font-size:30px">回覆成功</h2>
 					<div>
-						<table style="width:60%;height:200px;border-style: solid">
+						<table style="width:60%;height:200px;border: .5px solid #778899;">
 							<tr>
 								<th style="text-align: center; vertical-align: middle;font-size: 22px;">客服回覆訊息</th>
 							</tr>
