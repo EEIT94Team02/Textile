@@ -26,6 +26,9 @@
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>
 </head>
 <body>
+	<div id="right">
+		<jsp:include page="/rightInclude.jsp" />
+	</div>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
@@ -45,7 +48,7 @@
 	</div>
 
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<form id="profile" action="modify.do" method="post">
 				<input type="hidden" name="m" value="profile" />
 				<fieldset>

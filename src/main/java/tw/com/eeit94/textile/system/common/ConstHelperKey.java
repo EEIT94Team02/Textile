@@ -28,9 +28,8 @@ public enum ConstHelperKey {
 	QUERY_EQUAL("q="),
 	METHOD("m"),
 	METHOD_EQUAL("m="),
-	CHATROOM_IDENTITIES("chatroom_identities"),
-	CHATROOM_PRIMARYKEYS("chatroom_primaryKeys"),
-	WEBSOCKET_PROTOCOL("ws");
+	WEBSOCKET_PROTOCOL("ws"),
+	WEBSOCKET_NATIVEHEADERS("nativeHeaders");
 
 	private final String key;
 

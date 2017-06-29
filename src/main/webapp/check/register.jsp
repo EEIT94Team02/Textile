@@ -15,7 +15,7 @@
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="body">
+	<div id="center">
 		<form id="mForm" action="register.do" method="post">
 			<fieldset>
 				<legend>

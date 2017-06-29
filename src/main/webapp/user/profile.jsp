@@ -11,14 +11,18 @@
 <style type="text/css">
 .dataBasic td {
 	width: 100px;
+	height:25px;
+	 
 }
 
 .dataSituation td:nth-child(1) {
 	width: 100px;
+	height:25px;
 }
 
 .dataSituation td:nth-child(2) {
 	width: 200px;
+	height:25px;
 }
 </style>
 <link rel="shortcut icon" type="image/png" sizes="32x32" href="<c:url value = '/image/icon/favicon-32x32.png'/>">
@@ -45,7 +49,7 @@
 		</div>
 	</div>
 	<div id="center">
-		<div id="body">
+		<div id="middle">
 			<fieldset>
 				<table class="dataBasic">
 					<thead>
