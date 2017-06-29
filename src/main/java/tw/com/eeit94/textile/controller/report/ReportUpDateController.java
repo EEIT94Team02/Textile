@@ -91,8 +91,10 @@ public class ReportUpDateController {
 			// 取得路徑
 			Path pathAlbum = Paths.get("/album");
 			String reptSystemdir = pathAlbum + "/" + java.lang.String.valueOf(mId);
-			String reptdir = context.getContextPath() + "/apache-tomcat-8.5.15/wtpwebapps/Textile/album/"
-					+ java.lang.String.valueOf(mId);
+//			String reptdir = context.getContextPath() + "/apache-tomcat-8.5.15/wtpwebapps/Textile/album/"
+//					+ java.lang.String.valueOf(mId);
+			String realpath = "/album/";
+			String reptdir = context.getContextPath() + realpath + java.lang.String.valueOf(mId);
 			// System.out.printf("路徑是 "+reptdir);
 			MultipartFile multipartFile = null;
 			InputStream fis = null;

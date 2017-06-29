@@ -117,9 +117,12 @@ public class CreateNewReportController {
 				// 取得路徑
 				Path pathAlbum = Paths.get("/album");
 				String reptSystemdir = pathAlbum + "/" + java.lang.String.valueOf(mId);
-				String reptdir = context.getContextPath() + "/apache-tomcat-8.5.15/wtpwebapps/Textile/album/"
-						+ java.lang.String.valueOf(mId);
-				// System.out.printf("路徑是 "+reptdir);
+//				String reptdir = context.getContextPath() + "/apache-tomcat-8.5.15/wtpwebapps/Textile/album/"
+//						+ java.lang.String.valueOf(mId);
+				String realpath = "/album/";
+				String reptdir = context.getContextPath() + realpath + java.lang.String.valueOf(mId);
+			    System.out.println("路徑是 "+reptdir);
+			    System.out.println("");
 				MultipartFile multipartFile = null;
 				InputStream fis = null;
 				BufferedInputStream bufferedInputStream = null;
@@ -139,9 +142,10 @@ public class CreateNewReportController {
 						sysFile = new File(
 								"" + reptSystemdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
 						// 取得要存入系統內的圖片名稱含附檔名
-						file = new File("" + reptdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
-						System.out.println(sysFile);// 查看路徑
-
+						String path2 = "C:/javaee/apache-tomcat/webapps/";
+						file = new File(path2 + reptdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
+						System.out.println("sysFile="+sysFile);// 查看路徑
+						System.out.println("file="+file);
 						// --tomcat快取部分--查詢file父檔案是否存在 存在true 不存在fales
 						if (!file.getParentFile().exists()) {
 							file.getParentFile().mkdirs();
@@ -206,6 +210,9 @@ public class CreateNewReportController {
 							e.printStackTrace();
 						}
 					}
+				}
+				for(ReportImgBean bean2:imgPathList){
+					System.out.println("bean2="+bean2.getImgPath());
 				}
 				model.addAttribute("image", imgPathList);
 				model.addAttribute("success", result);
