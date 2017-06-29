@@ -55,7 +55,7 @@
 		<div id="body">
 			<c:if test="${not empty OthersAlbum}">
 				<div>
-					<h3> 所有的相簿</h3>
+					<h3> 其他使用者公開的相簿</h3>
 					<c:forEach var="row" items="${OthersAlbum}">
 						<c:url value="/photo/list.do" var="album">
 							<c:param name="albumno" value="${row.introduction}"></c:param>
