@@ -76,16 +76,22 @@
     var stompClient;
     var q = '${chat.encryptedMId}';
 
+    function chatViewScrollToButtom() {
+      $('#response').scrollTop($('#response').prop('scrollHeight'));
+    }
+
     function doRightAppend(message) {
       var divJOb = $('<div></div>').text(message);
       divJOb.attr('class', 'rightDiv');
       $('#response').append(divJOb);
+      chatViewScrollToButtom();
     }
 
     function doLeftAppend(message) {
       var divJOb = $('<div></div>').text(message);
       divJOb.attr('class', 'leftDiv');
       $('#response').append(divJOb);
+      chatViewScrollToButtom();
     }
 
     $(document).ready(function() {
@@ -129,10 +135,24 @@
       };
       var body = $('#input').val();
       stompClient.send('${chat.sendURI}', header, body);
-      $('#input').text('');
+      $('#input').val('');
     }
 
     $('#button').on('click', doSend);
+
+    // 偵測Enter
+    function doEnterSend(event) {
+      event.preventDefault();
+      if (event.keyCode == 13) {
+        doSend();
+      }
+    }
+
+    $('#input').on('keydown', doEnterSend);
+
+    $(document).ready(function() {
+      chatViewScrollToButtom();
+    });
   </script>
 </body>
 </html>
