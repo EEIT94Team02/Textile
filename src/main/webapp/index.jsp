@@ -21,7 +21,7 @@ body {
 .hero-text {
 	text-align: center;
 	position: absolute;
-	top: 10%;
+	top: -100px;
 	left: 50%;
 	transform: translate(-45%, 150%);
 	color: #FFFF00;
