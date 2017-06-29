@@ -84,6 +84,15 @@
 						</tr>
 					</tbody>
 				</table>
+				<form action='<c:url value="/social/invite.do?q=${param.q}"/>' method="post">
+					<table>
+						<tr>
+							<td></td>
+							<td><input type="submit" name="submit" value="邀請"></td>
+							<td>${SocialListInviteErrors.insert}</td>
+						</tr>
+					</table>
+				</form>
 			</fieldset>
 			<fieldset>
 				<table class="dataSituation">
@@ -356,7 +365,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		
-	</script>
+    
+  </script>
 </body>
 </html>

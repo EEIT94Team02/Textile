@@ -10,20 +10,17 @@
 <title>Chat, Textile</title>
 <style type="text/css">
 .rightDiv {
-	word-wrap: break-word;
 	background: #FFFF77;
 	border: 0.5px solid black;
 	border-radius: 10px;
 	margin-top: 1vh;
 	right: 0px;
 	margin-bottom: 1vh;
-	margin-right: 0; width : 30%;
-	text-align: right;
-	padding: 10px;
+	margin-left: 68%;
 	width: 30%;
-	padding: 10px;
-	position:absolute;
-	box-sizing: border-box;
+	text-align: right;
+	background: #FFFF77;
+	padding: 5px;
 }
 
 .centerDiv {
@@ -43,14 +40,17 @@
 }
 
 .leftDiv {
-	word-wrap: break-word;	border: 0.5px solid black;
+	left: 0px;
+	background: #C9C9C9;
+	border: 0.5px solid black;
 	border-radius: 10px;
 	margin-top: 1vh;
+	margin-left: 2%;
 	margin-bottom: 1vh;
 	width: 30%;
 	text-align: left;
-	background: #FFFF77;
-	padding: 10px;}
+	padding: 5px;
+}
 
 #input {
 	width: 90%;
@@ -63,7 +63,7 @@
 #beneathTop {
 	height: 10vh;
 	display: block;
-	padding-left: 10px;
+	padding-left: 3%;
 }
 
 #response {
@@ -71,7 +71,6 @@
 	display: block;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	padding: 10px;
 }
 
 #onButtom {
@@ -152,6 +151,13 @@
       chatViewScrollToButtom();
     }
 
+    function doLeftAppend(message) {
+      var divJOb = $('<div></div>').text(message);
+      divJOb.attr('class', 'leftDiv');
+      $('#response').append(divJOb);
+      chatViewScrollToButtom();
+    }
+
     $(document).ready(function() {
       var websocket = new WebSocket('${chat.websocketURI}');
       stompClient = Stomp.over(websocket);
@@ -187,10 +193,22 @@
       // stompClient.disconnect(ondisconnect);
     }
 
+    function doSend() {
+      if ($('#input').val() == '') { return; }
+      var header = {
+        'q': '${chat.encryptedMId}'
+      };
+      var body = $('#input').val();
+      stompClient.send('${chat.sendURI}', header, body);
+      $('#input').val('');
+    }
+
+    $('#button').on('click', doSend);
+
     // 偵測Enter
     function doEnterSend(event) {
-      event.preventDefault();
       if (event.keyCode == 13) {
+        event.preventDefault();
         doSend();
       }
     }
