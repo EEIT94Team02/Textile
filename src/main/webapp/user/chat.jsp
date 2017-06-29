@@ -10,6 +10,7 @@
 <title>Chat, Textile</title>
 <style type="text/css">
 .rightDiv {
+	word-wrap: break-word;
 	background: #FFFF77;
 	border: 0.5px solid black;
 	border-radius: 10px;
@@ -40,6 +41,7 @@
 }
 
 .leftDiv {
+	word-wrap: break-word;
 	left: 0px;
 	background: #C9C9C9;
 	border: 0.5px solid black;
