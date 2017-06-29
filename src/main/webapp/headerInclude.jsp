@@ -37,7 +37,7 @@
 			<li><a href="<c:url value ='/deal/dealList.do' />">交易紀錄</a></li>
 			<c:choose>
             	<c:when test="${user.mValidManager!='Y'}">
-					<li><a href="<c:url value ='/report/' />">回報</a></li>
+					<li><a href="<c:url value ='/report/reportlist.do' />">回報</a></li>
             </c:when>
            		<c:otherwise>
 					<li><a href="<c:url value ='/report/situationlist.do' />">回報</a></li>
