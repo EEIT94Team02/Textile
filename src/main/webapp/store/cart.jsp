@@ -48,7 +48,6 @@
 .headTo {
 	display: inline;
 }
-
 #left li {
 	list-style-type: none;
 	line-height: 5em;

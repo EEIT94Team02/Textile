@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div style="margin: 0 auto;">
+	<div id="footer">
 		<h2 align="center">Copyright © 2016 Textile Inc. All rights reserved</h2>
 	</div>
 </body>

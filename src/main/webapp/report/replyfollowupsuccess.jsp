@@ -28,10 +28,14 @@
 					<c:url value="/photo/album/select.do" var="selectalbum">
 						<c:param name="albumno" value="${user.mId}"></c:param>
 					</c:url>
+					<c:if test="${user.mValidManager!='Y'}">
 					<li class="list" id="reportcreate"><a href="createreport.v">填寫回報單</a></li>
 					<li class="list" id="reportcreate"><a href="reportlist.do">查詢個人回報資訊</a></li>
+					</c:if>
 					<c:if test="${user.mValidManager=='Y'}">
-						<li class="list" id="reportcreate"><a href="../report/situationlist.do">查詢所有未處理回報單</a></li>
+					<li class="list" id="reportcreate">
+					<a href="../report/situationlist.do">查詢所有未處理回報單</a>
+					</li>
 					</c:if>
 				</ul>
 			</div>
