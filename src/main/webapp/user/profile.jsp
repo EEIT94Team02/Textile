@@ -49,9 +49,9 @@
 				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
 			</ul>
 		</div>
-	</div>
-
-	<div id="center">
+	</div><c:url value="/showphoto.v" var="mphoto">
+		<c:param name="photono" value="${user.mPhotono}"></c:param>
+	</c:url>	<div id="center">
 		<div id="middle">
 			<fieldset>
 				<table class="dataBasic">
@@ -61,12 +61,10 @@
 						</tr>
 					</thead>
 					<tbody style="line-height: 25px;">
-
 						<tr>
 							<td>姓名：</td>
 							<td>${user.mName}</td>
-							<td rowspan="5"><a href='<c:url value="${user.mPhotono}"/>' data-lightbox="photo" data-title="${user.mName}"><img
-									src='${photo}' title="${row.interpretation}" alt="${row.photoname}" width="120px"></a></td>
+							<td rowspan="5"><img src='${mphoto}' title="${user.mName}" alt="${user.mName}" width="150px"></td>
 						</tr>
 						<tr>
 							<td>性別：</td>

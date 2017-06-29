@@ -17,12 +17,27 @@
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <script src='<c:url value="/js/lightbox.js"/>'></script>
 <script src='<c:url value="/js/bootstrap.min.js"/>'></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 70px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
+	<div>
 		<div id="left">
 			<div class="actions">
 				<ul>
@@ -43,7 +58,7 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body">
+		<div class="bodyDiv">
 			<div style="padding-top:15px;padding-bottom:280px;opacity: 0.9; color: #FFFFFF; width: 100%;background-image: url(../image/background/reportbackground.jpg)">
 				<center>
 					<h2>先前回報內容</h2>

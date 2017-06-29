@@ -12,12 +12,27 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 70px;
+	left: 21%;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	opacity: 0.8;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
 		<jsp:include page="/headerInclude.jsp" />
 	</div>
-	<div id="center">
+	<div>
 		<div id="left">
 			<div class="actions">
 				<ul>
@@ -38,7 +53,7 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="background-image:url(../image/background/reportbackground.jpg)">
+		<div class="bodyDiv" style="background-image:url(../image/background/reportbackground.jpg)">
 		<br>
 		<br>
 		<br>
@@ -97,10 +112,16 @@
         						<th style="border-bottom: 1px solid #ddd;width:12%;text-align:center;vertical-align:middle;color: #ffdb0f">${rList.reptType}</th>
     						</c:otherwise>
 						</c:choose>
-
+<%-- 						<c:if test="${report.situation}"> --%>
+<!-- 						        <td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #94f200" id="reportlistfont">已回覆</td> -->
+<%-- 						</c:if> --%>
+<%-- 						<c:if test="${report.situation=='true'}"> --%>
+<!--                  				<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #ff0000" id="reportlistfont">未回覆</td> -->
+<%-- 						</c:if> --%>
+						
 						<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle">${rList.situation?'已回覆':'未回覆'}</td>
 <%-- 							<c:choose> --%>
-<%--             					<c:when test="${report.situation==false}"> --%>
+<%--             					<c:when test="${report.situation}"> --%>
 <!--                 					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #94f200" id="reportlistfont">已回覆</td> -->
 <%--             					</c:when> --%>
 <%--            				 		<c:otherwise> --%>
