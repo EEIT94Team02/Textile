@@ -113,7 +113,8 @@ public class ReportUpDateController {
 						sysFile = new File(
 								"" + reptSystemdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
 						// 取得要存入系統內的圖片名稱含附檔名
-						file = new File("" + reptdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
+						String path2 = "C:/javaee/apache-tomcat/webapps/";
+						file = new File(path2 + reptdir + "/" + uid.hashCode() + multipartFile.getOriginalFilename());
 						System.out.println(sysFile);// 查看路徑
 
 						// --tomcat快取部分--查詢file父檔案是否存在 存在true 不存在fales
