@@ -119,15 +119,15 @@ body{}
 <!--                  				<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #ff0000" id="reportlistfont">未回覆</td> -->
 <%-- 						</c:if> --%>
 						
-<%-- 						<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle">${rList.situation?'已回覆':'未回覆'}</td> --%>
-							<c:choose>
-            					<c:when test="${report.situation}">
-                					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #94f200" id="reportlistfont">已回覆</td>
-            					</c:when>
-           				 		<c:otherwise>
-                 					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #ff0000" id="reportlistfont">未回覆</td>
-           					 </c:otherwise>
-        					</c:choose>
+						<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle">${rList.situation?'已回覆':'未回覆'}</td>
+<%-- 							<c:choose> --%>
+<%--             					<c:when test="${report.situation}"> --%>
+<!--                 					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #94f200" id="reportlistfont">已回覆</td> -->
+<%--             					</c:when> --%>
+<%--            				 		<c:otherwise> --%>
+<!--                  					<td style="border-bottom: 1px solid #ddd;width:5%;text-align:center;vertical-align:middle;color: #ff0000" id="reportlistfont">未回覆</td> -->
+<%--            					 </c:otherwise> --%>
+<%--         					</c:choose> --%>
 
 
 
