@@ -45,7 +45,6 @@ public class SocialListDAOHibernate implements SocialListDAO {
 	@Override
 	public SocialListBean insert(SocialListBean bean) {
 		if (bean != null) {
-			System.out.println(bean);
 			SocialListBean select = this.select(bean.getSocialListPK());
 			if (select == null) {
 				this.getSession().save(bean);
@@ -105,6 +104,19 @@ public class SocialListDAOHibernate implements SocialListDAO {
 		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
 		Predicate p2 = cb.equal(root.<String>get("s_type"), s_type);
 		qry = qry.select(root).where(p1, p2);
+		List<SocialListBean> users = getSession().createQuery(qry).getResultList();
+		return users;
+	}
+
+	@Override
+	public List<SocialListBean> selectbyRelationship(Integer userId, Integer acquaintenceId, String s_type) {
+		CriteriaBuilder cb = getSession().getCriteriaBuilder();
+		CriteriaQuery<SocialListBean> qry = cb.createQuery(SocialListBean.class);
+		Root<SocialListBean> root = qry.from(SocialListBean.class);
+		Predicate p1 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("userId"), userId);
+		Predicate p2 = cb.equal(root.<SocialListPK>get("socialListPK").<Integer>get("acquaintenceId"), acquaintenceId);
+		Predicate p3 = cb.equal(root.<String>get("s_type"), s_type);
+		qry = qry.select(root).where(p1, p2, p3);
 		List<SocialListBean> users = getSession().createQuery(qry).getResultList();
 		return users;
 	}
