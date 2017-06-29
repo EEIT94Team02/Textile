@@ -1,6 +1,7 @@
 package tw.com.eeit94.textile.controller.social;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,21 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.omg.CORBA.portable.OutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
-import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.model.social.SocialListBean;
@@ -38,14 +39,8 @@ import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
  */
 @Controller
 @RequestMapping(path = { "/social" })
-@SessionAttributes(names = { "userId", "select", "Bselect", "Tselect", "unconfirmed" })
+@SessionAttributes(names = { "userId", "select", "Bselect", "Tselect", "unconfirmedList" })
 public class SocialListController {
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-	}
-
-	@Autowired
-	private MemberRollbackProviderService memberRollbackProviderService;
 	@Autowired
 	public SocialListService socialListService;
 	@Autowired
@@ -53,53 +48,30 @@ public class SocialListController {
 	@Autowired
 	public SecureService secureService;
 
-	@RequestMapping(method = { RequestMethod.POST }, path = { "/invite.do" }, consumes = {
-			"application/x-www-form-urlencoded ; charset=UTF-8" })
-	public String inviteprocess(HttpServletRequest request, Model model) throws Exception {
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/invite.do" }, params = { "q" })
+	public void inviteprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 接收資料
-		Map<String, String> errors = new HashMap<String, String>();
-
 		HttpSession session = request.getSession();
-		MemberBean ibean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-		model.addAttribute("SocialListInviteErrors", errors);
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+
 		String socialfre = request.getParameter("q");
 		socialfre = this.secureService.getRebuiltEncryptedText(socialfre);
 		socialfre = this.secureService.getDecryptedText(socialfre, "mId");
-		String sb = request.getParameter("submit");
-		Integer userId = ibean.getmId();
-		Integer acquaintenceId = 0;
-		// 轉換資料
-		if (socialfre == null || socialfre == "") {
-			errors.put("socialfre", "請輸入朋友id");
-		} else {
-			acquaintenceId = Integer.parseInt(socialfre);
-		}
-		if (errors != null && !errors.isEmpty()) {
-			return "social.error";
-		}
 
-		SocialListPK pk = new SocialListPK(userId, acquaintenceId);
-		SocialListBean bean = new SocialListBean();
-		MemberBean mbean = this.memberService.selectByPrimaryKey(acquaintenceId);
-		bean.setSocialListPK(pk);
-		bean.setS_group("未分類");
-		bean.setMbean(mbean);
-		bean.setIbean(ibean);
-		bean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
-		bean.setS_type("未確認");
-		SocialListBean result = this.socialListService.insert(bean);
-		System.out.println(sb);
-		if (sb.equals("邀請")) {
-			System.out.println(sb);
-			model.addAttribute("insertOK", "邀請成功");
-			model.addAttribute("invite", result);
-			return "s_insert";
+		Integer userId = mbean.getmId();
+		Integer acquaintenceId = Integer.parseInt(socialfre);
 
-		} else {
-			errors.put("socialinserterror", "邀請失敗");
-			return "social.error";
-		}
+		SocialListPK socialListPK = new SocialListPK(userId, acquaintenceId);
+		SocialListBean sbean = new SocialListBean();
+		sbean.setSocialListPK(socialListPK);
+		sbean.setS_type("未確認");
+		sbean.setS_group("未分類");
+		sbean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
+		this.socialListService.insert(sbean);
 
+		Writer out = response.getWriter();
+		out.write("success");
+		out.close();
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/search.do" })
@@ -152,105 +124,60 @@ public class SocialListController {
 
 	}
 
-	@RequestMapping(method = { RequestMethod.POST }, path = { "/delete.do" })
-	public String deleteprocess(HttpServletRequest request, Model model) throws IOException {
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/delete.do" }, params = { "q" })
+	public void deleteprocess(HttpServletRequest request, HttpServletResponse response)
+			throws NumberFormatException, Exception {
 		// 接收資料
 		HttpSession session = request.getSession();
-		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
-		Integer userId = mbean.getmId();
+		MemberBean myBean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		Integer myId = myBean.getmId();
 
-		Map<String, String> errors = new HashMap<String, String>();
-		model.addAttribute("SocialListDeleteErrors", errors);
-		String socialfre = request.getParameter("acquaintenceId");
-		String sb = request.getParameter("submit");
-		System.out.println(sb);
+		String socialfre = request.getParameter("q");
 		System.out.println(socialfre);
-		SocialListBean bean = new SocialListBean();
+		socialfre = this.secureService.getRebuiltEncryptedText(socialfre);
+		Integer otherId = Integer
+				.parseInt(this.secureService.getDecryptedText(socialfre, ConstSecureParameter.MEMBERID.param()));
 
-		Integer acquaintenceId = 0;
-		// 轉換資料
-		if (socialfre == null || socialfre == "") {
-			errors.put("socialfre", "請輸入朋友id");
-		} else {
-			acquaintenceId = Integer.parseInt(socialfre);
-		}
-		SocialListPK pk = new SocialListPK(userId, acquaintenceId);
-		bean.setSocialListPK(pk);
-		boolean deletefriend = this.socialListService.delete(bean);
+		SocialListBean sbean = new SocialListBean();
+		SocialListPK socialListPK = new SocialListPK(otherId, myId);
+		sbean.setSocialListPK(socialListPK);
 
-		if (sb.equals("刪除") && deletefriend) {
-			model.addAttribute("delete", deletefriend);
-			System.out.println(sb);
-			return "social.success";
-		} else if (!deletefriend) {
-
-			return "social.error";
-		} else {
-			errors.put("deletefail", "刪除失敗");
-			return "/error/404.v";
+		String s_type = this.socialListService.checkRelationshipSituation(otherId, myId, "未確認");
+		if (s_type != null) {
+			this.socialListService.delete(sbean);
 		}
 
+		Writer out = response.getWriter();
+		out.write("success");
+		out.close();
 	}
 
-	@RequestMapping(method = { RequestMethod.GET }, path = { "/insert.do" })
-	public String insertprocess(HttpServletRequest request, Model model) throws IOException {
+	@RequestMapping(method = { RequestMethod.GET }, path = { "/insert.do" }, params = { "q" })
+	public void insertprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 接收資料
-
 		HttpSession session = request.getSession();
-		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());// 被邀請者的Id(這個畫面使用者的id)
-		Integer acquaintenceId = mbean.getmId();
-		// Integer userId =ibean.getmId();
+		MemberBean myBean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		Integer myId = myBean.getmId();
+		String socialfre = request.getParameter("q");
+		socialfre = this.secureService.getRebuiltEncryptedText(socialfre);
+		Integer otherId = Integer
+				.parseInt(this.secureService.getDecryptedText(socialfre, ConstSecureParameter.MEMBERID.param()));
+		SocialListBean sbean = new SocialListBean();
+		SocialListPK socialListPK = new SocialListPK(myId, otherId);
+		sbean.setSocialListPK(socialListPK);
+		sbean.setS_type("好友");
+		sbean.setS_group("未分類");
+		sbean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
+		this.socialListService.insert(sbean);
 
-		List<SocialListBean> selectcheck = this.socialListService.selectcheck(acquaintenceId, "未確認");// 去表格找acquaintenceId找自己的Id
-		Map<String, String> errors = new HashMap<String, String>();
-		model.addAttribute("SocialListInsertErrors", errors);
-		String getUnconfirmedId = request.getParameter("q");
-		Integer UnconfirmedId = Integer.parseInt(getUnconfirmedId);// 邀請者的Id
-		MemberBean ibean = this.memberService.selectByPrimaryKey(UnconfirmedId);// 邀請者的ibean
-		if (errors != null && !errors.isEmpty()) {
-			return "social.error";
-		}
-		SocialListBean bean = new SocialListBean();// insert一筆(被邀請者,邀請者)的複合主鍵
-		SocialListBean bean2 = new SocialListBean();// update(邀請者,被邀請者)由"未確認"更改成"好友"
-		System.out.println(acquaintenceId);
-		System.out.println(UnconfirmedId);
-		System.out.println("列出" + selectcheck);
-		SocialListPK pk = new SocialListPK(acquaintenceId, UnconfirmedId);// insert用PK
-		SocialListPK pk2 = new SocialListPK(UnconfirmedId, acquaintenceId);// update用PK
-		bean.setS_group("未分類");
-		bean.setSocialListPK(pk);
-		bean.setIbean(mbean);// Ibean one to one userId的表格,所以輸入自己(使用這個頁面)的ID
-		bean.setMbean(ibean);// Mbean on to one acquaintenceId的表格,所以輸入邀請者的ID
-		bean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
-		bean.setS_type("好友");
-		SocialListBean insert = this.socialListService.insert(bean);
-		System.out.println(UnconfirmedId);
-		bean2.setSocialListPK(pk2);
-		bean2.setS_type("好友");
-		bean2.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
-		SocialListBean update = this.socialListService.update(bean2);
-		System.out.println(UnconfirmedId);
-		if (insert == null) {
-			errors.put("socialinserterror", "新增失敗");
-			return "social.error";
-		} else {
-			// model.addAttribute("insertOK", "新增成功");
-			// model.addAttribute("insert", insert);
-			// model.addAttribute("insert", update);
-			return "social.success";
-		}
-
-		// } else if (sb.equals("拒絕")) {
-		//
-		// boolean result = socialListService.refuseDelete(bean);
-		//
-		// if (result) {
-		// model.addAttribute("deleteOK", "刪除成功");
-		// model.addAttribute("delete", result);
-		// return "social.success";
-		// } else {
-		// errors.put("socialDeleteError", "刪除失敗");
-		// return "social.error";
+		SocialListPK socialListPK2 = new SocialListPK(myId, otherId);
+		sbean.setSocialListPK(socialListPK2);
+		sbean.setS_type("好友");
+		sbean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
+		this.socialListService.update(sbean);
+		Writer out = response.getWriter();
+		out.write("success");
+		out.close();
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, path = { "/refuse.do" })

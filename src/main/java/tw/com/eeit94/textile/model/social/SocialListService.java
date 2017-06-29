@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
+import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
+import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
@@ -27,6 +29,8 @@ import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 public class SocialListService {
 	@Autowired
 	private SocialListDAO socialListDAO;
+	@Autowired
+	private SecureService secureService;
 	@Autowired
 	private MemberService memberService;
 	@Autowired
@@ -143,12 +147,40 @@ public class SocialListService {
 		List<LinksBean> friendList = this.getLinksList(mbean, "好友", request);
 		List<LinksBean> blackList = this.getLinksList(mbean, "黑單", request);
 		List<LinksBean> trackList = this.getLinksList(mbean, "追蹤", request);
-		List<LinksBean> unconfirmedList = this.getLinksList(mbean, "未確認", request);
+		List<LinksBean> unconfirmedList = this.getUnconfirmedList(mbean, "未確認", request);
 
 		session.setAttribute("friendList", friendList);
 		session.setAttribute("blackList", blackList);
 		session.setAttribute("trackList", trackList);
 		session.setAttribute("unconfirmedList", unconfirmedList);
+	}
+
+	@Transactional
+	public String checkRelationshipSituation(Integer userId, Integer acquaintenceId, String s_type) {
+		List<SocialListBean> result = this.socialListDAO.selectbyRelationship(userId, acquaintenceId, s_type);
+		if (result.size() > 0) {
+			return s_type;
+		} else {
+			return null;
+		}
+	}
+
+	@Transactional
+	public List<LinksBean> getUnconfirmedList(MemberBean mbean, String s_type, HttpServletRequest request)
+			throws Exception {
+		Integer myId = mbean.getmId();
+		List<SocialListBean> socialList = this.socialListDAO.getRelativeToMeList(myId, s_type);
+		List<LinksBean> linksList = new ArrayList<>();
+		for (SocialListBean sbean : socialList) {
+			MemberBean otherBean = sbean.getIbean();
+			LinksBean linksBean = new LinksBean();
+			linksBean.setmName(otherBean.getmName());
+			linksBean.setEncryptedMId(this.secureService.getEncryptedText(otherBean.getmId().toString(),
+					ConstSecureParameter.MEMBERID.param()));
+			linksBean.setProfileURL(this.memberService.getOtherProfileURL(otherBean, request));
+			linksList.add(linksBean);
+		}
+		return linksList;
 	}
 
 	@Transactional

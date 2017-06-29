@@ -35,16 +35,16 @@ public class SocialListBean implements Serializable {
 	private String s_type;
 	private String s_group;
 	private Timestamp log_in;
-	@MapsId(value = "acquaintenceId")
+	@MapsId(value = "socialListPK")
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "acquaintenceId")
 	private MemberBean mbean;
-	
-	@MapsId(value = "userId")
+
+	@MapsId(value = "socialListPK")
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
 	private MemberBean ibean;
-	
+
 	public MemberBean getIbean() {
 		return ibean;
 	}
@@ -54,7 +54,8 @@ public class SocialListBean implements Serializable {
 	}
 
 	public String toString() {
-		return "SocialListBean[" + socialListPK + "," + s_type + "," + s_group + "," + log_in +"," + mbean +"," + ibean+ "]" + "\n";
+		return "SocialListBean[" + socialListPK + "," + s_type + "," + s_group + "," + log_in + "," + mbean + ","
+				+ ibean + "]" + "\n";
 	}
 
 	public String getS_type() {
