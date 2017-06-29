@@ -9,7 +9,7 @@
 <style type="text/css">
 .img {
 	border-radius: 20px;
-	height: 70px;
+	height: 65px;
 }
 </style>
 </head>
