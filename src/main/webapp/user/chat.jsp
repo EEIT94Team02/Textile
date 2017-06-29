@@ -10,7 +10,8 @@
 <title>Chat, Textile</title>
 <style type="text/css">
 .rightDiv {
-	position: absolute;
+	display: inline-block;
+	word-wrap: break-word;
 	background: #FFFF77;
 	border: 0.5px solid black;
 	border-radius: 10px;
@@ -21,6 +22,9 @@
 	text-align: right;
 	background: #FFFF77;
 	margin-bottom: 1vh;
+	padding: 10px;
+	position:absolute;
+	box-sizing: border-box;
 }
 
 .centerDiv {
@@ -40,15 +44,17 @@
 }
 
 .leftDiv {
-	position: absolute;
-	left: 0px; background : #FFFF77;
+	word-wrap: break-word;
+	left: 0px;
+	background: #FFFF77;
 	border: 0.5px solid black;
 	border-radius: 10px;
 	margin-top: 1vh;
 	margin-bottom: 1vh;
 	width: 30%;
 	text-align: left;
-	background: #FFFF77;
+	background: #AAAAAA;
+	padding: 10px;
 }
 
 #input {
