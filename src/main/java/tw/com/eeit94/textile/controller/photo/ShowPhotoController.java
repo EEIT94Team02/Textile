@@ -43,37 +43,28 @@ public class ShowPhotoController {
 
 	@Autowired
 	private PhotoService photoService;
+
 	public PhotoService getPhotoService() {
 		return photoService;
-	}	
+	}
 
 	@RequestMapping(method = { RequestMethod.GET })
-	public void process(HttpServletRequest request,HttpServletResponse response, Model model)
-			throws IOException {
+	public void process(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		// 接收資料
-		String photono = request.getParameter("photono");	
+		String photono = request.getParameter("photono");
 		PhotoBean bean = new PhotoBean();
 		bean.setPhotono(photono);
-		PhotoBean result =  getPhotoService().selectByphotono(bean);
+		PhotoBean result = getPhotoService().selectByphotono(bean);
 		File orgin = new File(result.getRespath());
 		FileInputStream fis = new FileInputStream(orgin);
-		
-		String target = "C:/Users/Student/Desktop/Textile-etc/Textile/src/main/webapp/album/"+result.getPhoto_albumBean().getmId()+"/"+orgin.getName();
-		File temp = new File(target);
-		if (!temp.getParentFile().exists()) {
-			temp.getParentFile().mkdirs();
-		}	
-		FileOutputStream fos = new FileOutputStream(temp);
-		
+
 		response.setContentType("image/*");
 		OutputStream os = response.getOutputStream();
 		int data;
 		while ((data = fis.read()) != -1) {
 			os.write(data);
-			fos.write(data);
 		}
 		os.close();
-		fos.close();
 		fis.close();
 	}
 }

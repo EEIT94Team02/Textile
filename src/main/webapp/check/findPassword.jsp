@@ -21,8 +21,8 @@ body {
 	margin-left: 40%;
 	margin-right: 38%;
 	font-family: Microsoft JhengHei;
-	width: 350px;
-	height: 250px;
+	min-width: 350px;
+	min-height: 250px;
 	border: 2px;
 	background-color: #FFBB66;
 	text-align: center;
@@ -33,6 +33,7 @@ body {
 	border-color: #000000;
 	padding: 5px;
 	border: 1px solid #eeb44f;
+	padding: 5px;
 }
 
 fieldset {

@@ -19,6 +19,7 @@ import tw.com.eeit94.textile.model.interest_detail.Interest_DetailBean;
 import tw.com.eeit94.textile.model.interest_detail.Interest_DetailService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.social.SocialListBean;
 import tw.com.eeit94.textile.system.supervisor.ConstFilterKey;
 
 /**
@@ -98,5 +99,21 @@ public class MemberRollbackProviderService {
 		ChatroomBean cbean = this.chatroomService.getUniqueChatroom_MemberBeanByAcquaintenceId(chatroomList,
 				acquaintenceId);
 		return this.chatroomService.getOtherUserChatUrl(cbean, request);
+	}
+
+	/**
+	 * 加好友時，統一管理加入聊天室的交易。
+	 * 
+	 * @author 賴
+	 * @version 2017/07/02
+	 * @throws Exception
+	 */
+	@Transactional
+	public void addFriendWithRollbackProvider(SocialListBean sbean) {
+		ChatroomBean cbean = this.chatroomService.getNewChatroomBean();
+		MemberBean mbean1 = this.memberService.selectByPrimaryKey(sbean.getSocialListPK().getUserId());
+		MemberBean mbean2 = this.memberService.selectByPrimaryKey(sbean.getSocialListPK().getAcquaintenceId());
+		this.chatroom_MemberService.setNewChatroom_MemberBean(cbean, mbean1);
+		this.chatroom_MemberService.setNewChatroom_MemberBean(cbean, mbean2);
 	}
 }

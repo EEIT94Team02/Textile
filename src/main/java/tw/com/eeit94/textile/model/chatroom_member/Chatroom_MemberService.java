@@ -103,6 +103,23 @@ public class Chatroom_MemberService {
 	}
 
 	/**
+	 * 新增朋友時，要順便新增聊天室會員明細。
+	 * 
+	 * @author 賴
+	 * @version 2017/07/02
+	 */
+	public List<Chatroom_MemberBean> setNewChatroom_MemberBean(ChatroomBean cbean, MemberBean mbean) {
+		List<Chatroom_MemberBean> list = new ArrayList<>();
+		Chatroom_MemberBean c_mbean = new Chatroom_MemberBean();
+		Chatroom_MemberPK chatroom_MemberPK = new Chatroom_MemberPK();
+		chatroom_MemberPK.setcId(cbean.getcId());
+		chatroom_MemberPK.setmId(mbean.getmId());
+		c_mbean.setChatroom_MemberPK(chatroom_MemberPK);
+		list.add(this.chatroom_MemberDAO.insert(c_mbean).get(0));
+		return list;
+	}
+
+	/**
 	 * 註冊成功時，新增一提供系統公告和使用者的聊天室，交易統一由MemberRollbackRroviderService管理。
 	 * 
 	 * @author 賴

@@ -8,9 +8,6 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
-<link type="text/css" href="<c:url value='/css/jquery-1.2.1.css'/>">
-<script type="text/javascript" src="<c:url value = '/js/jquery-3.2.1.js'/>"></script>
-<script type="text/javascript"></script>
 <style type="text/css">
 .friendList {
 	position: absolute;
@@ -27,9 +24,6 @@
 	border-color: #888888;
 }
 </style>
-
-
-
 </head>
 <body>
 	<div class="friendList">
@@ -86,8 +80,8 @@
 					<c:forEach var="row" items="${unconfirmedList}">
 						<tr>
 							<td><a href="${row.profileURL}">${row.mName}</a></td>
-							<td><input onclick="doAccept()" type="button" value="加朋友"></td>
-							<td><input onclick="doRefuse()" type="button" id="test" value="拒絕"></td>
+							<td><input id="accept" type="button" value="加朋友"><input type="hidden" value="${row.encryptedMId}" /></td>
+							<td><input id="refuse" type="button" id="test" value="拒絕"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -114,33 +108,30 @@
 	<c:url value="/social/insert.do" var="accept" />
 	<c:url value="/social/delete.do" var="refuse" />
 	<script type="text/javascript">
-// 		$(function() {
-// 			$('#test').on('click', function() {
-// 				var url = $(this).parents('tr').find('a').attr('href');
-// 				console.log(url);
-// 			});
-// 		});
-		function doAccept(event) {
-			var jOb = $(this);
-			var url = $(this).parents('tr').find('td:eq(0)').find('a').attr('href');
-			console.log(url);
-			$.get('${accept}', {
-				'q' : url
-			}, function(data) {
-				jOb.parents('tr').remove();
-			});
-		}
+    function doAccept() {
+      answer = confirm("確定要加好友嗎？");
+      if (answer) {
+        var jOb = $(this);
+        var q = jOb.next().val();
+        $.get('${accept}', {
+          'q': q
+        }, function(data) {
+          jOb.parents('tr').remove();
+        });
+      }
+    }
 
-		function doRefuse(event) {
-			var jOb = event.currentTarget;
-			var url = jOb.parents('tr').find('a').attr('href');
-			console.log(url);
-// 			$.get('${refuse}', {
-// 				'q' : url
-// 			}, function(data) {
-// 				jOb.parents('tr').remove();
-// 			});
-		}
-	</script>
+    function doRefuse() {
+      answer = confirm("確定要拒絕嗎？");
+      if (answer) {
+        var jOb = event.currentTarget;
+        var url = jOb.parents('tr').find('a').attr('href');
+        console.log(url);
+      }
+    }
+
+    $('#accept').on('click', doAccept);
+    $('#refuse').on('click', doRefuse);
+  </script>
 </body>
 </html>

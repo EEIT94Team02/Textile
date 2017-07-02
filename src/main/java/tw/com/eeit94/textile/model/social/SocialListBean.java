@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,12 +37,12 @@ public class SocialListBean implements Serializable {
 	private String s_group;
 	private Timestamp log_in;
 	@MapsId(value = "socialListPK")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	@JoinColumn(name = "acquaintenceId")
 	private MemberBean mbean;
 
 	@MapsId(value = "socialListPK")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	@JoinColumn(name = "userId")
 	private MemberBean ibean;
 

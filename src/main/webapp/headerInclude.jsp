@@ -33,11 +33,11 @@
 			<li><a href="<c:url value ='/store/pList.do' />">商店</a></li>
 			<li><a href="<c:url value ='/item/iList.do' />">物品欄</a></li>
 			<li><a href="<c:url value ='/gift/gListAll.do' />">禮物</a></li>
-			<li><a href="<c:url value ='/deposit/dList.do' />">儲值</a></li>
+			<li><a href="<c:url value ='/deposit/' />">儲值</a></li>
 			<li><a href="<c:url value ='/deal/dealList.do' />">交易紀錄</a></li>
 			<c:choose>
             	<c:when test="${user.mValidManager!='Y'}">
-					<li><a href="<c:url value ='/report/' />">回報</a></li>
+					<li><a href="<c:url value ='/report/reportlist.do' />">回報</a></li>
             </c:when>
            		<c:otherwise>
 					<li><a href="<c:url value ='/report/situationlist.do' />">回報</a></li>

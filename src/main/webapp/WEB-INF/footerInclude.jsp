@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="footer">
-		<h2 align="center">Copyright © 2016 Textile Inc. All rights reserved</h2>
+		<h5 align="center">Copyright © 2016 Textile Inc. All rights reserved</h5>
 	</div>
 </body>
 </html>

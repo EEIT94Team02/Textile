@@ -44,14 +44,8 @@ public class SocialListDAOHibernate implements SocialListDAO {
 
 	@Override
 	public SocialListBean insert(SocialListBean bean) {
-		if (bean != null) {
-			SocialListBean select = this.select(bean.getSocialListPK());
-			if (select == null) {
-				this.getSession().save(bean);
-				return bean;
-			}
-		}
-		return null;
+		this.getSession().saveOrUpdate(bean);
+		return this.select(bean.getSocialListPK());
 	}
 
 	@Override

@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
+import tw.com.eeit94.textile.model.chatroom.ChatroomService;
+import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
 import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
@@ -78,17 +81,11 @@ public class SocialListService {
 
 	@Transactional
 	public SocialListBean insert(SocialListBean bean) {
-		SocialListBean result = null;
-		if (bean != null) {
-
-			result = socialListDAO.insert(bean);
-		}
-		return result;
+		return this.socialListDAO.insert(bean);
 	}
 
 	@Transactional
 	public boolean delete(SocialListBean bean) {
-
 		SocialListPK pk1 = new SocialListPK(bean.getSocialListPK().getUserId(),
 				bean.getSocialListPK().getAcquaintenceId());
 		SocialListBean resultA = socialListDAO.select(pk1);

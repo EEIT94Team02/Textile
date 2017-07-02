@@ -45,19 +45,19 @@ td {
 }
 
 .t2 {
-	min-width: 150px;
+	min-width: 120px;
 }
 
 .t3 {
-	min-width: 150px;
+	min-width: 120px;
 }
 
 .t4 {
-	min-width: 150px;
+	min-width: 120px;
 }
 
 .t5 {
-	min-width: 150px;
+	min-width: 120px;
 }
 </style>
 <script type="text/javascript" src="<c:url value = '../js/jquery-3.2.1.js'/>"></script>

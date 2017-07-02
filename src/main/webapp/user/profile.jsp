@@ -49,9 +49,11 @@
 				<li class="list"><a href="queryRandom.do">會員隨機查詢</a></li>
 			</ul>
 		</div>
-	</div><c:url value="/showphoto.v" var="mphoto">
+	</div>
+	<c:url value="/showphoto.v" var="mphoto">
 		<c:param name="photono" value="${user.mPhotono}"></c:param>
-	</c:url>	<div id="center">
+	</c:url>
+	<div id="center">
 		<div id="middle">
 			<fieldset>
 				<table class="dataBasic">
@@ -365,7 +367,7 @@
 		<jsp:include page="/rightInclude.jsp" />
 	</div>
 	<script type="text/javascript">
-		
-	</script>
+    
+  </script>
 </body>
 </html>

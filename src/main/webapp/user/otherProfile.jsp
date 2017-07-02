@@ -48,7 +48,9 @@
 	<div id="footer">
 		<jsp:include page="/footerInclude.jsp" />
 	</div>
-
+	<c:url value="/showphoto.v" var="otheruserphoto">
+		<c:param name="photono" value="${otheruser.mPhotono}"></c:param>
+	</c:url>
 	<div id="center">
 		<div id="middle">
 			<fieldset>
@@ -62,6 +64,8 @@
 						<tr>
 							<td>姓名：</td>
 							<td>${otheruser.mName}</td>
+							<td rowspan="5"><img src='${otheruserphoto}' title="${otheruser.mName}" alt="${otheruser.mName}" width="150px"></td>
+
 						</tr>
 						<tr>
 							<td>性別：</td>
@@ -370,16 +374,16 @@
 	</div>
 	<c:url var="x" value="/social/invite.do" />
 	<script type="text/javascript">
-		var inviteURL = "${x}";
+    var inviteURL = "${x}";
 
-		$('#button').on('click', function() {
-			$.get(inviteURL, {
-				'q' : '${param.q}'
-			}, function(data) {
-				$('#button').prop('disabled', true);
-				$('#button').val('已邀請');
-			});
-		});
-	</script>
+    $('#button').on('click', function() {
+      $.get(inviteURL, {
+        'q': '${param.q}'
+      }, function(data) {
+        $('#button').prop('disabled', true);
+        $('#button').val('已邀請');
+      });
+    });
+  </script>
 </body>
 </html>

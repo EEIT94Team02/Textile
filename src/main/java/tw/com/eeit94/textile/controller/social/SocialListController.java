@@ -22,8 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import tw.com.eeit94.textile.model.chatroom.ChatroomBean;
+import tw.com.eeit94.textile.model.chatroom.ChatroomService;
+import tw.com.eeit94.textile.model.chatroom_member.Chatroom_MemberService;
 import tw.com.eeit94.textile.model.member.MemberBean;
 import tw.com.eeit94.textile.model.member.MemberService;
+import tw.com.eeit94.textile.model.member.service.MemberRollbackProviderService;
 import tw.com.eeit94.textile.model.secure.ConstSecureParameter;
 import tw.com.eeit94.textile.model.secure.SecureService;
 import tw.com.eeit94.textile.model.social.SocialListBean;
@@ -47,6 +51,8 @@ public class SocialListController {
 	public MemberService memberService;
 	@Autowired
 	public SecureService secureService;
+	@Autowired
+	public MemberRollbackProviderService memberRollbackProviderService;
 
 	@RequestMapping(method = { RequestMethod.GET }, path = { "/invite.do" }, params = { "q" })
 	public void inviteprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -162,19 +168,25 @@ public class SocialListController {
 		socialfre = this.secureService.getRebuiltEncryptedText(socialfre);
 		Integer otherId = Integer
 				.parseInt(this.secureService.getDecryptedText(socialfre, ConstSecureParameter.MEMBERID.param()));
-		SocialListBean sbean = new SocialListBean();
-		SocialListPK socialListPK = new SocialListPK(myId, otherId);
-		sbean.setSocialListPK(socialListPK);
-		sbean.setS_type("好友");
-		sbean.setS_group("未分類");
-		sbean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
-		this.socialListService.insert(sbean);
 
+		SocialListBean sbean1 = new SocialListBean();
+		SocialListPK socialListPK = new SocialListPK(otherId, myId);
+		sbean1.setSocialListPK(socialListPK);
+		sbean1.setS_type("好友");
+		sbean1.setS_group("未分類");
+		sbean1.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
+		sbean1 = this.socialListService.insert(sbean1);
+
+		SocialListBean sbean2 = new SocialListBean();
 		SocialListPK socialListPK2 = new SocialListPK(myId, otherId);
-		sbean.setSocialListPK(socialListPK2);
-		sbean.setS_type("好友");
-		sbean.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
-		this.socialListService.update(sbean);
+		sbean2.setSocialListPK(socialListPK2);
+		sbean2.setS_type("好友");
+		sbean2.setS_group("未分類");
+		sbean2.setLog_in(new java.sql.Timestamp(System.currentTimeMillis()));
+		sbean2 = this.socialListService.insert(sbean2);
+
+		this.memberRollbackProviderService.addFriendWithRollbackProvider(sbean1);
+
 		Writer out = response.getWriter();
 		out.write("success");
 		out.close();

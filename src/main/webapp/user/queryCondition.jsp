@@ -124,7 +124,7 @@ div.otherInterestDiv div {
 							</c:otherwise>
 						</c:choose>
 						<label for="mScores">積分：</label> <input type="number" id="mScores" name="mScores" min="0" max="10000000"
-							value="${x}" /><br />
+							value="${x}" required /><br />
 						<p></p>
 					</div>
 					<div>
