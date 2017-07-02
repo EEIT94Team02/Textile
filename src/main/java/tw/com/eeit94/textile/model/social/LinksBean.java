@@ -16,6 +16,7 @@ public class LinksBean implements Serializable {
 
 	@EmbeddedId
 	private String mName;
+	private String encryptedMId;
 	private String profileURL;
 	private String chatroomURL;
 
@@ -25,6 +26,14 @@ public class LinksBean implements Serializable {
 
 	public void setmName(String mName) {
 		this.mName = mName;
+	}
+
+	public String getEncryptedMId() {
+		return encryptedMId;
+	}
+
+	public void setEncryptedMId(String encryptedMId) {
+		this.encryptedMId = encryptedMId;
 	}
 
 	public String getProfileURL() {

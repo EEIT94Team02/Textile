@@ -86,15 +86,17 @@
 						</tr>
 					</tbody>
 				</table>
-				<form action='<c:url value="/social/invite.do?q=${param.q}"/>' method="post">
-					<table>
-						<tr>
-							<td></td>
-							<td><input type="submit" name="submit" value="邀請"></td>
-							<td>${SocialListInviteErrors.insert}</td>
-						</tr>
-					</table>
-				</form>
+				<c:choose>
+					<c:when test="${s_type == null}">
+						<input id="button" type="button" name="button" value="邀請" />
+					</c:when>
+					<c:when test="${s_type == '未確認'}">
+						<input id="button" type="button" name="button" value="已邀請" disabled />
+					</c:when>
+					<c:otherwise>
+						<input id="button" type="button" name="button" value="已加好友" disabled />
+					</c:otherwise>
+				</c:choose>
 			</fieldset>
 			<fieldset>
 				<table class="dataSituation">
@@ -366,8 +368,18 @@
 			</fieldset>
 		</div>
 	</div>
+	<c:url var="x" value="/social/invite.do" />
 	<script type="text/javascript">
-    
-  </script>
+		var inviteURL = "${x}";
+
+		$('#button').on('click', function() {
+			$.get(inviteURL, {
+				'q' : '${param.q}'
+			}, function(data) {
+				$('#button').prop('disabled', true);
+				$('#button').val('已邀請');
+			});
+		});
+	</script>
 </body>
 </html>

@@ -41,6 +41,8 @@ public class ProfileController {
 	private UserCentralService userCentralService;
 	@Autowired
 	private SocialListService socialListService;
+	private static final String UNCONFIRMED = "未確認";
+	private static final String FRIEND = "好友";
 
 	/**
 	 * 讀取個人使用者的資料。
@@ -62,7 +64,7 @@ public class ProfileController {
 	/**
 	 * 讀取其它使用者的資料：
 	 * 
-	 * 注意：外來加密的字串可能含有「 」，必須轉為原先的「+」。
+	 * 注意：外來加密的字串可能含有「 」，必須轉為原先的「+」，還要判斷該使用者是否已邀請或為好朋友。
 	 * 
 	 * @author 賴
 	 * @version 2017/06/20
@@ -70,14 +72,29 @@ public class ProfileController {
 	 */
 	@RequestMapping(path = { "/index.v" }, method = { RequestMethod.GET }, params = { "q" })
 	public String otheruserViewProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		MemberBean mbean = (MemberBean) session.getAttribute(ConstFilterKey.USER.key());
+		Integer userId = mbean.getmId();
+
 		String query = request.getParameter(ConstHelperKey.QUERY.key());
 		query = this.secureService.getRebuiltEncryptedText(query);
-		String mId = this.secureService.getDecryptedText(query.replace(' ', '+'),
-				ConstSecureParameter.MEMBERID.param());
-		MemberBean mbean = this.memberService.selectByPrimaryKey(Integer.parseInt(mId));
-		if (mbean != null) {
-			mbean = this.userCentralService.selectUserAllData(mbean);
-			request.setAttribute(ConstFilterKey.OTHERUSER.key(), mbean);
+		query = this.secureService.getDecryptedText(query.replace(' ', '+'), ConstSecureParameter.MEMBERID.param());
+		Integer acquaintenceId = Integer.parseInt(query);
+		MemberBean acquaintenceBean = this.memberService.selectByPrimaryKey(acquaintenceId);
+
+		String s_type = null;
+		s_type = this.socialListService.checkRelationshipSituation(userId, acquaintenceId, UNCONFIRMED);
+		if (s_type != null) {
+			request.setAttribute("s_type", s_type);
+		}
+		s_type = this.socialListService.checkRelationshipSituation(userId, acquaintenceId, FRIEND);
+		if (s_type != null) {
+			request.setAttribute("s_type", s_type);
+		}
+
+		if (acquaintenceBean != null) {
+			acquaintenceBean = this.userCentralService.selectUserAllData(acquaintenceBean);
+			request.setAttribute(ConstFilterKey.OTHERUSER.key(), acquaintenceBean);
 			request.setAttribute(ConstHelperKey.QUERY.key(), query);
 			return ConstMapping.PROFILE_OTHERUSER_SUCCESS.path();
 		} else {
