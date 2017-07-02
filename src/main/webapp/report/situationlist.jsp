@@ -12,6 +12,19 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css"/>'>
 <script type="text/javascript" src="<c:url value = '/js/event.js'/>"></script>
+<style type="text/css">
+body{}
+	.bodyDiv{
+	position: absolute;
+	top: 1px;
+	bottom: 40px;
+	min-height: 1000px;
+	background: #FFD1A4;
+	width: 63%;
+	overflow: auto;
+	font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="header">
@@ -38,9 +51,9 @@
 		</div>
 		<!--預留給聊天室的區塊-->
 		<div id="right"><jsp:include page="/rightInclude.jsp" /></div>
-		<div id="body" style="padding-top:40px;background-image: url(../image/background/reportbackground.jpg);">
-			<div style="opacity: 0.6; position: absolute; background-color: #1C1C1C; color: #FFFFFF; width: 100%">
-				<table style="border:1px">
+		<div class="bodyDiv" style="padding-top:40px;background-image: url(../image/background/reportbackground.jpg); width: 100%">
+			<div style="opacity: 0.7; position: absolute; background-color: #1C1C1C; color: #FFFFFF; width: 100%">
+				<table style="line-height:20px;width:100%;rules:rows">
 					<tbody>
 					<thead>
 						<tr>
